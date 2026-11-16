@@ -40,7 +40,7 @@ test('round trip preserves edits, marks, formula sources and bundled/embedded at
   const data = structuredClone(original)
   data.questions[0].stem.content.push(
     { type: 'paragraph', content: [{ type: 'text', text: '粗体斜体 ABC 123', marks: [{ type: 'bold' }, { type: 'italic' }] }] },
-    { type: 'blockMath', attrs: { latex: '\\sqrt{313}' } },
+    { type: 'blockMath', attrs: { latex: '  \\sqrt{313}  ' } },
     { type: 'image', attrs: { src: 'data:image/png;base64,AAAA', alt: '附件' } },
   )
   const reopened = parseQuestionSet(JSON.parse(JSON.stringify(data)))

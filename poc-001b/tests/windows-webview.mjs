@@ -80,7 +80,6 @@ async function start(offline = false) {
     pending.delete(response.id)
     callback?.(response)
   })
-  console.log('WebView2 URL:', target.url)
   if (offline) {
     await send('Network.enable')
     await send('Network.emulateNetworkConditions', { offline: true, latency: 0, downloadThroughput: 0, uploadThroughput: 0 })
@@ -91,7 +90,8 @@ async function start(offline = false) {
   const state = execFileSync('powershell.exe', ['-NoProfile', '-Command',
     '$p = Get-Process -Id ' + child.pid + '; if (!$p.MainWindowHandle) { exit 1 }; $p.MainWindowTitle'], { encoding: 'utf8' })
   assert.ok(state.trim())
-  console.log('Native Win32 window hwnd present, process PID ' + child.pid)
+  console.log('Native Win32 window hwnd present, process PID ' + child.pid + ', URL ' + await evaluate('location.href'))
+  if (offline) assert.equal(await evaluate('navigator.onLine'), false)
 }
 
 async function close() {
@@ -159,7 +159,7 @@ try {
   await click('编辑试题')
   await evaluate("document.querySelector('.tiptap p').click(); document.querySelector('.tiptap [data-type=\"inline-math\"]').click()")
   await fillFormula('f(x)=x^2-8x+12')
-  await evaluate("const p = document.querySelector('.tiptap p'); p.focus(); getSelection().collapse(p, 0); true")
+  await evaluate("(() => { const p = document.querySelector('.tiptap p'); p.focus(); getSelection().collapse(p, 0); return true })()")
   await click('粗体')
   await click('斜体')
   await send('Input.insertText', { text: '回读回归 ABC 123 ' })
@@ -170,9 +170,17 @@ try {
   const { nodeId } = await send('DOM.querySelector', { nodeId: root.nodeId, selector: 'input[type=file]' })
   await send('DOM.setFileInputFiles', { nodeId, files: [fixture] })
   await waitFor(() => evaluate("Array.from(document.querySelectorAll('.tiptap img')).some(img => img.alt === 'fixture.png' && img.naturalWidth > 0)"), '本地图片显示')
+  const selectField = (value) => evaluate("(() => { const select = document.querySelector('.select-field select'); select.value = " + JSON.stringify(value) + "; select.dispatchEvent(new Event('change', { bubbles: true })); return true })()")
+  await selectField('prompt:0')
+  await waitFor(() => evaluate("document.querySelector('.tiptap')?.textContent.includes('求该函数')"), '打开小问')
+  await evaluate("(() => { const p = document.querySelector('.tiptap p'); p.focus(); getSelection().collapse(p, 0); return true })()")
+  await send('Input.insertText', { text: '小问回读 ' })
+  await selectField('stem:0')
+  await waitFor(() => evaluate("document.querySelector('.tiptap')?.textContent.includes('回读回归 ABC 123')"), '独立编辑后返回整题')
   await click('保存本地 JSON')
   await status('已保存到')
   const saved = JSON.parse(readFileSync(storage, 'utf8'))
+  assert.ok(JSON.stringify(saved.questions[0].parts[0].prompt).includes('小问回读'))
   const stem = JSON.stringify(saved.questions[0].stem)
   for (const token of ['f(x)=x^2-8x+12', 'sqrt{313}', 'data:image/png;base64,', 'poc001:parabola', '回读回归 ABC 123', '"bold"', '"italic"']) {
     assert.ok(stem.includes(token), token)
@@ -203,7 +211,22 @@ try {
   await snapshot('desktop-reopened-offline')
   await close()
   console.log('Native close/restart, network-disabled resource reload, formula and attachment round trip PASS')
+
+  const preserved = readFileSync(storage)
+  try {
+    for (const [value, error] of [['{', '无法解析'], ['{}', '无效'], ['{"schema_version":99}', '不兼容']]) {
+      writeFileSync(storage, value)
+      await start()
+      const alert = await evaluate("document.querySelector('.status [role=alert]')?.textContent")
+      assert.ok(alert?.includes(error), alert)
+      assert.equal(await evaluate(buttons('保存本地 JSON') + '?.disabled'), true)
+      assert.equal(readFileSync(storage, 'utf8'), value)
+      await close()
+    }
+  } finally {
+    writeFileSync(storage, preserved)
+  }
+  console.log('Native invalid JSON, invalid structure and unsupported schema messages PASS')
 } finally {
   await close()
 }
-

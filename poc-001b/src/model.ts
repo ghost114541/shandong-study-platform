@@ -7,7 +7,7 @@ const textNode = z.strictObject({
   type: z.literal('text'), text: z.string().min(1),
   marks: z.array(z.strictObject({ type: z.enum(['bold', 'italic']) })).optional(),
 })
-const latexAttrs = z.strictObject({ latex: z.string().trim().min(1).max(4000) })
+const latexAttrs = z.strictObject({ latex: z.string().min(1).max(4000).refine((value) => value.trim().length > 0, 'LaTeX 不能为空') })
 const inlineMath = z.strictObject({ type: z.literal('inlineMath'), attrs: latexAttrs })
 const imageSource = z.string().refine(
   (src) => src === bundledGraph || /^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/]+={0,2}$/.test(src),

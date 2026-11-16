@@ -11,7 +11,10 @@ LABELS = ("1.1", "1.2", "1.3", "2.1", "2.2", "3.1")
 def check(folder, name, render_dir):
     with fitz.open(folder / name) as pdf:
         print(f"{name}: {len(pdf)} page(s)")
-        assert len(pdf) >= (2 if name == "paper-long.pdf" else 1)
+        if name == "paper-long.pdf":
+            assert len(pdf) >= 2
+        else:
+            assert len(pdf) == 1
         texts = []
         for index, page in enumerate(pdf, 1):
             print(f"  page {index}: {page.rect.width:.2f} x {page.rect.height:.2f} pt")
@@ -29,7 +32,7 @@ def check(folder, name, render_dir):
         for label in LABELS:
             assert f"（{label}）" in text or f"({label})" in text, label
         assert "总分40分" in text
-        for marker in ("顶点(2,-1)", "对称轴x=2", "v=at=6"):
+        for marker in ("顶点(2,-1)", "对称轴x=2", "v=at=6", "CaCl"):
             assert (marker in text) == (name == "answers.pdf"), marker
         if name == "paper-long.pdf":
             for number in range(1, 37):

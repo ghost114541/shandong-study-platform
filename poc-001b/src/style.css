@@ -43,7 +43,7 @@ textarea { display: block; width: 100%; min-height: 90px; margin: 6px 0 12px; }
 .paper h2 { font-size: 1.15em; }
 .paper p { margin: 4px 0 7px; overflow-wrap: anywhere; orphans: 2; widows: 2; }
 .paper-image { display: block; max-width: 100%; max-height: 55mm; object-fit: contain; margin: 5px auto; break-inside: avoid; }
-.display-formula { display: block; break-inside: avoid; }
+.display-formula { display: flex; align-items: baseline; justify-content: center; break-inside: avoid; }
 @page { size: A4; }
 @media print {
   :root, body { background: white; }

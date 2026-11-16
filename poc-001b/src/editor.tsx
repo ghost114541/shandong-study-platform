@@ -91,8 +91,8 @@ export function QuestionEditor({ content, onChange, onError }: Props) {
   function applyFormula(event: FormEvent) {
     event.preventDefault()
     if (!draft) return
-    const latex = draft.latex.trim()
-    if (!latex || latex.length > 4000) {
+    const latex = draft.latex
+    if (!latex.trim() || latex.length > 4000) {
       setFormulaError('请输入 1–4000 字符的 LaTeX。')
       return
     }

@@ -2,11 +2,18 @@ import { Fragment } from 'react'
 import katex from 'katex'
 import { imageUrl, mathOptions } from './editor'
 import { projectPaper } from './model'
-import type { QuestionSet, RichDocument } from './model'
+import type { QuestionSet, RichBlock, RichDocument } from './model'
 
-function Formula({ latex, block = false }: { latex: string; block?: boolean }) {
+function Formula({ latex, block = false, punctuation }: { latex: string; block?: boolean; punctuation?: string }) {
   const html = katex.renderToString(latex, { ...mathOptions, throwOnError: false, displayMode: block })
-  return <span className={block ? 'display-formula' : undefined} dangerouslySetInnerHTML={{ __html: html }} />
+  const formula = <span dangerouslySetInnerHTML={{ __html: html }} />
+  return block ? <span className="display-formula">{formula}{punctuation}</span> : formula
+}
+
+function trailingPunctuation(block: RichBlock | undefined): string | undefined {
+  if (block?.type !== 'paragraph' || block.content?.length !== 1) return
+  const [node] = block.content
+  if (node.type === 'text' && !node.marks?.length && /^[。．，；、.!?,;]$/.test(node.text)) return node.text
 }
 
 export function Content({ data }: { data: RichDocument }) {
@@ -14,7 +21,10 @@ export function Content({ data }: { data: RichDocument }) {
     if (block.type === 'image') {
       return <img key={index} className="paper-image" src={imageUrl(block.attrs.src)} alt={block.attrs.alt ?? ''} />
     }
-    if (block.type === 'blockMath') return <Formula key={index} latex={block.attrs.latex} block />
+    if (block.type === 'blockMath') {
+      return <Formula key={index} latex={block.attrs.latex} block punctuation={trailingPunctuation(data.content[index + 1])} />
+    }
+    if (data.content[index - 1]?.type === 'blockMath' && trailingPunctuation(block)) return null
     return <p key={index}>{block.content?.map((node, i) => {
       if (node.type === 'hardBreak') return <br key={i} />
       if (node.type === 'inlineMath') return <Formula key={i} latex={node.attrs.latex} />
@@ -40,4 +50,3 @@ export function Paper({ data, answer }: { data: QuestionSet; answer: boolean }) 
     </section>)}
   </article>
 }
-
