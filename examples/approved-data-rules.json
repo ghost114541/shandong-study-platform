@@ -1,0 +1,33 @@
+{
+  "record_id": "APR-001",
+  "approved_on": "2026-11-10",
+  "scope": "user-confirmed data semantics",
+  "rules": [
+    {
+      "id": "DEC-039",
+      "name": "top-level unique question count",
+      "children_count_separately": true,
+      "deduplicate_occurrences": true
+    },
+    {
+      "id": "DEC-040",
+      "name": "answer verification evidence",
+      "required": [
+        "reviewer",
+        "date",
+        "evidence",
+        "verdict"
+      ],
+      "all_two_reviewer_required": false
+    },
+    {
+      "id": "DEC-041",
+      "name": "user revision precedence and composition pinning",
+      "user_revision_default": true,
+      "public_original_selectable": true,
+      "composition_pinned_revision_or_snapshot": true
+    }
+  ],
+  "srs_fully_approved": false,
+  "tests_executed": false
+}

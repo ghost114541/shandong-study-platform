@@ -1,0 +1,41 @@
+{
+  "example_only": true,
+  "schema_version": 1,
+  "id": "example-question-0001",
+  "subject": "数学",
+  "type": "解答题",
+  "difficulty": "中等",
+  "quality_state": "unverified_example",
+  "source": {
+    "kind": "self_authored_demo",
+    "paper_id": null,
+    "rights_status": "example_not_for_release"
+  },
+  "shared_stem": {
+    "type": "doc",
+    "schema_version": 1,
+    "content": [
+      {"type": "paragraph", "children": [{"type": "text", "text": "已知函数 "}, {"type": "math_inline", "latex": "f(x)=x^3-3x+1"}]}
+    ]
+  },
+  "parts": [
+    {
+      "id": "p1",
+      "order": 1,
+      "prompt": {"type": "doc", "schema_version": 1, "content": [{"type": "paragraph", "children": [{"type": "text", "text": "求函数的单调区间。"}]}]},
+      "answer": "递增：(-∞,-1) 与 (1,+∞)；递减：(-1,1)",
+      "score": 6,
+      "knowledge_point_ids": ["demo-math-derivative-monotonicity"],
+      "requires_parts": []
+    },
+    {
+      "id": "p2",
+      "order": 2,
+      "prompt": {"type": "doc", "schema_version": 1, "content": [{"type": "paragraph", "children": [{"type": "text", "text": "求函数的极值。"}]}]},
+      "answer": "局部极大值为 3；局部极小值为 -1。",
+      "score": 6,
+      "knowledge_point_ids": ["demo-math-extrema"],
+      "requires_parts": []
+    }
+  ]
+}

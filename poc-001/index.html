@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>POC-001 | 山东高中学习资源平台 - 离线编辑与试卷验证</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <script src="vendor/mathjax/tex-svg.js" defer></script>
+  <script src="samples/data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+ <header class="header no-print"><div><strong class="brand">知学档案 · POC-001</strong><span class="subbrand">高中学习资源平台技术验证</span></div><div class="status"><span class="dot"></span> 本地离线 · 无账户 · 无上传</div></header>
+ <div class="shell">
+ <aside class="sidebar no-print"><div class="aside-label">原型功能</div>
+  <button class="side-tab selected" id="tab-edit">题目编辑</button>
+  <button class="side-tab" id="tab-paper">试卷预览</button>
+  <button class="side-tab" id="tab-answer">答案预览</button>
+  <div class="separator"></div><div class="aside-label">原创测试题目</div><div id="question-list"></div>
+  <div class="separator"></div><div class="side-note">这不是正式的 Tauri 应用。这里验证浏览器端编辑、MathJax SVG 公式和打印排版。</div>
+ </aside>
+ <main class="workspace">
+  <section id="editor-view" class="panel no-print">
+   <div class="panel-top"><div><div class="eyebrow">技术验证 / 富文本编辑</div><h1 id="editing-heading">编辑题目</h1><p class="muted">编辑正文、插入可修改的公式和图片，保存为结构化 JSON。</p></div><span class="pill">POC</span></div>
+   <div class="form-row"><label>当前编辑内容 <select id="field-select"></select></label><label>所属学科 <span id="subject-label" class="inline-value"></span></label></div>
+   <div class="toolbar"><button id="btn-bold" title="粗体">加粗</button><button id="btn-italic" title="斜体">斜体</button><button id="btn-math" title="插入或编辑公式">＋ 行内公式</button><button id="btn-img" title="插入本地图片">＋ 图片</button><button id="btn-save-field" class="primary">保存当前编辑</button></div>
+   <div class="editor-note">数学公式以独立节点保存。双击公式可编辑 LaTeX；图片限本地文件，建议小于 2MB。</div>
+   <div id="rich-editor" class="rich-editor" contenteditable="true" role="textbox" aria-label="题目富文本编辑区域" spellcheck="false"></div>
+   <div class="actions"><button id="btn-download-json" class="primary">下载结构化 JSON</button><button id="btn-load-json">导入 JSON</button><input id="file-json" type="file" accept=".json,application/json" hidden/><input id="file-image" type="file" accept="image/png,image/jpeg,image/webp" hidden/><span id="message" role="status"></span></div>
+  </section>
+  <section id="preview-view" class="panel" hidden>
+   <div class="panel-top no-print"><div><div class="eyebrow">真实内容渲染 / A4 PDF</div><h1 id="preview-heading">试卷预览</h1><p class="muted">页面按 A4 打印样式渲染。打印时选择“保存为 PDF”；也可使用 scripts/export_pdf.py 批量生成。</p></div><button id="btn-print" class="primary">打印 / 保存为 PDF</button></div>
+   <article id="printable" class="paper-sheet"></article>
+  </section>
+ </main>
+ </div>
+</body>
+</html>
