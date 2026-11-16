@@ -5,6 +5,8 @@ mod storage;
 mod pdf;
 
 use serde_json::Value;
+use shandong_poc_001b::db::{Database, DbError, ErrorKind, DATABASE_FILENAME};
+use std::sync::Mutex;
 use std::path::PathBuf;
 use tauri::Manager;
 
@@ -49,9 +51,36 @@ async fn export_pdf(
     }
 }
 
+struct DatabaseStartup(Result<i32, DbError>);
+
+#[tauri::command]
+fn database_status(startup: tauri::State<'_, DatabaseStartup>) -> Result<i32, DbError> {
+    startup.0.clone()
+}
+
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![load_questions, save_questions, export_pdf])
+        .setup(|app| {
+            let status = app
+                .path()
+                .app_data_dir()
+                .map_err(|err| DbError {
+                    kind: ErrorKind::FileAccess,
+                    message: format!("找不到数据库目录：{err}"),
+                })
+                .and_then(|directory| {
+                    let db = Database::open(&directory.join(DATABASE_FILENAME))?;
+                    let version = db.schema_version()?;
+                    app.manage(Mutex::new(db));
+                    Ok(version)
+                });
+            if let Err(error) = &status {
+                eprintln!("SQLite 初始化失败：{error}");
+            }
+            app.manage(DatabaseStartup(status));
+            Ok(())
+        })
+        .invoke_handler(tauri::generate_handler![load_questions, save_questions, export_pdf, database_status])
         .run(tauri::generate_context!())
         .expect("could not start POC-001B");
 }

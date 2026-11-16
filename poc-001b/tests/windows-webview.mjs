@@ -7,8 +7,13 @@ import { setTimeout as delay } from 'node:timers/promises'
 
 const executable = resolve(process.argv[2] ?? 'src-tauri/target/release/shandong-poc-001b.exe')
 const port = 19245
-const out = resolve('.test-output')
-const profile = join(process.env.APPDATA, 'org.shandong-study.poc001b')
+const isolatedIdentifier = process.env.POC001B_TEST_APP_IDENTIFIER
+if (isolatedIdentifier) {
+  assert.match(isolatedIdentifier, /^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/)
+  assert.notEqual(isolatedIdentifier, 'org.shandong-study.poc001b')
+}
+const out = resolve(isolatedIdentifier ? join('.test-output', isolatedIdentifier) : '.test-output')
+const profile = join(process.env.APPDATA, isolatedIdentifier ?? 'org.shandong-study.poc001b')
 const storage = join(profile, 'questions.json')
 assert.ok(!existsSync(storage), '请先关闭应用并备份现有 questions.json，再运行此测试。')
 mkdirSync(out, { recursive: true })
@@ -90,6 +95,10 @@ async function start(offline = false) {
   const state = execFileSync('powershell.exe', ['-NoProfile', '-Command',
     '$p = Get-Process -Id ' + child.pid + '; if (!$p.MainWindowHandle) { exit 1 }; $p.MainWindowTitle'], { encoding: 'utf8' })
   assert.ok(state.trim())
+  if (isolatedIdentifier) {
+    assert.equal(await evaluate("window.__TAURI_INTERNALS__.invoke('database_status')"), 1)
+    assert.ok(existsSync(join(profile, 'study.sqlite3')), 'database created in the isolated profile')
+  }
   console.log('Native Win32 window hwnd present, process PID ' + child.pid + ', URL ' + await evaluate('location.href'))
   if (offline) assert.equal(await evaluate('navigator.onLine'), false)
 }
