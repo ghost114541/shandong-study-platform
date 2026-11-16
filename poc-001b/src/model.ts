@@ -1,0 +1,154 @@
+import { z } from 'zod'
+
+export const bundledGraph = 'poc001:parabola'
+const id = z.string().min(1)
+const score = z.number().int().nonnegative()
+const textNode = z.strictObject({
+  type: z.literal('text'), text: z.string().min(1),
+  marks: z.array(z.strictObject({ type: z.enum(['bold', 'italic']) })).optional(),
+})
+const latexAttrs = z.strictObject({ latex: z.string().trim().min(1).max(4000) })
+const inlineMath = z.strictObject({ type: z.literal('inlineMath'), attrs: latexAttrs })
+const imageSource = z.string().refine(
+  (src) => src === bundledGraph || /^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/]+={0,2}$/.test(src),
+  '仅支持内置配图或内嵌的 PNG、JPEG、WebP、GIF 图片',
+)
+const document = z.strictObject({
+  type: z.literal('doc'),
+  content: z.array(z.discriminatedUnion('type', [
+    z.strictObject({
+      type: z.literal('paragraph'),
+      content: z.array(z.discriminatedUnion('type', [
+        textNode, inlineMath, z.strictObject({ type: z.literal('hardBreak') }),
+      ])).optional(),
+    }),
+    z.strictObject({ type: z.literal('blockMath'), attrs: latexAttrs }),
+    z.strictObject({
+      type: z.literal('image'),
+      attrs: z.strictObject({
+        src: imageSource, alt: z.string().nullable().optional(), title: z.string().nullable().optional(),
+        width: z.number().positive().nullable().optional(), height: z.number().positive().nullable().optional(),
+      }),
+    }),
+  ])).min(1),
+})
+
+const question = z.strictObject({
+  id, subject: id, type: id, score, stem: document,
+  parts: z.array(z.strictObject({ id, score, prompt: document, answer: document })),
+})
+
+const questionSet = z.strictObject({
+  schema_version: z.literal(1),
+  document_type: z.literal('poc001b_question_set'),
+  title: id, duration_minutes: z.number().int().positive(),
+  questions: z.array(question).min(1),
+}).superRefine(({ questions }, ctx) => {
+  const ids = new Set<string>()
+  for (const q of questions) {
+    if (ids.has(q.id)) ctx.addIssue({ code: 'custom', message: '题目 ID 重复 ' + q.id })
+    ids.add(q.id)
+    if (new Set(q.parts.map((p) => p.id)).size !== q.parts.length) {
+      ctx.addIssue({ code: 'custom', message: '小问 ID 重复 ' + q.id })
+    }
+    if (q.parts.length && q.parts.reduce((sum, p) => sum + p.score, 0) !== q.score) {
+      ctx.addIssue({ code: 'custom', message: '小问分值与整题分值不一致 ' + q.id })
+    }
+  }
+})
+
+export type QuestionSet = z.infer<typeof questionSet>
+export type RichDocument = z.infer<typeof document>
+export type RichBlock = RichDocument['content'][number]
+
+export function parseDocument(input: unknown): RichDocument {
+  return document.parse(input)
+}
+
+export function parseQuestionSet(input: unknown): QuestionSet {
+  if (typeof input === 'object' && input !== null && 'schema_version' in input && input.schema_version !== 1) {
+    throw new Error('不兼容的 JSON 数据版本 ' + String(input.schema_version))
+  }
+  const result = questionSet.safeParse(input)
+  if (!result.success) {
+    const issue = result.error.issues[0]
+    throw new Error('无效的试题 JSON：' + issue.path.join('.') + ' ' + issue.message)
+  }
+  return result.data
+}
+
+interface SampleBlock {
+  type: string
+  src?: string
+  alt?: string
+  children?: { type: string; text?: string; latex?: string }[]
+}
+
+function convertBlocks(blocks: SampleBlock[], displayMath = false): RichDocument {
+  const content = blocks.flatMap<RichBlock>((block) => {
+    if (block.type === 'image' && block.src === 'assets/parabola.svg') {
+      return [{ type: 'image', attrs: { src: bundledGraph, alt: block.alt } }]
+    }
+    if (block.type !== 'paragraph' || !block.children) throw new Error('无法转换示例段落')
+    if (displayMath && block.children[0]?.type === 'math') {
+      const [formula, ...rest] = block.children
+      return [
+        { type: 'blockMath', attrs: { latex: formula.latex ?? '' } },
+        ...convertBlocks([{ type: 'paragraph', children: rest }]).content,
+      ]
+    }
+    return [{
+      type: 'paragraph',
+      content: block.children.map((child) => child.type === 'math'
+        ? { type: 'inlineMath', attrs: { latex: child.latex ?? '' } }
+        : { type: 'text', text: child.text ?? '' }),
+    }]
+  })
+  return parseDocument({ type: 'doc', content })
+}
+
+interface Sample {
+  title: string
+  duration_minutes: number
+  questions: {
+    id: string; score: number; type: string; subject: string; stem: SampleBlock[]
+    parts: { id: string; score: number; prompt: SampleBlock[]; answer: SampleBlock[] }[]
+  }[]
+}
+
+export function convertSample(sample: Sample): QuestionSet {
+  return parseQuestionSet({
+    ...sample, schema_version: 1, document_type: 'poc001b_question_set',
+    questions: sample.questions.map((q) => ({
+      ...q, stem: convertBlocks(q.stem),
+      parts: q.parts.map((p) => ({
+        ...p, prompt: convertBlocks(p.prompt), answer: convertBlocks(p.answer, q.subject === '化学'),
+      })),
+    })),
+  })
+}
+
+export function withLongStem(source: QuestionSet): QuestionSet {
+  const copy = structuredClone(source)
+  const blocks: RichBlock[] = Array.from({ length: 36 }, (_, index) => ({
+    type: 'paragraph',
+    content: [{
+      type: 'text',
+      text: '分页检查 ' + String(index + 1).padStart(2, '0') + '：记录图像交点与区间符号，说明比较依据。'
+        + '先观察曲线的走势，再结合坐标轴核对推导结果。请写出必要步骤并保留单位。'.repeat(4),
+    }],
+  }))
+  copy.questions[0].stem.content.push(...blocks)
+  return copy
+}
+
+export function projectPaper(source: QuestionSet, answer: boolean) {
+  return source.questions.map((q, index) => ({
+    number: index + 1, subject: q.subject, score: q.score,
+    stem: answer ? undefined : q.stem,
+    parts: q.parts.map((p, i) => ({
+      label: String(index + 1) + '.' + String(i + 1), score: p.score,
+      content: answer ? p.answer : p.prompt,
+    })),
+  }))
+}

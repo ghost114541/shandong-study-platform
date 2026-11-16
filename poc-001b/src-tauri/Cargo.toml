@@ -1,0 +1,19 @@
+[package]
+name = "shandong-poc-001b"
+version = "0.1.0"
+description = "Windows WebView2 editor and PDF proof of concept"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = "2"
+
+[dependencies]
+serde_json = "1"
+tauri = "~2.12.0"
+tempfile = "3"
+tokio = { version = "1", features = ["sync", "time"] }
+
+[target.'cfg(windows)'.dependencies]
+webview2-com = "0.39.1"
+windows-core = "0.62.2"
+
