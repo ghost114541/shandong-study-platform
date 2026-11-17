@@ -1,5 +1,6 @@
 """Inspect, lock and seed review evidence in the isolated Windows test profile."""
 import json
+import shutil
 import sqlite3
 import struct
 import sys
@@ -34,12 +35,12 @@ def main():
         picture(path, variant=command == "attachment-picture")
         return
     profile = Path(path).parent.name
-    assert profile.startswith(("org.shandong-study.dev002-", "org.shandong-study.dev003-", "org.shandong-study.dev004-", "org.shandong-study.dev005-")), profile
+    assert profile.startswith(tuple(f"org.shandong-study.dev{number:03d}-" for number in range(2, 7))), profile
     assert Path(path).name == "study.sqlite3"
-    if command in ("copy-schema-one", "copy-schema-two", "copy-schema-three"):
+    if command in ("copy-schema-one", "copy-schema-two", "copy-schema-three", "copy-schema-four"):
         source = Path(path)
         target = Path(args[0])
-        version = {"copy-schema-one": 1, "copy-schema-two": 2, "copy-schema-three": 3}[command]
+        version = {"copy-schema-one": 1, "copy-schema-two": 2, "copy-schema-three": 3, "copy-schema-four": 4}[command]
         assert source.parent.name.startswith(f"org.shandong-study.dev{version + 1:03d}-")
         assert target.parent.name.startswith(f"org.shandong-study.dev{version + 2:03d}-")
         assert target.name == "study.sqlite3" and not target.exists()
@@ -48,6 +49,8 @@ def main():
             assert old.execute("PRAGMA user_version").fetchone()[0] == version
             with sqlite3.connect(target) as new:
                 old.backup(new)
+        if version == 4 and (source.parent / "attachments").is_dir():
+            shutil.copytree(source.parent / "attachments", target.parent / "attachments")
         print(f"Copied Schema {version} test database using SQLite backup")
         return
     with sqlite3.connect(Path(path).as_uri() + "?mode=rw", uri=True) as db:
@@ -70,13 +73,33 @@ def main():
                 dict(row) for row in db.execute("SELECT revision_id, text FROM revision_search_text ORDER BY 1")
             ]
             print(json.dumps(data, sort_keys=True))
-        elif command == "snapshot-v3":
+        elif command in ("snapshot-v3", "snapshot-v4"):
             tables = ("subject", "question", "question_part", "question_revision", "question_duplicate",
                       "verification_record", "knowledge_point", "knowledge_alias", "question_knowledge",
                       "paper", "question_occurrence", "composition", "composition_item",
                       "question_annotation", "question_tag", "paper_user_metadata", "revision_search_text")
+            if command == "snapshot-v4":
+                tables += ("attachment", "revision_attachment")
             data = {table: [dict(row) for row in db.execute(f"SELECT * FROM {table} ORDER BY rowid")] for table in tables}
+            if command == "snapshot-v4":
+                for table in ("composition", "composition_item"):
+                    for row in data[table]:
+                        for column in ("settings_json", "previous_id", "item_count"):
+                            assert row.pop(column, None) is None
             print(json.dumps(data, sort_keys=True))
+        elif command == "compose-alias":
+            assert profile.startswith("org.shandong-study.dev006-")
+            db.execute(
+                """INSERT INTO question_duplicate(duplicate_id, canonical_id, reviewer, confirmed_on, evidence)
+                   VALUES (?, ?, '验收复核员', date('now'), '原始测试题已逐项核对')""", args,
+            )
+        elif command == "seed-history-composition":
+            assert profile.startswith("org.shandong-study.dev006-")
+            assert db.execute("PRAGMA user_version").fetchone()[0] == 4
+            db.execute("INSERT INTO composition(id,title) VALUES ('dev006-legacy-pin','迁移前历史组卷')")
+            db.execute("""INSERT INTO composition_item(composition_id,position,question_id,revision_id)
+                          SELECT 'dev006-legacy-pin', 1, question_id, id FROM question_revision
+                          ORDER BY id LIMIT 1""")
         elif command == "seed-legacy-attachment":
             key = args[0]
             payload = {
@@ -91,7 +114,7 @@ def main():
             db.execute("INSERT INTO question_revision(question_id,scope,content_version,content_json) VALUES (?,'user',1,?)",
                        [key, json.dumps(payload, ensure_ascii=False)])
         elif command == "seed-ui":
-            assert profile.startswith(("org.shandong-study.dev004-", "org.shandong-study.dev005-"))
+            assert profile.startswith(("org.shandong-study.dev004-", "org.shandong-study.dev005-", "org.shandong-study.dev006-"))
             db.execute("PRAGMA recursive_triggers=ON")
             def doc(text):
                 return {"type": "doc", "content": [{"type": "paragraph", "content": [{"type": "text", "text": text}]}]}

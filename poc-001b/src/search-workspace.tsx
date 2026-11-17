@@ -9,8 +9,9 @@ import type { LoadedPreview } from './search-preview'
 import { describeError, sqlite } from './sqlite-api'
 import type { QuestionSummary, Subject } from './sqlite-api'
 
-export function SearchWorkspace({ seed, active, openQuestion }: {
+export function SearchWorkspace({ seed, active, openQuestion, onAdd, adding, basketError, basketStatus }: {
   seed?: SearchSeed; active: boolean; openQuestion: (question: QuestionSummary) => void
+  onAdd: (id: number) => void; adding: boolean; basketError: string; basketStatus: string
 }) {
   const [subjects, setSubjects] = useState<Subject[]>([])
   const [points, setPoints] = useState<KnowledgePoint[]>([])
@@ -134,6 +135,8 @@ export function SearchWorkspace({ seed, active, openQuestion }: {
     </form>
     <div className="status" aria-live="polite">
       {error ? <p role="alert">{error}</p> : <p>{busy ? '正在查询…' : result?.hits.length === 0 ? '没有匹配的试题。' : ''}</p>}
+      {active && basketError && <p role="alert">{basketError}</p>}
+      {active && basketStatus.startsWith('已加入组卷篮') && <p role="status">{basketStatus}</p>}
     </div>
     {result && <div className={'search-layout' + (selected ? ' has-preview' : '')}><section className="panel" aria-label="搜索结果">
       <h2>搜索结果</h2>
@@ -145,6 +148,8 @@ export function SearchWorkspace({ seed, active, openQuestion }: {
             <span>{hit.snippet || '无可检索题干文字'}</span>
             {hit.source_label && <small>{hit.source_label}</small>}
           </button>
+          <button className="basket-add" type="button" disabled={busy || adding}
+            onClick={() => onAdd(hit.current_revision_id)}>加入组卷</button>
         </li>)}
       </ul>
       <div className="actions">
@@ -154,7 +159,8 @@ export function SearchWorkspace({ seed, active, openQuestion }: {
       </div>
     </section>
       {selected && <SearchPreview key={previewRequest.current} hit={selected} subject={subjectName(selected.subject_id)}
-        loaded={preview} error={previewError} close={closePreview} open={() => { closePreview(); openQuestion(selected) }} />}
+        loaded={preview} error={previewError} close={closePreview} open={() => { closePreview(); openQuestion(selected) }}
+        adding={adding} add={(id) => onAdd(id)} />}
     </div>}
   </main>
 }

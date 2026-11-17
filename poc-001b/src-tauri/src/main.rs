@@ -1,5 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod composition_export;
+mod composition_ipc;
 mod editor_ipc;
 #[cfg(windows)]
 mod pdf;
@@ -37,6 +39,9 @@ async fn export_pdf(
     long_sample: bool,
     revision_id: Option<i64>,
 ) -> Result<PathBuf, String> {
+    if window.label() != "main" {
+        return Err("单题及演示 PDF 只能从主窗口导出。".into());
+    }
     let filename = match (kind.as_str(), long_sample, revision_id) {
         ("paper" | "answers", false, Some(id)) if id > 0 => {
             editor_ipc::verify_pdf_revision(window.app_handle().clone(), id, kind == "answers")
@@ -66,6 +71,7 @@ async fn export_pdf(
 
 fn main() {
     tauri::Builder::default()
+        .manage(composition_export::PrintJobs::default())
         .setup(|app| {
             let status = app
                 .path()
@@ -90,6 +96,15 @@ fn main() {
             load_questions,
             save_questions,
             export_pdf,
+            composition_ipc::composition_question,
+            composition_ipc::composition_latest,
+            composition_ipc::list_compositions,
+            composition_ipc::read_composition,
+            composition_ipc::save_composition,
+            composition_export::preview_composition,
+            composition_export::export_composition,
+            composition_export::composition_print_payload,
+            composition_export::composition_print_ready,
             editor_ipc::database_status,
             editor_ipc::import_attachment,
             editor_ipc::read_attachment,

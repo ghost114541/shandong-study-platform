@@ -40,6 +40,8 @@ main { max-width: 1180px; margin: auto; padding: 18px 26px 32px; }
 .search-results { padding: 0; list-style: none; }
 .search-results button { display: grid; text-align: left; gap: 3px; width: 100%; margin-block: 8px; }
 .search-results span { overflow-wrap: anywhere; }
+.search-results li { position: relative; padding: 2px 0; border-bottom: 1px solid #e3ebee; }
+.search-results button.basket-add { display: inline-block; width: auto; margin: 0 0 8px; }
 .search-layout { display: grid; gap: 14px; align-items: start; }
 .search-layout.has-preview { grid-template-columns: minmax(245px, .9fr) minmax(0, 1.1fr); }
 .search-preview { position: sticky; top: 8px; max-height: calc(100vh - 24px); overflow: auto; overflow-wrap: anywhere; }
@@ -104,4 +106,44 @@ textarea { display: block; width: 100%; min-height: 90px; margin: 6px 0 12px; }
 @media (max-width: 640px) {
   .workspace { grid-template-columns: 1fr; }
   .app-header, main { padding-inline: 12px; }
+}
+
+.draft-indicator { color: #765015; font-size: 13px; align-self: center; }
+.composition-layout { display: grid; grid-template-columns: minmax(180px, 230px) minmax(0, 1fr); gap: 16px; align-items: start; }
+.composition-layout .panel { margin-bottom: 12px; }
+.saved-papers, .composition-groups { padding: 0; list-style: none; }
+.saved-papers button { width: 100%; text-align: left; margin: 3px 0; overflow-wrap: anywhere; }
+.saved-papers small { display: block; color: #516771; }
+.composition-status { white-space: pre-wrap; overflow-wrap: anywhere; }
+.composition-status:empty { display: none; }
+.composition-controls, .composition-fields { border: 0; padding: 0; min-width: 0; }
+.composition-fields { display: flex; flex-wrap: wrap; align-items: end; gap: 10px; margin: 10px 0; }
+.composition-fields label { display: grid; gap: 4px; }
+.composition-fields input[type=number] { width: 8em; }
+.composition-fields output { padding: 5px 0; }
+.composition-items { list-style: none; padding: 0; }
+.composition-items > li { padding: 10px 0; border-top: 1px solid #dbe5e9; overflow-wrap: anywhere; }
+.composition-items h3 { font-size: 16px; margin-bottom: 4px; }
+.composition-items p { margin: 4px 0; }
+.composition-items summary { cursor: pointer; }
+.image-warnings { border: 1px solid #e4c585; background: #fffbef; padding: 12px; margin: 12px 0; }
+.composition-paper { line-height: 1.55; overflow-wrap: anywhere; }
+.composition-paper .paper-group { font-size: 1.2em; border-bottom: 1px solid #c4cdd0; margin: 6mm 0 1.5mm; }
+.composition-print-entry { margin-bottom: var(--question-gap); }
+.composition-paper h3, .composition-paper h4, .composition-paper .solution-label { break-after: avoid; }
+.composition-paper h4 { margin: 6px 0 2px; font-size: 1em; }
+.composition-paper .paper-part { padding-left: 4mm; }
+.composition-paper .solution-label { font-weight: 600; }
+.answer-space { break-inside: avoid; break-before: avoid; border-bottom: 1px solid #ccd4d8; margin-bottom: 2mm; }
+.composition-paper .paper-image { width: auto; height: auto; max-width: min(100%, var(--image-width, 100%)); max-height: min(165mm, var(--image-height, 165mm)); }
+.composition-paper .katex-display { margin: .6em 0; }
+.composition-paper [data-keep-together] { break-inside: avoid; }
+.controlled-print { background: white; }
+.controlled-print .paper { width: 180mm; padding: 0; box-shadow: none; }
+@media print {
+  .controlled-print .paper { width: auto; }
+  .composition-paper .paper-group { margin-top: 4mm; }
+}
+@media (max-width: 720px) {
+  .composition-layout { grid-template-columns: minmax(0, 1fr); }
 }

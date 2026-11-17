@@ -11,9 +11,10 @@ export interface LoadedPreview {
   links: KnowledgeLink[]
 }
 
-export function SearchPreview({ hit, subject, loaded, error, close, open }: {
+export function SearchPreview({ hit, subject, loaded, error, close, open, add, adding }: {
   hit: SearchHit; subject: string; loaded: LoadedPreview | null; error: string
   close: () => void; open: () => void
+  add: (id: number) => void; adding: boolean
 }) {
   const [showAnswers, setShowAnswers] = useState(false)
   const content = loaded?.detail.revision.content
@@ -40,6 +41,7 @@ export function SearchPreview({ hit, subject, loaded, error, close, open }: {
         <button type="button" aria-expanded={showAnswers} aria-controls="search-preview-answer"
           onClick={() => setShowAnswers(!showAnswers)}>{showAnswers ? '收起答案' : '展开答案'}</button>
         <button type="button" onClick={open}>打开完整试题</button>
+        <button type="button" disabled={adding} onClick={() => add(loaded.detail.revision.id)}>加入组卷</button>
       </div>
       {showAnswers && <section id="search-preview-answer" className="preview-answers">
         {content.answer && <Content data={content.answer} />}

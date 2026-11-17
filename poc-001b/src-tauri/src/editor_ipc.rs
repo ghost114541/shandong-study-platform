@@ -15,7 +15,7 @@ pub fn database_status(startup: tauri::State<'_, DatabaseStartup>) -> Result<i32
     startup.0.clone()
 }
 
-async fn database<T: Send + 'static>(
+pub(crate) async fn database<T: Send + 'static>(
     app: AppHandle,
     action: impl FnOnce(&mut Database) -> Result<T> + Send + 'static,
 ) -> Result<T> {
