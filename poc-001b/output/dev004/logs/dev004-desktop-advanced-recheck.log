@@ -1,0 +1,7 @@
+Native Win32 window hwnd present, process PID 21628, URL http://tauri.localhost/
+Native Win32 window hwnd present, process PID 26308, URL http://tauri.localhost/
+DEV004-T03 PASS: native editor saved difficulty, tags and two paper origins; re-opened values verified
+DEV004-T08/T09 PASS: real native side panel, formulas, decoded PNG, two parts, knowledge, audit, explicit current answer reveal
+DEV004-T11 Windows small fixture: first preview through image decode 36.10 ms; IPC n=30 p50=2.00 ms p95=2.50 ms
+DEV004-T10 PASS: page 2 preserved after full editor return; delayed native response could not replace the selected question
+EXIT 0

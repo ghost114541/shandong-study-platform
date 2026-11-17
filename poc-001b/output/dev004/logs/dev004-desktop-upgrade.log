@@ -1,0 +1,4 @@
+Native Win32 window hwnd present, process PID 32904, URL http://tauri.localhost/
+Native Win32 window hwnd present, process PID 30048, URL http://tauri.localhost/
+DEV004-T02 PASS: copied actual DEV-003 schema 2 database; old tables and revision projections match on two native launches
+EXIT 0

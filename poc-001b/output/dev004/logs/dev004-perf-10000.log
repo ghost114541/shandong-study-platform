@@ -1,0 +1,88 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.65s
+     Running unittests src\lib.rs (src-tauri\target\debug\build\shandong-poc-001b/0d668c495c0820d0\out\shandong_poc_001b-0d668c495c0820d0.exe)
+
+running 1 test
+DEV004-T11 synthetic=10000 database_bytes=13291520 sources=20000 tags=13333 links=15000
+PLAN MATERIALIZE page_rows
+PLAN MATERIALIZE matched_origins
+PLAN CO-ROUTINE question_members
+PLAN COMPOUND QUERY
+PLAN LEFT-MOST SUBQUERY
+PLAN SCAN q USING COVERING INDEX sqlite_autoindex_question_1
+PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+PLAN UNION ALL
+PLAN SCAN question_duplicate
+PLAN SCAN pm
+PLAN SEARCH o USING INDEX sqlite_autoindex_question_occurrence_1 (paper_id=?)
+PLAN BLOOM FILTER ON m (original_id=?)
+PLAN SEARCH m USING AUTOMATIC COVERING INDEX (original_id=?)
+PLAN USE TEMP B-TREE FOR GROUP BY
+PLAN SEARCH q USING COVERING INDEX sqlite_autoindex_question_1 (id=?)
+PLAN LIST SUBQUERY 4
+PLAN MATERIALIZE selected
+PLAN SETUP
+PLAN SEARCH knowledge_point USING INDEX sqlite_autoindex_knowledge_point_1 (id=?)
+PLAN RECURSIVE STEP
+PLAN SCAN k
+PLAN SCAN s
+PLAN SCAN q USING COVERING INDEX sqlite_autoindex_question_1
+PLAN SEARCH link USING COVERING INDEX sqlite_autoindex_question_knowledge_1 (question_id=?)
+PLAN BLOOM FILTER ON s (id=?)
+PLAN SEARCH s USING AUTOMATIC COVERING INDEX (id=?)
+PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+PLAN SEARCH revision USING COVERING INDEX sqlite_autoindex_question_revision_1 (question_id=? AND id=? AND rowid=?)
+PLAN CORRELATED SCALAR SUBQUERY 12
+PLAN SEARCH question_revision USING COVERING INDEX question_revision_selection (question_id=? AND scope=?)
+PLAN CORRELATED SCALAR SUBQUERY 13
+PLAN SEARCH question_revision USING COVERING INDEX question_revision_selection (question_id=? AND scope=?)
+PLAN REUSE SUBQUERY 12
+PLAN REUSE SUBQUERY 13
+PLAN SEARCH q USING COVERING INDEX question_subject_identity (subject_id=? AND id=?)
+PLAN REUSE LIST SUBQUERY 4
+PLAN LIST SUBQUERY 5
+PLAN COMPOUND QUERY
+PLAN LEFT-MOST SUBQUERY
+PLAN SEARCH t USING COVERING INDEX question_tag_tag (tag=?)
+PLAN SEARCH q USING COVERING INDEX sqlite_autoindex_question_1 (id=?)
+PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+PLAN CREATE BLOOM FILTER
+PLAN UNION ALL
+PLAN SEARCH t USING COVERING INDEX question_tag_tag (tag=?)
+PLAN SEARCH question_duplicate USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?)
+PLAN CREATE BLOOM FILTER
+PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+PLAN SEARCH search USING INTEGER PRIMARY KEY (rowid=?)
+PLAN SEARCH a USING INDEX sqlite_autoindex_question_annotation_1 (question_id=?)
+PLAN BLOOM FILTER ON y (logical_id=?)
+PLAN SEARCH y USING AUTOMATIC COVERING INDEX (logical_id=?) LEFT-JOIN
+PLAN USE TEMP B-TREE FOR ORDER BY
+PLAN SCAN page_rows
+PLAN CORRELATED SCALAR SUBQUERY 7
+PLAN CO-ROUTINE question_members
+PLAN COMPOUND QUERY
+PLAN LEFT-MOST SUBQUERY
+PLAN SCAN q USING COVERING INDEX sqlite_autoindex_question_1
+PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+PLAN UNION ALL
+PLAN SCAN question_duplicate
+PLAN BLOOM FILTER ON m (logical_id=?)
+PLAN SEARCH m USING AUTOMATIC COVERING INDEX (logical_id=?)
+PLAN SEARCH o USING INDEX question_occurrence_question (question_id=?)
+PLAN SEARCH pm USING INDEX sqlite_autoindex_paper_user_metadata_1 (paper_id=?)
+PLAN SEARCH p USING INDEX sqlite_autoindex_paper_1 (id=?)
+PLAN USE TEMP B-TREE FOR ORDER BY
+PLAN USE TEMP B-TREE FOR ORDER BY
+pagination results=333 pages=14 last_page=8
+combined-first: p50_ms=91.821 p95_ms=98.644
+combined-page-6: p50_ms=90.479 p95_ms=92.402
+test db::tests::metadata_tests::dev004_t11_metadata_query_benchmark ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 27 filtered out; finished in 7.46s
+
+     Running unittests src\main.rs (src-tauri\target\debug\build\shandong-poc-001b/34d4ccb4b9278857\out\shandong_poc_001b-34d4ccb4b9278857.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+EXIT 0

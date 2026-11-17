@@ -1,0 +1,64 @@
+   Compiling shandong-poc-001b v0.1.0 (C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9.47s
+     Running unittests src\lib.rs (src-tauri\target\debug\build\shandong-poc-001b/0d668c495c0820d0\out\shandong_poc_001b-0d668c495c0820d0.exe)
+
+running 23 tests
+test db::tests::dev002_shared_rich_text_contract ... ok
+test db::migrations::tests::test_003_failed_upgrade_rolls_back_ddl_data_and_version ... ok
+test db::migrations::tests::dev003_t10_schema_two_failure_rolls_back_subjects_and_ddl ... ok
+test db::migrations::tests::dev003_t02_t10_upgrade_preserves_schema_one_user_data_and_pins ... FAILED
+test db::tests::test_001_initializes_schema_wal_foreign_keys_and_history ... ok
+test db::tests::dev002_editor_branches_from_public_without_changing_original ... ok
+test db::tests::explicit_duplicate_confirmation_preserves_existing_sources_and_revisions ... ok
+test db::tests::test_006_user_revision_is_selected_and_public_original_is_unchanged ... ok
+test db::tests::knowledge_tests::dev003_t03_t04_t05_tree_sort_constraints_and_aliases ... ok
+test db::tests::test_005_verification_is_version_bound_and_honors_review_chain_and_expiry ... ok
+test db::tests::dev003_t01_review_effective_by_utc_calendar_date ... ok
+test db::tests::knowledge_tests::dev004_t01_alias_knowledge_is_searchable_without_rewriting_sources ... FAILED
+test db::tests::test_004_counts_unique_questions_separately_from_parts_and_occurrences ... ok
+test db::tests::test_009_blocks_revision_mutation_deletion_and_cross_question_references ... ok
+test db::tests::knowledge_tests::dev003_t02_nine_subjects_are_seeded_once ... ok
+test db::tests::test_002_reopens_same_database_without_reapplying_migration ... ok
+test db::tests::test_008_saved_composition_reopens_pinned_revision_and_rolls_back_missing_items ... ok
+test db::tests::knowledge_tests::dev003_t06_t07_t08_link_and_search_current_without_duplicates ... FAILED
+test db::tests::rich_text_round_trip_keeps_latex_attachment_and_part_id_and_rejects_bad_content ... ok
+test db::tests::test_007_public_update_preserves_user_revision_and_first_public_content ... ok
+test db::tests::dev002_editor_atomic_create_reopen_and_revision_conflicts ... ok
+test db::tests::validates_knowledge_hierarchy_and_structured_database_errors ... ok
+test db::tests::knowledge_tests::dev003_t09_synthetic_ten_thousand_query_benchmark ... FAILED
+
+failures:
+
+---- db::migrations::tests::dev003_t02_t10_upgrade_preserves_schema_one_user_data_and_pins stdout ----
+
+thread 'db::migrations::tests::dev003_t02_t10_upgrade_preserves_schema_one_user_data_and_pins' (21164) panicked at src\db\migrations.rs:264:18:
+called `Result::unwrap()` on an `Err` value: DbError { kind: Sqlite, message: "ambiguous column name: id in WITH RECURSIVE page_rows AS MATERIALIZED (\n        SELECT q.id, q.subject_id, r.id AS revision_id,\n               substr(search.text, max(1, instr(lower(search.text), lower(?2)) - 24), 140) AS snippet,\n               search.question_type, a.difficulty, NULL AS sort_year\n        FROM logical_question q JOIN current_question_revision r ON r.question_id = q.id\n        JOIN revision_search_text search ON search.revision_id = r.id\n        LEFT JOIN question_annotation a ON a.question_id = q.id\n         \n        WHERE q.subject_id = ?1 AND instr(lower(search.text), lower(?2)) > 0 ORDER BY id ASC LIMIT ?3 OFFSET ?4\n    )\n        SELECT id, subject_id, revision_id, snippet, question_type, difficulty, (\n            SELECT substr(trim(coalesce(pm.year || ' · ', '') || coalesce(pm.region || ' · ', '')\n                || p.title || coalesce(' · ' || pm.source, '')), 1, 180)\n            FROM question_members m JOIN question_occurrence o ON o.question_id = m.original_id\n     LEFT JOIN paper_user_metadata pm ON pm.paper_id = o.paper_id JOIN paper p ON p.id = o.paper_id\n            WHERE m.logical_id = page_rows.id AND 1\n            ORDER BY pm.year IS NULL, pm.year DESC, o.paper_id, o.source_key LIMIT 1\n        ) FROM page_rows ORDER BY id ASC at offset 590" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- db::tests::knowledge_tests::dev004_t01_alias_knowledge_is_searchable_without_rewriting_sources stdout ----
+
+thread 'db::tests::knowledge_tests::dev004_t01_alias_knowledge_is_searchable_without_rewriting_sources' (14940) panicked at src\db\knowledge_tests.rs:185:6:
+called `Result::unwrap()` on an `Err` value: DbError { kind: Sqlite, message: "ambiguous column name: id in WITH RECURSIVE selected(id, subject_id) AS (\n            SELECT id, subject_id FROM knowledge_point WHERE id = ?2 AND enabled = 1\n            UNION\n            SELECT k.id, k.subject_id FROM selected s\n            JOIN knowledge_point k ON k.subject_id = s.subject_id AND k.parent_id = s.id\n            WHERE ?3 AND k.enabled = 1\n        ), page_rows AS MATERIALIZED (\n        SELECT q.id, q.subject_id, r.id AS revision_id,\n               substr(search.text, max(1, instr(lower(search.text), lower(?4)) - 24), 140) AS snippet,\n               search.question_type, a.difficulty, NULL AS sort_year\n        FROM logical_question q JOIN current_question_revision r ON r.question_id = q.id\n        JOIN revision_search_text search ON search.revision_id = r.id\n        LEFT JOIN question_annotation a ON a.question_id = q.id\n         \n        WHERE q.subject_id = ?1 AND q.id IN (SELECT link.logical_id FROM selected s\n                         JOIN logical_question_knowledge link ON link.knowledge_id = s.id) ORDER BY id ASC LIMIT ?5 OFFSET ?6\n    )\n        SELECT id, subject_id, revision_id, snippet, question_type, difficulty, (\n            SELECT substr(trim(coalesce(pm.year || ' · ', '') || coalesce(pm.region || ' · ', '')\n                || p.title || coalesce(' · ' || pm.source, '')), 1, 180)\n            FROM question_members m JOIN question_occurrence o ON o.question_id = m.original_id\n     LEFT JOIN paper_user_metadata pm ON pm.paper_id = o.paper_id JOIN paper p ON p.id = o.paper_id\n            WHERE m.logical_id = page_rows.id AND 1\n            ORDER BY pm.year IS NULL, pm.year DESC, o.paper_id, o.source_key LIMIT 1\n        ) FROM page_rows ORDER BY id ASC at offset 1014" }
+
+---- db::tests::knowledge_tests::dev003_t06_t07_t08_link_and_search_current_without_duplicates stdout ----
+
+thread 'db::tests::knowledge_tests::dev003_t06_t07_t08_link_and_search_current_without_duplicates' (18508) panicked at src\db\knowledge_tests.rs:185:6:
+called `Result::unwrap()` on an `Err` value: DbError { kind: Sqlite, message: "ambiguous column name: id in WITH RECURSIVE selected(id, subject_id) AS (\n            SELECT id, subject_id FROM knowledge_point WHERE id = ?2 AND enabled = 1\n            UNION\n            SELECT k.id, k.subject_id FROM selected s\n            JOIN knowledge_point k ON k.subject_id = s.subject_id AND k.parent_id = s.id\n            WHERE ?3 AND k.enabled = 1\n        ), page_rows AS MATERIALIZED (\n        SELECT q.id, q.subject_id, r.id AS revision_id,\n               substr(search.text, max(1, instr(lower(search.text), lower(?4)) - 24), 140) AS snippet,\n               search.question_type, a.difficulty, NULL AS sort_year\n        FROM logical_question q JOIN current_question_revision r ON r.question_id = q.id\n        JOIN revision_search_text search ON search.revision_id = r.id\n        LEFT JOIN question_annotation a ON a.question_id = q.id\n         \n        WHERE q.subject_id = ?1 AND q.id IN (SELECT link.logical_id FROM selected s\n                         JOIN logical_question_knowledge link ON link.knowledge_id = s.id) ORDER BY id ASC LIMIT ?5 OFFSET ?6\n    )\n        SELECT id, subject_id, revision_id, snippet, question_type, difficulty, (\n            SELECT substr(trim(coalesce(pm.year || ' · ', '') || coalesce(pm.region || ' · ', '')\n                || p.title || coalesce(' · ' || pm.source, '')), 1, 180)\n            FROM question_members m JOIN question_occurrence o ON o.question_id = m.original_id\n     LEFT JOIN paper_user_metadata pm ON pm.paper_id = o.paper_id JOIN paper p ON p.id = o.paper_id\n            WHERE m.logical_id = page_rows.id AND 1\n            ORDER BY pm.year IS NULL, pm.year DESC, o.paper_id, o.source_key LIMIT 1\n        ) FROM page_rows ORDER BY id ASC at offset 1014" }
+
+---- db::tests::knowledge_tests::dev003_t09_synthetic_ten_thousand_query_benchmark stdout ----
+DEV003-T09 synthetic=10000 SQLite=3.54.1 main_bytes=8376320 wal_bytes=0
+
+thread 'db::tests::knowledge_tests::dev003_t09_synthetic_ten_thousand_query_benchmark' (24524) panicked at src\db\knowledge_tests.rs:363:54:
+called `Result::unwrap()` on an `Err` value: SqlInputError { error: Error { code: Unknown, extended_code: 1 }, msg: "ambiguous column name: id", sql: "EXPLAIN QUERY PLAN WITH RECURSIVE selected(id, subject_id) AS (\n            SELECT id, subject_id FROM knowledge_point WHERE id = ?2 AND enabled = 1\n            UNION\n            SELECT k.id, k.subject_id FROM selected s\n            JOIN knowledge_point k ON k.subject_id = s.subject_id AND k.parent_id = s.id\n            WHERE ?3 AND k.enabled = 1\n        ), page_rows AS MATERIALIZED (\n        SELECT q.id, q.subject_id, r.id AS revision_id,\n               substr(search.text, max(1, instr(lower(search.text), lower(?4)) - 24), 140) AS snippet,\n               search.question_type, a.difficulty, NULL AS sort_year\n        FROM logical_question q JOIN current_question_revision r ON r.question_id = q.id\n        JOIN revision_search_text search ON search.revision_id = r.id\n        LEFT JOIN question_annotation a ON a.question_id = q.id\n         \n        WHERE q.subject_id = ?1 AND q.id IN (SELECT link.logical_id FROM selected s\n                         JOIN logical_question_knowledge link ON link.knowledge_id = s.id) AND instr(lower(search.text), lower(?4)) > 0 ORDER BY id ASC LIMIT ?5 OFFSET ?6\n    )\n        SELECT id, subject_id, revision_id, snippet, question_type, difficulty, (\n            SELECT substr(trim(coalesce(pm.year || ' · ', '') || coalesce(pm.region || ' · ', '')\n                || p.title || coalesce(' · ' || pm.source, '')), 1, 180)\n            FROM question_members m JOIN question_occurrence o ON o.question_id = m.original_id\n     LEFT JOIN paper_user_metadata pm ON pm.paper_id = o.paper_id JOIN paper p ON p.id = o.paper_id\n            WHERE m.logical_id = page_rows.id AND 1\n            ORDER BY pm.year IS NULL, pm.year DESC, o.paper_id, o.source_key LIMIT 1\n        ) FROM page_rows ORDER BY id ASC", offset: 1078 }
+
+
+failures:
+    db::migrations::tests::dev003_t02_t10_upgrade_preserves_schema_one_user_data_and_pins
+    db::tests::knowledge_tests::dev003_t06_t07_t08_link_and_search_current_without_duplicates
+    db::tests::knowledge_tests::dev003_t09_synthetic_ten_thousand_query_benchmark
+    db::tests::knowledge_tests::dev004_t01_alias_knowledge_is_searchable_without_rewriting_sources
+
+test result: FAILED. 19 passed; 4 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.21s
+
+error: test failed, to rerun pass `--lib`
+EXIT 101
