@@ -71,7 +71,6 @@ function pictures(documents: RichDocument[]): string[] {
 }
 
 export const CONTENT_VERSION = 1
-const MAX_BYTES = 32 * 1024 * 1024
 const nonblank = unicode.refine((value) => /\P{White_Space}/u.test(value))
 const points = score.max(0xffffffff)
 const optionalDocument = document.nullish().transform((value) => value ?? null)
@@ -117,7 +116,6 @@ export function parseRevisionContent(input: unknown): RevisionContent {
     const issue = result.error.issues[0]
     throw new Error('无效的试题修订：' + issue.path.join('.') + ' ' + issue.message)
   }
-  if (new TextEncoder().encode(JSON.stringify(result.data)).length > MAX_BYTES) throw new Error('题目修订超过 32 MiB。')
   return result.data
 }
 
@@ -209,10 +207,29 @@ export function withLongStem(source: QuestionSet): QuestionSet {
   return copy
 }
 
-export function projectPaper(source: QuestionSet, answer: boolean) {
+export interface PaperData {
+  title: string
+  duration_minutes?: number
+  questions: {
+    subject: string
+    score: number
+    stem: RichDocument
+    answer?: RichDocument | null
+    parts: { score: number; prompt: RichDocument; answer: RichDocument | null }[]
+  }[]
+}
+
+export function revisionToPaper(content: RevisionContent, subject: string): PaperData {
+  return {
+    title: '知卷试题',
+    questions: [{ subject, score: content.score, stem: content.stem, answer: content.answer, parts: content.parts }],
+  }
+}
+
+export function projectPaper(source: PaperData, answer: boolean) {
   return source.questions.map((q, index) => ({
     number: index + 1, subject: q.subject, score: q.score,
-    stem: answer ? undefined : q.stem,
+    stem: answer ? q.answer : q.stem,
     parts: q.parts.map((p, i) => ({
       label: String(index + 1) + '.' + String(i + 1), score: p.score,
       content: answer ? p.answer : p.prompt,

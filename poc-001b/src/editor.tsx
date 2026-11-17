@@ -134,7 +134,12 @@ export function QuestionEditor({ content, onChange, onError }: Props) {
         const image = new window.Image()
         image.src = src
         await image.decode()
-        if (!editor.isDestroyed) editor.chain().focus().setImage({ src, alt: file.name }).run()
+        if (!editor.isDestroyed) {
+          const inserted = editor.chain().focus().insertContentAt(editor.state.selection.to, {
+            type: 'image', attrs: { src, alt: file.name },
+          }).run()
+          if (!inserted) onError('此位置不能插入图片。')
+        }
       } catch {
         onError('图片无法解码。')
       } finally {

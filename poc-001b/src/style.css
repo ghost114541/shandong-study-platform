@@ -13,6 +13,14 @@ h1, h2, h3, p { margin-top: 0; }
 .app-header p, .sidebar p, .hint { color: #516771; margin-bottom: 0; font-size: 13px; }
 main { max-width: 1180px; margin: auto; padding: 18px 26px 32px; }
 .actions, .toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.workspace-switch { display: flex; gap: 8px; padding: 8px 32px; background: white; }
+.window-error { margin: 5px 32px; }
+.revision-meta, .review-status { font-size: 13px; color: #516771; margin-bottom: 8px; }
+.revision-controls { margin-bottom: 8px; }
+.question-fields { border: 0; margin: 0 0 8px; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+.question-fields input { font: inherit; width: 94px; color: inherit; padding: 2px 6px; border: 1px solid #c9d5dc; border-radius: 5px; }
+.question-fields input[type=number] { width: 68px; }
+.attachment-notice { color: #79591e; }
 .mode-bar { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .status { min-height: 33px; font-size: 13px; padding-top: 5px; overflow-wrap: anywhere; }
 .status p { margin-bottom: 5px; }
@@ -47,7 +55,7 @@ textarea { display: block; width: 100%; min-height: 90px; margin: 6px 0 12px; }
 @page { size: A4; }
 @media print {
   :root, body { background: white; }
-  .app-header, .mode-bar, .status { display: none !important; }
+  .app-header, .mode-bar, .status, .workspace-switch, .window-error, dialog { display: none !important; }
   main { max-width: none; margin: 0; padding: 0; }
   .paper { width: auto; padding: 0; box-shadow: none; font-size: 10.5pt; color: black; }
 }
