@@ -1,0 +1,52 @@
+   Compiling shandong-poc-001b v0.1.0 (C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri)
+error[E0277]: the trait bound `ImageError: From<LimitError>` is not satisfied
+   --> src\db\attachments.rs:308:82
+    |
+308 |             return Err(LimitError::from_kind(LimitErrorKind::InsufficientMemory).into());
+    |                                                                                  ^^^^ the trait `From<LimitError>` is not implemented for `ImageError`
+    |
+    = help: `ImageError` implements trait `From<T>`:
+              From<TryFromExtendedColorError>
+              From<TryReserveError>
+              From<image::flat::Error>
+              From<jpeg::encoder::EncoderError>
+              From<std::io::Error>
+    = note: required for `LimitError` to implement `Into<ImageError>`
+
+error[E0277]: the trait bound `ImageError: From<LimitError>` is not satisfied
+   --> src\db\attachments.rs:312:74
+    |
+312 |         return Err(LimitError::from_kind(LimitErrorKind::DimensionError).into());
+    |                                                                          ^^^^ the trait `From<LimitError>` is not implemented for `ImageError`
+    |
+    = help: `ImageError` implements trait `From<T>`:
+              From<TryFromExtendedColorError>
+              From<TryReserveError>
+              From<image::flat::Error>
+              From<jpeg::encoder::EncoderError>
+              From<std::io::Error>
+    = note: required for `LimitError` to implement `Into<ImageError>`
+
+error[E0382]: use of moved value: `source`
+   --> src\db\attachments.rs:296:47
+    |
+272 |     let source = Cursor::new(bytes);
+    |         ------ move occurs because `source` has type `std::io::Cursor<&[u8]>`, which does not implement the `Copy` trait
+...
+280 |             let decoder = WebPDecoder::new(source)?;
+    |                                            ------ value moved here
+...
+296 |     let mut reader = ImageReader::with_format(source, format);
+    |                                               ^^^^^^ value used here after move
+    |
+help: consider cloning the value if the performance cost is acceptable
+    |
+280 |             let decoder = WebPDecoder::new(source.clone())?;
+    |                                                  ++++++++
+
+Some errors have detailed explanations: E0277, E0382.
+For more information about an error, try `rustc --explain E0277`.
+error: could not compile `shandong-poc-001b` (lib) due to 3 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `shandong-poc-001b` (lib test) due to 3 previous errors
+exit_code=101

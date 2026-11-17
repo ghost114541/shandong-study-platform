@@ -1,0 +1,14 @@
+{
+  "questionId": "1747d1be-bb80-40d2-9e4f-5b42df4af5c8",
+  "revisionId": 36,
+  "registration": {
+    "attachment": {
+      "id": "sha256-9f26e2fda9ace580d9df0dea3282a5bbeeda8f58a8b0d7f7bf55251bb12e227f",
+      "media_type": "image/png",
+      "byte_size": 1013,
+      "sha256": "9f26e2fda9ace580d9df0dea3282a5bbeeda8f58a8b0d7f7bf55251bb12e227f"
+    },
+    "revision_count": 1,
+    "error": null
+  }
+}

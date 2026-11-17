@@ -1,0 +1,16 @@
+Native Win32 window hwnd present, process PID 15912, URL http://tauri.localhost/
+Native Win32 window hwnd present, process PID 28660, URL http://tauri.localhost/
+{ status: '', images: [] }
+file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:47
+  throw new Error('等待超时：' + description, { cause: error })
+        ^
+
+Error: 等待超时：旧内嵌 PNG 侧边预览
+    at waitFor (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:47:9)
+    at async schemaThreeUpgrade (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-attachments.mjs:40:3)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:261:88 {
+  [cause]: undefined
+}
+
+Node.js v24.13.0
+exit_code=1

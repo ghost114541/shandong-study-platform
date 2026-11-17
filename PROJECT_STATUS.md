@@ -1,3 +1,16 @@
+# DEV-005 外部附件交接（2026-11-17）
+
+**状态：Windows DEV005-T01 至 T14 已通过。** 分支为 `dev/dev-005-attachments`，基准为 `acb5f0b`。本轮完成原计划中尚待实现的外部附件服务。
+
+- 同原卷使用一个可编辑表单并检查并发修改。检索侧栏按结果修订 ID 读取，历史修订只读，返回保留检索条件和页码。
+- Schema 4 登记附件和修订关系，真实 PNG、JPEG、WebP、GIF 由 Rust 文件服务保存。新 SQLite 富文本使用稳定附件引用，旧 Base64 修订和 JSON 数据均通过回归。
+- Windows 已实测选择 PNG、保存、重启、侧栏预览以及题卷和答案卷 PDF。校验失败或加载中时拦截导出，两份 PDF 的内嵌 PNG 与原始图片逐像素一致。
+- 实际 DEV-004 测试库的 Schema 3 备份完成原生升级和重启。完整备份恢复、macOS、安装卸载和实体打印仍待验证。
+
+[报告](DEV-005_REPORT.md) · [Schema 4](DEV-005_SCHEMA.md) · [附件与备份设计](DEV-005_ATTACHMENT_DESIGN.md) · [验收证据](DEV-005_TEST_RESULTS.md) · [已知事项](DEV-005_KNOWN_ISSUES.md)
+
+---
+
 # DEV-004 去重、高级检索与预览交接（2026-11-17）
 
 **状态：DEV004-T01 至 T12 均通过。** 分支为 `dev/dev-004-advanced-search`，基准为 `d474607`。本轮对应原计划 DEV-005 的组合检索与侧边预览。

@@ -1,0 +1,7 @@
+sqlite/revision-2-paper.pdf: 1 pages identical to stored baseline
+sqlite/revision-1-answers.pdf: 1 pages identical to stored baseline
+sqlite/revision-2-answers.pdf: 1 pages identical to stored baseline
+legacy/paper.pdf: 1 pages identical to stored baseline
+legacy/paper-long.pdf: 5 pages identical to stored baseline
+legacy/answers.pdf: 1 pages identical to stored baseline
+exit_code=0

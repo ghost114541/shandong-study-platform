@@ -1,0 +1,73 @@
+{
+  "original": {
+    "version": 3,
+    "migrations": [
+      {
+        "version": 1,
+        "name": "core",
+        "checksum": "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395",
+        "applied_at": "2026-11-17 15:13:40"
+      },
+      {
+        "version": 2,
+        "name": "knowledge",
+        "checksum": "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5",
+        "applied_at": "2026-11-17 15:13:40"
+      },
+      {
+        "version": 3,
+        "name": "search_metadata",
+        "checksum": "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7",
+        "applied_at": "2026-11-17 15:13:40"
+      }
+    ]
+  },
+  "migrated": {
+    "version": 4,
+    "migrations": [
+      {
+        "version": 1,
+        "name": "core",
+        "checksum": "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395",
+        "applied_at": "2026-11-17 15:13:40"
+      },
+      {
+        "version": 2,
+        "name": "knowledge",
+        "checksum": "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5",
+        "applied_at": "2026-11-17 15:13:40"
+      },
+      {
+        "version": 3,
+        "name": "search_metadata",
+        "checksum": "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7",
+        "applied_at": "2026-11-17 15:13:40"
+      },
+      {
+        "version": 4,
+        "name": "attachments",
+        "checksum": "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08",
+        "applied_at": "2026-11-17 16:00:36"
+      }
+    ]
+  },
+  "preserved": {
+    "composition": 0,
+    "composition_item": 0,
+    "knowledge_alias": 1,
+    "knowledge_point": 5,
+    "paper": 2,
+    "paper_user_metadata": 2,
+    "question": 33,
+    "question_annotation": 1,
+    "question_duplicate": 0,
+    "question_knowledge": 2,
+    "question_occurrence": 2,
+    "question_part": 2,
+    "question_revision": 34,
+    "question_tag": 2,
+    "revision_search_text": 34,
+    "subject": 9,
+    "verification_record": 3
+  }
+}

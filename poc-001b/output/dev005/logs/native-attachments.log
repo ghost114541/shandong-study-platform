@@ -1,0 +1,7 @@
+Native Win32 window hwnd present, process PID 15616, URL http://tauri.localhost/
+Native Win32 window hwnd present, process PID 4072, URL http://tauri.localhost/
+DEV005-T07 PASS: Windows process completely exited, reopened SQLite and decoded the same attachment id
+DEV005-T10/T12 PASS: pending actual IPC, corrupted bytes after DOM decode, corrupted preview, and missing file all blocked final PDF
+DEV005-T11 native exports: WebView2 saved separate paper and answer PDFs
+DEV005-T09 PASS: native advanced search rendered two formulas, two parts, and lazy answer image; late image IPC could not replace the selected question
+exit_code=0

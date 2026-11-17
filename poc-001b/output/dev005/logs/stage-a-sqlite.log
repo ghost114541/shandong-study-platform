@@ -1,0 +1,9 @@
+Native Win32 window hwnd present, process PID 15712, URL http://tauri.localhost/
+DEV002-T02 PASS: first save inserted question c5512eda-d535-4b4f-867f-7a13761d5426 with revision 1 and two part IDs
+Native Win32 window hwnd present, process PID 15184, URL http://tauri.localhost/
+DEV002-T03/T04 PASS: native exit, new PID, persisted LaTeX, image, scores and part IDs
+DEV002-T09 PASS: invalid input and real SQLITE_BUSY kept the draft; native close prompted and retry succeeded
+Native Win32 window hwnd present, process PID 32732, URL http://tauri.localhost/
+DEV002-T05/T07 PASS: original JSON bytes unchanged, B based on A and unreviewed, latest user revision on restart
+DEV002-T08: WebView2 exported database paper and both answer revisions; run check-sqlite-pdf.py
+exit_code=0

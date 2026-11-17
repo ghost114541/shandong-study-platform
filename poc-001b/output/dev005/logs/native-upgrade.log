@@ -1,0 +1,4 @@
+Native Win32 window hwnd present, process PID 20892, URL http://tauri.localhost/
+Native Win32 window hwnd present, process PID 26552, URL http://tauri.localhost/
+DEV005-T13/T14 PASS: actual Schema 3 backup migrated and reopened, old rows identical, legacy SQLite PNG previewed and printed
+exit_code=0

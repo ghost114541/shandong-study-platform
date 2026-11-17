@@ -1,0 +1,20 @@
+Native Win32 window hwnd present, process PID 2164, URL http://tauri.localhost/
+Native Win32 window hwnd present, process PID 3948, URL http://tauri.localhost/
+{
+  status: '',
+  editor: '数据库原创试题：观察抛物线，写出计算过程。y=x2+2  y=x^2+2  y=x2+2y(2)=22+2y(2)=2^2+2y(2)=22+2',
+  images: [ [ '', 0 ], [ 'curve.png', 170 ] ]
+}
+file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:47
+  throw new Error('等待超时：' + description, { cause: error })
+        ^
+
+Error: 等待超时：旧内嵌 PNG 解码
+    at waitFor (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:47:9)
+    at async schemaThreeUpgrade (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-attachments.mjs:42:3)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:261:88 {
+  [cause]: undefined
+}
+
+Node.js v24.13.0
+exit_code=1

@@ -1,0 +1,22 @@
+Native Win32 window hwnd present, process PID 35860, URL http://tauri.localhost/
+DEV005-T01 PASS: one React paper form, two positions, stale save rejected and draft retained
+Native Win32 window hwnd present, process PID 30592, URL http://tauri.localhost/
+DEV004-T03 PASS: native editor saved difficulty, tags and two paper origins; re-opened values verified
+DEV004-T08/T09 PASS: real native side panel, formulas, decoded PNG, two parts, knowledge, audit, explicit current answer reveal
+DEV004-T11 Windows small fixture: first preview through image decode 36.20 ms; IPC n=30 p50=1.70 ms p95=2.20 ms
+DEV005-T02 PASS: SQLite advanced to B while the search preview displayed A
+{ status: '', images: [] }
+file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:47
+  throw new Error('等待超时：' + description, { cause: error })
+        ^
+
+Error: 等待超时：打开完整试题
+    at waitFor (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:47:9)
+    at async click (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:137:3)
+    at async advancedRegression (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-advanced.mjs:226:3)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:264:26 {
+  [cause]: undefined
+}
+
+Node.js v24.13.0
+exit_code=1

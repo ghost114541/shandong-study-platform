@@ -1,0 +1,149 @@
+   Compiling windows-sys v0.61.2
+   Compiling simd-adler32 v0.3.10
+   Compiling adler2 v2.0.1
+   Compiling crc32fast v1.5.5
+   Compiling windows_x86_64_msvc v0.52.6
+   Compiling windows_x86_64_msvc v0.53.1
+   Compiling miniz_oxide v0.9.1
+   Compiling miniz_oxide v0.8.9
+   Compiling fdeflate v0.3.7
+   Compiling flate2 v1.1.11
+   Compiling windows-targets v0.52.6
+   Compiling io-lifetimes v2.0.4
+   Compiling io-lifetimes v3.0.1
+   Compiling windows-sys v0.59.0
+   Compiling windows-targets v0.53.5
+   Compiling io-extras v0.19.0
+   Compiling windows-sys v0.60.2
+   Compiling png v0.18.1
+   Compiling num-traits v0.2.19
+   Compiling cap-primitives v4.0.3
+   Compiling ico v0.6.0
+   Compiling fs-set-times v0.20.3
+   Compiling winx v0.36.4
+   Compiling cap-std v4.0.3
+   Compiling ipnet v2.12.2
+   Compiling ambient-authority v0.0.2
+   Compiling maybe-owned v0.3.4
+   Compiling tauri-codegen v2.7.5
+   Compiling quick-error v2.0.1
+   Compiling zune-core v0.5.3
+   Compiling cap-fs-ext v4.0.3
+   Compiling weezl v0.1.12
+   Compiling color_quant v1.1.0
+   Compiling pxfm v0.1.30
+   Compiling byteorder-lite v0.1.0
+   Compiling gif v0.14.2
+   Compiling zune-jpeg v0.5.15
+   Compiling image-webp v0.2.4
+   Compiling winapi-util v0.1.11
+   Compiling same-file v1.0.6
+   Compiling walkdir v2.5.0
+   Compiling tauri-utils v2.10.3
+   Compiling dirs-sys v0.5.0
+   Compiling softbuffer v0.4.8
+   Compiling dirs v7.0.0
+   Compiling moxcms v0.8.1
+   Compiling tauri-macros v2.7.5
+   Compiling window-vibrancy v0.8.1
+   Compiling muda v0.20.0
+   Compiling bytemuck v1.25.2
+   Compiling tempfile v3.27.0
+   Compiling base64 v0.22.1
+   Compiling image v0.25.10
+   Compiling tauri-runtime v2.12.3
+   Compiling tauri-runtime-wry v2.12.4
+   Compiling tauri v2.12.6
+   Compiling shandong-poc-001b v0.1.0 (C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri)
+error[E0277]: the trait bound `Array<u8, UInt<UInt<UInt<UInt<_, B0>, B0>, B0>, B0>>: LowerHex` is not satisfied
+   --> src\db\attachments.rs:140:21
+    |
+140 |     format!("{:x}", Sha256::digest(bytes))
+    |              ----   ^^^^^^^^^^^^^^^^^^^^^ the trait `LowerHex` is not implemented for `Array<u8, UInt<UInt<UInt<UInt<UInt<_, B0>, B0>, B0>, B0>, B0>>`
+    |              |
+    |              required by this formatting parameter
+    |
+    = help: the following other types implement trait `LowerHex`:
+              &T
+              &mut T
+              OpenFlags
+              PrepFlags
+              Saturating<T>
+              Wrapping<T>
+              compiler_builtins::math::libm_math::support::big::i256
+              compiler_builtins::math::libm_math::support::big::u256
+            and 26 others
+    = note: the full name for the type has been written to 'C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri\target\debug\build\shandong-poc-001b/06a74c4ace75624a\out\shandong_poc_001b-06a74c4ace75624a.long-type-3093135107637154552.txt'
+    = note: consider using `--verbose` to print the full type name to the console
+
+error[E0277]: the trait bound `u64: FromSql` is not satisfied
+   --> src\db\attachments.rs:153:84
+    |
+153 |         Ok(Attachment { id: id.to_owned(), media_type: row.get(0)?, byte_size: row.get(1)?, sha256: row.get(2)? })
+    |                                                                                    ^^^ the trait `FromSql` is not implemented for `u64`
+    |
+    = help: the following other types implement trait `FromSql`:
+              f32
+              f64
+              i16
+              i32
+              i64
+              i8
+              isize
+              u16
+            and 2 others
+note: required by a bound in `Row::<'_>::get`
+   --> C:\Users\whmmsm\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rusqlite-0.42.0\src\row.rs:285:32
+    |
+250 | impl Row<'_> {
+...
+285 |     pub fn get<I: RowIndex, T: FromSql>(&self, idx: I) -> Result<T> {
+    |                                ^^^^^^^ required by this bound in `Row::<'_>::get`
+
+error[E0277]: the trait bound `u64: ToSql` is not satisfied
+   --> src\db\attachments.rs:203:13
+    |
+203 |             params![item.id, item.sha256, item.media_type, item.byte_size, key],
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `ToSql` is not implemented for `u64`
+    |
+    = help: the following other types implement trait `ToSql`:
+              f32
+              f64
+              i16
+              i32
+              i64
+              i8
+              isize
+              u16
+            and 2 others
+    = note: required for the cast from `&u64` to `&dyn ToSql`
+    = note: this error originates in the macro `params` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0277]: the trait bound `u64: FromSql` is not satisfied
+   --> src\db\attachments.rs:224:98
+    |
+224 |             "SELECT count(*) FROM revision_attachment WHERE attachment_id = ?1", [id], |row| row.get(0),
+    |                                                                                                  ^^^ the trait `FromSql` is not implemented for `u64`
+    |
+    = help: the following other types implement trait `FromSql`:
+              f32
+              f64
+              i16
+              i32
+              i64
+              i8
+              isize
+              u16
+            and 2 others
+note: required by a bound in `Row::<'_>::get`
+   --> C:\Users\whmmsm\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rusqlite-0.42.0\src\row.rs:285:32
+    |
+250 | impl Row<'_> {
+...
+285 |     pub fn get<I: RowIndex, T: FromSql>(&self, idx: I) -> Result<T> {
+    |                                ^^^^^^^ required by this bound in `Row::<'_>::get`
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `shandong-poc-001b` (lib) due to 4 previous errors
+warning: build failed, waiting for other jobs to finish...
+exit_code=101

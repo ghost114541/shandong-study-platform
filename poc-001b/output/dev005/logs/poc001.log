@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001\tests\test_poc.py", line 5, in <module>
+    import fitz
+ModuleNotFoundError: No module named 'fitz'
+exit_code=1

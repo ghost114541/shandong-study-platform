@@ -8,7 +8,7 @@ const probe = (command, path) => execFileSync('python', ['tests/sqlite-probe.py'
 const ipc = (evaluate, command, args) => evaluate(
   `window.__TAURI_INTERNALS__.invoke(${JSON.stringify(command)}, ${JSON.stringify(args)})`)
 
-export async function schemaThreeUpgrade({ database, out, start, close, evaluate, click, waitFor }) {
+export async function schemaThreeUpgrade({ database, out, start, close, evaluate, click, waitFor, snapshot: capture }) {
   const info = () => JSON.parse(probe('info', database))
   const snapshot = () => JSON.parse(probe('snapshot-v3', database))
   const original = info()
@@ -35,11 +35,12 @@ export async function schemaThreeUpgrade({ database, out, start, close, evaluate
   })()`)
   await click('搜索试题')
   const selector = JSON.stringify(`[data-search-question-id="${legacy.question_id}"]`)
-  await waitFor(() => evaluate(`!!document.querySelector(${selector})`), '检索到 DEV-004 原题')
+  await waitFor(() => evaluate(`document.querySelector(${selector})?.matches(':enabled') && document.querySelector('.applied-filters')?.textContent.includes('数据库原创试题')`), '检索到 DEV-004 原题')
   await evaluate(`document.querySelector(${selector}).click()`)
   await waitFor(() => evaluate("document.querySelector('.preview-stem img')?.naturalWidth === 170"), '旧内嵌 PNG 侧边预览')
   await click('打开完整试题')
-  await waitFor(() => evaluate("document.querySelector('.tiptap img')?.naturalWidth === 170"), '旧内嵌 PNG 解码')
+  await waitFor(() => evaluate("document.querySelector('.tiptap img[alt=\"curve.png\"]')?.naturalWidth === 170"), '旧内嵌 PNG 解码')
+  await capture('desktop-migrated-base64')
   await click('题卷预览')
   await waitFor(() => evaluate("document.querySelector('.paper img')?.naturalWidth === 170"), '旧内嵌 PNG 题卷')
   await click('导出当前 PDF')
