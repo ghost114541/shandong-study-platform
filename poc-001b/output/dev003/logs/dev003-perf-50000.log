@@ -1,0 +1,42 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.43s
+     Running unittests src\lib.rs (src-tauri\target\debug\build\shandong-poc-001b/0d668c495c0820d0\out\shandong_poc_001b-0d668c495c0820d0.exe)
+
+running 1 test
+DEV003-T09 synthetic=50000 SQLite=3.54.1 main_bytes=40570880 wal_bytes=0
+QUERY PLAN SEARCH q USING COVERING INDEX question_subject_identity (subject_id=? AND id=?)
+QUERY PLAN LIST SUBQUERY 4
+QUERY PLAN MATERIALIZE selected
+QUERY PLAN SETUP
+QUERY PLAN SEARCH knowledge_point USING INDEX sqlite_autoindex_knowledge_point_1 (id=?)
+QUERY PLAN RECURSIVE STEP
+QUERY PLAN SCAN k
+QUERY PLAN SCAN s
+QUERY PLAN SCAN link
+QUERY PLAN BLOOM FILTER ON s (id=?)
+QUERY PLAN SEARCH s USING AUTOMATIC COVERING INDEX (id=?)
+QUERY PLAN CORRELATED SCALAR SUBQUERY 3
+QUERY PLAN SEARCH d USING COVERING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?)
+QUERY PLAN SEARCH q USING COVERING INDEX sqlite_autoindex_question_1 (id=?)
+QUERY PLAN SEARCH revision USING COVERING INDEX sqlite_autoindex_question_revision_1 (question_id=? AND id=? AND rowid=?)
+QUERY PLAN CORRELATED SCALAR SUBQUERY 7
+QUERY PLAN SEARCH question_revision USING COVERING INDEX question_revision_selection (question_id=? AND scope=?)
+QUERY PLAN CORRELATED SCALAR SUBQUERY 8
+QUERY PLAN SEARCH question_revision USING COVERING INDEX question_revision_selection (question_id=? AND scope=?)
+QUERY PLAN REUSE SUBQUERY 7
+QUERY PLAN REUSE SUBQUERY 8
+QUERY PLAN SEARCH search USING INTEGER PRIMARY KEY (rowid=?)
+pagination verified: 4286 distinct matches, 172 pages, last page 11
+combined-first: iterations=30 min_ms=38.908 p50_ms=45.624 p95_ms=50.609 max_ms=54.088
+combined-late: iterations=30 min_ms=118.566 p50_ms=128.687 p95_ms=135.867 max_ms=137.778
+global-keyword-late: iterations=30 min_ms=84.149 p50_ms=87.640 p95_ms=95.185 max_ms=97.729
+test db::tests::knowledge_tests::dev003_t09_synthetic_ten_thousand_query_benchmark ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 21 filtered out; finished in 32.06s
+
+     Running unittests src\main.rs (src-tauri\target\debug\build\shandong-poc-001b/34d4ccb4b9278857\out\shandong_poc_001b-34d4ccb4b9278857.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+EXIT 0

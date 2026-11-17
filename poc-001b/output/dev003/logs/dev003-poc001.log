@@ -1,0 +1,5 @@
+C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\.test-output\python\fitz\__init__.py:17: FutureWarning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+  warnings.warn(
+PASS 12 checks: unique IDs, subpart count, scores, SVG cache, A4 PDFs, one-page outputs, independent contents, vector drawings, offline resources, JS syntax.
+PDF pages: paper=1, answers=1; SVG formulas=10
+EXIT 0

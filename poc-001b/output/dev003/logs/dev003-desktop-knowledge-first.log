@@ -1,0 +1,62 @@
+Native Win32 window hwnd present, process PID 30312, URL http://tauri.localhost/
+Traceback (most recent call last):
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\tests\sqlite-probe.py", line 79, in <module>
+    main()
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\tests\sqlite-probe.py", line 49, in main
+    print(json.dumps({k: [dict(row) for row in db.execute(query)] for k, query in sql.items()}))
+                                               ^^^^^^^^^^^^^^^^^
+sqlite3.DatabaseError: malformed database schema (revision_search_source) - near "ORDER": syntax error
+{ status: '已保存 SQLite 修订 #1', editor: '验收答案。', images: [] }
+node:internal/errors:985
+  const err = new Error(message);
+              ^
+
+Error: Command failed: python tests/sqlite-probe.py read C:\Users\whmmsm\AppData\Roaming\org.shandong-study.dev003-5e9f146a8a\study.sqlite3
+Traceback (most recent call last):
+
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\tests\sqlite-probe.py", line 79, in <module>
+
+    main()
+
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\tests\sqlite-probe.py", line 49, in main
+
+    print(json.dumps({k: [dict(row) for row in db.execute(query)] for k, query in sql.items()}))
+
+                                               ^^^^^^^^^^^^^^^^^
+
+sqlite3.DatabaseError: malformed database schema (revision_search_source) - near "ORDER": syntax error
+
+
+    at genericNodeError (node:internal/errors:985:15)
+    at wrappedFn (node:internal/errors:539:14)
+    at checkExecSyncError (node:child_process:925:11)
+    at execFileSync (node:child_process:961:15)
+    at probe (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-knowledge.mjs:8:39)
+    at knowledgeRegression (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-knowledge.mjs:52:28)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:253:22 {
+  status: 1,
+  signal: null,
+  output: [
+    null,
+    '',
+    'Traceback (most recent call last):\r\n' +
+      '  File "C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\tests\\sqlite-probe.py", line 79, in <module>\r\n' +
+      '    main()\r\n' +
+      '  File "C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\tests\\sqlite-probe.py", line 49, in main\r\n' +
+      '    print(json.dumps({k: [dict(row) for row in db.execute(query)] for k, query in sql.items()}))\r\n' +
+      '                                               ^^^^^^^^^^^^^^^^^\r\n' +
+      'sqlite3.DatabaseError: malformed database schema (revision_search_source) - near "ORDER": syntax error\r\n'
+  ],
+  pid: 15100,
+  stdout: '',
+  stderr: 'Traceback (most recent call last):\r\n' +
+    '  File "C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\tests\\sqlite-probe.py", line 79, in <module>\r\n' +
+    '    main()\r\n' +
+    '  File "C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\tests\\sqlite-probe.py", line 49, in main\r\n' +
+    '    print(json.dumps({k: [dict(row) for row in db.execute(query)] for k, query in sql.items()}))\r\n' +
+    '                                               ^^^^^^^^^^^^^^^^^\r\n' +
+    'sqlite3.DatabaseError: malformed database schema (revision_search_source) - near "ORDER": syntax error\r\n'
+}
+
+Node.js v24.13.0
+EXIT 1

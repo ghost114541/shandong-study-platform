@@ -1,0 +1,33 @@
+   Compiling shandong-poc-001b v0.1.0 (C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.16s
+     Running unittests src\lib.rs (src-tauri\target\debug\build\shandong-poc-001b/0d668c495c0820d0\out\shandong_poc_001b-0d668c495c0820d0.exe)
+
+running 22 tests
+test db::tests::dev002_shared_rich_text_contract ... ok
+test db::migrations::tests::test_003_failed_upgrade_rolls_back_ddl_data_and_version ... ok
+test db::migrations::tests::dev003_t10_schema_two_failure_rolls_back_subjects_and_ddl ... ok
+test db::tests::dev002_editor_branches_from_public_without_changing_original ... ok
+test db::tests::test_001_initializes_schema_wal_foreign_keys_and_history ... ok
+test db::tests::test_006_user_revision_is_selected_and_public_original_is_unchanged ... ok
+test db::tests::explicit_duplicate_confirmation_preserves_existing_sources_and_revisions ... ok
+test db::tests::knowledge_tests::dev003_t03_t04_t05_tree_sort_constraints_and_aliases ... ok
+test db::tests::dev003_t01_review_effective_by_utc_calendar_date ... ok
+test db::tests::knowledge_tests::dev003_t02_nine_subjects_are_seeded_once ... ok
+test db::tests::test_004_counts_unique_questions_separately_from_parts_and_occurrences ... ok
+test db::tests::test_009_blocks_revision_mutation_deletion_and_cross_question_references ... ok
+test db::tests::test_005_verification_is_version_bound_and_honors_review_chain_and_expiry ... ok
+test db::tests::test_002_reopens_same_database_without_reapplying_migration ... ok
+test db::tests::test_008_saved_composition_reopens_pinned_revision_and_rolls_back_missing_items ... ok
+test db::tests::test_007_public_update_preserves_user_revision_and_first_public_content ... ok
+test db::migrations::tests::dev003_t02_t10_upgrade_preserves_schema_one_user_data_and_pins ... ok
+test db::tests::rich_text_round_trip_keeps_latex_attachment_and_part_id_and_rejects_bad_content ... ok
+test db::tests::dev002_editor_atomic_create_reopen_and_revision_conflicts ... ok
+test db::tests::validates_knowledge_hierarchy_and_structured_database_errors ... ok
+test db::tests::knowledge_tests::dev003_t06_t07_t08_link_and_search_current_without_duplicates ... ok
+test db::tests::knowledge_tests::dev003_t09_synthetic_ten_thousand_query_benchmark has been running for over 60 seconds
+error: test failed, to rerun pass `--lib`
+
+Caused by:
+  process didn't exit successfully: `C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri\target\debug\build\shandong-poc-001b/0d668c495c0820d0\out\shandong_poc_001b-0d668c495c0820d0.exe` (exit code: 0xffffffff)
+note: test exited abnormally; to see the full output pass --no-capture to the harness.
+EXIT -1

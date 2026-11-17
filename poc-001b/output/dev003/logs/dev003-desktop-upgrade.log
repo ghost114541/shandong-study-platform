@@ -1,0 +1,4 @@
+Native Win32 window hwnd present, process PID 5828, URL http://tauri.localhost/
+Native Win32 window hwnd present, process PID 20928, URL http://tauri.localhost/
+DEV003-T10 PASS: copy of DEV-002 desktop SQLite upgraded, raw revisions/audits unchanged, PDF re-exported by original revision ID, second start idempotent
+EXIT 0
