@@ -29,5 +29,6 @@ export const metadataApi = {
     invoke<void>('save_question_metadata', { questionId, difficulty, tags }),
   addOrigin: (questionId: string, paperId: string | null, title: string | null, position: string) =>
     invoke<void>('add_paper_occurrence', { questionId, paperId: paperId ?? crypto.randomUUID(), title, position }),
-  savePaper: (paperId: string, metadata: PaperMetadata) => invoke<void>('save_paper_metadata', { paperId, metadata }),
+  savePaper: (paperId: string, expected: PaperMetadata, metadata: PaperMetadata) =>
+    invoke<void>('save_paper_metadata', { paperId, expected, metadata }),
 }

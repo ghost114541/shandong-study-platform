@@ -48,9 +48,9 @@ fn dev004_t03_t04_t05_metadata_persists_and_origin_predicates_share_one_occurren
     db.add_paper_occurrence("b", "p2", Some("北京原卷"), "2")
         .unwrap();
     db.add_paper_occurrence("a", "p1", None, "12").unwrap();
-    db.save_paper_metadata("p1", &paper(Some(2022), Some("山东"), Some("省卷")))
+    db.save_paper_metadata("p1", &paper(None, None, None), &paper(Some(2022), Some("山东"), Some("省卷")))
         .unwrap();
-    db.save_paper_metadata("p2", &paper(Some(2024), Some("北京"), Some("模拟")))
+    db.save_paper_metadata("p2", &paper(None, None, None), &paper(Some(2024), Some("北京"), Some("模拟")))
         .unwrap();
     db.confirm_duplicate("b", "a", "核对员", "2026-11-17", "人工证据")
         .unwrap();
@@ -275,7 +275,7 @@ fn dev004_t07_year_and_difficulty_sort_stable_with_ties_and_missing_values() {
             .unwrap();
         if year != 0 {
             db.add_paper_occurrence(id, id, Some("原卷"), "1").unwrap();
-            db.save_paper_metadata(id, &paper(Some(year), None, None))
+            db.save_paper_metadata(id, &paper(None, None, None), &paper(Some(year), None, None))
                 .unwrap();
             db.save_question_metadata(id, Some(difficulty), &[])
                 .unwrap();
@@ -323,7 +323,7 @@ fn dev004_t11_metadata_query_benchmark() {
         ("d", None, "北京", "模拟"),
     ] {
         db.create_paper(id, "验收合成卷").unwrap();
-        db.save_paper_metadata(id, &paper(year, Some(region), Some(source)))
+        db.save_paper_metadata(id, &paper(None, None, None), &paper(year, Some(region), Some(source)))
             .unwrap();
     }
     let tx = db.connection.transaction().unwrap();
@@ -423,4 +423,29 @@ fn table_count(db: &Database, table: &str) -> i64 {
     db.connection
         .query_row(&format!("SELECT count(*) FROM {table}"), [], |r| r.get(0))
         .unwrap()
+}
+
+#[test]
+fn dev005_t01_shared_origin_rejects_stale_baseline_from_another_connection() {
+    let temp = tempfile::tempdir().unwrap();
+    let path = temp.path().join("shared.sqlite3");
+    let mut first = Database::open(&path).unwrap();
+    let mut second = Database::open(&path).unwrap();
+    first.add_paper_occurrence("missing", "paper", Some("公共原卷"), "1").unwrap_err();
+    let content = RevisionContent::from_json(r#"{
+        "schema_version":1,"question_type":"解答题","score":0,
+        "stem":{"type":"doc","content":[{"type":"paragraph"}]},"parts":[]
+    }"#).unwrap();
+    let revision = first.create_question_with_revision("test", "math", &content).unwrap();
+    first.add_paper_occurrence("test", "paper", Some("公共原卷"), "1").unwrap();
+    first.add_paper_occurrence("test", "paper", None, "2").unwrap();
+    let stale = second.question_metadata("test").unwrap().origins[0].metadata.clone();
+    let updated = paper(Some(2026), Some("山东"), Some("测试"));
+    first.save_paper_metadata("paper", &stale, &updated).unwrap();
+    let error = second.save_paper_metadata("paper", &stale, &paper(None, None, None)).unwrap_err();
+    assert_eq!(error.kind, ErrorKind::Conflict);
+    let origins = second.question_metadata("test").unwrap().origins;
+    assert_eq!(origins.len(), 2);
+    assert!(origins.iter().all(|item| item.metadata == updated && item.title == "公共原卷"));
+    assert_eq!(second.revision(revision).unwrap().unwrap().content, content);
 }

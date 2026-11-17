@@ -34,7 +34,7 @@ def main():
         picture(path)
         return
     profile = Path(path).parent.name
-    assert profile.startswith(("org.shandong-study.dev002-", "org.shandong-study.dev003-", "org.shandong-study.dev004-")), profile
+    assert profile.startswith(("org.shandong-study.dev002-", "org.shandong-study.dev003-", "org.shandong-study.dev004-", "org.shandong-study.dev005-")), profile
     assert Path(path).name == "study.sqlite3"
     if command in ("copy-schema-one", "copy-schema-two"):
         source = Path(path)
@@ -71,7 +71,7 @@ def main():
             ]
             print(json.dumps(data, sort_keys=True))
         elif command == "seed-ui":
-            assert profile.startswith("org.shandong-study.dev004-")
+            assert profile.startswith(("org.shandong-study.dev004-", "org.shandong-study.dev005-"))
             db.execute("PRAGMA recursive_triggers=ON")
             def doc(text):
                 return {"type": "doc", "content": [{"type": "paragraph", "content": [{"type": "text", "text": text}]}]}

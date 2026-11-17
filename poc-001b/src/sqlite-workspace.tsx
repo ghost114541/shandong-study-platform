@@ -96,12 +96,16 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
     setPreview(null)
   }
 
-  async function load(question: QuestionSummary, view: View) {
-    const [detail, revisions] = await Promise.all([
+  async function load(question: QuestionSummary, view: View, pinned?: number) {
+    let [detail, revisions] = await Promise.all([
       view === 'current' ? sqlite.current(question.id)
         : view === 'original' ? sqlite.original(question.id) : sqlite.revision(view),
       sqlite.revisions(question.id),
     ])
+    if (pinned !== undefined && view === 'current' && detail?.revision.id !== pinned) {
+      view = pinned
+      detail = await sqlite.revision(pinned)
+    }
     if (!detail && view === 'original') throw new Error('这道题没有公共原版。')
     if (detail && detail.revision.question_id !== question.id) throw new Error('该修订属于另一道试题。')
     if (!detail && typeof view === 'number') throw new Error('该历史修订不存在。')
@@ -116,7 +120,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
       const list = initialQuestion && !allQuestions.some((question) => question.id === initialQuestion.id)
         ? [initialQuestion, ...allQuestions].slice(0, 25) : allQuestions
       setQuestions(list)
-      if (target) await load(target, 'current')
+      if (target) await load(target, 'current', initialQuestion?.current_revision_id ?? undefined)
     }).catch((err: unknown) => setError('无法打开 SQLite 工作区：' + describeError(err)))
       .finally(() => setBusy(false))
   }, [])

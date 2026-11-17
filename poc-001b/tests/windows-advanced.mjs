@@ -74,6 +74,27 @@ export async function advancedRegression({ database, out, start, close, click, e
     await evaluate(locate(".querySelector('button').click()"))
     await metaStatus('已保存原卷本地标注')
   }
+  const existing = (await ipc(evaluate, 'question_metadata', { questionId: id })).origins.find((origin) => origin.position === '7')
+  await set('.add-origin [name=paper]', existing.paper_id)
+  await set('.add-origin [name=position]', '8')
+  await click('添加出处')
+  await metaStatus('已添加原卷出处')
+  const samePaper = '.origin-form[data-paper-id="' + existing.paper_id + '"]'
+  assert.equal(await evaluate(`document.querySelectorAll(${JSON.stringify(samePaper)}).length`), 1)
+  assert.equal(await evaluate(`document.querySelector(${JSON.stringify(samePaper)}).querySelectorAll('li').length`), 2)
+  const expected = { year: existing.year, region: existing.region, source: existing.source }
+  await set(samePaper + ' [name=source]', '未保存草稿')
+  await ipc(evaluate, 'save_paper_metadata', { paperId: existing.paper_id, expected, metadata: { ...expected, source: '外部更新' } })
+  await pick(samePaper + ' [type=submit]')
+  await waitFor(() => evaluate(query(samePaper + ' [role=alert]', "?.textContent.includes('已在别处更新')")), '原卷表单冲突')
+  assert.equal(await evaluate(query(samePaper + ' [name=source]', '.value')), '未保存草稿')
+  await pick(samePaper + ' [type=button]')
+  await waitFor(() => evaluate(query(samePaper + ' [name=source]', "?.value === '外部更新'")), '明确重新读取')
+  await set(samePaper + ' [name=source]', '省卷')
+  await pick(samePaper + ' [type=submit]')
+  await waitFor(async () => (await ipc(evaluate, 'question_metadata', { questionId: id })).origins.filter(
+    (origin) => origin.paper_id === existing.paper_id && origin.source === '省卷').length === 2, '同卷两题位同步')
+  console.log('DEV005-T01 PASS: one React paper form, two positions, stale save rejected and draft retained')
   await enabled('select[aria-label=关联知识点]')
   await set('select[aria-label=关联知识点]', point)
   await click('添加关联')
@@ -87,7 +108,7 @@ export async function advancedRegression({ database, out, start, close, click, e
   const saved = await ipc(evaluate, 'question_metadata', { questionId: id })
   assert.equal(saved.difficulty, 4)
   assert.ok(saved.tags.includes('桌面标签'))
-  assert.deepEqual(saved.origins.map(({ year, region, source }) => [year, region, source]), [[2024, '北京', '模拟'], [2022, '山东', '省卷']])
+  assert.deepEqual(saved.origins.map(({ year, region, source }) => [year, region, source]), [[2024, '北京', '模拟'], [2022, '山东', '省卷'], [2022, '山东', '省卷']])
   const attachmentId = 'dev004-unresolved'
   await ipc(evaluate, 'create_question', { questionId: attachmentId, subjectId: 'math', contentJson: JSON.stringify({
     schema_version: 1, question_type: '解答题', score: 0, parts: [],
@@ -161,9 +182,18 @@ export async function advancedRegression({ database, out, start, close, click, e
   const slow = 'dev004-ui-page-025'
   const fast = 'dev004-ui-page-026'
   await waitFor(() => evaluate(`!!${query(hit(slow), '')} && document.querySelectorAll('[data-search-question-id]').length === 5`), '末页 5 道')
+  const selectedA = await ipc(evaluate, 'current_revision', { questionId: slow })
+  const revised = structuredClone(selectedA.revision.content)
+  revised.stem.content[0].content[0].text = '分页样本外部产生的新修订'
+  await ipc(evaluate, 'save_user_revision', {
+    questionId: slow, expectedCurrent: selectedA.revision.id, contentJson: JSON.stringify(revised),
+  })
   await pick(hit(slow))
+  await waitFor(() => evaluate(`document.querySelector('.search-preview')?.textContent.includes('修订 #${selectedA.revision.id}')`), '预览固定到 A')
   await click('展开答案')
   assert.ok(await evaluate("document.querySelector('#search-preview-answer').textContent.includes('分页样本答案 25')"))
+
+  console.log('DEV005-T02 PASS: SQLite advanced to B while the search preview displayed A')
 
   await evaluate(`(() => {
     const callbacks = window.__TAURI_INTERNALS__.callbacks;
@@ -189,7 +219,7 @@ export async function advancedRegression({ database, out, start, close, click, e
     if (!original) throw new Error('cannot simulate an absent revision');
     callbacks.set(key, () => original(null));
   })()`)
-  await waitFor(() => evaluate("document.querySelector('.search-preview [role=alert]')?.textContent.includes('找不到当前修订')"), '侧边预览读取错误')
+  await waitFor(() => evaluate("document.querySelector('.search-preview [role=alert]')?.textContent.includes('找不到搜索结果指定的修订')"), '侧边预览读取错误')
   assert.equal(await evaluate("document.querySelectorAll('[data-search-question-id]').length"), 5)
   assert.ok(await evaluate("document.querySelector('.applied-filters').textContent.includes('分页样本')"))
   await pick(hit(fast))

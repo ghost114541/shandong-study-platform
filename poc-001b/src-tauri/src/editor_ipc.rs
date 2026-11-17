@@ -185,9 +185,10 @@ pub async fn add_paper_occurrence(
 pub async fn save_paper_metadata(
     app: AppHandle,
     paper_id: String,
+    expected: shandong_poc_001b::db::PaperMetadata,
     metadata: shandong_poc_001b::db::PaperMetadata,
 ) -> Result<()> {
-    database(app, move |db| db.save_paper_metadata(&paper_id, &metadata)).await
+    database(app, move |db| db.save_paper_metadata(&paper_id, &expected, &metadata)).await
 }
 
 #[tauri::command]

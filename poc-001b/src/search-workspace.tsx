@@ -59,8 +59,10 @@ export function SearchWorkspace({ seed, active, openQuestion }: {
     setSelected(hit)
     setPreview(null)
     setPreviewError('')
-    void Promise.all([sqlite.current(hit.id), knowledge.forQuestion(hit.id)]).then(([detail, links]) => {
-      if (!detail) throw new Error('找不到当前修订。')
+    void Promise.all([sqlite.revision(hit.current_revision_id), knowledge.forQuestion(hit.id)]).then(([detail, links]) => {
+      if (!detail || detail.revision.question_id !== hit.id || detail.revision.id !== hit.current_revision_id) {
+        throw new Error('找不到搜索结果指定的修订。')
+      }
       if (request === previewRequest.current) setPreview({ detail, links })
     }).catch((err: unknown) => {
       if (request === previewRequest.current) setPreviewError(describeError(err))

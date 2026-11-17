@@ -106,7 +106,7 @@ async function start(offline = false) {
   const state = execFileSync('powershell.exe', ['-NoProfile', '-Command',
     '$p = Get-Process -Id ' + child.pid + '; if (!$p.MainWindowHandle) { exit 1 }; $p.MainWindowTitle'], { encoding: 'utf8' })
   assert.ok(state.trim())
-  const schema = isolatedIdentifier.startsWith('org.shandong-study.dev004-') ? 3
+  const schema = process.argv.includes('--stage-a') ? 3 : isolatedIdentifier.startsWith('org.shandong-study.dev004-') ? 3
     : isolatedIdentifier.startsWith('org.shandong-study.dev003-') ? 2 : 1
   assert.equal(await evaluate("window.__TAURI_INTERNALS__.invoke('database_status')"), schema)
   assert.ok(existsSync(database), 'database created in the isolated profile')

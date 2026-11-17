@@ -3,7 +3,7 @@ use rusqlite::{params, OptionalExtension, TransactionBehavior};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeSet;
 
-#[derive(Debug, Eq, PartialEq, Deserialize, Serialize)]
+#[derive(Debug, Clone, Eq, PartialEq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct PaperMetadata {
     pub year: Option<i32>,
@@ -151,7 +151,7 @@ impl Database {
         Ok(())
     }
 
-    pub fn save_paper_metadata(&self, paper: &str, meta: &PaperMetadata) -> Result<()> {
+    pub fn save_paper_metadata(&mut self, paper: &str, expected: &PaperMetadata, meta: &PaperMetadata) -> Result<()> {
         if meta.year.is_some_and(|year| !(1..=9999).contains(&year)) {
             return Err(invalid("年份须为 1–9999 或未标注。"));
         }
@@ -163,11 +163,22 @@ impl Database {
                 .map(|v| label(v).map(str::to_owned))
                 .transpose()
         };
-        self.connection.execute(
+        let tx = self.connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let current = tx.query_row(
+            "SELECT pm.year, pm.region, pm.source FROM paper p
+             LEFT JOIN paper_user_metadata pm ON pm.paper_id = p.id WHERE p.id = ?1",
+            [paper],
+            |r| Ok(PaperMetadata { year: r.get(0)?, region: r.get(1)?, source: r.get(2)? }),
+        )?;
+        if &current != expected {
+            return Err(DbError::new(ErrorKind::Conflict, "原卷标注已在别处更新。请先重新读取原卷标注。"));
+        }
+        tx.execute(
             "INSERT INTO paper_user_metadata(paper_id, year, region, source) VALUES (?1, ?2, ?3, ?4)
              ON CONFLICT(paper_id) DO UPDATE SET year = excluded.year, region = excluded.region, source = excluded.source",
             params![paper, meta.year, clean(&meta.region)?, clean(&meta.source)?],
         )?;
+        tx.commit()?;
         Ok(())
     }
 }
