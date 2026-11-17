@@ -72,13 +72,17 @@ function GroupSettings({ draft, edit }: { draft: Draft; edit: (draft: Draft) => 
 }
 
 function QuestionPreview({ item }: { item: PaperItem }) {
+  const [open, setOpen] = useState(false)
   const content = item.question.revision.content
-  return <AttachmentDeclarations.Provider value={content.attachments}>
-    <Content data={content.stem} />
-    {content.parts.map((part, index) => <section key={part.id}>
-      <h4>小问 {index + 1}</h4><Content data={part.prompt} />
-    </section>)}
-  </AttachmentDeclarations.Provider>
+  return <details onToggle={(event) => setOpen(event.currentTarget.open)}>
+    <summary>预览固定修订</summary>
+    {open && <AttachmentDeclarations.Provider value={content.attachments}>
+      <Content data={content.stem} />
+      {content.parts.map((part, index) => <section key={part.id}>
+        <h4>小问 {index + 1}</h4><Content data={part.prompt} />
+      </section>)}
+    </AttachmentDeclarations.Provider>}
+  </details>
 }
 
 export function CompositionWorkspace({ state, confirmReplace }: {
@@ -159,7 +163,7 @@ export function CompositionWorkspace({ state, confirmReplace }: {
                 <p>{group} · 固定修订 #{revision.id}{question.summary && ' · ' + question.summary}</p>
                 {points.score !== revision.content.score && <p>原题修订分值 {revision.content.score} 分</p>}
                 <p>{question.snippet || '图片或公式题干'}</p>
-                <details><summary>预览固定修订</summary><QuestionPreview item={item} /></details>
+                <QuestionPreview item={item} />
                 {saved && points.part_scores.length > 0 && <p>小问分值 {points.part_scores.join(' / ')}</p>}
                 {!saved && <fieldset className="composition-fields" disabled={busy}>
                   <label>分组 <select value={group} onChange={(event) => setPoints(index, { ...points, group: event.target.value })}>

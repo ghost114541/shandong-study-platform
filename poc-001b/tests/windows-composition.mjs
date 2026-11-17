@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
-import { existsSync, readFileSync, readdirSync, renameSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { performance } from 'node:perf_hooks'
 
@@ -159,6 +159,8 @@ export async function compositionRegression(h) {
   const chemistry = await create('dev006-chemistry', 'chemistry', chemistryData)
   const alias = await create('dev006-alias', 'math', { ...mathData, stem: doc('同一数学原题的别名。'), attachments: [] })
   const spare = await create('dev006-spare', 'math', { ...mathData, stem: doc('临时排序测试题。'), attachments: [] })
+  await call('add_paper_occurrence', { questionId: chemistry.question_id, paperId: 'dev006-original-source',
+    title: '原创化学练习原卷', position: '3' })
 
   await click('试题检索')
   await addFromList('dev006-alias')
@@ -197,12 +199,16 @@ export async function compositionRegression(h) {
   assert.deepEqual(await ids(), [math.id, physics.id, chemistry.id])
   await pick('.composition-groups li:nth-child(2)', '上移分组')
   assert.deepEqual(await ids(), [physics.id, math.id, chemistry.id])
+  assert.match(await text('.composition-items li:nth-child(3)'), /来源 原创化学练习原卷 · 3/)
   await field('.composition-fields label:nth-child(1) input', originalTitle)
   await field('.composition-fields label:nth-child(2) input', '数学、物理、化学')
   await field('.composition-fields label:nth-child(3) input', 45)
   await field('.composition-items li:nth-child(1) input[type=number]', 7)
   await field('.composition-items li:nth-child(2) input[type=number]', 5)
   await readyText('.composition-workspace', '总分 24 分')
+  await evaluate("document.querySelector('.composition-items li:first-child summary').click()")
+  await readyText('.composition-items li:first-child details', '物理共享材料仅此一次')
+  await evaluate("document.querySelector('.composition-items li:first-child summary').click()")
   await click('试题检索')
   nativeClose()
   await readyText('dialog[open]', '会丢弃')
@@ -210,6 +216,8 @@ export async function compositionRegression(h) {
   await click('自定义组卷')
   assert.deepEqual(await ids(), [physics.id, math.id, chemistry.id])
   await snapshot('desktop-composition-draft')
+  await evaluate("document.querySelector('.composition-items').scrollIntoView({block:'start'})")
+  await snapshot('desktop-composition-items')
   await click('保存组卷')
   await readyText('.composition-status', '组卷已保存')
   const saved = (await savedList()).find((paper) => paper.title === originalTitle)
@@ -233,10 +241,12 @@ export async function compositionRegression(h) {
   await readyText('.composition-paper', '数学原题固定题干')
   await waitFor(() => evaluate("[...document.querySelectorAll('.composition-paper img')].length === 2"), '共享图片预览')
   assert.doesNotMatch(await text('.composition-paper'), /固定答案|物理小问甲解析|新版/)
+  await evaluate("document.querySelector('.composition-paper').scrollIntoView({block:'start'})")
   await snapshot('desktop-paper-preview')
   await pick('.composition-workspace > section:last-child .actions', '答案解析预览')
   await readyText('.composition-paper', '数学固定答案乙')
   assert.doesNotMatch(await text('.composition-paper'), /物理共享材料|数学原题固定题干|新版/)
+  await evaluate("document.querySelector('.composition-paper').scrollIntoView({block:'start'})")
   await snapshot('desktop-answers-preview')
   await click('导出双 PDF')
   await readyText('.image-warnings', '170 × 100')
@@ -250,6 +260,7 @@ export async function compositionRegression(h) {
     assert.equal(bytes.subarray(0, 5).toString(), '%PDF-')
     writeFileSync(join(out, 'composition-' + name + '.pdf'), bytes)
   }
+  await evaluate("document.querySelector('.composition-status').scrollIntoView({block:'start'})")
   await snapshot('desktop-dual-export')
 
   const mathNew = await call('save_user_revision', {
@@ -304,7 +315,8 @@ export async function compositionRegression(h) {
     writeFileSync(blob, corrupt)
     await assert.rejects(call('export_composition', { id: saved.id, identity: oldPreview.identity, confirmed: true }), /SHA-256/)
   } finally {
-    writeFileSync(blob, readFileSync(blob + '.backup'))
+    if (existsSync(blob)) unlinkSync(blob)
+    renameSync(blob + '.backup', blob)
   }
   assert.deepEqual(batches(), firstBatch)
   const again = await call('export_composition', { id: saved.id, identity: oldPreview.identity, confirmed: true })
@@ -326,8 +338,17 @@ export async function compositionRegression(h) {
   }
   assert.deepEqual(batches(), existing)
   assert.ok(!readdirSync(pdfRoot).some((name) => name.startsWith('.composition-staging-')))
-  console.log('DEV006-T12 PASS: stale identity and wrong window rejected, second view suspended, no partial batch published')
-  console.log('DEV006-T01–T04/T06–T09/T11: native basket, duplicate, pins, points, restart, versions, dual PDFs, and blocked damaged images exercised')
+  renameSync(pdfRoot, pdfRoot + '.test-backup')
+  try {
+    writeFileSync(pdfRoot, 'Synthetic output access failure.')
+    await assert.rejects(call('export_composition', { id: saved.id, identity: oldPreview.identity, confirmed: true }), /无法创建 PDF 导出目录/)
+  } finally {
+    if (existsSync(pdfRoot)) unlinkSync(pdfRoot)
+    renameSync(pdfRoot + '.test-backup', pdfRoot)
+  }
+  assert.deepEqual(batches(), existing)
+  console.log('DEV006-T12 PASS: stale response, wrong window, suspended second view and output access failure produced no partial batch')
+  console.log('DEV006-T01-T04/T06-T09/T11: native basket, duplicate, pins, points, restart, versions, dual PDFs, and blocked damaged images exercised')
 
   const rows = []
   for (let i = 0; i < 50; i++) {

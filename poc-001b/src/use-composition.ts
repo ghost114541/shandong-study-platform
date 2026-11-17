@@ -18,6 +18,8 @@ export function useComposition() {
   function edit(next: Draft) {
     setDraft(next)
     setDirty(true)
+    setStatus('')
+    setError('')
   }
 
   function clearView() {
