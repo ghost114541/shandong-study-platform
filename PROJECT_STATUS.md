@@ -1,3 +1,16 @@
+# DEV-006 多题组卷交接（2026-11-18）
+
+**状态：Windows 功能验收完成，待独立源码审查。** 分支为 `dev/dev-006-paper-composition`，基准为 `66ebd57`。
+
+- 从 SQLite 检索和侧栏加入固定修订，支持草稿保护、题目与分组排序、整数分值和重启回读。组卷副本及新版本均独立保存。
+- Schema 5 复用原组卷表。真实 DEV-005 测试库及 DEV-001 格式固定组卷已完成升级和重复启动验证。
+- Windows WebView2 从 Rust 固定快照输出题卷及答案解析卷。原创数学、物理、化学样本各一题，两份 PDF 各两页。实测附件损坏、过期预览、未就绪打印视图和文件路径错误的失败保护。
+- DEV-008 保留收藏作为独立任务。DEV-010 继续负责异常草稿恢复。正式跨学科模板、小问选择及 macOS 导出待后续验证。
+
+[报告](DEV-006_REPORT.md) · [Schema 5](DEV-006_SCHEMA.md) · [组卷设计](DEV-006_COMPOSITION_DESIGN.md) · [PDF 设计](DEV-006_PDF_DESIGN.md) · [验收证据](DEV-006_TEST_RESULTS.md) · [后续事项](DEV-006_KNOWN_ISSUES.md)
+
+---
+
 # DEV-005 外部附件交接（2026-11-17）
 
 **状态：Windows DEV005-T01 至 T14 已通过。** 分支为 `dev/dev-005-attachments`，基准为 `acb5f0b`。本轮完成原计划中尚待实现的外部附件服务。

@@ -1,0 +1,26 @@
+[
+  {
+    "size": 10,
+    "loadMs": 318,
+    "previewMs": 156,
+    "exportMs": 896,
+    "appMiB": 40.7,
+    "familyMiB": 530.8
+  },
+  {
+    "size": 30,
+    "loadMs": 322,
+    "previewMs": 159,
+    "exportMs": 913,
+    "appMiB": 42.6,
+    "familyMiB": 549.6
+  },
+  {
+    "size": 50,
+    "loadMs": 323,
+    "previewMs": 158,
+    "exportMs": 951,
+    "appMiB": 43.9,
+    "familyMiB": 571.5
+  }
+]

@@ -1,0 +1,3 @@
+Native Win32 window hwnd present, process PID 20260, URL http://tauri.localhost/
+Native Win32 window hwnd present, process PID 27284, URL http://tauri.localhost/
+DEV006-T05/T13 PASS: actual Schema 4 backup, SQLite legacy pin and attachment relations preserved on both starts

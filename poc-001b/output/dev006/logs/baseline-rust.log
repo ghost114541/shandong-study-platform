@@ -1,0 +1,62 @@
+   Compiling vswhom-sys v0.1.3
+   Compiling libsqlite3-sys v0.40.0
+   Compiling vswhom v0.1.0
+   Compiling embed-resource v3.0.12
+   Compiling tauri-winres v0.3.7
+   Compiling rusqlite v0.42.0
+   Compiling tauri-build v2.7.5
+   Compiling shandong-poc-001b v0.1.0 (C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 13.28s
+     Running unittests src\lib.rs (src-tauri\target\debug\build\shandong-poc-001b/a7b649d54259e288\out\shandong_poc_001b-a7b649d54259e288.exe)
+
+running 34 tests
+test db::tests::dev002_shared_rich_text_contract ... ok
+test db::migrations::tests::test_003_failed_upgrade_rolls_back_ddl_data_and_version ... ok
+test db::migrations::tests::dev003_t10_schema_two_failure_rolls_back_subjects_and_ddl ... ok
+test db::tests::dev002_editor_branches_from_public_without_changing_original ... ok
+test db::tests::test_001_initializes_schema_wal_foreign_keys_and_history ... ok
+test db::attachments::tests::dev005_t03_animated_gif_is_decoded_beyond_the_first_frame ... ok
+test db::tests::knowledge_tests::dev003_t03_t04_t05_tree_sort_constraints_and_aliases ... ok
+test db::tests::explicit_duplicate_confirmation_preserves_existing_sources_and_revisions ... ok
+test db::tests::dev003_t01_review_effective_by_utc_calendar_date ... ok
+test db::attachments::tests::dev005_t03_t04_imports_four_formats_and_reuses_physical_files ... ok
+test db::tests::metadata_tests::dev005_t01_shared_origin_rejects_stale_baseline_from_another_connection ... ok
+test db::attachments::tests::dev005_t06_registration_failure_and_interrupted_stage_are_retryable ... ok
+test db::tests::test_002_reopens_same_database_without_reapplying_migration ... ok
+test db::tests::knowledge_tests::dev003_t02_nine_subjects_are_seeded_once ... ok
+test db::migrations::tests::dev004_t02_schema_two_preserves_records_and_pinned_revision ... ok
+test db::tests::rich_text_round_trip_keeps_latex_attachment_and_part_id_and_rejects_bad_content ... ok
+test db::migrations::tests::dev003_t02_t10_upgrade_preserves_schema_one_user_data_and_pins ... ok
+test db::tests::dev002_editor_atomic_create_reopen_and_revision_conflicts ... ok
+test db::attachments::tests::dev005_t08_t10_fixed_revisions_and_missing_or_corrupt_files ... ok
+test db::tests::metadata_tests::dev004_t06_search_audit_matches_effective_current_revision_state ... ok
+test db::attachments::tests::dev005_t05_invalid_formats_sizes_ids_permissions_and_path_escape ... ok
+test db::tests::metadata_tests::dev004_t07_year_and_difficulty_sort_stable_with_ties_and_missing_values ... ok
+test db::tests::test_006_user_revision_is_selected_and_public_original_is_unchanged ... ok
+test db::tests::test_004_counts_unique_questions_separately_from_parts_and_occurrences ... ok
+test db::tests::metadata_tests::dev004_t03_t04_t05_metadata_persists_and_origin_predicates_share_one_occurrence ... ok
+test db::tests::knowledge_tests::dev003_t06_t07_t08_link_and_search_current_without_duplicates ... ok
+test db::tests::test_005_verification_is_version_bound_and_honors_review_chain_and_expiry ... ok
+test db::tests::test_009_blocks_revision_mutation_deletion_and_cross_question_references ... ok
+test db::tests::test_008_saved_composition_reopens_pinned_revision_and_rolls_back_missing_items ... ok
+test db::tests::test_007_public_update_preserves_user_revision_and_first_public_content ... ok
+test db::tests::validates_knowledge_hierarchy_and_structured_database_errors ... ok
+test db::tests::knowledge_tests::dev004_t01_alias_knowledge_is_searchable_without_rewriting_sources ... ok
+test db::tests::knowledge_tests::dev003_t09_synthetic_ten_thousand_query_benchmark ... ok
+test db::tests::metadata_tests::dev004_t11_metadata_query_benchmark ... ok
+
+test result: ok. 34 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 27.36s
+
+     Running unittests src\main.rs (src-tauri\target\debug\build\shandong-poc-001b/0d2bc45196f3a21d\out\shandong_poc_001b-0d2bc45196f3a21d.exe)
+
+running 2 tests
+test storage::tests::distinguishes_corruption_and_unsupported_versions ... ok
+test storage::tests::round_trip_replacement_preserves_content_and_ids ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests shandong_poc_001b
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
