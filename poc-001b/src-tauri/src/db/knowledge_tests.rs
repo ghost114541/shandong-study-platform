@@ -5,43 +5,83 @@ use std::time::Instant;
 fn dev004_t01_alias_knowledge_is_searchable_without_rewriting_sources() {
     for (a_has_k, b_has_k) in [(true, false), (false, true), (true, true), (false, false)] {
         let (_tmp, mut db) = database();
-        db.create_knowledge_point("k", "math", None, "关联 K").unwrap();
-        db.create_knowledge_point("m", "math", None, "关联 M").unwrap();
-        db.create_question_with_revision("a", "math", &content("主逻辑题")).unwrap();
-        let b = db.create_question_with_revision("b", "math", &content("原题答案")).unwrap();
-        db.record_review(b, review(Verdict::Passed, "2026-11-17", None)).unwrap();
+        db.create_knowledge_point("k", "math", None, "关联 K")
+            .unwrap();
+        db.create_knowledge_point("m", "math", None, "关联 M")
+            .unwrap();
+        db.create_question_with_revision("a", "math", &content("主逻辑题"))
+            .unwrap();
+        let b = db
+            .create_question_with_revision("b", "math", &content("原题答案"))
+            .unwrap();
+        db.record_review(b, review(Verdict::Passed, "2026-11-17", None))
+            .unwrap();
         db.save_composition("pinned", "保留原题", &[b]).unwrap();
         db.create_paper("p-a", "甲卷").unwrap();
         db.create_paper("p-b", "乙卷").unwrap();
         db.record_occurrence("p-a", "1", "a").unwrap();
         db.record_occurrence("p-b", "2", "b").unwrap();
-        if a_has_k { db.set_question_knowledge("a", "k", true).unwrap(); }
-        if b_has_k { db.set_question_knowledge("b", "k", true).unwrap(); }
+        if a_has_k {
+            db.set_question_knowledge("a", "k", true).unwrap();
+        }
+        if b_has_k {
+            db.set_question_knowledge("b", "k", true).unwrap();
+        }
         db.set_question_knowledge("b", "m", true).unwrap();
         assert_eq!(db.counts().unwrap().logical_questions, 2);
         let original = db.revision(b).unwrap().unwrap();
-        db.confirm_duplicate("b", "a", "人工审定", "2026-11-17", "逐题核对").unwrap();
+        db.confirm_duplicate("b", "a", "人工审定", "2026-11-17", "逐题核对")
+            .unwrap();
         assert_eq!(db.counts().unwrap().logical_questions, 1);
         let check = |db: &Database, id: &str, expected: bool| {
             let found = search_ids(db, Some("math"), Some(id), "", false);
-            let count = db.knowledge_points("math").unwrap().into_iter().find(|p| p.id == id).unwrap().question_count;
+            let count = db
+                .knowledge_points("math")
+                .unwrap()
+                .into_iter()
+                .find(|p| p.id == id)
+                .unwrap()
+                .question_count;
             assert_eq!(found, if expected { vec!["a"] } else { vec![] });
             assert_eq!(count, found.len() as i64);
         };
         check(&db, "k", a_has_k || b_has_k);
         check(&db, "m", true);
         let links = db.question_knowledge_links("a").unwrap();
-        assert_eq!(links.iter().any(|link| link.knowledge_id == "k" && link.original_id == "a"), a_has_k);
-        assert_eq!(links.iter().any(|link| link.knowledge_id == "k" && link.original_id == "b"), b_has_k);
+        assert_eq!(
+            links
+                .iter()
+                .any(|link| link.knowledge_id == "k" && link.original_id == "a"),
+            a_has_k
+        );
+        assert_eq!(
+            links
+                .iter()
+                .any(|link| link.knowledge_id == "k" && link.original_id == "b"),
+            b_has_k
+        );
         assert_eq!(links, db.question_knowledge_links("b").unwrap());
         db.set_question_knowledge("b", "k", true).unwrap();
         db.set_question_knowledge("a", "k", false).unwrap();
         check(&db, "k", true);
         assert_eq!(db.question_knowledge_ids("b").unwrap(), ["k", "m"]);
-        assert_eq!(db.occurrences_for("a").unwrap().iter().map(|o| o.recorded_question_id.as_str()).collect::<Vec<_>>(), ["a", "b"]);
+        assert_eq!(
+            db.occurrences_for("a")
+                .unwrap()
+                .iter()
+                .map(|o| o.recorded_question_id.as_str())
+                .collect::<Vec<_>>(),
+            ["a", "b"]
+        );
         assert_eq!(db.revision(b).unwrap().unwrap(), original);
-        assert_eq!(db.latest_review(b).unwrap().unwrap().verdict, Verdict::Passed);
-        assert_eq!(db.load_composition("pinned").unwrap().items[0].revision, original);
+        assert_eq!(
+            db.latest_review(b).unwrap().unwrap().verdict,
+            Verdict::Passed
+        );
+        assert_eq!(
+            db.load_composition("pinned").unwrap().items[0].revision,
+            original
+        );
     }
 }
 
@@ -180,6 +220,7 @@ fn search_ids(
         descendants,
         page: 0,
         page_size: 20,
+        ..Default::default()
     })
     .unwrap()
     .hits
@@ -355,17 +396,15 @@ fn dev003_t09_synthetic_ten_thousand_query_benchmark() {
         descendants: true,
         page: 0,
         page_size: 25,
+        ..Default::default()
     };
-    let plan = format!(
-        "EXPLAIN QUERY PLAN {}",
-        crate::db::search::search_sql(true, true, true)
-    );
+    let (sql, bindings) = crate::db::search::search_plan(&query).unwrap();
+    let plan = format!("EXPLAIN QUERY PLAN {sql}");
     let mut statement = db.connection.prepare(&plan).unwrap();
     let rows = statement
-        .query_map(
-            params!["math", "bench-root", true, "合成特征", 26, 0],
-            |r| r.get::<_, String>(3),
-        )
+        .query_map(rusqlite::params_from_iter(bindings), |r| {
+            r.get::<_, String>(3)
+        })
         .unwrap();
     for row in rows {
         println!("QUERY PLAN {}", row.unwrap());

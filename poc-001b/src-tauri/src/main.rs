@@ -112,6 +112,10 @@ fn main() {
             editor_ipc::question_knowledge_links,
             editor_ipc::set_question_knowledge,
             editor_ipc::search_questions,
+            editor_ipc::question_metadata,
+            editor_ipc::save_question_metadata,
+            editor_ipc::add_paper_occurrence,
+            editor_ipc::save_paper_metadata,
         ])
         .run(tauri::generate_context!())
         .expect("could not start POC-001B");

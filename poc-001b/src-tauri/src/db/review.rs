@@ -1,6 +1,6 @@
 use super::{Database, DbError, ErrorKind, Result};
 use rusqlite::{params, OptionalExtension, TransactionBehavior};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -50,7 +50,7 @@ pub struct Review {
     pub review_of: Option<i64>,
 }
 
-#[derive(Debug, Eq, PartialEq, Serialize)]
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ReviewStatus {
     Unreviewed,
@@ -59,6 +59,19 @@ pub enum ReviewStatus {
     Expired,
     Disputed,
     Failed,
+}
+
+impl ReviewStatus {
+    pub(super) fn as_sql(self) -> &'static str {
+        match self {
+            Self::Unreviewed => "unreviewed",
+            Self::Scheduled => "scheduled",
+            Self::Passed => "passed",
+            Self::Expired => "expired",
+            Self::Disputed => "disputed",
+            Self::Failed => "failed",
+        }
+    }
 }
 
 impl Database {

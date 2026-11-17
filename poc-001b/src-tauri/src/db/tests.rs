@@ -5,6 +5,8 @@ use tempfile::TempDir;
 
 #[path = "knowledge_tests.rs"]
 mod knowledge_tests;
+#[path = "metadata_tests.rs"]
+mod metadata_tests;
 
 fn database() -> (TempDir, Database) {
     let temp = tempfile::tempdir().unwrap();

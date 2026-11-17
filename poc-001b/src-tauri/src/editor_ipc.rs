@@ -121,7 +121,10 @@ pub async fn question_knowledge(app: AppHandle, question_id: String) -> Result<V
 }
 
 #[tauri::command]
-pub async fn question_knowledge_links(app: AppHandle, question_id: String) -> Result<Vec<shandong_poc_001b::db::KnowledgeLink>> {
+pub async fn question_knowledge_links(
+    app: AppHandle,
+    question_id: String,
+) -> Result<Vec<shandong_poc_001b::db::KnowledgeLink>> {
     database(app, move |db| db.question_knowledge_links(&question_id)).await
 }
 
@@ -141,6 +144,50 @@ pub async fn set_question_knowledge(
 #[tauri::command]
 pub async fn search_questions(app: AppHandle, query: SearchQuery) -> Result<SearchPage> {
     database(app, move |db| db.search_questions(&query)).await
+}
+
+#[tauri::command]
+pub async fn question_metadata(
+    app: AppHandle,
+    question_id: String,
+) -> Result<shandong_poc_001b::db::QuestionMetadata> {
+    database(app, move |db| db.question_metadata(&question_id)).await
+}
+
+#[tauri::command]
+pub async fn save_question_metadata(
+    app: AppHandle,
+    question_id: String,
+    difficulty: Option<u8>,
+    tags: Vec<String>,
+) -> Result<()> {
+    database(app, move |db| {
+        db.save_question_metadata(&question_id, difficulty, &tags)
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn add_paper_occurrence(
+    app: AppHandle,
+    question_id: String,
+    paper_id: String,
+    title: Option<String>,
+    position: String,
+) -> Result<()> {
+    database(app, move |db| {
+        db.add_paper_occurrence(&question_id, &paper_id, title.as_deref(), &position)
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn save_paper_metadata(
+    app: AppHandle,
+    paper_id: String,
+    metadata: shandong_poc_001b::db::PaperMetadata,
+) -> Result<()> {
+    database(app, move |db| db.save_paper_metadata(&paper_id, &metadata)).await
 }
 
 #[tauri::command]

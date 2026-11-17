@@ -141,6 +141,82 @@ mod tests {
     use super::*;
     use crate::db::Database;
 
+    #[test]
+    fn dev004_t02_schema_two_preserves_records_and_pinned_revision() {
+        use crate::db::{ReviewInput, RevisionContent, Scope, Verdict};
+        let tmp = tempfile::tempdir().unwrap();
+        let path = tmp.path().join("schema2.sqlite3");
+        let mut connection = Connection::open(&path).unwrap();
+        connection
+            .pragma_update(None, "foreign_keys", true)
+            .unwrap();
+        migrate(&mut connection, &MIGRATIONS[..2]).unwrap();
+        let mut old = Database { connection };
+        let content = RevisionContent::from_json(r#"{
+            "schema_version":1,"question_type":"解答题","score":4,"parts":[],
+            "stem":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"原始题干"}]}]},
+            "answer":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"原始答案"}]}]}
+        }"#).unwrap();
+        old.create_question("a", "math").unwrap();
+        old.create_question("b", "math").unwrap();
+        old.append_revision("a", Scope::Public, None, &content)
+            .unwrap();
+        let b = old
+            .append_revision("b", Scope::User, None, &content)
+            .unwrap();
+        old.set_question_knowledge("b", "dev003-demo-functions", true)
+            .unwrap();
+        old.create_paper("source", "旧原卷").unwrap();
+        old.record_occurrence("source", "3", "b").unwrap();
+        old.confirm_duplicate("b", "a", "复核员", "2026-11-17", "题干确认")
+            .unwrap();
+        old.record_review(
+            b,
+            ReviewInput {
+                reviewer: "复核员",
+                checked_on: "2026-11-17",
+                evidence: "核对答案",
+                verdict: Verdict::Passed,
+                expires_on: None,
+                review_of: None,
+            },
+        )
+        .unwrap();
+        old.save_composition("pin", "旧组卷", &[b]).unwrap();
+        let review = old.latest_review(b).unwrap();
+        let pinned = old.load_composition("pin").unwrap();
+        drop(old);
+        for _ in 0..2 {
+            let mut new = Database::open(&path).unwrap();
+            assert_eq!(new.schema_version().unwrap(), 3);
+            assert_eq!(new.latest_review(b).unwrap(), review);
+            assert_eq!(new.load_composition("pin").unwrap(), pinned);
+            assert_eq!(
+                new.question_knowledge_ids("b").unwrap(),
+                ["dev003-demo-functions"]
+            );
+            assert_eq!(
+                new.question_knowledge_links("a").unwrap()[0].original_id,
+                "b"
+            );
+            let metadata = new.question_metadata("a").unwrap();
+            assert_eq!(metadata.difficulty, None);
+            assert_eq!(metadata.origins[0].title, "旧原卷");
+            assert_eq!(metadata.origins[0].metadata.year, None);
+            assert_eq!(
+                new.connection
+                    .query_row(
+                        "SELECT question_type FROM revision_search_text WHERE revision_id=?1",
+                        [b],
+                        |r| r.get::<_, String>(0)
+                    )
+                    .unwrap(),
+                "解答题"
+            );
+            new.integrity_check().unwrap();
+        }
+    }
+
     fn schema_one(path: &std::path::Path) -> Database {
         let mut connection = Connection::open(path).unwrap();
         connection
