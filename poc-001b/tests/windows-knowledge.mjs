@@ -112,6 +112,7 @@ export async function knowledgeRegression(harness) {
   await click('搜索试题')
   await waitFor(() => evaluate(`!!document.querySelector(${JSON.stringify(hit)})`), '直属关联命中')
   await evaluate(`document.querySelector(${JSON.stringify(hit)}).click()`)
+  if (await evaluate("document.querySelector('.search-preview') !== null")) await click('打开完整试题')
   await waitFor(() => evaluate("document.querySelector('.tiptap')?.textContent.includes('桌面检索验收') && document.querySelector('.question-knowledge')?.textContent.includes('判别式与根')"), '搜索结果打开原题及关联')
   await evaluate("document.querySelector('.question-knowledge').scrollIntoView({ block: 'nearest' })")
   await snapshot('desktop-linked-question')

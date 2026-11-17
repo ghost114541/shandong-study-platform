@@ -15,6 +15,7 @@ type Workspace = { name: 'editor'; question?: QuestionSummary } | { name: 'searc
 
 function App() {
   const [workspace, setWorkspace] = useState<Workspace>({ name: 'editor' })
+  const [searchSession, setSearchSession] = useState<{ id: number; seed?: SearchSeed } | null>(null)
   const [confirming, setConfirming] = useState(false)
   const [windowError, setWindowError] = useState('')
   const [guard, setGuard] = useState({ dirty: false, busy: false })
@@ -62,6 +63,9 @@ function App() {
   function navigate(next: Workspace) {
     if (next.name !== workspace.name) confirmLeave(() => {
       reportGuard(false, false)
+      if (next.name === 'search') {
+        setSearchSession((previous) => previous && !next.seed ? previous : { id: (previous?.id ?? 0) + 1, seed: next.seed })
+      }
       setWorkspace(next)
     })
   }
@@ -77,7 +81,10 @@ function App() {
     {workspace.name === 'legacy' && <LegacyWorkspace reportGuard={reportGuard} />}
     {workspace.name === 'editor' && <SQLiteWorkspace reportGuard={reportGuard} confirmLeave={confirmLeave} initialQuestion={workspace.question} />}
     {workspace.name === 'knowledge' && <KnowledgeWorkspace openSearch={(seed) => navigate({ name: 'search', seed })} />}
-    {workspace.name === 'search' && <SearchWorkspace seed={workspace.seed} openQuestion={(question) => navigate({ name: 'editor', question })} />}
+    {searchSession && <div hidden={workspace.name !== 'search'} className="search-container">
+      <SearchWorkspace key={searchSession.id} seed={searchSession.seed} active={workspace.name === 'search'}
+        openQuestion={(question) => navigate({ name: 'editor', question })} />
+    </div>}
     <dialog ref={dialog} aria-labelledby="leave-title" onCancel={() => dismiss(false)}>
       <h3 id="leave-title">存在未保存的修改</h3>
       <p>离开当前编辑会丢弃这些修改。</p>

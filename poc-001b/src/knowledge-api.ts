@@ -1,5 +1,5 @@
 import { invoke } from '@tauri-apps/api/core'
-import type { QuestionSummary } from './sqlite-api'
+import type { QuestionSummary, ReviewStatus } from './sqlite-api'
 
 export interface KnowledgePoint {
   id: string
@@ -24,14 +24,44 @@ export interface SearchFilters {
   knowledgeId: string
   keyword: string
   descendants: boolean
+  yearFrom: string
+  yearTo: string
+  yearUnknown: boolean
+  region: TextCondition
+  source: TextCondition
+  tag: TextCondition
+  questionType: TextCondition
+  difficulty: string
+  review: ReviewStatus | ''
+  sort: 'id' | 'year' | 'difficulty'
+  descending: boolean
 }
 
+export interface TextCondition { text: string; missing: boolean }
 export type SearchSeed = Pick<SearchFilters, 'subjectId' | 'knowledgeId' | 'descendants'>
-type SearchHit = QuestionSummary & { current_revision_id: number; snippet: string }
+export type SearchHit = QuestionSummary & {
+  current_revision_id: number
+  snippet: string
+  question_type: string | null
+  difficulty: number | null
+  source_label: string | null
+}
 export interface SearchPage {
   hits: SearchHit[]
   has_next: boolean
 }
+
+export function defaultFilters(seed?: SearchSeed): SearchFilters {
+  const empty = { text: '', missing: false }
+  return {
+    subjectId: seed?.subjectId ?? '', knowledgeId: seed?.knowledgeId ?? '', descendants: seed?.descendants ?? true,
+    keyword: '', yearFrom: '', yearTo: '', yearUnknown: false, region: empty, source: empty,
+    tag: empty, questionType: empty, difficulty: '', review: '', sort: 'id', descending: false,
+  }
+}
+
+const condition = ({ text, missing }: TextCondition) =>
+  missing ? { mode: 'missing' } : text.trim() ? { mode: 'exact', value: text.trim() } : null
 
 export const knowledge = {
   list: (subjectId: string) => invoke<KnowledgePoint[]>('list_knowledge', { subjectId }),
@@ -44,6 +74,13 @@ export const knowledge = {
   search: (filters: SearchFilters, page: number) => invoke<SearchPage>('search_questions', { query: {
     subject_id: filters.subjectId || null, knowledge_id: filters.knowledgeId || null,
     keyword: filters.keyword, descendants: filters.descendants, page, page_size: 25,
+    year_from: filters.yearUnknown || !filters.yearFrom ? null : Number(filters.yearFrom),
+    year_to: filters.yearUnknown || !filters.yearTo ? null : Number(filters.yearTo),
+    year_unknown: filters.yearUnknown,
+    region: condition(filters.region), source: condition(filters.source), tag: condition(filters.tag),
+    question_type: condition(filters.questionType),
+    difficulty: filters.difficulty ? Number(filters.difficulty) : null,
+    review_status: filters.review || null, sort: filters.sort, descending: filters.descending,
   } }),
 }
 

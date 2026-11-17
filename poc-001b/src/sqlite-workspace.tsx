@@ -6,7 +6,8 @@ import { CONTENT_VERSION, revisionToPaper } from './model'
 import type { PaperData, RevisionContent, RichDocument } from './model'
 import { Content, Paper } from './paper'
 import { QuestionKnowledge } from './question-knowledge'
-import { describeError, sqlite } from './sqlite-api'
+import { QuestionMetadataPanel } from './question-metadata'
+import { describeError, reviewStatusLabel, sqlite } from './sqlite-api'
 import type { QuestionSummary, RevisionDetail, RevisionSummary, Subject } from './sqlite-api'
 
 type Mode = 'paper' | 'answers'
@@ -35,16 +36,6 @@ function activeDocument(content: RevisionContent, field: Field): RichDocument {
   if (field === 'stem' || field === 'answer') return content[field] ?? blank
   const { index, key } = targetPart(field)
   return content.parts[index]?.[key] ?? blank
-}
-
-function reviewStatus({ review, review_status }: RevisionDetail): string {
-  const label = {
-    unreviewed: '无审核记录', scheduled: '审核尚未生效', passed: '有效通过',
-    expired: '已过期', disputed: '争议', failed: '不通过',
-  }[review_status]
-  return review
-    ? [label, review.reviewer, review.checked_on, review.expires_on && '有效至 ' + review.expires_on].filter(Boolean).join(' · ')
-    : label
 }
 
 export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: {
@@ -262,7 +253,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
               {history.map((item) => <option key={item.id} value={item.id}>#{item.id} · {item.scope === 'public' ? '公共' : '用户'}</option>)}
             </select></label>
           </div>}
-          {selection.detail && <p className="review-status">答案审核记录 · {reviewStatus(selection.detail)}</p>}
+          {selection.detail && <p className="review-status">答案审核记录 · {reviewStatusLabel(selection.detail)}</p>}
           {readOnly && <p>历史与公共原版视图为只读。可返回当前修订继续编辑。</p>}
           <fieldset className="question-fields" disabled={busy || readOnly}>
             <label>题型 <input aria-label="题型" value={draft.question_type} onChange={(event) => {
@@ -294,6 +285,8 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
               content={activeDocument(draft, field)} onChange={updateDocument} onError={setError} /></div>}
           {!selection.fresh && <QuestionKnowledge key={selection.questionId} questionId={selection.questionId}
             subjectId={selection.subjectId} editable={!busy && !readOnly} />}
+          {!selection.fresh && <QuestionMetadataPanel key={'metadata:' + selection.questionId}
+            questionId={selection.questionId} editable={!busy && !readOnly} />}
         </section> : <section className="panel"><p>{busy ? '正在读取试题…' : '选择一道试题，或新建试题。'}</p></section>}
       </div>}
     </main>

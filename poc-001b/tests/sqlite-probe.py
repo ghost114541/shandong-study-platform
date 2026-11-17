@@ -34,20 +34,21 @@ def main():
         picture(path)
         return
     profile = Path(path).parent.name
-    assert profile.startswith(("org.shandong-study.dev002-", "org.shandong-study.dev003-")), profile
+    assert profile.startswith(("org.shandong-study.dev002-", "org.shandong-study.dev003-", "org.shandong-study.dev004-")), profile
     assert Path(path).name == "study.sqlite3"
-    if command == "copy-schema-one":
+    if command in ("copy-schema-one", "copy-schema-two"):
         source = Path(path)
         target = Path(args[0])
-        assert source.parent.name.startswith("org.shandong-study.dev002-")
-        assert target.parent.name.startswith("org.shandong-study.dev003-")
+        version = 1 if command == "copy-schema-one" else 2
+        assert source.parent.name.startswith(f"org.shandong-study.dev{version + 1:03d}-")
+        assert target.parent.name.startswith(f"org.shandong-study.dev{version + 2:03d}-")
         assert target.name == "study.sqlite3" and not target.exists()
         target.parent.mkdir(parents=True, exist_ok=True)
         with sqlite3.connect(source.as_uri() + "?mode=ro", uri=True) as old:
-            assert old.execute("PRAGMA user_version").fetchone()[0] == 1
+            assert old.execute("PRAGMA user_version").fetchone()[0] == version
             with sqlite3.connect(target) as new:
                 old.backup(new)
-        print("Copied DEV-002 test database using SQLite backup")
+        print(f"Copied Schema {version} test database using SQLite backup")
         return
     with sqlite3.connect(Path(path).as_uri() + "?mode=rw", uri=True) as db:
         db.row_factory = sqlite3.Row
@@ -60,6 +61,28 @@ def main():
                 "reviews": "SELECT revision_id, verdict FROM verification_record ORDER BY id",
             }
             print(json.dumps({k: [dict(row) for row in db.execute(query)] for k, query in sql.items()}))
+        elif command == "snapshot-v2":
+            tables = ("subject", "question", "question_part", "question_revision", "question_duplicate",
+                      "verification_record", "knowledge_point", "knowledge_alias", "question_knowledge",
+                      "paper", "question_occurrence", "composition", "composition_item")
+            data = {table: [dict(row) for row in db.execute(f"SELECT * FROM {table} ORDER BY 1, 2")] for table in tables}
+            data["revision_search_text"] = [
+                dict(row) for row in db.execute("SELECT revision_id, text FROM revision_search_text ORDER BY 1")
+            ]
+            print(json.dumps(data, sort_keys=True))
+        elif command == "seed-ui":
+            assert profile.startswith("org.shandong-study.dev004-")
+            db.execute("PRAGMA recursive_triggers=ON")
+            def doc(text):
+                return {"type": "doc", "content": [{"type": "paragraph", "content": [{"type": "text", "text": text}]}]}
+            for index in range(30):
+                key = f"dev004-ui-page-{index:03d}"
+                payload = {"schema_version": 1, "question_type": "解答题", "score": 5, "parts": [],
+                           "stem": doc(f"分页样本 {index}"), "answer": doc(f"分页样本答案 {index}")}
+                db.execute("INSERT INTO question VALUES (?, 'math')", [key])
+                db.execute("INSERT INTO question_revision(question_id,scope,content_version,content_json) VALUES (?,'user',1,?)",
+                           [key, json.dumps(payload, ensure_ascii=False)])
+            print("Seeded 30 synthetic rows for pagination")
         elif command == "info":
             print(json.dumps({"version": db.execute("PRAGMA user_version").fetchone()[0],
                               "migrations": [dict(row) for row in db.execute("SELECT * FROM schema_migration ORDER BY version")]}))

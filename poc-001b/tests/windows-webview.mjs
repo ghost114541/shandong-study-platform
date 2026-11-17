@@ -6,17 +6,19 @@ import { join, resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
 import { sqliteRegression } from './windows-sqlite.mjs'
 import { knowledgeRegression, upgradeRegression } from './windows-knowledge.mjs'
+import { advancedRegression, schemaTwoUpgrade } from './windows-advanced.mjs'
 
 const executable = resolve(process.argv[2] ?? 'src-tauri/target/release/shandong-poc-001b.exe')
 const sqliteMode = process.argv.includes('--sqlite')
 const knowledgeMode = process.argv.includes('--knowledge')
 const upgradeMode = process.argv.includes('--upgrade')
-const editorMode = sqliteMode || knowledgeMode || upgradeMode
+const advancedMode = process.argv.includes('--advanced')
+const editorMode = sqliteMode || knowledgeMode || upgradeMode || advancedMode
 const port = 19245
 const isolatedIdentifier = process.env.POC001B_TEST_APP_IDENTIFIER
 assert.match(isolatedIdentifier ?? '', /^org\.shandong-study\.dev\d+-[a-f0-9]+$/i, 'Use an isolated build identifier')
 const out = resolve(join('.test-output', isolatedIdentifier,
-  upgradeMode ? 'upgrade' : knowledgeMode ? 'knowledge' : sqliteMode ? 'sqlite' : 'legacy'))
+  upgradeMode ? 'upgrade' : advancedMode ? 'advanced' : knowledgeMode ? 'knowledge' : sqliteMode ? 'sqlite' : 'legacy'))
 const profile = join(process.env.APPDATA, isolatedIdentifier)
 const database = join(profile, 'study.sqlite3')
 const storage = join(profile, 'questions.json')
@@ -104,7 +106,8 @@ async function start(offline = false) {
   const state = execFileSync('powershell.exe', ['-NoProfile', '-Command',
     '$p = Get-Process -Id ' + child.pid + '; if (!$p.MainWindowHandle) { exit 1 }; $p.MainWindowTitle'], { encoding: 'utf8' })
   assert.ok(state.trim())
-  const schema = isolatedIdentifier.startsWith('org.shandong-study.dev003-') ? 2 : 1
+  const schema = isolatedIdentifier.startsWith('org.shandong-study.dev004-') ? 3
+    : isolatedIdentifier.startsWith('org.shandong-study.dev003-') ? 2 : 1
   assert.equal(await evaluate("window.__TAURI_INTERNALS__.invoke('database_status')"), schema)
   assert.ok(existsSync(database), 'database created in the isolated profile')
   console.log('Native Win32 window hwnd present, process PID ' + child.pid + ', URL ' + await evaluate('location.href'))
@@ -252,7 +255,9 @@ async function legacyRegression() {
 
 try {
   const harness = { out, profile, database, start, close, nativeClose, snapshot, click, send, evaluate, status, waitFor, fillFormula }
-  if (upgradeMode) await upgradeRegression(harness)
+  if (upgradeMode && isolatedIdentifier.startsWith('org.shandong-study.dev004-')) await schemaTwoUpgrade(harness)
+  else if (upgradeMode) await upgradeRegression(harness)
+  else if (advancedMode) await advancedRegression(harness)
   else if (knowledgeMode) await knowledgeRegression(harness)
   else if (sqliteMode) await sqliteRegression(harness)
   else await legacyRegression()

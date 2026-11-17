@@ -24,14 +24,28 @@ interface Revision extends RevisionSummary {
   content: RevisionContent
 }
 
+export const reviewLabels = {
+  unreviewed: '无审核记录', scheduled: '审核尚未生效', passed: '有效通过',
+  expired: '已过期', disputed: '争议', failed: '不通过',
+} as const
+
+export type ReviewStatus = keyof typeof reviewLabels
+
 export interface RevisionReview {
-  review_status: 'unreviewed' | 'scheduled' | 'passed' | 'expired' | 'disputed' | 'failed'
+  review_status: ReviewStatus
   review: {
     verdict: 'passed' | 'disputed' | 'failed'
     reviewer: string
     checked_on: string
     expires_on: string | null
   } | null
+}
+
+export function reviewStatusLabel({ review, review_status }: RevisionReview): string {
+  const label = reviewLabels[review_status]
+  return review
+    ? [label, review.reviewer, review.checked_on, review.expires_on && '有效至 ' + review.expires_on].filter(Boolean).join(' · ')
+    : label
 }
 
 export interface RevisionDetail extends RevisionReview {
