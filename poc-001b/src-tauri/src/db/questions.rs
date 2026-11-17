@@ -1,7 +1,9 @@
 use super::{Database, DbError, ErrorKind, Result, RevisionContent};
 use rusqlite::{params, OptionalExtension, Row, TransactionBehavior};
+use serde::Serialize;
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
 pub enum Scope {
     Public,
     User,
@@ -16,13 +18,33 @@ impl Scope {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize)]
 pub struct Revision {
     pub id: i64,
     pub question_id: String,
     pub base_revision_id: Option<i64>,
     pub scope: Scope,
     pub content: RevisionContent,
+}
+
+#[derive(Debug, PartialEq, Serialize)]
+pub struct Subject {
+    pub id: String,
+    pub name: String,
+}
+
+#[derive(Debug, PartialEq, Serialize)]
+pub struct QuestionSummary {
+    pub id: String,
+    pub subject_id: String,
+    pub current_revision_id: Option<i64>,
+}
+
+#[derive(Debug, PartialEq, Serialize)]
+pub struct RevisionSummary {
+    pub id: i64,
+    pub base_revision_id: Option<i64>,
+    pub scope: Scope,
 }
 
 type StoredRevision = (i64, String, Option<i64>, String, i64, String);
@@ -49,11 +71,7 @@ impl Revision {
                 "富文本版本列与内容不一致。",
             ));
         }
-        let scope = match scope.as_str() {
-            "public" => Scope::Public,
-            "user" => Scope::User,
-            _ => return Err(DbError::new(ErrorKind::Integrity, "题目修订范围无效。")),
-        };
+        let scope = decode_scope(&scope)?;
         Ok(Self {
             id,
             question_id,
@@ -61,6 +79,14 @@ impl Revision {
             scope,
             content,
         })
+    }
+}
+
+fn decode_scope(scope: &str) -> Result<Scope> {
+    match scope {
+        "public" => Ok(Scope::Public),
+        "user" => Ok(Scope::User),
+        _ => Err(DbError::new(ErrorKind::Integrity, "题目修订范围无效。")),
     }
 }
 
@@ -79,6 +105,62 @@ pub struct Occurrence {
 }
 
 impl Database {
+    pub fn ensure_editor_subject(&self) -> Result<()> {
+        self.connection.execute(
+            "INSERT OR IGNORE INTO subject (id, name) VALUES ('math', '数学')",
+            [],
+        )?;
+        Ok(())
+    }
+
+    pub fn subjects(&self) -> Result<Vec<Subject>> {
+        let mut statement = self
+            .connection
+            .prepare("SELECT id, name FROM subject ORDER BY id")?;
+        let rows = statement.query_map([], |row| {
+            Ok(Subject {
+                id: row.get(0)?,
+                name: row.get(1)?,
+            })
+        })?;
+        Ok(rows.collect::<rusqlite::Result<_>>()?)
+    }
+
+    pub fn questions(&self) -> Result<Vec<QuestionSummary>> {
+        let mut statement = self.connection.prepare(
+            "SELECT q.id, q.subject_id, r.id FROM question q
+             LEFT JOIN current_question_revision r ON r.question_id = q.id
+             WHERE NOT EXISTS (SELECT 1 FROM question_duplicate d WHERE d.duplicate_id = q.id)
+             ORDER BY r.id DESC, q.id",
+        )?;
+        let rows = statement.query_map([], |row| {
+            Ok(QuestionSummary {
+                id: row.get(0)?,
+                subject_id: row.get(1)?,
+                current_revision_id: row.get(2)?,
+            })
+        })?;
+        Ok(rows.collect::<rusqlite::Result<_>>()?)
+    }
+
+    pub fn revisions(&self, question: &str) -> Result<Vec<RevisionSummary>> {
+        let mut statement = self.connection.prepare(
+            "SELECT id, base_revision_id, scope FROM question_revision WHERE question_id = ?1 ORDER BY id DESC",
+        )?;
+        let rows = statement.query_map([question], |row| {
+            Ok((row.get(0)?, row.get(1)?, row.get::<_, String>(2)?))
+        })?;
+        rows.map(|row| {
+            let (id, base_revision_id, scope) = row?;
+            Ok(RevisionSummary {
+                id,
+                base_revision_id,
+                scope: decode_scope(&scope)?,
+            })
+        })
+        .collect()
+    }
+
     pub fn create_subject(&self, id: &str, name: &str) -> Result<()> {
         self.connection.execute(
             "INSERT INTO subject (id, name) VALUES (?1, ?2)",
@@ -100,11 +182,7 @@ impl Database {
     }
 
     pub fn create_question(&self, id: &str, subject: &str) -> Result<()> {
-        self.connection.execute(
-            "INSERT INTO question (id, subject_id) VALUES (?1, ?2)",
-            params![id, subject],
-        )?;
-        Ok(())
+        insert_question(&self.connection, id, subject)
     }
 
     pub fn create_paper(&self, id: &str, title: &str) -> Result<()> {
@@ -184,16 +262,51 @@ impl Database {
         let tx = self
             .connection
             .transaction_with_behavior(TransactionBehavior::Immediate)?;
-        for part in &content.parts {
-            tx.execute("INSERT INTO question_part (question_id, id) VALUES (?1, ?2) ON CONFLICT (question_id, id) DO NOTHING",
-                params![question, part.id])?;
+        let id = insert_revision(&tx, question, scope, base, content, &json)?;
+        tx.commit()?;
+        Ok(id)
+    }
+
+    pub fn create_question_with_revision(
+        &mut self,
+        question: &str,
+        subject: &str,
+        content: &RevisionContent,
+    ) -> Result<i64> {
+        let json = content.to_json()?;
+        let tx = self
+            .connection
+            .transaction_with_behavior(TransactionBehavior::Immediate)?;
+        insert_question(&tx, question, subject)?;
+        let id = insert_revision(&tx, question, Scope::User, None, content, &json)?;
+        tx.commit()?;
+        Ok(id)
+    }
+
+    pub fn append_user_revision(
+        &mut self,
+        question: &str,
+        expected_current: Option<i64>,
+        content: &RevisionContent,
+    ) -> Result<i64> {
+        let json = content.to_json()?;
+        let tx = self
+            .connection
+            .transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let current = tx
+            .query_row(
+                "SELECT id FROM current_question_revision WHERE question_id = ?1",
+                [question],
+                |row| row.get(0),
+            )
+            .optional()?;
+        if current != expected_current {
+            return Err(DbError::new(
+                ErrorKind::Conflict,
+                "当前修订已改变。请保留修改并检查最新修订后再继续。",
+            ));
         }
-        tx.execute(
-            "INSERT INTO question_revision (question_id, scope, base_revision_id, content_version, content_json)
-             VALUES (?1, ?2, ?3, ?4, ?5)",
-            params![question, scope.as_sql(), base, content.schema_version, json],
-        )?;
-        let id = tx.last_insert_rowid();
+        let id = insert_revision(&tx, question, Scope::User, current, content, &json)?;
         tx.commit()?;
         Ok(id)
     }
@@ -229,4 +342,32 @@ impl Database {
             .map(Revision::decode)
             .transpose()
     }
+}
+
+fn insert_question(connection: &rusqlite::Connection, id: &str, subject: &str) -> Result<()> {
+    connection.execute(
+        "INSERT INTO question (id, subject_id) VALUES (?1, ?2)",
+        params![id, subject],
+    )?;
+    Ok(())
+}
+
+fn insert_revision(
+    connection: &rusqlite::Connection,
+    question: &str,
+    scope: Scope,
+    base: Option<i64>,
+    content: &RevisionContent,
+    json: &str,
+) -> Result<i64> {
+    for part in &content.parts {
+        connection.execute("INSERT INTO question_part (question_id, id) VALUES (?1, ?2) ON CONFLICT (question_id, id) DO NOTHING",
+            params![question, part.id])?;
+    }
+    connection.execute(
+        "INSERT INTO question_revision (question_id, scope, base_revision_id, content_version, content_json)
+         VALUES (?1, ?2, ?3, ?4, ?5)",
+        params![question, scope.as_sql(), base, content.schema_version, json],
+    )?;
+    Ok(connection.last_insert_rowid())
 }

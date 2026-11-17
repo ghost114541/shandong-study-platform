@@ -546,3 +546,139 @@ fn dev002_shared_rich_text_contract() {
         }
     }
 }
+
+#[test]
+fn dev002_editor_atomic_create_reopen_and_revision_conflicts() {
+    let (temp, mut db) = database();
+    db.ensure_editor_subject().unwrap();
+    db.ensure_editor_subject().unwrap();
+    assert_eq!(
+        db.subjects().unwrap(),
+        vec![Subject {
+            id: "math".into(),
+            name: "数学".into()
+        }]
+    );
+    let input = content("答案 A");
+    assert_eq!(
+        db.create_question_with_revision("no-orphan", "missing", &input)
+            .unwrap_err()
+            .kind,
+        ErrorKind::Constraint
+    );
+    assert!(db.questions().unwrap().is_empty());
+    let a = db
+        .create_question_with_revision("editor-q", "math", &input)
+        .unwrap();
+    assert_eq!(
+        db.questions().unwrap(),
+        vec![QuestionSummary {
+            id: "editor-q".into(),
+            subject_id: "math".into(),
+            current_revision_id: Some(a),
+        }]
+    );
+    db.record_review(a, review(Verdict::Passed, "2026-11-16", None))
+        .unwrap();
+    let original_json: String = db
+        .connection
+        .query_row(
+            "SELECT content_json FROM question_revision WHERE id=?1",
+            [a],
+            |row| row.get(0),
+        )
+        .unwrap();
+    drop(db);
+    let path = temp.path().join(DATABASE_FILENAME);
+    let mut first = Database::open(&path).unwrap();
+    let mut second = Database::open(&path).unwrap();
+    assert_eq!(
+        first.current_revision("editor-q").unwrap().unwrap().content,
+        input
+    );
+    assert_eq!(second.current_revision("editor-q").unwrap().unwrap().id, a);
+    let update = content("答案 B");
+    let b = first
+        .append_user_revision("editor-q", Some(a), &update)
+        .unwrap();
+    assert_eq!(
+        second
+            .append_user_revision("editor-q", Some(a), &content("过期"))
+            .unwrap_err()
+            .kind,
+        ErrorKind::Conflict
+    );
+    assert_eq!(
+        second
+            .revisions("editor-q")
+            .unwrap()
+            .iter()
+            .map(|row| row.id)
+            .collect::<Vec<_>>(),
+        vec![b, a]
+    );
+    let current = second.current_revision("editor-q").unwrap().unwrap();
+    assert_eq!(current.base_revision_id, Some(a));
+    assert_eq!(current.content, update);
+    assert_eq!(
+        second.latest_review(a).unwrap().unwrap().verdict,
+        Verdict::Passed
+    );
+    assert!(second.latest_review(b).unwrap().is_none());
+    let preserved: String = second
+        .connection
+        .query_row(
+            "SELECT content_json FROM question_revision WHERE id=?1",
+            [a],
+            |row| row.get(0),
+        )
+        .unwrap();
+    assert_eq!(preserved, original_json);
+
+    let lock = first
+        .connection
+        .transaction_with_behavior(rusqlite::TransactionBehavior::Immediate)
+        .unwrap();
+    second
+        .connection
+        .busy_timeout(std::time::Duration::ZERO)
+        .unwrap();
+    assert_eq!(
+        second
+            .append_user_revision("editor-q", Some(b), &update)
+            .unwrap_err()
+            .kind,
+        ErrorKind::Busy
+    );
+    drop(lock);
+    let mut invalid = update;
+    invalid.stem = json!({"type":"not_supported"});
+    assert_eq!(
+        second
+            .append_user_revision("editor-q", Some(b), &invalid)
+            .unwrap_err()
+            .kind,
+        ErrorKind::InvalidContent
+    );
+    assert_eq!(second.revisions("editor-q").unwrap().len(), 2);
+}
+
+#[test]
+fn dev002_editor_branches_from_public_without_changing_original() {
+    let (_temp, mut db) = database();
+    question(&db);
+    let original = content("公共答案");
+    let public = db
+        .append_revision("q1", Scope::Public, None, &original)
+        .unwrap();
+    let private = db
+        .append_user_revision("q1", Some(public), &content("用户答案"))
+        .unwrap();
+    let current = db.current_revision("q1").unwrap().unwrap();
+    assert_eq!(
+        (current.id, current.base_revision_id, current.scope),
+        (private, Some(public), Scope::User)
+    );
+    assert_eq!(db.public_original("q1").unwrap().unwrap().content, original);
+    assert_eq!(db.revision(public).unwrap().unwrap().content, original);
+}

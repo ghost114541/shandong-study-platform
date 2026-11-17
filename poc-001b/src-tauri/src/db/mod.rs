@@ -8,7 +8,7 @@ mod review;
 pub use composition::{Composition, SavedItem};
 pub use content::{Attachment, PartContent, RevisionContent, CONTENT_VERSION};
 pub use error::{DbError, ErrorKind, Result};
-pub use questions::{Counts, Occurrence, Revision, Scope};
+pub use questions::{Counts, Occurrence, QuestionSummary, Revision, RevisionSummary, Scope, Subject};
 pub use review::{Review, ReviewInput, Verdict};
 
 use rusqlite::Connection;

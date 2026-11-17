@@ -1,7 +1,9 @@
 use super::{Database, DbError, ErrorKind, Result};
 use rusqlite::{params, OptionalExtension, TransactionBehavior};
+use serde::Serialize;
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
 pub enum Verdict {
     Passed,
     Disputed,
@@ -36,7 +38,7 @@ pub struct ReviewInput<'a> {
     pub review_of: Option<i64>,
 }
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq, Serialize)]
 pub struct Review {
     pub id: i64,
     pub revision_id: i64,

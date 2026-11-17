@@ -6,6 +6,7 @@ use std::fmt;
 #[serde(rename_all = "snake_case")]
 pub enum ErrorKind {
     Busy,
+    Conflict,
     FileAccess,
     Corrupt,
     IncompatibleDatabase,
