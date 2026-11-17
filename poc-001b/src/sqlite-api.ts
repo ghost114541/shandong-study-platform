@@ -26,6 +26,7 @@ interface Revision extends RevisionSummary {
 
 export interface RevisionDetail {
   revision: Revision
+  review_status: 'unreviewed' | 'scheduled' | 'passed' | 'expired' | 'disputed' | 'failed'
   review: {
     verdict: 'passed' | 'disputed' | 'failed'
     reviewer: string

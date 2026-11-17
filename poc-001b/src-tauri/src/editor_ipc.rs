@@ -1,7 +1,7 @@
 use serde::Serialize;
 use shandong_poc_001b::db::{
     Database, DbError, ErrorKind, QuestionSummary, Result, Review, Revision, RevisionContent,
-    RevisionSummary, Scope, Subject,
+    RevisionSummary, ReviewStatus, Scope, Subject,
 };
 use std::sync::Mutex;
 use tauri::{AppHandle, Manager};
@@ -38,13 +38,14 @@ fn database_error(error: impl std::fmt::Display) -> DbError {
 pub struct RevisionDetail {
     revision: Revision,
     review: Option<Review>,
+    review_status: ReviewStatus,
 }
 
 fn detail(db: &Database, revision: Option<Revision>) -> Result<Option<RevisionDetail>> {
     revision
         .map(|revision| {
-            let review = db.latest_review(revision.id)?;
-            Ok(RevisionDetail { revision, review })
+            let (review_status, review) = db.review_today(revision.id)?;
+            Ok(RevisionDetail { revision, review, review_status })
         })
         .transpose()
 }

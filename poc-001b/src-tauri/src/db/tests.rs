@@ -43,6 +43,31 @@ fn review(verdict: Verdict, date: &str, previous: Option<i64>) -> ReviewInput<'_
 }
 
 #[test]
+fn dev003_t01_review_effective_by_utc_calendar_date() {
+    let (_temp, mut db) = database();
+    question(&db);
+    let revision = db.append_revision("q1", Scope::Public, None, &content("答案")).unwrap();
+    let check = |db: &Database, date, expected| {
+        assert_eq!(db.review_as_of(revision, date).unwrap().0, expected);
+        assert_eq!(db.verified_current_count(date).unwrap(), i64::from(expected == ReviewStatus::Passed));
+    };
+    check(&db, "2026-01-01", ReviewStatus::Unreviewed);
+    let mut first = review(Verdict::Passed, "2026-01-03", None);
+    first.expires_on = Some("2026-01-05");
+    let a = db.record_review(revision, first).unwrap();
+    check(&db, "2026-01-02", ReviewStatus::Scheduled);
+    check(&db, "2026-01-05", ReviewStatus::Passed);
+    check(&db, "2026-01-06", ReviewStatus::Expired);
+    let b = db.record_review(revision, review(Verdict::Disputed, "2026-01-08", Some(a))).unwrap();
+    check(&db, "2026-01-05", ReviewStatus::Passed);
+    check(&db, "2026-01-08", ReviewStatus::Disputed);
+    let c = db.record_review(revision, review(Verdict::Failed, "2026-01-09", Some(b))).unwrap();
+    db.record_review(revision, review(Verdict::Passed, "2026-01-10", Some(c))).unwrap();
+    check(&db, "2026-01-09", ReviewStatus::Failed);
+    check(&db, "2026-01-10", ReviewStatus::Passed);
+}
+
+#[test]
 fn test_001_initializes_schema_wal_foreign_keys_and_history() {
     let (_temp, db) = database();
     assert_eq!(db.schema_version().unwrap(), 1);

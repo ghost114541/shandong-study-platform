@@ -9,7 +9,7 @@ pub use composition::{Composition, SavedItem};
 pub use content::{Attachment, PartContent, RevisionContent, CONTENT_VERSION};
 pub use error::{DbError, ErrorKind, Result};
 pub use questions::{Counts, Occurrence, QuestionSummary, Revision, RevisionSummary, Scope, Subject};
-pub use review::{Review, ReviewInput, Verdict};
+pub use review::{Review, ReviewInput, ReviewStatus, Verdict};
 
 use rusqlite::Connection;
 use std::{fs, path::Path, time::Duration};

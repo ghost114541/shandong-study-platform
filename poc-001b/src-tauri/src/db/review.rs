@@ -50,6 +50,17 @@ pub struct Review {
     pub review_of: Option<i64>,
 }
 
+#[derive(Debug, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ReviewStatus {
+    Unreviewed,
+    Scheduled,
+    Passed,
+    Expired,
+    Disputed,
+    Failed,
+}
+
 impl Database {
     pub fn record_review(&mut self, revision: i64, review: ReviewInput<'_>) -> Result<i64> {
         let tx = self
@@ -88,10 +99,15 @@ impl Database {
     }
 
     pub fn latest_review(&self, revision: i64) -> Result<Option<Review>> {
+        self.review_for_date(revision, None)
+    }
+
+    fn review_for_date(&self, revision: i64, as_of: Option<&str>) -> Result<Option<Review>> {
         self.connection.query_row(
             "SELECT id, revision_id, reviewer, checked_on, evidence, verdict, expires_on, review_of
-             FROM verification_record WHERE revision_id = ?1 ORDER BY id DESC LIMIT 1",
-            [revision],
+             FROM verification_record WHERE revision_id = ?1 AND (?2 IS NULL OR checked_on <= ?2)
+             ORDER BY checked_on DESC, id DESC LIMIT 1",
+            params![revision, as_of],
             |row| Ok((
                 row.get(0)?, row.get(1)?, row.get(2)?, row.get(3)?, row.get(4)?,
                 row.get::<_, String>(5)?, row.get(6)?, row.get(7)?,
@@ -101,7 +117,28 @@ impl Database {
         }).transpose()
     }
 
-    pub fn verified_current_count(&self, as_of: &str) -> Result<i64> {
+    pub fn review_today(&self, revision: i64) -> Result<(ReviewStatus, Option<Review>)> {
+        let utc: String = self.connection.query_row("SELECT date('now')", [], |row| row.get(0))?;
+        self.review_as_of(revision, &utc)
+    }
+
+    pub fn review_as_of(&self, revision: i64, as_of: &str) -> Result<(ReviewStatus, Option<Review>)> {
+        self.check_review_date(as_of)?;
+        let review = self.review_for_date(revision, Some(as_of))?;
+        let status = match &review {
+            Some(r) => match r.verdict {
+                Verdict::Passed if r.expires_on.as_deref().is_some_and(|until| until < as_of) => ReviewStatus::Expired,
+                Verdict::Passed => ReviewStatus::Passed,
+                Verdict::Disputed => ReviewStatus::Disputed,
+                Verdict::Failed => ReviewStatus::Failed,
+            },
+            None if self.latest_review(revision)?.is_some() => ReviewStatus::Scheduled,
+            None => ReviewStatus::Unreviewed,
+        };
+        Ok((status, review))
+    }
+
+    fn check_review_date(&self, as_of: &str) -> Result<()> {
         let valid_date: bool =
             self.connection
                 .query_row("SELECT date(?1, '+0 days') IS ?1", [as_of], |row| {
@@ -113,6 +150,11 @@ impl Database {
                 "统计日期必须使用有效的 YYYY-MM-DD。",
             ));
         }
+        Ok(())
+    }
+
+    pub fn verified_current_count(&self, as_of: &str) -> Result<i64> {
+        self.check_review_date(as_of)?;
         Ok(self.connection.query_row(
             "SELECT count(*)
              FROM current_question_revision AS current

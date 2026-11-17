@@ -36,10 +36,14 @@ function activeDocument(content: RevisionContent, field: Field): RichDocument {
   return content.parts[index]?.[key] ?? blank
 }
 
-function reviewStatus(review: RevisionDetail['review']): string {
-  if (!review) return '无审核记录'
-  const verdict = { passed: '通过', disputed: '争议', failed: '不通过' }[review.verdict]
-  return [verdict, review.reviewer, review.checked_on, review.expires_on && '有效至 ' + review.expires_on].filter(Boolean).join(' · ')
+function reviewStatus({ review, review_status }: RevisionDetail): string {
+  const label = {
+    unreviewed: '无审核记录', scheduled: '审核尚未生效', passed: '有效通过',
+    expired: '已过期', disputed: '争议', failed: '不通过',
+  }[review_status]
+  return review
+    ? [label, review.reviewer, review.checked_on, review.expires_on && '有效至 ' + review.expires_on].filter(Boolean).join(' · ')
+    : label
 }
 
 export function SQLiteWorkspace({ reportGuard, confirmLeave }: { reportGuard: ReportGuard; confirmLeave: ConfirmLeave }) {
@@ -154,7 +158,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave }: { reportGuard: Re
   async function save() {
     if (!selection || readOnly || !dirty) return
     const revision = await sqlite.save(selection.questionId, selection.subjectId, selection.fresh, revisionId, draft)
-    setSelection({ ...selection, detail: { revision, review: null }, fresh: false })
+    setSelection({ ...selection, detail: { revision, review: null, review_status: 'unreviewed' }, fresh: false })
     setDraft(revision.content)
     setDirty(false)
     setHistory([revision, ...history])
@@ -226,7 +230,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave }: { reportGuard: Re
               {history.map((item) => <option key={item.id} value={item.id}>#{item.id} · {item.scope === 'public' ? '公共' : '用户'}</option>)}
             </select></label>
           </div>}
-          {selection.detail && <p className="review-status">答案审核记录 · {reviewStatus(selection.detail.review)}</p>}
+          {selection.detail && <p className="review-status">答案审核记录 · {reviewStatus(selection.detail)}</p>}
           {readOnly && <p>历史与公共原版视图为只读。可返回当前修订继续编辑。</p>}
           <fieldset className="question-fields" disabled={busy || readOnly}>
             <label>题型 <input aria-label="题型" value={draft.question_type} onChange={(event) => {
