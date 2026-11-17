@@ -291,7 +291,7 @@ fn valid_image_source(src: &str, attachments: &HashSet<&str>) -> bool {
             .all(|b| b.is_ascii_alphanumeric() || b == b'+' || b == b'/')
 }
 
-fn has_content(doc: &Value) -> bool {
+pub(super) fn has_content(doc: &Value) -> bool {
     doc["content"].as_array().is_some_and(|blocks| {
         blocks.iter().any(|block| {
             matches!(kind(block), Some("blockMath" | "image"))

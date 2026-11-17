@@ -221,7 +221,7 @@ fn registered(db: &Connection, id: &str) -> Result<Attachment> {
     })
 }
 
-fn validate_image(bytes: &[u8], claimed: Option<&str>) -> Result<&'static str> {
+pub(super) fn validate_image(bytes: &[u8], claimed: Option<&str>) -> Result<&'static str> {
     if bytes.len() > MAX_IMAGE_BYTES {
         return Err(DbError::new(
             ErrorKind::AttachmentTooLarge,

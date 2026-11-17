@@ -10,7 +10,7 @@ pub(super) struct Migration {
     pub sql: &'static str,
 }
 
-const MIGRATIONS: &[Migration] = &[
+pub(super) const MIGRATIONS: &[Migration] = &[
     Migration {
         version: 1,
         name: "core",
@@ -31,13 +31,18 @@ const MIGRATIONS: &[Migration] = &[
         name: "attachments",
         sql: include_str!("../../migrations/0004_attachments.sql"),
     },
+    Migration {
+        version: 5,
+        name: "composition",
+        sql: include_str!("../../migrations/0005_composition.sql"),
+    },
 ];
 
 pub(super) fn apply(connection: &mut Connection) -> Result<()> {
     migrate(connection, MIGRATIONS)
 }
 
-fn migrate(connection: &mut Connection, migrations: &[Migration]) -> Result<()> {
+pub(super) fn migrate(connection: &mut Connection, migrations: &[Migration]) -> Result<()> {
     let tx = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
     let app_id: i32 = tx.query_row("PRAGMA application_id", [], |row| row.get(0))?;
     let current: i32 = tx.query_row("PRAGMA user_version", [], |row| row.get(0))?;
@@ -196,7 +201,7 @@ mod tests {
         drop(old);
         for _ in 0..2 {
             let mut new = Database::open(&path).unwrap();
-            assert_eq!(new.schema_version().unwrap(), 4);
+            assert_eq!(new.schema_version().unwrap(), 5);
             assert_eq!(new.latest_review(b).unwrap(), review);
             assert_eq!(new.load_composition("pin").unwrap(), pinned);
             assert_eq!(
@@ -331,7 +336,7 @@ mod tests {
 
         for _ in 0..2 {
             let mut db = Database::open(&path).unwrap();
-            assert_eq!(db.schema_version().unwrap(), 4);
+            assert_eq!(db.schema_version().unwrap(), 5);
             assert_eq!(db.subjects().unwrap().len(), 9);
             assert_eq!(db.load_composition("old-composition").unwrap(), before);
             assert_eq!(db.latest_review(a).unwrap(), review);

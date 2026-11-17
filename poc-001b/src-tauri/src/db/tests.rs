@@ -84,7 +84,7 @@ fn dev003_t01_review_effective_by_utc_calendar_date() {
 #[test]
 fn test_001_initializes_schema_wal_foreign_keys_and_history() {
     let (_temp, db) = database();
-    assert_eq!(db.schema_version().unwrap(), 4);
+    assert_eq!(db.schema_version().unwrap(), 5);
     let read = |sql| {
         db.connection
             .query_row(sql, [], |r| r.get::<_, i32>(0))
@@ -149,7 +149,7 @@ fn test_002_reopens_same_database_without_reapplying_migration() {
             |r| Ok((r.get(0)?, r.get(1)?)),
         )
         .unwrap();
-    assert_eq!(remaining, (4, before));
+    assert_eq!(remaining, (5, before));
     assert_eq!(reopened.current_revision("q1").unwrap().unwrap().id, id);
 }
 
@@ -423,8 +423,8 @@ fn test_009_blocks_revision_mutation_deletion_and_cross_question_references() {
         "UPDATE question_revision SET scope = 'user' WHERE id = ?1",
         "INSERT OR REPLACE INTO question_revision(id, question_id, scope, content_version, content_json)
          SELECT id, question_id, 'user', content_version, content_json FROM question_revision WHERE id = ?1",
-        "INSERT INTO composition_item VALUES ('paper', 2, 'q2', ?1)",
-        "INSERT OR REPLACE INTO composition_item VALUES ('paper', 1, 'q1', ?1)",
+        "INSERT INTO composition_item (composition_id, position, question_id, revision_id) VALUES ('paper', 2, 'q2', ?1)",
+        "INSERT OR REPLACE INTO composition_item (composition_id, position, question_id, revision_id) VALUES ('paper', 1, 'q1', ?1)",
         "DELETE FROM composition_item WHERE revision_id = ?1",
     ] {
         assert_eq!(DbError::from(db.connection.execute(sql, [id]).unwrap_err()).kind, ErrorKind::Constraint, "{sql}");
@@ -546,7 +546,7 @@ fn validates_knowledge_hierarchy_and_structured_database_errors() {
         matches!(Database::open(&path), Err(error) if error.kind == ErrorKind::IncompatibleDatabase)
     );
     locking_connection
-        .pragma_update(None, "user_version", 4)
+        .pragma_update(None, "user_version", 5)
         .unwrap();
     locking_connection
         .pragma_update(None, "foreign_keys", false)

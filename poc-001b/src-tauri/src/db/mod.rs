@@ -5,6 +5,8 @@ mod error;
 mod knowledge;
 mod metadata;
 mod migrations;
+mod paper_composition;
+mod paper_print;
 mod questions;
 mod review;
 mod search;
@@ -15,6 +17,8 @@ pub use content::{Attachment, PartContent, RevisionContent, CONTENT_VERSION};
 pub use error::{DbError, ErrorKind, Result};
 pub use knowledge::{KnowledgeLink, KnowledgePoint};
 pub use metadata::{PaperMetadata, PaperOccurrence, QuestionMetadata};
+pub use paper_composition::{PaperDraft, PaperHeader, PaperItem, PaperPoints, PaperQuestion, PaperSelection, PaperSettings, SavedPaper};
+pub use paper_print::{CompositionPrintSnapshot, PreparedPrintPair, PrintPair};
 pub use questions::{Counts, Occurrence, QuestionSummary, Revision, RevisionSummary, Scope, Subject};
 pub use review::{Review, ReviewInput, ReviewStatus, Verdict};
 pub use search::{SearchHit, SearchPage, SearchQuery, SearchSort, TextFilter};
@@ -102,3 +106,5 @@ fn check_integrity(connection: &Connection, full: bool) -> Result<()> {
 
 #[cfg(test)]
 mod tests;
+#[cfg(test)]
+mod paper_tests;
