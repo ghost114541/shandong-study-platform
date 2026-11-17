@@ -6,6 +6,13 @@ use std::fmt;
 #[serde(rename_all = "snake_case")]
 pub enum ErrorKind {
     Busy,
+    AttachmentUnregistered,
+    AttachmentMissing,
+    AttachmentHashMismatch,
+    AttachmentUnsupportedFormat,
+    AttachmentDecode,
+    AttachmentTooLarge,
+    AttachmentInvalidId,
     Conflict,
     FileAccess,
     Corrupt,

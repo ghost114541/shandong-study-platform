@@ -84,7 +84,7 @@ fn dev003_t01_review_effective_by_utc_calendar_date() {
 #[test]
 fn test_001_initializes_schema_wal_foreign_keys_and_history() {
     let (_temp, db) = database();
-    assert_eq!(db.schema_version().unwrap(), 3);
+    assert_eq!(db.schema_version().unwrap(), 4);
     let read = |sql| {
         db.connection
             .query_row(sql, [], |r| r.get::<_, i32>(0))
@@ -149,7 +149,7 @@ fn test_002_reopens_same_database_without_reapplying_migration() {
             |r| Ok((r.get(0)?, r.get(1)?)),
         )
         .unwrap();
-    assert_eq!(remaining, (3, before));
+    assert_eq!(remaining, (4, before));
     assert_eq!(reopened.current_revision("q1").unwrap().unwrap().id, id);
 }
 
@@ -441,17 +441,13 @@ fn rich_text_round_trip_keeps_latex_attachment_and_part_id_and_rejects_bad_conte
     let (temp, mut db) = database();
     question(&db);
     let mut value = content("工整答案");
-    value.attachments.push(Attachment {
-        id: "fig".into(),
-        media_type: "image/png".into(),
-        byte_size: 68,
-        sha256: "ab".repeat(32),
-    });
+    let item = db.import_attachment(&super::attachments::tests::fixture(image::ImageFormat::Png), None).unwrap();
+    value.attachments.push(item.clone());
     value.stem = json!({"type":"doc","content":[
         {"type":"paragraph","content":[{"type":"text","text":"文字","marks":[{"type":"bold"},{"type":"italic"}]},
             {"type":"inlineMath","attrs":{"latex":"  x^2  "}}]},
         {"type":"blockMath","attrs":{"latex":r"\ce{H2 + Cl2 -> 2HCl}"}},
-        {"type":"image","attrs":{"src":"attachment:fig","alt":"外部附件"}},
+        {"type":"image","attrs":{"src":format!("attachment:{}", item.id),"alt":"外部附件"}},
         {"type":"image","attrs":{"src":"data:image/png;base64,AAAA"}},
         {"type":"image","attrs":{"src":"poc001:parabola"}}
     ]});
@@ -550,7 +546,7 @@ fn validates_knowledge_hierarchy_and_structured_database_errors() {
         matches!(Database::open(&path), Err(error) if error.kind == ErrorKind::IncompatibleDatabase)
     );
     locking_connection
-        .pragma_update(None, "user_version", 3)
+        .pragma_update(None, "user_version", 4)
         .unwrap();
     locking_connection
         .pragma_update(None, "foreign_keys", false)

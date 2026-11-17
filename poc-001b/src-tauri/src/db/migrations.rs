@@ -26,6 +26,11 @@ const MIGRATIONS: &[Migration] = &[
         name: "search_metadata",
         sql: include_str!("../../migrations/0003_search_metadata.sql"),
     },
+    Migration {
+        version: 4,
+        name: "attachments",
+        sql: include_str!("../../migrations/0004_attachments.sql"),
+    },
 ];
 
 pub(super) fn apply(connection: &mut Connection) -> Result<()> {
@@ -151,7 +156,10 @@ mod tests {
             .pragma_update(None, "foreign_keys", true)
             .unwrap();
         migrate(&mut connection, &MIGRATIONS[..2]).unwrap();
-        let mut old = Database { connection };
+        let mut old = Database {
+            connection,
+            attachment_store: super::super::attachments::AttachmentStore::for_database(&path),
+        };
         let content = RevisionContent::from_json(r#"{
             "schema_version":1,"question_type":"解答题","score":4,"parts":[],
             "stem":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"原始题干"}]}]},
@@ -188,7 +196,7 @@ mod tests {
         drop(old);
         for _ in 0..2 {
             let mut new = Database::open(&path).unwrap();
-            assert_eq!(new.schema_version().unwrap(), 3);
+            assert_eq!(new.schema_version().unwrap(), 4);
             assert_eq!(new.latest_review(b).unwrap(), review);
             assert_eq!(new.load_composition("pin").unwrap(), pinned);
             assert_eq!(
@@ -226,7 +234,10 @@ mod tests {
             .pragma_update(None, "recursive_triggers", true)
             .unwrap();
         migrate(&mut connection, &MIGRATIONS[..1]).unwrap();
-        let db = Database { connection };
+        let db = Database {
+            connection,
+            attachment_store: super::super::attachments::AttachmentStore::for_database(path),
+        };
         db.create_subject("math", "数学").unwrap();
         db
     }
@@ -320,7 +331,7 @@ mod tests {
 
         for _ in 0..2 {
             let mut db = Database::open(&path).unwrap();
-            assert_eq!(db.schema_version().unwrap(), 3);
+            assert_eq!(db.schema_version().unwrap(), 4);
             assert_eq!(db.subjects().unwrap().len(), 9);
             assert_eq!(db.load_composition("old-composition").unwrap(), before);
             assert_eq!(db.latest_review(a).unwrap(), review);

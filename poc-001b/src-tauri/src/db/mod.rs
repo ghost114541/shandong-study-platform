@@ -1,3 +1,4 @@
+mod attachments;
 mod composition;
 mod content;
 mod error;
@@ -8,6 +9,7 @@ mod questions;
 mod review;
 mod search;
 
+pub use attachments::{AttachmentIntegrity, MAX_IMAGE_BYTES};
 pub use composition::{Composition, SavedItem};
 pub use content::{Attachment, PartContent, RevisionContent, CONTENT_VERSION};
 pub use error::{DbError, ErrorKind, Result};
@@ -25,6 +27,7 @@ const BUSY_TIMEOUT: Duration = Duration::from_secs(5);
 
 pub struct Database {
     connection: Connection,
+    attachment_store: attachments::AttachmentStore,
 }
 
 impl Database {
@@ -51,7 +54,10 @@ impl Database {
             ));
         }
         connection.pragma_update(None, "synchronous", "FULL")?;
-        Ok(Self { connection })
+        Ok(Self {
+            connection,
+            attachment_store: attachments::AttachmentStore::for_database(path),
+        })
     }
 
     pub fn schema_version(&self) -> Result<i32> {

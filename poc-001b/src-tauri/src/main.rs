@@ -39,13 +39,9 @@ async fn export_pdf(
 ) -> Result<PathBuf, String> {
     let filename = match (kind.as_str(), long_sample, revision_id) {
         ("paper" | "answers", false, Some(id)) if id > 0 => {
-            if editor_ipc::read_revision(window.app_handle().clone(), id)
+            editor_ipc::verify_pdf_revision(window.app_handle().clone(), id, kind == "answers")
                 .await
-                .map_err(|err| err.message)?
-                .is_none()
-            {
-                return Err("PDF 引用的修订不存在。".into());
-            }
+                .map_err(|err| err.message)?;
             format!("revision-{id}-{kind}.pdf")
         }
         ("paper", false, None) => "paper.pdf".into(),
@@ -95,6 +91,9 @@ fn main() {
             save_questions,
             export_pdf,
             editor_ipc::database_status,
+            editor_ipc::import_attachment,
+            editor_ipc::read_attachment,
+            editor_ipc::check_attachment,
             editor_ipc::list_subjects,
             editor_ipc::list_questions,
             editor_ipc::create_question,

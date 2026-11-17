@@ -1,7 +1,9 @@
+use base64::{engine::general_purpose::STANDARD, Engine};
 use serde::Serialize;
 use shandong_poc_001b::db::{
-    Database, DbError, ErrorKind, KnowledgePoint, QuestionSummary, Result, Review, ReviewStatus,
-    Revision, RevisionContent, RevisionSummary, Scope, SearchPage, SearchQuery, Subject,
+    Attachment, AttachmentIntegrity, Database, DbError, ErrorKind, KnowledgePoint, QuestionSummary,
+    Result, Review, ReviewStatus, Revision, RevisionContent, RevisionSummary, Scope, SearchPage,
+    SearchQuery, Subject, MAX_IMAGE_BYTES,
 };
 use std::sync::Mutex;
 use tauri::{AppHandle, Manager};
@@ -188,7 +190,10 @@ pub async fn save_paper_metadata(
     expected: shandong_poc_001b::db::PaperMetadata,
     metadata: shandong_poc_001b::db::PaperMetadata,
 ) -> Result<()> {
-    database(app, move |db| db.save_paper_metadata(&paper_id, &expected, &metadata)).await
+    database(app, move |db| {
+        db.save_paper_metadata(&paper_id, &expected, &metadata)
+    })
+    .await
 }
 
 #[tauri::command]
@@ -258,6 +263,71 @@ pub async fn save_user_revision(
             scope: Scope::User,
             content,
         })
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn import_attachment(
+    app: AppHandle,
+    request: tauri::ipc::Request<'_>,
+) -> Result<Attachment> {
+    let tauri::ipc::InvokeBody::Raw(bytes) = request.body() else {
+        return Err(DbError {
+            kind: ErrorKind::InvalidContent,
+            message: "附件导入需要二进制图片。".into(),
+        });
+    };
+    if bytes.len() > MAX_IMAGE_BYTES {
+        return Err(DbError {
+            kind: ErrorKind::AttachmentTooLarge,
+            message: "图片超过 5 MiB。".into(),
+        });
+    }
+    let bytes = bytes.clone();
+    let claimed = request
+        .headers()
+        .get("x-image-media-type")
+        .and_then(|value| value.to_str().ok())
+        .map(str::to_owned);
+    database(app, move |db| {
+        db.import_attachment(&bytes, claimed.as_deref())
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn read_attachment(
+    app: AppHandle,
+    attachment_id: String,
+    expected: Option<Attachment>,
+) -> Result<String> {
+    database(app, move |db| {
+        let (item, bytes) = db.read_attachment(&attachment_id, expected.as_ref())?;
+        Ok(format!(
+            "data:{};base64,{}",
+            item.media_type,
+            STANDARD.encode(bytes)
+        ))
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn check_attachment(
+    app: AppHandle,
+    attachment_id: String,
+) -> Result<AttachmentIntegrity> {
+    database(app, move |db| db.check_attachment(&attachment_id)).await
+}
+
+pub async fn verify_pdf_revision(app: AppHandle, id: i64, answers: bool) -> Result<()> {
+    database(app, move |db| {
+        let revision = db.revision(id)?.ok_or(DbError {
+            kind: ErrorKind::Missing,
+            message: "PDF 引用的修订不存在。".into(),
+        })?;
+        db.verify_print_attachments(&revision.content, answers)
     })
     .await
 }

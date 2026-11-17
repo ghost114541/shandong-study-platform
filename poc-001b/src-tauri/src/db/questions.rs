@@ -246,7 +246,15 @@ impl Database {
         let tx = self
             .connection
             .transaction_with_behavior(TransactionBehavior::Immediate)?;
-        let id = insert_revision(&tx, question, scope, base, content, &json)?;
+        let id = insert_revision(
+            &tx,
+            &self.attachment_store,
+            question,
+            scope,
+            base,
+            content,
+            &json,
+        )?;
         tx.commit()?;
         Ok(id)
     }
@@ -262,7 +270,15 @@ impl Database {
             .connection
             .transaction_with_behavior(TransactionBehavior::Immediate)?;
         insert_question(&tx, question, subject)?;
-        let id = insert_revision(&tx, question, Scope::User, None, content, &json)?;
+        let id = insert_revision(
+            &tx,
+            &self.attachment_store,
+            question,
+            Scope::User,
+            None,
+            content,
+            &json,
+        )?;
         tx.commit()?;
         Ok(id)
     }
@@ -290,7 +306,15 @@ impl Database {
                 "当前修订已改变。请保留修改并检查最新修订后再继续。",
             ));
         }
-        let id = insert_revision(&tx, question, Scope::User, current, content, &json)?;
+        let id = insert_revision(
+            &tx,
+            &self.attachment_store,
+            question,
+            Scope::User,
+            current,
+            content,
+            &json,
+        )?;
         tx.commit()?;
         Ok(id)
     }
@@ -338,12 +362,16 @@ fn insert_question(connection: &rusqlite::Connection, id: &str, subject: &str) -
 
 fn insert_revision(
     connection: &rusqlite::Connection,
+    store: &super::attachments::AttachmentStore,
     question: &str,
     scope: Scope,
     base: Option<i64>,
     content: &RevisionContent,
     json: &str,
 ) -> Result<i64> {
+    for attachment in &content.attachments {
+        store.verify_declaration(connection, attachment)?;
+    }
     for part in &content.parts {
         connection.execute("INSERT INTO question_part (question_id, id) VALUES (?1, ?2) ON CONFLICT (question_id, id) DO NOTHING",
             params![question, part.id])?;
@@ -353,5 +381,12 @@ fn insert_revision(
          VALUES (?1, ?2, ?3, ?4, ?5)",
         params![question, scope.as_sql(), base, content.schema_version, json],
     )?;
-    Ok(connection.last_insert_rowid())
+    let id = connection.last_insert_rowid();
+    for attachment in &content.attachments {
+        connection.execute(
+            "INSERT INTO revision_attachment(revision_id, attachment_id) VALUES (?1, ?2)",
+            params![id, attachment.id],
+        )?;
+    }
+    Ok(id)
 }
