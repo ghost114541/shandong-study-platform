@@ -13,11 +13,20 @@ import type { RichDocument } from './model'
 
 export const mathOptions = { trust: false, strict: 'ignore' } as const
 const fileTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/gif']
-export const imageUrl = (src: string) => src === bundledGraph ? graph : src
+export function imageUrl(src: string): string | null {
+  if (src.startsWith('attachment:')) return null
+  return src === bundledGraph ? graph : src
+}
+
+export function attachmentNotice(src: string): string {
+  return '附件 ' + src.slice('attachment:'.length) + ' 已登记，文件尚未解析或验证。'
+}
 
 const LocalImage = Image.extend({
   renderHTML({ HTMLAttributes }) {
-    return ['img', mergeAttributes(HTMLAttributes, { src: imageUrl(HTMLAttributes.src) })]
+    const src = imageUrl(HTMLAttributes.src)
+    if (src === null) return ['span', { class: 'attachment-notice' }, attachmentNotice(HTMLAttributes.src)]
+    return ['img', mergeAttributes(HTMLAttributes, { src })]
   },
 }).configure({ allowBase64: true })
 
@@ -92,7 +101,7 @@ export function QuestionEditor({ content, onChange, onError }: Props) {
     event.preventDefault()
     if (!draft) return
     const latex = draft.latex
-    if (!latex.trim() || latex.length > 4000) {
+    if (!/\P{White_Space}/u.test(latex) || latex.length > 4000) {
       setFormulaError('请输入 1–4000 字符的 LaTeX。')
       return
     }
@@ -125,7 +134,12 @@ export function QuestionEditor({ content, onChange, onError }: Props) {
         const image = new window.Image()
         image.src = src
         await image.decode()
-        if (!editor.isDestroyed) editor.chain().focus().setImage({ src, alt: file.name }).run()
+        if (!editor.isDestroyed) {
+          const inserted = editor.chain().focus().insertContentAt(editor.state.selection.to, {
+            type: 'image', attrs: { src, alt: file.name },
+          }).run()
+          if (!inserted) onError('此位置不能插入图片。')
+        }
       } catch {
         onError('图片无法解码。')
       } finally {

@@ -1,3 +1,30 @@
+# DEV-002 数据契约与 SQLite 编辑交接（2026-11-17）
+
+**状态：DEV002-T01 至 T10 均通过。** 开发分支为 `dev/dev-002-editor-sqlite`，基准为 `81001f81`。
+
+- 默认工作区经 Rust IPC 读取 SQLite。新建数学题、公式、图片、两小问及答案已在 Windows 桌面实际保存并重启回读。后续保存新增不可变用户修订，旧基线返回冲突，审核按修订读取。
+- 同一批富文本样本用于 Rust 和 TypeScript 校验。SQLite Schema 1 与迁移文件保持原样，原 POC-001B JSON 通过单独入口继续使用。
+- WebView2 已用 SQLite 内容生成题卷和答案卷，旧 PDF 逐页渲染结果与基准一致。
+- 正式批量 JSON 导入、外部附件文件服务、完整审核和多题组选界面留待后续任务。macOS、安装卸载与实体打印仍待实测。
+
+[开发报告](DEV-002_REPORT.md) · [数据契约](DEV-002_CONTRACT.md) · [验收结果与交付证据](DEV-002_TEST_RESULTS.md) · [遗留事项](DEV-002_KNOWN_ISSUES.md)
+
+---
+
+# DEV-001 SQLite 开发交接（2026-11-16）
+
+**状态：SQLite 数据层及 Windows 回归通过。** 开发分支为 `dev/dev-001-sqlite`，基准为 `ccda8e1`。
+
+- 既有 Tauri 应用首次启动初始化 `study.sqlite3`。已加入版本化迁移、外键和完整性检查，并实现 DEC-039 逻辑计数与人工确认、DEC-040 逐修订审核、DEC-041 个人修订优先和组卷固定引用。
+- 12 项数据库测试、2 项原 JSON 存储测试、4 项前端测试通过。隔离 Windows 配置下验证 Tauri 窗口、JSON 回读、模拟离线及三份 A4 PDF。旧编辑器与 PDF 引擎继续使用原路径。
+- SRS DRAFT-0.2 仍待全文签核，macOS 实机尚未验证。本轮任务名称以用户给出的 DEV-001 为准。原开发草案的 DEV-002 数据库初始化与迁移范围已由本轮覆盖，可审查通过后按规划推进 DEV-003 最小 CRUD。
+
+[开发报告](DEV-001_REPORT.md) · [数据库 Schema](DEV-001_SCHEMA.md) · [遗留事项](DEV-001_KNOWN_ISSUES.md)
+
+以下为此前交接记录。
+
+---
+
 # POC-001B Windows 技术验证交接（2026-11-16）
 
 **状态：本次 Windows 原生验证范围通过。SRS DRAFT-0.2 仍待全文签核。**

@@ -1,0 +1,10 @@
+   Compiling vswhom-sys v0.1.3
+    Checking libsqlite3-sys v0.40.0
+   Compiling vswhom v0.1.0
+   Compiling embed-resource v3.0.12
+    Checking rusqlite v0.42.0
+   Compiling tauri-winres v0.3.7
+   Compiling tauri-build v2.7.5
+   Compiling shandong-poc-001b v0.1.0 (C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 6.87s
+EXIT 0

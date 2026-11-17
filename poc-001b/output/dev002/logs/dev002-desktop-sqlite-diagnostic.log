@@ -1,0 +1,19 @@
+Native Win32 window hwnd present, process PID 36804, URL http://tauri.localhost/
+{
+  status: '有未保存的修改。',
+  editor: '数据库原创试题：观察抛物线，写出计算过程。y=x2+2  y=x^2+2  y=x2+2',
+  images: [ [ '', 0 ], [ 'curve.png', 170 ] ]
+}
+file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:38
+  throw new Error('等待超时：' + description, { cause: error })
+        ^
+
+Error: 等待超时：真实本地图片已显示
+    at waitFor (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:38:9)
+    at async sqliteRegression (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-sqlite.mjs:67:3)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:249:5 {
+  [cause]: undefined
+}
+
+Node.js v24.13.0
+EXIT 1

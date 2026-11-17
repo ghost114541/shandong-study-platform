@@ -1,0 +1,70 @@
+{
+  "first": {
+    "questions": [
+      {
+        "id": "1536721e-bbeb-4202-9abc-9910e94a4b3b",
+        "subject_id": "math"
+      }
+    ],
+    "parts": [
+      {
+        "question_id": "1536721e-bbeb-4202-9abc-9910e94a4b3b",
+        "id": "d0c54c5a-6aec-4b92-83e6-1d5ddd55ea17"
+      },
+      {
+        "question_id": "1536721e-bbeb-4202-9abc-9910e94a4b3b",
+        "id": "ea3ca8b8-1aa7-4da1-b616-c764da33fc7d"
+      }
+    ],
+    "revisions": [
+      {
+        "id": 1,
+        "question_id": "1536721e-bbeb-4202-9abc-9910e94a4b3b",
+        "base_revision_id": null,
+        "scope": "user",
+        "content_json": "{\"schema_version\":1,\"question_type\":\"解答题\",\"score\":10,\"stem\":{\"content\":[{\"content\":[{\"text\":\"数据库原创试题：观察抛物线，写出计算过程。\",\"type\":\"text\"},{\"attrs\":{\"latex\":\"  y=x^2+2  \"},\"type\":\"inlineMath\"}],\"type\":\"paragraph\"},{\"attrs\":{\"latex\":\"y(2)=2^2+2\"},\"type\":\"blockMath\"},{\"attrs\":{\"alt\":\"curve.png\",\"height\":null,\"src\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAABkCAIAAACZ9jwRAAADvElEQVR4nO2dS27cMBAFdYYcJ5fIDbLOKifXOtnGBgFZkSjqSeKnu9RAAYbtMYz3qsfGjChymv/8PeX7j5/KwzwCjqYwvbwjcDSF6dvvX2/uCBxNIfRjoyl86j+dAHBH4GinfHgP/dhop3zqTx/KEwDuCBytTJL+pb8wAeCOwNEKLMan9ecv7AgcrcCi+z/9RxMA7ggc7Yi16yn71fd0BI6WZWN52n/vVR2Bo2XZKM7o308AuCNwtD17v9v3/LMTAO4IHG1D1mzmkk/oR5L9u36of/1QcEfgaGuO/q3nL/huHg3uCBxtofCa7vB6f+jHUHhH50R/+jFwR+BoifIbeqXVPstPgjsCR5uFqzkni71Cv2tOr+VK+pUVQU4B61fcnS/1ZE8AVb9oTVrpG/rdISq7oB85AUj9ui91nT91Anj6L5m6cJsHcgJg+q86Cv2hX+6INwEk/TfsXL7HDzYBGP33vNy5xZM0AQz9t4080g+YAID+Jzpu3uAd+u3wxMX9+/sZE+Bd/0MLj7Z3AEyAa/3P+3+6u4f3CfCrv0rz1fQ7nQCn+mvVXmFvn9Dfn1qd19naye8EeNRfse1qO3s5nQB3+uv2XHNjN48T4Et/9Yab6Hc0AY70t6i38raO7ibAi/5Gxdbf1dPXBLjQ367SJpu6OpoA+/qbltlqT18vE2Bcf+saG27p7GICLOvvUGDbHb3tT4BZ/X2qa76hu/EJsKm/W2k99vO3PAEG9fesq9NxDmYnwJr+zkX1O83D5gSY0t+/oq6HuRicADv6h5TT+ywfaxNgRP+oWgYc5WRqAizoH1jImJO81oHHDsFY/cN7GHaQ2/Dk7aI5amDkOX4W8o/SbyH7PPwYx00L/Yvor3945DUmTvEcWEdn/XbEJ0zoH9hLT/3W3M929O/b6VMQOJqCIf3Zplr/OvAfNgVz+vd9Na2saTSzT/oFi/qzxTXqrs9rWpvuZ7P6u5XY+g1Ns+ITpvUftVmx0EZXs1y4n+3rb91s9aUMXsQnfOhv13LFdWy+xCc86S83fq/052vYnYpP+NN/KuCSg9v3r3kXn/CqX/GhWNF3roCJT/jWrxs6Yr1X/Q2GZw/9debgVdYXUPoXwroIU/+aUF6Ar/+10RRCPzaaQujHRlMI/dhoCqEfG00h9GOjKYR+bDSF0I+NphD6sdEUQj82mkLox0ZTCP3YaAqhHxtNIfRjoylMH/mD1xLPfmw0hdCPjaYQ+rHRFEI/NppC6MdGUwj92GgKoR8bTSH0Y6MphH5sNIV/njRAS1C1+jsAAAAASUVORK5CYII=\",\"title\":null,\"width\":null},\"type\":\"image\"},{\"type\":\"paragraph\"}],\"type\":\"doc\"},\"answer\":null,\"analysis\":null,\"parts\":[{\"id\":\"d0c54c5a-6aec-4b92-83e6-1d5ddd55ea17\",\"score\":4,\"prompt\":{\"content\":[{\"content\":[{\"text\":\"第一问：写出对称轴。\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"},\"answer\":{\"content\":[{\"content\":[{\"text\":\"原答案甲：对称轴为纵轴。\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"},\"analysis\":null},{\"id\":\"ea3ca8b8-1aa7-4da1-b616-c764da33fc7d\",\"score\":6,\"prompt\":{\"content\":[{\"content\":[{\"text\":\"第二问：求横坐标为二时的函数值。\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"},\"answer\":{\"content\":[{\"content\":[{\"text\":\"原答案乙：先记录待校正数值。\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"},\"analysis\":null}],\"attachments\":[]}"
+      }
+    ],
+    "reviews": []
+  },
+  "after": {
+    "questions": [
+      {
+        "id": "1536721e-bbeb-4202-9abc-9910e94a4b3b",
+        "subject_id": "math"
+      }
+    ],
+    "parts": [
+      {
+        "question_id": "1536721e-bbeb-4202-9abc-9910e94a4b3b",
+        "id": "d0c54c5a-6aec-4b92-83e6-1d5ddd55ea17"
+      },
+      {
+        "question_id": "1536721e-bbeb-4202-9abc-9910e94a4b3b",
+        "id": "ea3ca8b8-1aa7-4da1-b616-c764da33fc7d"
+      }
+    ],
+    "revisions": [
+      {
+        "id": 1,
+        "question_id": "1536721e-bbeb-4202-9abc-9910e94a4b3b",
+        "base_revision_id": null,
+        "scope": "user",
+        "content_json": "{\"schema_version\":1,\"question_type\":\"解答题\",\"score\":10,\"stem\":{\"content\":[{\"content\":[{\"text\":\"数据库原创试题：观察抛物线，写出计算过程。\",\"type\":\"text\"},{\"attrs\":{\"latex\":\"  y=x^2+2  \"},\"type\":\"inlineMath\"}],\"type\":\"paragraph\"},{\"attrs\":{\"latex\":\"y(2)=2^2+2\"},\"type\":\"blockMath\"},{\"attrs\":{\"alt\":\"curve.png\",\"height\":null,\"src\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAABkCAIAAACZ9jwRAAADvElEQVR4nO2dS27cMBAFdYYcJ5fIDbLOKifXOtnGBgFZkSjqSeKnu9RAAYbtMYz3qsfGjChymv/8PeX7j5/KwzwCjqYwvbwjcDSF6dvvX2/uCBxNIfRjoyl86j+dAHBH4GinfHgP/dhop3zqTx/KEwDuCBytTJL+pb8wAeCOwNEKLMan9ecv7AgcrcCi+z/9RxMA7ggc7Yi16yn71fd0BI6WZWN52n/vVR2Bo2XZKM7o308AuCNwtD17v9v3/LMTAO4IHG1D1mzmkk/oR5L9u36of/1QcEfgaGuO/q3nL/huHg3uCBxtofCa7vB6f+jHUHhH50R/+jFwR+BoifIbeqXVPstPgjsCR5uFqzkni71Cv2tOr+VK+pUVQU4B61fcnS/1ZE8AVb9oTVrpG/rdISq7oB85AUj9ui91nT91Anj6L5m6cJsHcgJg+q86Cv2hX+6INwEk/TfsXL7HDzYBGP33vNy5xZM0AQz9t4080g+YAID+Jzpu3uAd+u3wxMX9+/sZE+Bd/0MLj7Z3AEyAa/3P+3+6u4f3CfCrv0rz1fQ7nQCn+mvVXmFvn9Dfn1qd19naye8EeNRfse1qO3s5nQB3+uv2XHNjN48T4Et/9Yab6Hc0AY70t6i38raO7ibAi/5Gxdbf1dPXBLjQ367SJpu6OpoA+/qbltlqT18vE2Bcf+saG27p7GICLOvvUGDbHb3tT4BZ/X2qa76hu/EJsKm/W2k99vO3PAEG9fesq9NxDmYnwJr+zkX1O83D5gSY0t+/oq6HuRicADv6h5TT+ywfaxNgRP+oWgYc5WRqAizoH1jImJO81oHHDsFY/cN7GHaQ2/Dk7aI5amDkOX4W8o/SbyH7PPwYx00L/Yvor3945DUmTvEcWEdn/XbEJ0zoH9hLT/3W3M929O/b6VMQOJqCIf3Zplr/OvAfNgVz+vd9Na2saTSzT/oFi/qzxTXqrs9rWpvuZ7P6u5XY+g1Ns+ITpvUftVmx0EZXs1y4n+3rb91s9aUMXsQnfOhv13LFdWy+xCc86S83fq/052vYnYpP+NN/KuCSg9v3r3kXn/CqX/GhWNF3roCJT/jWrxs6Yr1X/Q2GZw/9debgVdYXUPoXwroIU/+aUF6Ar/+10RRCPzaaQujHRlMI/dhoCqEfG00h9GOjKYR+bDSF0I+NphD6sdEUQj82mkLox0ZTCP3YaAqhHxtNIfRjoylMH/mD1xLPfmw0hdCPjaYQ+rHRFEI/NppC6MdGUwj92GgKoR8bTSH0Y6MphH5sNIV/njRAS1C1+jsAAAAASUVORK5CYII=\",\"title\":null,\"width\":null},\"type\":\"image\"},{\"type\":\"paragraph\"}],\"type\":\"doc\"},\"answer\":null,\"analysis\":null,\"parts\":[{\"id\":\"d0c54c5a-6aec-4b92-83e6-1d5ddd55ea17\",\"score\":4,\"prompt\":{\"content\":[{\"content\":[{\"text\":\"第一问：写出对称轴。\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"},\"answer\":{\"content\":[{\"content\":[{\"text\":\"原答案甲：对称轴为纵轴。\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"},\"analysis\":null},{\"id\":\"ea3ca8b8-1aa7-4da1-b616-c764da33fc7d\",\"score\":6,\"prompt\":{\"content\":[{\"content\":[{\"text\":\"第二问：求横坐标为二时的函数值。\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"},\"answer\":{\"content\":[{\"content\":[{\"text\":\"原答案乙：先记录待校正数值。\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"},\"analysis\":null}],\"attachments\":[]}"
+      },
+      {
+        "id": 2,
+        "question_id": "1536721e-bbeb-4202-9abc-9910e94a4b3b",
+        "base_revision_id": 1,
+        "scope": "user",
+        "content_json": "{\"schema_version\":1,\"question_type\":\"解答题\",\"score\":10,\"stem\":{\"content\":[{\"content\":[{\"text\":\"数据库原创试题：观察抛物线，写出计算过程。\",\"type\":\"text\"},{\"attrs\":{\"latex\":\"  y=x^2+2  \"},\"type\":\"inlineMath\"}],\"type\":\"paragraph\"},{\"attrs\":{\"latex\":\"y(2)=2^2+2\"},\"type\":\"blockMath\"},{\"attrs\":{\"alt\":\"curve.png\",\"height\":null,\"src\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAABkCAIAAACZ9jwRAAADvElEQVR4nO2dS27cMBAFdYYcJ5fIDbLOKifXOtnGBgFZkSjqSeKnu9RAAYbtMYz3qsfGjChymv/8PeX7j5/KwzwCjqYwvbwjcDSF6dvvX2/uCBxNIfRjoyl86j+dAHBH4GinfHgP/dhop3zqTx/KEwDuCBytTJL+pb8wAeCOwNEKLMan9ecv7AgcrcCi+z/9RxMA7ggc7Yi16yn71fd0BI6WZWN52n/vVR2Bo2XZKM7o308AuCNwtD17v9v3/LMTAO4IHG1D1mzmkk/oR5L9u36of/1QcEfgaGuO/q3nL/huHg3uCBxtofCa7vB6f+jHUHhH50R/+jFwR+BoifIbeqXVPstPgjsCR5uFqzkni71Cv2tOr+VK+pUVQU4B61fcnS/1ZE8AVb9oTVrpG/rdISq7oB85AUj9ui91nT91Anj6L5m6cJsHcgJg+q86Cv2hX+6INwEk/TfsXL7HDzYBGP33vNy5xZM0AQz9t4080g+YAID+Jzpu3uAd+u3wxMX9+/sZE+Bd/0MLj7Z3AEyAa/3P+3+6u4f3CfCrv0rz1fQ7nQCn+mvVXmFvn9Dfn1qd19naye8EeNRfse1qO3s5nQB3+uv2XHNjN48T4Et/9Yab6Hc0AY70t6i38raO7ibAi/5Gxdbf1dPXBLjQ367SJpu6OpoA+/qbltlqT18vE2Bcf+saG27p7GICLOvvUGDbHb3tT4BZ/X2qa76hu/EJsKm/W2k99vO3PAEG9fesq9NxDmYnwJr+zkX1O83D5gSY0t+/oq6HuRicADv6h5TT+ywfaxNgRP+oWgYc5WRqAizoH1jImJO81oHHDsFY/cN7GHaQ2/Dk7aI5amDkOX4W8o/SbyH7PPwYx00L/Yvor3945DUmTvEcWEdn/XbEJ0zoH9hLT/3W3M929O/b6VMQOJqCIf3Zplr/OvAfNgVz+vd9Na2saTSzT/oFi/qzxTXqrs9rWpvuZ7P6u5XY+g1Ns+ITpvUftVmx0EZXs1y4n+3rb91s9aUMXsQnfOhv13LFdWy+xCc86S83fq/052vYnYpP+NN/KuCSg9v3r3kXn/CqX/GhWNF3roCJT/jWrxs6Yr1X/Q2GZw/9debgVdYXUPoXwroIU/+aUF6Ar/+10RRCPzaaQujHRlMI/dhoCqEfG00h9GOjKYR+bDSF0I+NphD6sdEUQj82mkLox0ZTCP3YaAqhHxtNIfRjoylMH/mD1xLPfmw0hdCPjaYQ+rHRFEI/NppC6MdGUwj92GgKoR8bTSH0Y6MphH5sNIV/njRAS1C1+jsAAAAASUVORK5CYII=\",\"title\":null,\"width\":null},\"type\":\"image\"},{\"type\":\"paragraph\"}],\"type\":\"doc\"},\"answer\":null,\"analysis\":null,\"parts\":[{\"id\":\"d0c54c5a-6aec-4b92-83e6-1d5ddd55ea17\",\"score\":4,\"prompt\":{\"content\":[{\"content\":[{\"text\":\"第一问：写出对称轴。\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"},\"answer\":{\"content\":[{\"content\":[{\"text\":\"原答案甲：对称轴为纵轴。\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"},\"analysis\":null},{\"id\":\"ea3ca8b8-1aa7-4da1-b616-c764da33fc7d\",\"score\":6,\"prompt\":{\"content\":[{\"content\":[{\"text\":\"第二问：求横坐标为二时的函数值。\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"},\"answer\":{\"content\":[{\"content\":[{\"text\":\"修订后答案乙：纵坐标是六。\",\"type\":\"text\"}],\"type\":\"paragraph\"}],\"type\":\"doc\"},\"analysis\":null}],\"attachments\":[]}"
+      }
+    ],
+    "reviews": [
+      {
+        "revision_id": 1,
+        "verdict": "passed"
+      }
+    ]
+  }
+}

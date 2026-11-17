@@ -1,8 +1,8 @@
 import { Fragment } from 'react'
 import katex from 'katex'
-import { imageUrl, mathOptions } from './editor'
+import { attachmentNotice, imageUrl, mathOptions } from './editor'
 import { projectPaper } from './model'
-import type { QuestionSet, RichBlock, RichDocument } from './model'
+import type { PaperData, RichBlock, RichDocument } from './model'
 
 function Formula({ latex, block = false, punctuation }: { latex: string; block?: boolean; punctuation?: string }) {
   const html = katex.renderToString(latex, { ...mathOptions, throwOnError: false, displayMode: block })
@@ -19,7 +19,11 @@ function trailingPunctuation(block: RichBlock | undefined): string | undefined {
 export function Content({ data }: { data: RichDocument }) {
   return data.content.map((block, index) => {
     if (block.type === 'image') {
-      return <img key={index} className="paper-image" src={imageUrl(block.attrs.src)} alt={block.attrs.alt ?? ''} />
+      const { src, alt, title, width, height } = block.attrs
+      const url = imageUrl(src)
+      return url === null ? <p key={index} className="attachment-notice">{attachmentNotice(src)}</p>
+        : <img key={index} className="paper-image" src={url} alt={alt ?? ''} title={title ?? undefined}
+          style={{ width: width ?? undefined, height: height ?? undefined }} />
     }
     if (block.type === 'blockMath') {
       return <Formula key={index} latex={block.attrs.latex} block punctuation={trailingPunctuation(data.content[index + 1])} />
@@ -35,17 +39,18 @@ export function Content({ data }: { data: RichDocument }) {
   })
 }
 
-export function Paper({ data, answer }: { data: QuestionSet; answer: boolean }) {
+export function Paper({ data, answer }: { data: PaperData; answer: boolean }) {
   const total = data.questions.reduce((sum, q) => sum + q.score, 0)
   return <article className="paper" aria-label={answer ? '答案卷' : '题卷'}>
     <h1>{data.title}</h1>
-    <div className="paper-meta">{answer ? '答案卷' : '题卷'} · 总分 {total} 分 · {data.duration_minutes} 分钟</div>
+    <div className="paper-meta">{answer ? '答案卷' : '题卷'} · 总分 {total} 分{data.duration_minutes && ' · ' + data.duration_minutes + ' 分钟'}</div>
     {projectPaper(data, answer).map((q) => <section key={q.number}>
       <h2>第 {q.number} 题 · {q.subject}（{q.score} 分）</h2>
       {q.stem && <Content data={q.stem} />}
+      {answer && !q.stem && !q.parts.length && <p>暂无答案</p>}
       {q.parts.map((part) => <section key={part.label} className="paper-part">
         <h3>（{part.label}）{part.score} 分</h3>
-        <Content data={part.content} />
+        {part.content ? <Content data={part.content} /> : <p>暂无答案</p>}
       </section>)}
     </section>)}
   </article>

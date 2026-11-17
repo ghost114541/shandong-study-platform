@@ -4,11 +4,16 @@ import { spawn, execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
+import { sqliteRegression } from './windows-sqlite.mjs'
 
 const executable = resolve(process.argv[2] ?? 'src-tauri/target/release/shandong-poc-001b.exe')
+const sqliteMode = process.argv.includes('--sqlite')
 const port = 19245
-const out = resolve('.test-output')
-const profile = join(process.env.APPDATA, 'org.shandong-study.poc001b')
+const isolatedIdentifier = process.env.POC001B_TEST_APP_IDENTIFIER
+assert.match(isolatedIdentifier ?? '', /^org\.shandong-study\.dev\d+-[a-f0-9]+$/i, 'Use an isolated build identifier')
+const out = resolve(join('.test-output', isolatedIdentifier, sqliteMode ? 'sqlite' : 'legacy'))
+const profile = join(process.env.APPDATA, isolatedIdentifier)
+const database = join(profile, 'study.sqlite3')
 const storage = join(profile, 'questions.json')
 assert.ok(!existsSync(storage), '请先关闭应用并备份现有 questions.json，再运行此测试。')
 mkdirSync(out, { recursive: true })
@@ -86,22 +91,32 @@ async function start(offline = false) {
     await send('Network.setCacheDisabled', { cacheDisabled: true })
     await send('Page.reload', { ignoreCache: true })
   }
-  await waitFor(() => evaluate("document.querySelector('.tiptap')?.isContentEditable"), '编辑器可用')
+  if (sqliteMode) await waitFor(() => evaluate(buttons('新建试题') + '?.disabled === false'), 'SQLite 工作区可用')
+  else {
+    await click('POC-001B JSON 演示')
+    await waitFor(() => evaluate("document.querySelector('.tiptap')?.isContentEditable"), '编辑器可用')
+  }
   const state = execFileSync('powershell.exe', ['-NoProfile', '-Command',
     '$p = Get-Process -Id ' + child.pid + '; if (!$p.MainWindowHandle) { exit 1 }; $p.MainWindowTitle'], { encoding: 'utf8' })
   assert.ok(state.trim())
+  assert.equal(await evaluate("window.__TAURI_INTERNALS__.invoke('database_status')"), 1)
+  assert.ok(existsSync(database), 'database created in the isolated profile')
   console.log('Native Win32 window hwnd present, process PID ' + child.pid + ', URL ' + await evaluate('location.href'))
   if (offline) assert.equal(await evaluate('navigator.onLine'), false)
+}
+
+function nativeClose() {
+  execFileSync('powershell.exe', ['-NoProfile', '-Command',
+    'if (!(Get-Process -Id ' + child.pid + ').CloseMainWindow()) { exit 1 }'])
 }
 
 async function close() {
   if (!child || child.exitCode !== null) return
   const exiting = new Promise((resolve) => child.once('exit', (code) => resolve({ code })))
-  socket?.close()
-  execFileSync('powershell.exe', ['-NoProfile', '-Command',
-    'if (!(Get-Process -Id ' + child.pid + ').CloseMainWindow()) { exit 1 }'])
+  nativeClose()
   const result = await Promise.race([exiting, delay(12000)])
   assert.equal(result?.code, 0, 'application must close through the native window')
+  socket?.close()
   child = undefined
 }
 
@@ -122,11 +137,11 @@ async function status(text) {
 }
 
 async function fillFormula(latex) {
-  await waitFor(() => evaluate("document.querySelector('dialog')?.open"), 'LaTeX 编辑对话框')
+  await waitFor(() => evaluate("document.querySelector('dialog[aria-labelledby=formula-title]')?.open"), 'LaTeX 编辑对话框')
   await evaluate("(() => { const box = document.querySelector('dialog textarea'); box.focus(); box.select(); return true })()")
   await send('Input.insertText', { text: latex })
   await click('应用公式')
-  await waitFor(() => evaluate("document.querySelector('dialog')?.open === false"), '公式更新')
+  await waitFor(() => evaluate("document.querySelector('dialog[aria-labelledby=formula-title]')?.open === false"), '公式更新')
 }
 
 async function snapshot(name) {
@@ -135,7 +150,7 @@ async function snapshot(name) {
   writeFileSync(join(out, name + '.png'), Buffer.from(data, 'base64'))
 }
 
-try {
+async function legacyRegression() {
   await start()
   assert.equal(await evaluate("document.querySelector('.tiptap img').naturalWidth > 0"), true)
   await snapshot('desktop-editor')
@@ -227,6 +242,23 @@ try {
     writeFileSync(storage, preserved)
   }
   console.log('Native invalid JSON, invalid structure and unsupported schema messages PASS')
+}
+
+try {
+  if (sqliteMode) {
+    await sqliteRegression({ out, profile, database, start, close, nativeClose, snapshot, click, send, evaluate, status, waitFor, fillFormula })
+  } else await legacyRegression()
+} catch (error) {
+  if (sqliteMode && socket?.readyState === WebSocket.OPEN) {
+    console.error(await evaluate(`({
+      status: document.querySelector('.status')?.textContent,
+      editor: document.querySelector('.tiptap')?.textContent,
+      images: Array.from(document.querySelectorAll('.tiptap img'), (image) => [image.alt, image.naturalWidth]),
+    })`).catch(String))
+    await snapshot('failure').catch(() => {})
+  }
+  throw error
 } finally {
-  await close()
+  socket?.close()
+  if (child && child.exitCode === null) child.kill()
 }

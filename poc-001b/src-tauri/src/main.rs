@@ -1,15 +1,21 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-mod storage;
+mod editor_ipc;
 #[cfg(windows)]
 mod pdf;
+mod storage;
 
+use editor_ipc::DatabaseStartup;
 use serde_json::Value;
+use shandong_poc_001b::db::{Database, DbError, ErrorKind, DATABASE_FILENAME};
 use std::path::PathBuf;
+use std::sync::Mutex;
 use tauri::Manager;
 
 fn data_directory(app: &tauri::AppHandle) -> Result<PathBuf, String> {
-    app.path().app_data_dir().map_err(|err| format!("找不到应用数据目录：{err}"))
+    app.path()
+        .app_data_dir()
+        .map_err(|err| format!("找不到应用数据目录：{err}"))
 }
 
 #[tauri::command]
@@ -29,14 +35,27 @@ async fn export_pdf(
     window: tauri::WebviewWindow,
     kind: String,
     long_sample: bool,
+    revision_id: Option<i64>,
 ) -> Result<PathBuf, String> {
-    let filename = match (kind.as_str(), long_sample) {
-        ("paper", false) => "paper.pdf",
-        ("paper", true) => "paper-long.pdf",
-        ("answers", _) => "answers.pdf",
+    let filename = match (kind.as_str(), long_sample, revision_id) {
+        ("paper" | "answers", false, Some(id)) if id > 0 => {
+            if editor_ipc::read_revision(window.app_handle().clone(), id)
+                .await
+                .map_err(|err| err.message)?
+                .is_none()
+            {
+                return Err("PDF 引用的修订不存在。".into());
+            }
+            format!("revision-{id}-{kind}.pdf")
+        }
+        ("paper", false, None) => "paper.pdf".into(),
+        ("paper", true, None) => "paper-long.pdf".into(),
+        ("answers", _, None) => "answers.pdf".into(),
         _ => return Err("请先打开题卷或答案卷预览。".into()),
     };
-    let destination = data_directory(window.app_handle())?.join("pdf").join(filename);
+    let destination = data_directory(window.app_handle())?
+        .join("pdf")
+        .join(filename);
     #[cfg(windows)]
     {
         pdf::print(window, &destination).await?;
@@ -51,7 +70,41 @@ async fn export_pdf(
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![load_questions, save_questions, export_pdf])
+        .setup(|app| {
+            let status = app
+                .path()
+                .app_data_dir()
+                .map_err(|err| DbError {
+                    kind: ErrorKind::FileAccess,
+                    message: format!("找不到数据库目录：{err}"),
+                })
+                .and_then(|directory| {
+                    let db = Database::open(&directory.join(DATABASE_FILENAME))?;
+                    let version = db.schema_version()?;
+                    db.ensure_editor_subject()?;
+                    app.manage(Mutex::new(db));
+                    Ok(version)
+                });
+            if let Err(error) = &status {
+                eprintln!("SQLite 初始化失败：{error}");
+            }
+            app.manage(DatabaseStartup(status));
+            Ok(())
+        })
+        .invoke_handler(tauri::generate_handler![
+            load_questions,
+            save_questions,
+            export_pdf,
+            editor_ipc::database_status,
+            editor_ipc::list_subjects,
+            editor_ipc::list_questions,
+            editor_ipc::create_question,
+            editor_ipc::current_revision,
+            editor_ipc::public_original,
+            editor_ipc::save_user_revision,
+            editor_ipc::read_revision,
+            editor_ipc::list_revisions,
+        ])
         .run(tauri::generate_context!())
         .expect("could not start POC-001B");
 }

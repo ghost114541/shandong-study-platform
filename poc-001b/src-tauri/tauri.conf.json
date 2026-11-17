@@ -10,8 +10,13 @@
     "frontendDist": "../dist"
   },
   "app": {
-    "windows": [{ "title": "山东高中学习资源平台 · POC-001B", "width": 1120, "height": 800, "minWidth": 550, "minHeight": 450 }],
+    "windows": [{ "title": "知卷 · 试题编辑", "width": 1120, "height": 800, "minWidth": 550, "minHeight": 450 }],
     "security": {
+      "capabilities": [{
+        "identifier": "editor-window-close",
+        "windows": ["main"],
+        "permissions": ["core:event:allow-listen", "core:event:allow-unlisten", "core:window:allow-destroy"]
+      }],
       "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src ipc: http://ipc.localhost; object-src 'none'; base-uri 'none'",
       "devCsp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' ws://127.0.0.1:1420 ipc: http://ipc.localhost; object-src 'none'; base-uri 'none'"
     }

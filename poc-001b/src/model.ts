@@ -3,15 +3,17 @@ import { z } from 'zod'
 export const bundledGraph = 'poc001:parabola'
 const id = z.string().min(1)
 const score = z.number().int().nonnegative()
+const unicode = z.string().refine((value) => !/[\uD800-\uDFFF]/u.test(value), '无效的 Unicode 字符')
 const textNode = z.strictObject({
-  type: z.literal('text'), text: z.string().min(1),
+  type: z.literal('text'), text: unicode.min(1),
   marks: z.array(z.strictObject({ type: z.enum(['bold', 'italic']) })).optional(),
 })
-const latexAttrs = z.strictObject({ latex: z.string().min(1).max(4000).refine((value) => value.trim().length > 0, 'LaTeX 不能为空') })
+const latexAttrs = z.strictObject({ latex: unicode.min(1).max(4000).refine((value) => /\P{White_Space}/u.test(value), 'LaTeX 不能为空') })
 const inlineMath = z.strictObject({ type: z.literal('inlineMath'), attrs: latexAttrs })
 const imageSource = z.string().refine(
-  (src) => src === bundledGraph || /^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/]+={0,2}$/.test(src),
-  '仅支持内置配图或内嵌的 PNG、JPEG、WebP、GIF 图片',
+  (src) => src === bundledGraph || /^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/]+={0,2}(?![\s\S])/.test(src)
+    || /^attachment:[A-Za-z0-9_-]+(?![\s\S])/.test(src),
+  '图片必须为内置配图、内嵌位图或附件引用',
 )
 const document = z.strictObject({
   type: z.literal('doc'),
@@ -26,7 +28,7 @@ const document = z.strictObject({
     z.strictObject({
       type: z.literal('image'),
       attrs: z.strictObject({
-        src: imageSource, alt: z.string().nullable().optional(), title: z.string().nullable().optional(),
+        src: imageSource, alt: unicode.nullable().optional(), title: unicode.nullable().optional(),
         width: z.number().positive().nullable().optional(), height: z.number().positive().nullable().optional(),
       }),
     }),
@@ -54,12 +56,75 @@ const questionSet = z.strictObject({
     if (q.parts.length && q.parts.reduce((sum, p) => sum + p.score, 0) !== q.score) {
       ctx.addIssue({ code: 'custom', message: '小问分值与整题分值不一致 ' + q.id })
     }
+    if (pictures([q.stem, ...q.parts.flatMap((p) => [p.prompt, p.answer])]).some((src) => src.startsWith('attachment:'))) {
+      ctx.addIssue({ code: 'custom', message: 'POC-001B 文件不包含附件登记表' })
+    }
   }
 })
 
 export type QuestionSet = z.infer<typeof questionSet>
 export type RichDocument = z.infer<typeof document>
 export type RichBlock = RichDocument['content'][number]
+
+function pictures(documents: RichDocument[]): string[] {
+  return documents.flatMap((doc) => doc.content.flatMap((block) => block.type === 'image' ? [block.attrs.src] : []))
+}
+
+export const CONTENT_VERSION = 1
+const nonblank = unicode.refine((value) => /\P{White_Space}/u.test(value))
+const points = score.max(0xffffffff)
+const optionalDocument = document.nullish().transform((value) => value ?? null)
+const attachment = z.strictObject({
+  id: z.string().regex(/^[A-Za-z0-9_-]+(?![\s\S])/),
+  media_type: z.enum(['image/png', 'image/jpeg', 'image/webp', 'image/gif']),
+  byte_size: z.number().int().positive(),
+  sha256: z.string().length(64).regex(/^[0-9a-fA-F]+$/),
+})
+const revisionContent = z.strictObject({
+  schema_version: z.literal(CONTENT_VERSION),
+  question_type: nonblank,
+  score: points,
+  stem: document,
+  answer: optionalDocument,
+  analysis: optionalDocument,
+  parts: z.array(z.strictObject({
+    id: nonblank, score: points, prompt: document, answer: optionalDocument, analysis: optionalDocument,
+  })),
+  attachments: z.array(attachment).default([]),
+}).superRefine((value, ctx) => {
+  const attachments = new Set(value.attachments.map((item) => item.id))
+  const partIds = new Set(value.parts.map((part) => part.id))
+  const issue = (message: string) => ctx.addIssue({ code: 'custom', message })
+  if (attachments.size !== value.attachments.length) issue('附件 ID 重复')
+  if (partIds.size !== value.parts.length) issue('小问 ID 重复')
+  if (value.parts.length && value.parts.reduce((sum, part) => sum + part.score, 0) !== value.score) {
+    issue('小问分值与整题分值不一致')
+  }
+  const docs = [value.stem, value.answer, value.analysis,
+    ...value.parts.flatMap((part) => [part.prompt, part.answer, part.analysis])]
+  for (const src of pictures(docs.filter((doc) => doc !== null))) {
+    if (src.startsWith('attachment:') && !attachments.has(src.slice('attachment:'.length))) issue('图片引用未登记的附件')
+    if (src.startsWith('data:') && src.slice(src.indexOf(',') + 1).length % 4 !== 0) issue('图片 Base64 长度无效')
+  }
+})
+
+export type RevisionContent = z.infer<typeof revisionContent>
+
+export function parseRevisionContent(input: unknown): RevisionContent {
+  const result = revisionContent.safeParse(input)
+  if (!result.success) {
+    const issue = result.error.issues[0]
+    throw new Error('无效的试题修订：' + issue.path.join('.') + ' ' + issue.message)
+  }
+  return result.data
+}
+
+export function questionToRevision(question: QuestionSet['questions'][number]): RevisionContent {
+  return parseRevisionContent({
+    schema_version: CONTENT_VERSION, question_type: question.type, score: question.score,
+    stem: question.stem, parts: question.parts,
+  })
+}
 
 export function parseDocument(input: unknown): RichDocument {
   return document.parse(input)
@@ -142,10 +207,29 @@ export function withLongStem(source: QuestionSet): QuestionSet {
   return copy
 }
 
-export function projectPaper(source: QuestionSet, answer: boolean) {
+export interface PaperData {
+  title: string
+  duration_minutes?: number
+  questions: {
+    subject: string
+    score: number
+    stem: RichDocument
+    answer?: RichDocument | null
+    parts: { score: number; prompt: RichDocument; answer: RichDocument | null }[]
+  }[]
+}
+
+export function revisionToPaper(content: RevisionContent, subject: string): PaperData {
+  return {
+    title: '知卷试题',
+    questions: [{ subject, score: content.score, stem: content.stem, answer: content.answer, parts: content.parts }],
+  }
+}
+
+export function projectPaper(source: PaperData, answer: boolean) {
   return source.questions.map((q, index) => ({
     number: index + 1, subject: q.subject, score: q.score,
-    stem: answer ? undefined : q.stem,
+    stem: answer ? q.answer : q.stem,
     parts: q.parts.map((p, i) => ({
       label: String(index + 1) + '.' + String(i + 1), score: p.score,
       content: answer ? p.answer : p.prompt,
