@@ -1,0 +1,45 @@
+
+> shandong-poc-001b@0.1.0 test
+> node --disable-warning=ExperimentalWarning --experimental-strip-types --test tests/model.test.ts tests/revision-contract.test.ts
+
+✔ converts POC-001 with the same question and part IDs, scores and source formulae (16.756ms)
+✔ round trip preserves edits, marks, formula sources and bundled/embedded attachments (1.7956ms)
+✔ rejects unsupported versions, duplicate IDs, bad nodes, and remote images (2.4659ms)
+✔ paper and answer projection use identical numbering and disjoint content (0.5804ms)
+✔ DEV002-T01 中文和缺省可选字段 (6.6598ms)
+✔ DEV002-T01 粗体、斜体、行内公式和换行 (1.4186ms)
+✔ DEV002-T01 独立公式和化学方程式 (1.4233ms)
+✔ DEV002-T01 本地内嵌图片与内置图片 (1.117ms)
+✔ DEV002-T01 有限正数尺寸和空尺寸 (0.3282ms)
+✔ DEV002-T01 零宽度 (0.8867ms)
+✔ DEV002-T01 字符串高度 (0.288ms)
+✔ DEV002-T01 负高度 (0.1692ms)
+✔ DEV002-T01 绝对本地路径 (0.3699ms)
+✔ DEV002-T01 远程路径 (0.2857ms)
+✔ DEV002-T01 Base64 长度不整除四 (0.2794ms)
+✔ DEV002-T01 Base64 末尾换行 (0.1633ms)
+✔ DEV002-T01 已登记附件（文件未验证） (0.8015ms)
+✔ DEV002-T01 未登记附件 (0.184ms)
+✔ DEV002-T01 附件大小超过安全整数 (0.2153ms)
+✔ DEV002-T01 未知节点 (0.2036ms)
+✔ DEV002-T01 未知段落属性 (0.2197ms)
+✔ DEV002-T01 未知图片属性 (0.1351ms)
+✔ DEV002-T01 未知公式属性 (0.1003ms)
+✔ DEV002-T01 未知标记属性 (0.1456ms)
+✔ DEV002-T01 未知根属性 (0.1008ms)
+✔ DEV002-T01 版本不支持 (0.1072ms)
+✔ DEV002-T01 多小问 (0.7715ms)
+✔ DEV002-T01 小问重复 ID (0.1417ms)
+✔ DEV002-T01 分值不一致 (0.1195ms)
+✔ DEV002-T01 LaTeX 仅空白 (0.1008ms)
+✔ DEV002-T01 答案和解析同样校验 (0.0979ms)
+✔ DEV002-T01 POC 样本保持富文本和小问 ID (3.3345ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 367.2408
+EXIT 0

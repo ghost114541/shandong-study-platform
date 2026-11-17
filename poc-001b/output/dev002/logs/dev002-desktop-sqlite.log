@@ -1,0 +1,14 @@
+Native Win32 window hwnd present, process PID 24236, URL http://tauri.localhost/
+file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:39
+  throw new Error('等待超时：' + description, { cause: error })
+        ^
+
+Error: 等待超时：真实本地图片已显示
+    at waitFor (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:39:9)
+    at async sqliteRegression (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-sqlite.mjs:67:3)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:250:5 {
+  [cause]: undefined
+}
+
+Node.js v24.13.0
+EXIT 1

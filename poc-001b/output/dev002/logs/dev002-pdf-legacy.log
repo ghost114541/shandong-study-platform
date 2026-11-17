@@ -1,0 +1,14 @@
+C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\.test-output\python\fitz\__init__.py:17: FutureWarning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+  warnings.warn(
+paper.pdf: 1 page(s)
+  page 1: 594.96 x 841.92 pt
+answers.pdf: 1 page(s)
+  page 1: 594.96 x 841.92 pt
+paper-long.pdf: 5 page(s)
+  page 1: 594.96 x 841.92 pt
+  page 2: 594.96 x 841.92 pt
+  page 3: 594.96 x 841.92 pt
+  page 4: 594.96 x 841.92 pt
+  page 5: 594.96 x 841.92 pt
+PDF text, numbering, A4 and long-pagination checks PASS
+EXIT 0
