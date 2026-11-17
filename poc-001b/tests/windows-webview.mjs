@@ -5,13 +5,18 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
 import { sqliteRegression } from './windows-sqlite.mjs'
+import { knowledgeRegression, upgradeRegression } from './windows-knowledge.mjs'
 
 const executable = resolve(process.argv[2] ?? 'src-tauri/target/release/shandong-poc-001b.exe')
 const sqliteMode = process.argv.includes('--sqlite')
+const knowledgeMode = process.argv.includes('--knowledge')
+const upgradeMode = process.argv.includes('--upgrade')
+const editorMode = sqliteMode || knowledgeMode || upgradeMode
 const port = 19245
 const isolatedIdentifier = process.env.POC001B_TEST_APP_IDENTIFIER
 assert.match(isolatedIdentifier ?? '', /^org\.shandong-study\.dev\d+-[a-f0-9]+$/i, 'Use an isolated build identifier')
-const out = resolve(join('.test-output', isolatedIdentifier, sqliteMode ? 'sqlite' : 'legacy'))
+const out = resolve(join('.test-output', isolatedIdentifier,
+  upgradeMode ? 'upgrade' : knowledgeMode ? 'knowledge' : sqliteMode ? 'sqlite' : 'legacy'))
 const profile = join(process.env.APPDATA, isolatedIdentifier)
 const database = join(profile, 'study.sqlite3')
 const storage = join(profile, 'questions.json')
@@ -91,7 +96,7 @@ async function start(offline = false) {
     await send('Network.setCacheDisabled', { cacheDisabled: true })
     await send('Page.reload', { ignoreCache: true })
   }
-  if (sqliteMode) await waitFor(() => evaluate(buttons('新建试题') + '?.disabled === false'), 'SQLite 工作区可用')
+  if (editorMode) await waitFor(() => evaluate(buttons('新建试题') + '?.disabled === false'), 'SQLite 工作区可用')
   else {
     await click('POC-001B JSON 演示')
     await waitFor(() => evaluate("document.querySelector('.tiptap')?.isContentEditable"), '编辑器可用')
@@ -99,7 +104,8 @@ async function start(offline = false) {
   const state = execFileSync('powershell.exe', ['-NoProfile', '-Command',
     '$p = Get-Process -Id ' + child.pid + '; if (!$p.MainWindowHandle) { exit 1 }; $p.MainWindowTitle'], { encoding: 'utf8' })
   assert.ok(state.trim())
-  assert.equal(await evaluate("window.__TAURI_INTERNALS__.invoke('database_status')"), 1)
+  const schema = isolatedIdentifier.startsWith('org.shandong-study.dev003-') ? 2 : 1
+  assert.equal(await evaluate("window.__TAURI_INTERNALS__.invoke('database_status')"), schema)
   assert.ok(existsSync(database), 'database created in the isolated profile')
   console.log('Native Win32 window hwnd present, process PID ' + child.pid + ', URL ' + await evaluate('location.href'))
   if (offline) assert.equal(await evaluate('navigator.onLine'), false)
@@ -123,7 +129,7 @@ async function close() {
 const buttons = (text) => "Array.from(document.querySelectorAll('button')).find(element => element.textContent.trim() === " + JSON.stringify(text) + ')'
 async function click(text) {
   const expr = buttons(text)
-  await waitFor(() => evaluate(expr + '?.disabled === false'), text)
+  await waitFor(() => evaluate(expr + "?.matches(':enabled')"), text)
   await evaluate(expr + '.click()')
 }
 
@@ -245,11 +251,13 @@ async function legacyRegression() {
 }
 
 try {
-  if (sqliteMode) {
-    await sqliteRegression({ out, profile, database, start, close, nativeClose, snapshot, click, send, evaluate, status, waitFor, fillFormula })
-  } else await legacyRegression()
+  const harness = { out, profile, database, start, close, nativeClose, snapshot, click, send, evaluate, status, waitFor, fillFormula }
+  if (upgradeMode) await upgradeRegression(harness)
+  else if (knowledgeMode) await knowledgeRegression(harness)
+  else if (sqliteMode) await sqliteRegression(harness)
+  else await legacyRegression()
 } catch (error) {
-  if (sqliteMode && socket?.readyState === WebSocket.OPEN) {
+  if (editorMode && socket?.readyState === WebSocket.OPEN) {
     console.error(await evaluate(`({
       status: document.querySelector('.status')?.textContent,
       editor: document.querySelector('.tiptap')?.textContent,

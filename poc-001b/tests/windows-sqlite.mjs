@@ -50,7 +50,8 @@ export async function sqliteRegression(harness) {
 
   await start()
   assert.deepEqual(data().questions, [])
-  assert.deepEqual(await evaluate("window.__TAURI_INTERNALS__.invoke('list_subjects')"), [{ id: 'math', name: '数学' }])
+  const subjects = await evaluate("window.__TAURI_INTERNALS__.invoke('list_subjects')")
+  assert.deepEqual(subjects.filter(({ id }) => id === 'math'), [{ id: 'math', name: '数学' }])
   await click('新建试题')
   await edit('数据库原创试题：观察抛物线，写出计算过程。')
   await evaluate("getSelection().collapseToEnd()")

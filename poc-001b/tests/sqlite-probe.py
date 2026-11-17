@@ -34,8 +34,21 @@ def main():
         picture(path)
         return
     profile = Path(path).parent.name
-    assert profile.startswith("org.shandong-study.dev002-"), profile
+    assert profile.startswith(("org.shandong-study.dev002-", "org.shandong-study.dev003-")), profile
     assert Path(path).name == "study.sqlite3"
+    if command == "copy-schema-one":
+        source = Path(path)
+        target = Path(args[0])
+        assert source.parent.name.startswith("org.shandong-study.dev002-")
+        assert target.parent.name.startswith("org.shandong-study.dev003-")
+        assert target.name == "study.sqlite3" and not target.exists()
+        target.parent.mkdir(parents=True, exist_ok=True)
+        with sqlite3.connect(source.as_uri() + "?mode=ro", uri=True) as old:
+            assert old.execute("PRAGMA user_version").fetchone()[0] == 1
+            with sqlite3.connect(target) as new:
+                old.backup(new)
+        print("Copied DEV-002 test database using SQLite backup")
+        return
     with sqlite3.connect(Path(path).as_uri() + "?mode=rw", uri=True) as db:
         db.row_factory = sqlite3.Row
         db.execute("PRAGMA foreign_keys=ON")
@@ -47,10 +60,26 @@ def main():
                 "reviews": "SELECT revision_id, verdict FROM verification_record ORDER BY id",
             }
             print(json.dumps({k: [dict(row) for row in db.execute(query)] for k, query in sql.items()}))
+        elif command == "info":
+            print(json.dumps({"version": db.execute("PRAGMA user_version").fetchone()[0],
+                              "migrations": [dict(row) for row in db.execute("SELECT * FROM schema_migration ORDER BY version")]}))
         elif command == "approve":
             db.execute(
                 """INSERT INTO verification_record (revision_id, reviewer, checked_on, evidence, verdict)
-                   VALUES (?, '桌面用例审核', '2026-11-16', '隔离验收测试，核对两小问答案', 'passed')""",
+                   VALUES (?, '桌面用例审核', date('now', '-1 day'), '隔离验收测试，核对两小问答案', 'passed')""",
+                [int(args[0])],
+            )
+        elif command == "expire":
+            db.execute(
+                """INSERT INTO verification_record (revision_id, reviewer, checked_on, evidence, verdict, expires_on)
+                   VALUES (?, '桌面用例审核', date('now', '-3 day'), '隔离到期测试', 'passed', date('now', '-1 day'))""",
+                [int(args[0])],
+            )
+        elif command == "schedule":
+            db.execute(
+                """INSERT INTO verification_record (revision_id, reviewer, checked_on, evidence, verdict, review_of)
+                   SELECT revision_id, '桌面用例复核', date('now', '+1 day'), '隔离未来日期测试', 'passed', id
+                   FROM verification_record WHERE revision_id = ? ORDER BY id DESC LIMIT 1""",
                 [int(args[0])],
             )
         elif command == "lock":

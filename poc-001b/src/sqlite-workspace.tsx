@@ -5,6 +5,7 @@ import type { ConfirmLeave, ReportGuard } from './leave-guard'
 import { CONTENT_VERSION, revisionToPaper } from './model'
 import type { PaperData, RevisionContent, RichDocument } from './model'
 import { Content, Paper } from './paper'
+import { QuestionKnowledge } from './question-knowledge'
 import { describeError, sqlite } from './sqlite-api'
 import type { QuestionSummary, RevisionDetail, RevisionSummary, Subject } from './sqlite-api'
 
@@ -46,7 +47,11 @@ function reviewStatus({ review, review_status }: RevisionDetail): string {
     : label
 }
 
-export function SQLiteWorkspace({ reportGuard, confirmLeave }: { reportGuard: ReportGuard; confirmLeave: ConfirmLeave }) {
+export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: {
+  reportGuard: ReportGuard
+  confirmLeave: ConfirmLeave
+  initialQuestion?: QuestionSummary
+}) {
   const [subjects, setSubjects] = useState<Subject[]>([])
   const [newSubject, setNewSubject] = useState('')
   const [questions, setQuestions] = useState<QuestionSummary[]>([])
@@ -65,6 +70,30 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave }: { reportGuard: Re
   const subjectName = (id: string) => subjects.find((subject) => subject.id === id)?.name ?? id
 
   useLayoutEffect(() => reportGuard(dirty, busy), [reportGuard, dirty, busy])
+
+  useEffect(() => {
+    if (revisionId === null) return
+    let day = new Date().toISOString().slice(0, 10)
+    let active = true
+    const refresh = () => {
+      const requestedDay = new Date().toISOString().slice(0, 10)
+      void sqlite.review(revisionId).then((evaluation) => {
+        if (!active) return
+        day = requestedDay
+        setSelection((previous) => previous?.detail?.revision.id === revisionId
+          ? { ...previous, detail: { ...previous.detail, ...evaluation } } : previous)
+      }).catch(() => { /* Keep the loaded record if background refresh fails. */ })
+    }
+    const timer = window.setInterval(() => {
+      if (day !== new Date().toISOString().slice(0, 10)) refresh()
+    }, 60_000)
+    window.addEventListener('focus', refresh)
+    return () => {
+      active = false
+      window.clearInterval(timer)
+      window.removeEventListener('focus', refresh)
+    }
+  }, [revisionId])
 
   function reset(next: Selection, revisions: RevisionSummary[]) {
     setSelection(next)
@@ -92,8 +121,11 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave }: { reportGuard: Re
     void Promise.all([sqlite.subjects(), sqlite.questions()]).then(async ([allSubjects, allQuestions]) => {
       setSubjects(allSubjects)
       setNewSubject((allSubjects.find((subject) => subject.name === '数学') ?? allSubjects[0])?.id ?? '')
-      setQuestions(allQuestions)
-      if (allQuestions.length) await load(allQuestions[0], 'current')
+      const target = initialQuestion ?? allQuestions[0]
+      const list = initialQuestion && !allQuestions.some((question) => question.id === initialQuestion.id)
+        ? [initialQuestion, ...allQuestions].slice(0, 25) : allQuestions
+      setQuestions(list)
+      if (target) await load(target, 'current')
     }).catch((err: unknown) => setError('无法打开 SQLite 工作区：' + describeError(err)))
       .finally(() => setBusy(false))
   }, [])
@@ -163,7 +195,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave }: { reportGuard: Re
     setDirty(false)
     setHistory([revision, ...history])
     setQuestions([{ id: revision.question_id, subject_id: selection.subjectId, current_revision_id: revision.id },
-      ...questions.filter((question) => question.id !== revision.question_id)])
+      ...questions.filter((question) => question.id !== revision.question_id)].slice(0, 25))
     setMessage('已保存 SQLite 修订 #' + revision.id)
   }
 
@@ -205,7 +237,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave }: { reportGuard: Re
       </div>
       {preview ? <Paper data={preview.data} answer={preview.mode === 'answers'} /> : <div className="workspace">
         <aside className="sidebar">
-          <h2>试题</h2>
+          <h2>最近试题</h2>
           <label className="select-field">学科<select value={newSubject} disabled={busy} onChange={(event) => setNewSubject(event.target.value)}>
             {subjects.map((subject) => <option key={subject.id} value={subject.id}>{subject.name}</option>)}
           </select></label>
@@ -260,6 +292,8 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave }: { reportGuard: Re
           {readOnly ? <div className="original-view"><Content data={activeDocument(draft, field)} /></div>
             : <div inert={busy}><QuestionEditor key={editorGeneration + ':' + revisionId + ':' + field}
               content={activeDocument(draft, field)} onChange={updateDocument} onError={setError} /></div>}
+          {!selection.fresh && <QuestionKnowledge key={selection.questionId} questionId={selection.questionId}
+            subjectId={selection.subjectId} editable={!busy && !readOnly} />}
         </section> : <section className="panel"><p>{busy ? '正在读取试题…' : '选择一道试题，或新建试题。'}</p></section>}
       </div>}
     </main>

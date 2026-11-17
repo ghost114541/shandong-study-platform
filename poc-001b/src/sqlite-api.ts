@@ -24,8 +24,7 @@ interface Revision extends RevisionSummary {
   content: RevisionContent
 }
 
-export interface RevisionDetail {
-  revision: Revision
+export interface RevisionReview {
   review_status: 'unreviewed' | 'scheduled' | 'passed' | 'expired' | 'disputed' | 'failed'
   review: {
     verdict: 'passed' | 'disputed' | 'failed'
@@ -33,6 +32,10 @@ export interface RevisionDetail {
     checked_on: string
     expires_on: string | null
   } | null
+}
+
+export interface RevisionDetail extends RevisionReview {
+  revision: Revision
 }
 
 function validated(revision: Revision): Revision {
@@ -47,11 +50,12 @@ async function read(command: string, args: Record<string, string | number>): Pro
 
 export const sqlite = {
   subjects: () => invoke<Subject[]>('list_subjects'),
-  questions: () => invoke<QuestionSummary[]>('list_questions'),
+  questions: () => invoke<QuestionSummary[]>('list_questions', { limit: 25 }),
   revisions: (questionId: string) => invoke<RevisionSummary[]>('list_revisions', { questionId }),
   current: (questionId: string) => read('current_revision', { questionId }),
   original: (questionId: string) => read('public_original', { questionId }),
   revision: (revisionId: number) => read('read_revision', { revisionId }),
+  review: (revisionId: number) => invoke<RevisionReview>('revision_review', { revisionId }),
   async save(questionId: string, subjectId: string, fresh: boolean, expectedCurrent: number | null, draft: RevisionContent): Promise<Revision> {
     const contentJson = JSON.stringify(parseRevisionContent(draft))
     return validated(await (fresh
