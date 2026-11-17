@@ -1,0 +1,774 @@
+[
+  {
+    "name": "中文和缺省可选字段",
+    "valid": true,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "求函数值。"
+              }
+            ]
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "粗体、斜体、行内公式和换行",
+    "valid": true,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "已知",
+                "marks": [
+                  {
+                    "type": "bold"
+                  },
+                  {
+                    "type": "italic"
+                  }
+                ]
+              },
+              {
+                "type": "inlineMath",
+                "attrs": {
+                  "latex": "  x^2  "
+                }
+              },
+              {
+                "type": "hardBreak"
+              }
+            ]
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "独立公式和化学方程式",
+    "valid": true,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "blockMath",
+            "attrs": {
+              "latex": "\\frac12"
+            }
+          },
+          {
+            "type": "blockMath",
+            "attrs": {
+              "latex": "\\ce{H2 + Cl2 -> 2HCl}"
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "本地内嵌图片与内置图片",
+    "valid": true,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image",
+            "attrs": {
+              "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jQ1sAAAAASUVORK5CYII="
+            }
+          },
+          {
+            "type": "image",
+            "attrs": {
+              "src": "poc001:parabola"
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "有限正数尺寸和空尺寸",
+    "valid": true,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image",
+            "attrs": {
+              "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jQ1sAAAAASUVORK5CYII=",
+              "width": 320.5,
+              "height": 180
+            }
+          },
+          {
+            "type": "image",
+            "attrs": {
+              "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jQ1sAAAAASUVORK5CYII=",
+              "width": null,
+              "height": null
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "零宽度",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image",
+            "attrs": {
+              "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jQ1sAAAAASUVORK5CYII=",
+              "width": 0
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "字符串高度",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image",
+            "attrs": {
+              "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jQ1sAAAAASUVORK5CYII=",
+              "height": "180"
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "负高度",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image",
+            "attrs": {
+              "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jQ1sAAAAASUVORK5CYII=",
+              "height": -1
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "绝对本地路径",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image",
+            "attrs": {
+              "src": "C:/pics/a.png"
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "远程路径",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image",
+            "attrs": {
+              "src": "https://example.com/a.png"
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "Base64 长度不整除四",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image",
+            "attrs": {
+              "src": "data:image/png;base64,AAA"
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "Base64 末尾换行",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image",
+            "attrs": {
+              "src": "data:image/png;base64,AAAA\n"
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "已登记附件（文件未验证）",
+    "valid": true,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image",
+            "attrs": {
+              "src": "attachment:fig_1"
+            }
+          }
+        ]
+      },
+      "parts": [],
+      "attachments": [
+        {
+          "id": "fig_1",
+          "media_type": "image/png",
+          "byte_size": 68,
+          "sha256": "abababababababababababababababababababababababababababababababab"
+        }
+      ]
+    }
+  },
+  {
+    "name": "未登记附件",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image",
+            "attrs": {
+              "src": "attachment:fig_2"
+            }
+          }
+        ]
+      },
+      "parts": [],
+      "attachments": [
+        {
+          "id": "fig_1",
+          "media_type": "image/png",
+          "byte_size": 68,
+          "sha256": "abababababababababababababababababababababababababababababababab"
+        }
+      ]
+    }
+  },
+  {
+    "name": "附件大小超过安全整数",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "求函数值。"
+              }
+            ]
+          }
+        ]
+      },
+      "parts": [],
+      "attachments": [
+        {
+          "id": "fig_1",
+          "media_type": "image/png",
+          "byte_size": 9007199254740992,
+          "sha256": "abababababababababababababababababababababababababababababababab"
+        }
+      ]
+    }
+  },
+  {
+    "name": "未知节点",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "heading",
+            "content": []
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "未知段落属性",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [],
+            "attrs": {
+              "align": "right"
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "未知图片属性",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image",
+            "attrs": {
+              "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jQ1sAAAAASUVORK5CYII=",
+              "style": "width:120px"
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "未知公式属性",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "blockMath",
+            "attrs": {
+              "latex": "x",
+              "extra": true
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "未知标记属性",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "甲",
+                "marks": [
+                  {
+                    "type": "italic",
+                    "attrs": {}
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "未知根属性",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "求函数值。"
+              }
+            ]
+          }
+        ],
+        "attrs": {}
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "版本不支持",
+    "valid": false,
+    "content": {
+      "schema_version": 2,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "求函数值。"
+              }
+            ]
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "多小问",
+    "valid": true,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "求函数值。"
+              }
+            ]
+          }
+        ]
+      },
+      "parts": [
+        {
+          "id": "p1",
+          "score": 3,
+          "prompt": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "第一问"
+                  }
+                ]
+              }
+            ]
+          },
+          "answer": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "inlineMath",
+                    "attrs": {
+                      "latex": " x=1 "
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "p2",
+          "score": 5,
+          "prompt": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": []
+              }
+            ]
+          },
+          "answer": null
+        }
+      ]
+    }
+  },
+  {
+    "name": "小问重复 ID",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "求函数值。"
+              }
+            ]
+          }
+        ]
+      },
+      "parts": [
+        {
+          "id": "p1",
+          "score": 3,
+          "prompt": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": []
+              }
+            ]
+          }
+        },
+        {
+          "id": "p1",
+          "score": 5,
+          "prompt": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": []
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "分值不一致",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "求函数值。"
+              }
+            ]
+          }
+        ]
+      },
+      "parts": [
+        {
+          "id": "p1",
+          "score": 3,
+          "prompt": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": []
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "LaTeX 仅空白",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "blockMath",
+            "attrs": {
+              "latex": " 　 "
+            }
+          }
+        ]
+      },
+      "parts": []
+    }
+  },
+  {
+    "name": "答案和解析同样校验",
+    "valid": false,
+    "content": {
+      "schema_version": 1,
+      "question_type": "解答题",
+      "score": 8,
+      "stem": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "求函数值。"
+              }
+            ]
+          }
+        ]
+      },
+      "parts": [],
+      "analysis": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image",
+            "attrs": {
+              "src": "attachment:missing"
+            }
+          }
+        ]
+      }
+    }
+  }
+]

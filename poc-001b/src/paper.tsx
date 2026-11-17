@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import katex from 'katex'
-import { imageUrl, mathOptions } from './editor'
+import { attachmentNotice, imageUrl, mathOptions } from './editor'
 import { projectPaper } from './model'
 import type { QuestionSet, RichBlock, RichDocument } from './model'
 
@@ -19,7 +19,11 @@ function trailingPunctuation(block: RichBlock | undefined): string | undefined {
 export function Content({ data }: { data: RichDocument }) {
   return data.content.map((block, index) => {
     if (block.type === 'image') {
-      return <img key={index} className="paper-image" src={imageUrl(block.attrs.src)} alt={block.attrs.alt ?? ''} />
+      const { src, alt, title, width, height } = block.attrs
+      const url = imageUrl(src)
+      return url === null ? <p key={index} className="attachment-notice">{attachmentNotice(src)}</p>
+        : <img key={index} className="paper-image" src={url} alt={alt ?? ''} title={title ?? undefined}
+          style={{ width: width ?? undefined, height: height ?? undefined }} />
     }
     if (block.type === 'blockMath') {
       return <Formula key={index} latex={block.attrs.latex} block punctuation={trailingPunctuation(data.content[index + 1])} />

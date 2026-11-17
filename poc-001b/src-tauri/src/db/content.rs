@@ -5,6 +5,7 @@ use std::collections::HashSet;
 
 pub const CONTENT_VERSION: u32 = 1;
 const MAX_BYTES: usize = 32 * 1024 * 1024;
+const MAX_SAFE_INTEGER: u64 = (1 << 53) - 1;
 const RASTER_TYPES: &[&str] = &["image/png", "image/jpeg", "image/webp", "image/gif"];
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -59,14 +60,23 @@ impl RevisionContent {
         if json.len() > MAX_BYTES {
             return Err(invalid("题目修订超过 32 MiB。"));
         }
-        let value: Value =
+        let mut value: Value =
             serde_json::from_str(json).map_err(|error| invalid(error.to_string()))?;
         check_version(
             value
                 .get("schema_version")
-                .and_then(Value::as_u64)
+                .and_then(json_integer)
                 .ok_or_else(|| invalid("缺少整数内容版本 schema_version。"))?,
         )?;
+        normalize_integer(&mut value, "schema_version");
+        normalize_integer(&mut value, "score");
+        for (array, field) in [("parts", "score"), ("attachments", "byte_size")] {
+            if let Some(items) = value.get_mut(array).and_then(Value::as_array_mut) {
+                for item in items {
+                    normalize_integer(item, field);
+                }
+            }
+        }
         let result: Self =
             serde_json::from_value(value).map_err(|error| invalid(error.to_string()))?;
         result.validate()?;
@@ -98,6 +108,7 @@ impl RevisionContent {
                 || !attachment_ids.insert(item.id.as_str())
                 || !RASTER_TYPES.contains(&item.media_type.as_str())
                 || item.byte_size == 0
+                || item.byte_size > MAX_SAFE_INTEGER
                 || item.sha256.len() != 64
                 || !item.sha256.bytes().all(|b| b.is_ascii_hexdigit())
             {
@@ -144,9 +155,31 @@ impl RevisionContent {
     }
 }
 
+fn json_integer(value: &Value) -> Option<u64> {
+    value.as_u64().or_else(|| {
+        let number = value.as_f64()?;
+        (number >= 0.0 && number <= MAX_SAFE_INTEGER as f64 && number.fract() == 0.0)
+            .then_some(number as u64)
+    })
+}
+
+fn normalize_integer(object: &mut Value, name: &str) {
+    if let Some(field) = object.get_mut(name) {
+        if let Some(number) = json_integer(field) {
+            *field = number.into();
+        }
+    }
+}
+
+fn only_fields(value: &Value, allowed: &[&str]) -> bool {
+    value
+        .as_object()
+        .is_some_and(|object| object.keys().all(|key| allowed.contains(&key.as_str())))
+}
+
 fn validate_documents(documents: [Option<&Value>; 3], attachments: &HashSet<&str>) -> Result<()> {
     for doc in documents.into_iter().flatten() {
-        if kind(doc) != Some("doc") {
+        if kind(doc) != Some("doc") || !only_fields(doc, &["type", "content"]) {
             return Err(invalid("富文本根节点必须为 doc。"));
         }
         let blocks = doc["content"]
@@ -155,7 +188,7 @@ fn validate_documents(documents: [Option<&Value>; 3], attachments: &HashSet<&str
             .ok_or_else(|| invalid("富文本 doc 必须具有非空 content 数组。"))?;
         for block in blocks {
             match kind(block) {
-                Some("paragraph") => {
+                Some("paragraph") if only_fields(block, &["type", "content"]) => {
                     if let Some(inlines) = block.get("content") {
                         for node in inlines
                             .as_array()
@@ -163,14 +196,16 @@ fn validate_documents(documents: [Option<&Value>; 3], attachments: &HashSet<&str
                         {
                             match kind(node) {
                                 Some("text")
-                                    if node["text"]
-                                        .as_str()
-                                        .is_some_and(|text| !text.is_empty()) =>
+                                    if only_fields(node, &["type", "text", "marks"])
+                                        && node["text"]
+                                            .as_str()
+                                            .is_some_and(|text| !text.is_empty()) =>
                                 {
                                     if let Some(marks) = node.get("marks") {
                                         if !marks.as_array().is_some_and(|items| {
                                             items.iter().all(|mark| {
                                                 matches!(kind(mark), Some("bold" | "italic"))
+                                                    && only_fields(mark, &["type"])
                                             })
                                         }) {
                                             return Err(invalid("文字标记必须为粗体或斜体。"));
@@ -178,7 +213,7 @@ fn validate_documents(documents: [Option<&Value>; 3], attachments: &HashSet<&str
                                     }
                                 }
                                 Some("inlineMath") => validate_latex(node)?,
-                                Some("hardBreak") => {}
+                                Some("hardBreak") if only_fields(node, &["type"]) => {}
                                 _ => return Err(invalid("无效的段落行内节点。")),
                             }
                         }
@@ -186,13 +221,28 @@ fn validate_documents(documents: [Option<&Value>; 3], attachments: &HashSet<&str
                 }
                 Some("blockMath") => validate_latex(block)?,
                 Some("image") => {
-                    if !block["attrs"]["src"]
-                        .as_str()
-                        .is_some_and(|src| valid_image_source(src, attachments))
+                    let attrs = &block["attrs"];
+                    if !only_fields(block, &["type", "attrs"])
+                        || !only_fields(attrs, &["src", "alt", "title", "width", "height"])
+                        || !attrs["src"]
+                            .as_str()
+                            .is_some_and(|src| valid_image_source(src, attachments))
                     {
                         return Err(invalid(
                             "图片必须引用已登记附件、内置配图或有效的内嵌位图。",
                         ));
+                    }
+                    if ["alt", "title"]
+                        .iter()
+                        .any(|name| !attrs[*name].is_null() && !attrs[*name].is_string())
+                        || ["width", "height"].iter().any(|name| {
+                            !attrs[*name].is_null()
+                                && !attrs[*name]
+                                    .as_f64()
+                                    .is_some_and(|size| size.is_finite() && size > 0.0)
+                        })
+                    {
+                        return Err(invalid("图片说明或尺寸无效。"));
                     }
                 }
                 _ => return Err(invalid("无效的富文本块节点。")),
@@ -207,9 +257,11 @@ fn kind(node: &Value) -> Option<&str> {
 }
 
 fn validate_latex(node: &Value) -> Result<()> {
-    if node["attrs"]["latex"]
-        .as_str()
-        .is_some_and(|s| !s.trim().is_empty() && s.encode_utf16().count() <= 4000)
+    if only_fields(node, &["type", "attrs"])
+        && only_fields(&node["attrs"], &["latex"])
+        && node["attrs"]["latex"]
+            .as_str()
+            .is_some_and(|s| !s.trim().is_empty() && s.encode_utf16().count() <= 4000)
     {
         return Ok(());
     }

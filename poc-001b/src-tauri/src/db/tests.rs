@@ -527,3 +527,22 @@ fn validates_knowledge_hierarchy_and_structured_database_errors() {
     assert_eq!(db.integrity_check().unwrap_err().kind, ErrorKind::Integrity);
     assert!(matches!(Database::open(&path), Err(error) if error.kind == ErrorKind::Integrity));
 }
+#[test]
+fn dev002_shared_rich_text_contract() {
+    let cases: Vec<serde_json::Value> =
+        serde_json::from_str(include_str!("../../../tests/revision-contract.json")).unwrap();
+    for case in cases {
+        let result = RevisionContent::from_json(&case["content"].to_string());
+        assert_eq!(
+            result.is_ok(),
+            case["valid"].as_bool().unwrap(),
+            "{}: {:?}",
+            case["name"],
+            result
+        );
+        if let Ok(content) = result {
+            let serialized = content.to_json().unwrap();
+            assert_eq!(RevisionContent::from_json(&serialized).unwrap(), content);
+        }
+    }
+}
