@@ -105,18 +105,13 @@ pub struct Occurrence {
 }
 
 impl Database {
-    pub fn ensure_editor_subject(&self) -> Result<()> {
-        self.connection.execute(
-            "INSERT OR IGNORE INTO subject (id, name) VALUES ('math', '数学')",
-            [],
-        )?;
-        Ok(())
-    }
-
     pub fn subjects(&self) -> Result<Vec<Subject>> {
-        let mut statement = self
-            .connection
-            .prepare("SELECT id, name FROM subject ORDER BY id")?;
+        let mut statement = self.connection.prepare(
+            "SELECT id, name FROM subject ORDER BY CASE id
+                WHEN 'chinese' THEN 1 WHEN 'math' THEN 2 WHEN 'english' THEN 3
+                WHEN 'physics' THEN 4 WHEN 'chemistry' THEN 5 WHEN 'biology' THEN 6
+                WHEN 'politics' THEN 7 WHEN 'history' THEN 8 WHEN 'geography' THEN 9 ELSE 10 END, id",
+        )?;
         let rows = statement.query_map([], |row| {
             Ok(Subject {
                 id: row.get(0)?,
@@ -127,13 +122,17 @@ impl Database {
     }
 
     pub fn questions(&self) -> Result<Vec<QuestionSummary>> {
+        self.recent_questions(-1)
+    }
+
+    pub fn recent_questions(&self, limit: i64) -> Result<Vec<QuestionSummary>> {
         let mut statement = self.connection.prepare(
             "SELECT q.id, q.subject_id, r.id FROM question q
              LEFT JOIN current_question_revision r ON r.question_id = q.id
              WHERE NOT EXISTS (SELECT 1 FROM question_duplicate d WHERE d.duplicate_id = q.id)
-             ORDER BY r.id DESC, q.id",
+             ORDER BY r.id DESC, q.id LIMIT ?1",
         )?;
-        let rows = statement.query_map([], |row| {
+        let rows = statement.query_map([limit], |row| {
             Ok(QuestionSummary {
                 id: row.get(0)?,
                 subject_id: row.get(1)?,
@@ -166,18 +165,6 @@ impl Database {
             "INSERT INTO subject (id, name) VALUES (?1, ?2)",
             params![id, name],
         )?;
-        Ok(())
-    }
-
-    pub fn create_knowledge_point(
-        &self,
-        id: &str,
-        subject: &str,
-        parent: Option<&str>,
-        title: &str,
-    ) -> Result<()> {
-        self.connection.execute("INSERT INTO knowledge_point (id, subject_id, parent_id, title) VALUES (?1, ?2, ?3, ?4)",
-            params![id, subject, parent, title])?;
         Ok(())
     }
 

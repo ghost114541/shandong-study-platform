@@ -1,15 +1,19 @@
 mod composition;
 mod content;
 mod error;
+mod knowledge;
 mod migrations;
 mod questions;
 mod review;
+mod search;
 
 pub use composition::{Composition, SavedItem};
 pub use content::{Attachment, PartContent, RevisionContent, CONTENT_VERSION};
 pub use error::{DbError, ErrorKind, Result};
+pub use knowledge::KnowledgePoint;
 pub use questions::{Counts, Occurrence, QuestionSummary, Revision, RevisionSummary, Scope, Subject};
 pub use review::{Review, ReviewInput, ReviewStatus, Verdict};
+pub use search::{SearchHit, SearchPage, SearchQuery};
 
 use rusqlite::Connection;
 use std::{fs, path::Path, time::Duration};

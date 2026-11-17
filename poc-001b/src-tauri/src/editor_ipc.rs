@@ -1,7 +1,7 @@
 use serde::Serialize;
 use shandong_poc_001b::db::{
-    Database, DbError, ErrorKind, QuestionSummary, Result, Review, Revision, RevisionContent,
-    RevisionSummary, ReviewStatus, Scope, Subject,
+    Database, DbError, ErrorKind, KnowledgePoint, QuestionSummary, Result, Review, ReviewStatus,
+    Revision, RevisionContent, RevisionSummary, Scope, SearchPage, SearchQuery, Subject,
 };
 use std::sync::Mutex;
 use tauri::{AppHandle, Manager};
@@ -37,17 +37,38 @@ fn database_error(error: impl std::fmt::Display) -> DbError {
 #[derive(Serialize)]
 pub struct RevisionDetail {
     revision: Revision,
+    #[serde(flatten)]
+    evaluation: RevisionReview,
+}
+
+#[derive(Serialize)]
+pub struct RevisionReview {
     review: Option<Review>,
     review_status: ReviewStatus,
+}
+
+fn evaluate_review(db: &Database, id: i64) -> Result<RevisionReview> {
+    let (review_status, review) = db.review_today(id)?;
+    Ok(RevisionReview {
+        review,
+        review_status,
+    })
 }
 
 fn detail(db: &Database, revision: Option<Revision>) -> Result<Option<RevisionDetail>> {
     revision
         .map(|revision| {
-            let (review_status, review) = db.review_today(revision.id)?;
-            Ok(RevisionDetail { revision, review, review_status })
+            Ok(RevisionDetail {
+                evaluation: evaluate_review(db, revision.id)?,
+                revision,
+            })
         })
         .transpose()
+}
+
+#[tauri::command]
+pub async fn revision_review(app: AppHandle, revision_id: i64) -> Result<RevisionReview> {
+    database(app, move |db| evaluate_review(db, revision_id)).await
 }
 
 #[tauri::command]
@@ -56,8 +77,65 @@ pub async fn list_subjects(app: AppHandle) -> Result<Vec<Subject>> {
 }
 
 #[tauri::command]
-pub async fn list_questions(app: AppHandle) -> Result<Vec<QuestionSummary>> {
-    database(app, |db| db.questions()).await
+pub async fn list_questions(app: AppHandle, limit: Option<u32>) -> Result<Vec<QuestionSummary>> {
+    database(app, move |db| match limit {
+        Some(limit) => db.recent_questions(i64::from(limit.min(100))),
+        None => db.questions(),
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn list_knowledge(app: AppHandle, subject_id: String) -> Result<Vec<KnowledgePoint>> {
+    database(app, move |db| db.knowledge_points(&subject_id)).await
+}
+
+#[tauri::command]
+pub async fn create_knowledge(
+    app: AppHandle,
+    id: String,
+    subject_id: String,
+    parent_id: Option<String>,
+    title: String,
+    sort_order: i32,
+) -> Result<()> {
+    database(app, move |db| {
+        db.create_user_knowledge(&id, &subject_id, parent_id.as_deref(), &title, sort_order)
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn rename_knowledge(app: AppHandle, id: String, title: String) -> Result<()> {
+    database(app, move |db| db.rename_user_knowledge(&id, &title)).await
+}
+
+#[tauri::command]
+pub async fn add_knowledge_alias(app: AppHandle, id: String, alias: String) -> Result<()> {
+    database(app, move |db| db.add_knowledge_alias(&id, &alias)).await
+}
+
+#[tauri::command]
+pub async fn question_knowledge(app: AppHandle, question_id: String) -> Result<Vec<String>> {
+    database(app, move |db| db.question_knowledge_ids(&question_id)).await
+}
+
+#[tauri::command]
+pub async fn set_question_knowledge(
+    app: AppHandle,
+    question_id: String,
+    id: String,
+    linked: bool,
+) -> Result<()> {
+    database(app, move |db| {
+        db.set_question_knowledge(&question_id, &id, linked)
+    })
+    .await
+}
+
+#[tauri::command]
+pub async fn search_questions(app: AppHandle, query: SearchQuery) -> Result<SearchPage> {
+    database(app, move |db| db.search_questions(&query)).await
 }
 
 #[tauri::command]

@@ -118,16 +118,24 @@ impl Database {
     }
 
     pub fn review_today(&self, revision: i64) -> Result<(ReviewStatus, Option<Review>)> {
-        let utc: String = self.connection.query_row("SELECT date('now')", [], |row| row.get(0))?;
+        let utc: String = self
+            .connection
+            .query_row("SELECT date('now')", [], |row| row.get(0))?;
         self.review_as_of(revision, &utc)
     }
 
-    pub fn review_as_of(&self, revision: i64, as_of: &str) -> Result<(ReviewStatus, Option<Review>)> {
+    pub fn review_as_of(
+        &self,
+        revision: i64,
+        as_of: &str,
+    ) -> Result<(ReviewStatus, Option<Review>)> {
         self.check_review_date(as_of)?;
         let review = self.review_for_date(revision, Some(as_of))?;
         let status = match &review {
             Some(r) => match r.verdict {
-                Verdict::Passed if r.expires_on.as_deref().is_some_and(|until| until < as_of) => ReviewStatus::Expired,
+                Verdict::Passed if r.expires_on.as_deref().is_some_and(|until| until < as_of) => {
+                    ReviewStatus::Expired
+                }
                 Verdict::Passed => ReviewStatus::Passed,
                 Verdict::Disputed => ReviewStatus::Disputed,
                 Verdict::Failed => ReviewStatus::Failed,

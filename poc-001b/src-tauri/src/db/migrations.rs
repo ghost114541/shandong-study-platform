@@ -10,11 +10,18 @@ pub(super) struct Migration {
     pub sql: &'static str,
 }
 
-const MIGRATIONS: &[Migration] = &[Migration {
-    version: 1,
-    name: "core",
-    sql: include_str!("../../migrations/0001_core.sql"),
-}];
+const MIGRATIONS: &[Migration] = &[
+    Migration {
+        version: 1,
+        name: "core",
+        sql: include_str!("../../migrations/0001_core.sql"),
+    },
+    Migration {
+        version: 2,
+        name: "knowledge",
+        sql: include_str!("../../migrations/0002_knowledge.sql"),
+    },
+];
 
 pub(super) fn apply(connection: &mut Connection) -> Result<()> {
     migrate(connection, MIGRATIONS)
@@ -129,12 +136,25 @@ mod tests {
     use super::*;
     use crate::db::Database;
 
+    fn schema_one(path: &std::path::Path) -> Database {
+        let mut connection = Connection::open(path).unwrap();
+        connection
+            .pragma_update(None, "foreign_keys", true)
+            .unwrap();
+        connection
+            .pragma_update(None, "recursive_triggers", true)
+            .unwrap();
+        migrate(&mut connection, &MIGRATIONS[..1]).unwrap();
+        let db = Database { connection };
+        db.create_subject("math", "数学").unwrap();
+        db
+    }
+
     #[test]
     fn test_003_failed_upgrade_rolls_back_ddl_data_and_version() {
         let temp = tempfile::tempdir().unwrap();
         let path = temp.path().join("test.sqlite3");
-        let mut db = Database::open(&path).unwrap();
-        db.create_subject("math", "数学").unwrap();
+        let mut db = schema_one(&path);
         let migrations = [
             Migration { ..MIGRATIONS[0] },
             Migration {
@@ -147,8 +167,6 @@ mod tests {
             migrate(&mut db.connection, &migrations).unwrap_err().kind,
             ErrorKind::Migration
         );
-        drop(db);
-        let db = Database::open(&path).unwrap();
         assert_eq!(db.schema_version().unwrap(), 1);
         assert_eq!(
             db.connection
@@ -172,5 +190,123 @@ mod tests {
             )
             .unwrap());
         db.integrity_check().unwrap();
+    }
+
+    #[test]
+    fn dev003_t02_t10_upgrade_preserves_schema_one_user_data_and_pins() {
+        use crate::db::{ReviewInput, RevisionContent, Scope, SearchQuery, Verdict};
+        let temp = tempfile::tempdir().unwrap();
+        let path = temp.path().join("old.sqlite3");
+        let mut old = schema_one(&path);
+        let item = RevisionContent::from_json(r#"{
+            "schema_version":1,"question_type":"解答","score":4,"parts":[],
+            "stem":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"迁移前函数"}]}]},
+            "answer":{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"答案"}]}]}
+        }"#).unwrap();
+        old.connection.execute("INSERT INTO knowledge_point(id, subject_id, title) VALUES ('legacy-point', 'math', '原知识点')", []).unwrap();
+        let a = old
+            .create_question_with_revision("legacy-q", "math", &item)
+            .unwrap();
+        let b = old
+            .append_revision("legacy-q", Scope::User, Some(a), &item)
+            .unwrap();
+        old.record_review(
+            a,
+            ReviewInput {
+                reviewer: "迁移测试员",
+                checked_on: "2026-11-10",
+                evidence: "原始记录",
+                verdict: Verdict::Passed,
+                expires_on: None,
+                review_of: None,
+            },
+        )
+        .unwrap();
+        old.save_composition("old-composition", "固定修订的原组卷", &[a])
+            .unwrap();
+        let before = old.load_composition("old-composition").unwrap();
+        let review = old.latest_review(a).unwrap();
+        let revision = old.current_revision("legacy-q").unwrap();
+        let historical: (String, String) = old
+            .connection
+            .query_row(
+                "SELECT checksum, applied_at FROM schema_migration WHERE version=1",
+                [],
+                |r| Ok((r.get(0)?, r.get(1)?)),
+            )
+            .unwrap();
+        drop(old);
+
+        for _ in 0..2 {
+            let mut db = Database::open(&path).unwrap();
+            assert_eq!(db.schema_version().unwrap(), 2);
+            assert_eq!(db.subjects().unwrap().len(), 9);
+            assert_eq!(db.load_composition("old-composition").unwrap(), before);
+            assert_eq!(db.latest_review(a).unwrap(), review);
+            assert_eq!(db.current_revision("legacy-q").unwrap(), revision);
+            assert!(db
+                .knowledge_points("math")
+                .unwrap()
+                .iter()
+                .any(|p| p.id == "legacy-point" && p.origin == "user"));
+            let hits = db
+                .search_questions(&SearchQuery {
+                    subject_id: Some("math".into()),
+                    keyword: Some("迁移前".into()),
+                    page_size: 10,
+                    ..Default::default()
+                })
+                .unwrap()
+                .hits;
+            assert_eq!(hits.len(), 1);
+            assert_eq!(hits[0].current_revision_id, b);
+            assert_eq!(
+                db.connection
+                    .query_row(
+                        "SELECT checksum, applied_at FROM schema_migration WHERE version=1",
+                        [],
+                        |r| Ok((r.get(0)?, r.get(1)?)),
+                    )
+                    .unwrap(),
+                historical
+            );
+            db.integrity_check().unwrap();
+        }
+    }
+
+    #[test]
+    fn dev003_t10_schema_two_failure_rolls_back_subjects_and_ddl() {
+        let temp = tempfile::tempdir().unwrap();
+        let path = temp.path().join("rollback.sqlite3");
+        let old = schema_one(&path);
+        old.connection.execute_batch("CREATE TABLE question_knowledge(marker TEXT); INSERT INTO question_knowledge VALUES ('preserve');").unwrap();
+        drop(old);
+        assert!(matches!(Database::open(&path), Err(error) if error.kind == ErrorKind::Migration));
+        let raw = Connection::open(&path).unwrap();
+        assert_eq!(
+            raw.query_row("PRAGMA user_version", [], |r| r.get::<_, i32>(0))
+                .unwrap(),
+            1
+        );
+        assert_eq!(
+            raw.query_row("SELECT count(*) FROM subject", [], |r| r.get::<_, i64>(0))
+                .unwrap(),
+            1
+        );
+        assert_eq!(
+            raw.query_row(
+                "SELECT count(*) FROM pragma_table_info('knowledge_point') WHERE name='origin'",
+                [],
+                |r| r.get::<_, i64>(0)
+            )
+            .unwrap(),
+            0
+        );
+        assert_eq!(
+            raw.query_row("SELECT marker FROM question_knowledge", [], |r| r
+                .get::<_, String>(0))
+                .unwrap(),
+            "preserve"
+        );
     }
 }

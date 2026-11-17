@@ -3,6 +3,9 @@ use rusqlite::{params, Connection};
 use serde_json::{json, Value};
 use tempfile::TempDir;
 
+#[path = "knowledge_tests.rs"]
+mod knowledge_tests;
+
 fn database() -> (TempDir, Database) {
     let temp = tempfile::tempdir().unwrap();
     let db = Database::open(&temp.path().join(DATABASE_FILENAME)).unwrap();
@@ -27,7 +30,6 @@ fn content(answer: &str) -> RevisionContent {
 }
 
 fn question(db: &Database) {
-    db.create_subject("math", "数学").unwrap();
     db.create_question("q1", "math").unwrap();
 }
 
@@ -46,10 +48,15 @@ fn review(verdict: Verdict, date: &str, previous: Option<i64>) -> ReviewInput<'_
 fn dev003_t01_review_effective_by_utc_calendar_date() {
     let (_temp, mut db) = database();
     question(&db);
-    let revision = db.append_revision("q1", Scope::Public, None, &content("答案")).unwrap();
+    let revision = db
+        .append_revision("q1", Scope::Public, None, &content("答案"))
+        .unwrap();
     let check = |db: &Database, date, expected| {
         assert_eq!(db.review_as_of(revision, date).unwrap().0, expected);
-        assert_eq!(db.verified_current_count(date).unwrap(), i64::from(expected == ReviewStatus::Passed));
+        assert_eq!(
+            db.verified_current_count(date).unwrap(),
+            i64::from(expected == ReviewStatus::Passed)
+        );
     };
     check(&db, "2026-01-01", ReviewStatus::Unreviewed);
     let mut first = review(Verdict::Passed, "2026-01-03", None);
@@ -58,11 +65,16 @@ fn dev003_t01_review_effective_by_utc_calendar_date() {
     check(&db, "2026-01-02", ReviewStatus::Scheduled);
     check(&db, "2026-01-05", ReviewStatus::Passed);
     check(&db, "2026-01-06", ReviewStatus::Expired);
-    let b = db.record_review(revision, review(Verdict::Disputed, "2026-01-08", Some(a))).unwrap();
+    let b = db
+        .record_review(revision, review(Verdict::Disputed, "2026-01-08", Some(a)))
+        .unwrap();
     check(&db, "2026-01-05", ReviewStatus::Passed);
     check(&db, "2026-01-08", ReviewStatus::Disputed);
-    let c = db.record_review(revision, review(Verdict::Failed, "2026-01-09", Some(b))).unwrap();
-    db.record_review(revision, review(Verdict::Passed, "2026-01-10", Some(c))).unwrap();
+    let c = db
+        .record_review(revision, review(Verdict::Failed, "2026-01-09", Some(b)))
+        .unwrap();
+    db.record_review(revision, review(Verdict::Passed, "2026-01-10", Some(c)))
+        .unwrap();
     check(&db, "2026-01-09", ReviewStatus::Failed);
     check(&db, "2026-01-10", ReviewStatus::Passed);
 }
@@ -70,7 +82,7 @@ fn dev003_t01_review_effective_by_utc_calendar_date() {
 #[test]
 fn test_001_initializes_schema_wal_foreign_keys_and_history() {
     let (_temp, db) = database();
-    assert_eq!(db.schema_version().unwrap(), 1);
+    assert_eq!(db.schema_version().unwrap(), 2);
     let read = |sql| {
         db.connection
             .query_row(sql, [], |r| r.get::<_, i32>(0))
@@ -135,7 +147,7 @@ fn test_002_reopens_same_database_without_reapplying_migration() {
             |r| Ok((r.get(0)?, r.get(1)?)),
         )
         .unwrap();
-    assert_eq!(remaining, (1, before));
+    assert_eq!(remaining, (2, before));
     assert_eq!(reopened.current_revision("q1").unwrap().unwrap().id, id);
 }
 
@@ -484,8 +496,6 @@ fn rich_text_round_trip_keeps_latex_attachment_and_part_id_and_rejects_bad_conte
 #[test]
 fn validates_knowledge_hierarchy_and_structured_database_errors() {
     let (temp, db) = database();
-    db.create_subject("math", "数学").unwrap();
-    db.create_subject("physics", "物理").unwrap();
     db.create_knowledge_point("function", "math", None, "函数")
         .unwrap();
     db.create_knowledge_point("quadratic", "math", Some("function"), "二次函数")
@@ -538,7 +548,7 @@ fn validates_knowledge_hierarchy_and_structured_database_errors() {
         matches!(Database::open(&path), Err(error) if error.kind == ErrorKind::IncompatibleDatabase)
     );
     locking_connection
-        .pragma_update(None, "user_version", 1)
+        .pragma_update(None, "user_version", 2)
         .unwrap();
     locking_connection
         .pragma_update(None, "foreign_keys", false)
@@ -575,14 +585,13 @@ fn dev002_shared_rich_text_contract() {
 #[test]
 fn dev002_editor_atomic_create_reopen_and_revision_conflicts() {
     let (temp, mut db) = database();
-    db.ensure_editor_subject().unwrap();
-    db.ensure_editor_subject().unwrap();
     assert_eq!(
-        db.subjects().unwrap(),
-        vec![Subject {
-            id: "math".into(),
-            name: "数学".into()
-        }]
+        db.subjects()
+            .unwrap()
+            .iter()
+            .filter(|s| s.id == "math" && s.name == "数学")
+            .count(),
+        1
     );
     let input = content("答案 A");
     assert_eq!(

@@ -81,7 +81,6 @@ fn main() {
                 .and_then(|directory| {
                     let db = Database::open(&directory.join(DATABASE_FILENAME))?;
                     let version = db.schema_version()?;
-                    db.ensure_editor_subject()?;
                     app.manage(Mutex::new(db));
                     Ok(version)
                 });
@@ -103,7 +102,15 @@ fn main() {
             editor_ipc::public_original,
             editor_ipc::save_user_revision,
             editor_ipc::read_revision,
+            editor_ipc::revision_review,
             editor_ipc::list_revisions,
+            editor_ipc::list_knowledge,
+            editor_ipc::create_knowledge,
+            editor_ipc::rename_knowledge,
+            editor_ipc::add_knowledge_alias,
+            editor_ipc::question_knowledge,
+            editor_ipc::set_question_knowledge,
+            editor_ipc::search_questions,
         ])
         .run(tauri::generate_context!())
         .expect("could not start POC-001B");
