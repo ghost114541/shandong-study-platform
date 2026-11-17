@@ -97,9 +97,9 @@ pub(super) fn search_sql(subject: bool, knowledge: bool, keyword: bool) -> Strin
     sql.push_str(
         "SELECT q.id, q.subject_id, r.id,
                 substr(search.text, max(1, instr(lower(search.text), lower(?4)) - 24), 140)
-         FROM question q JOIN current_question_revision r ON r.question_id = q.id
+         FROM logical_question q JOIN current_question_revision r ON r.question_id = q.id
          JOIN revision_search_text search ON search.revision_id = r.id
-         WHERE NOT EXISTS (SELECT 1 FROM question_duplicate d WHERE d.duplicate_id = q.id) ",
+         WHERE 1 ",
     );
     if subject {
         sql.push_str("AND q.subject_id = ?1 ");
@@ -107,7 +107,7 @@ pub(super) fn search_sql(subject: bool, knowledge: bool, keyword: bool) -> Strin
     if knowledge {
         sql.push_str(
             "AND q.id IN (
-                SELECT link.question_id FROM selected s JOIN question_knowledge link ON link.knowledge_id = s.id
+                SELECT link.logical_id FROM selected s JOIN logical_question_knowledge link ON link.knowledge_id = s.id
              ) ",
         );
     }

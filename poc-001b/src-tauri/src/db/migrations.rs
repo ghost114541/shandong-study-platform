@@ -21,6 +21,11 @@ const MIGRATIONS: &[Migration] = &[
         name: "knowledge",
         sql: include_str!("../../migrations/0002_knowledge.sql"),
     },
+    Migration {
+        version: 3,
+        name: "search_metadata",
+        sql: include_str!("../../migrations/0003_search_metadata.sql"),
+    },
 ];
 
 pub(super) fn apply(connection: &mut Connection) -> Result<()> {
@@ -239,7 +244,7 @@ mod tests {
 
         for _ in 0..2 {
             let mut db = Database::open(&path).unwrap();
-            assert_eq!(db.schema_version().unwrap(), 2);
+            assert_eq!(db.schema_version().unwrap(), 3);
             assert_eq!(db.subjects().unwrap().len(), 9);
             assert_eq!(db.load_composition("old-composition").unwrap(), before);
             assert_eq!(db.latest_review(a).unwrap(), review);

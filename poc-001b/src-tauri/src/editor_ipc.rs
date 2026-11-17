@@ -121,6 +121,11 @@ pub async fn question_knowledge(app: AppHandle, question_id: String) -> Result<V
 }
 
 #[tauri::command]
+pub async fn question_knowledge_links(app: AppHandle, question_id: String) -> Result<Vec<shandong_poc_001b::db::KnowledgeLink>> {
+    database(app, move |db| db.question_knowledge_links(&question_id)).await
+}
+
+#[tauri::command]
 pub async fn set_question_knowledge(
     app: AppHandle,
     question_id: String,

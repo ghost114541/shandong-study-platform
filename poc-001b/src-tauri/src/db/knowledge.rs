@@ -15,13 +15,21 @@ pub struct KnowledgePoint {
     pub question_count: i64,
 }
 
+#[derive(Debug, Eq, PartialEq, Serialize)]
+pub struct KnowledgeLink {
+    pub knowledge_id: String,
+    pub original_id: String,
+    pub title: String,
+}
+
 impl Database {
     pub fn knowledge_points(&self, subject: &str) -> Result<Vec<KnowledgePoint>> {
         let mut statement = self.connection.prepare(
             "SELECT k.id, k.subject_id, k.title, k.parent_id, k.origin, k.sort_order, k.enabled,
                     (SELECT json_group_array(alias ORDER BY alias) FROM knowledge_alias WHERE knowledge_id = k.id),
-                    (SELECT count(*) FROM question_knowledge link WHERE link.knowledge_id = k.id
-                       AND NOT EXISTS (SELECT 1 FROM question_duplicate d WHERE d.duplicate_id = link.question_id))
+                    (SELECT count(DISTINCT link.logical_id) FROM logical_question_knowledge link
+                     JOIN current_question_revision r ON r.question_id = link.logical_id
+                     WHERE link.knowledge_id = k.id AND k.enabled = 1)
              FROM knowledge_point k WHERE k.subject_id = ?1
              ORDER BY k.sort_order, k.title, k.id",
         )?;
@@ -99,6 +107,19 @@ impl Database {
             "SELECT knowledge_id FROM question_knowledge WHERE question_id = ?1 ORDER BY knowledge_id",
         )?;
         let rows = statement.query_map([question], |row| row.get(0))?;
+        Ok(rows.collect::<rusqlite::Result<_>>()?)
+    }
+
+    pub fn question_knowledge_links(&self, question: &str) -> Result<Vec<KnowledgeLink>> {
+        let mut statement = self.connection.prepare(
+            "SELECT link.knowledge_id, link.original_id, k.title
+             FROM logical_question_knowledge link JOIN knowledge_point k ON k.id = link.knowledge_id
+             WHERE link.logical_id = (SELECT logical_id FROM question_identity WHERE original_id = ?1)
+             ORDER BY k.title, link.knowledge_id, link.original_id",
+        )?;
+        let rows = statement.query_map([question], |row| Ok(KnowledgeLink {
+            knowledge_id: row.get(0)?, original_id: row.get(1)?, title: row.get(2)?,
+        }))?;
         Ok(rows.collect::<rusqlite::Result<_>>()?)
     }
 

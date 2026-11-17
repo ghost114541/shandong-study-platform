@@ -109,6 +109,7 @@ fn main() {
             editor_ipc::rename_knowledge,
             editor_ipc::add_knowledge_alias,
             editor_ipc::question_knowledge,
+            editor_ipc::question_knowledge_links,
             editor_ipc::set_question_knowledge,
             editor_ipc::search_questions,
         ])

@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { choiceLabels, knowledge } from './knowledge-api'
-import type { KnowledgePoint } from './knowledge-api'
+import type { KnowledgeLink, KnowledgePoint } from './knowledge-api'
 import { describeError } from './sqlite-api'
 
 export function QuestionKnowledge({ questionId, subjectId, editable }: { questionId: string; subjectId: string; editable: boolean }) {
   const [points, setPoints] = useState<KnowledgePoint[]>([])
-  const [linked, setLinked] = useState<string[]>([])
+  const [linked, setLinked] = useState<KnowledgeLink[]>([])
   const [choice, setChoice] = useState('')
   const [loaded, setLoaded] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -38,11 +38,12 @@ export function QuestionKnowledge({ questionId, subjectId, editable }: { questio
     <p className="hint">关联适用于整道逻辑题及其所有修订。</p>
     {loaded && linked.length === 0 && <p>暂无关联知识点。</p>}
     {linked.length > 0 && <ul>
-      {linked.map((id) => {
-        const title = choices.find(({ point }) => point.id === id)?.label ?? id
-        return <li key={id}>
+      {linked.map(({ knowledge_id: id, original_id: origin, title: name }) => {
+        const title = choices.find(({ point }) => point.id === id)?.label ?? name
+        return <li key={id + ':' + origin}>
           <span>{title}</span>
-          {editable && <button type="button" disabled={busy} aria-label={'解除关联 ' + title}
+          {origin !== questionId && <small> · 来自原题 {origin}</small>}
+          {editable && origin === questionId && <button type="button" disabled={busy} aria-label={'解除关联 ' + title}
             onClick={() => void change(id, false)}>解除关联</button>}
         </li>
       })}
@@ -53,7 +54,7 @@ export function QuestionKnowledge({ questionId, subjectId, editable }: { questio
     }}>
       <label>关联知识点 <select aria-label="关联知识点" value={choice} disabled={busy || !loaded} onChange={(event) => setChoice(event.target.value)}>
         <option value="">选择同学科知识点</option>
-        {choices.filter(({ point }) => point.enabled && !linked.includes(point.id)).map(({ point, label }) =>
+        {choices.filter(({ point }) => point.enabled && !linked.some((link) => link.original_id === questionId && link.knowledge_id === point.id)).map(({ point, label }) =>
           <option key={point.id} value={point.id}>{label}</option>)}
       </select></label>
       <button type="submit" disabled={busy || !loaded || !choice}>添加关联</button>

@@ -10,7 +10,7 @@ mod search;
 pub use composition::{Composition, SavedItem};
 pub use content::{Attachment, PartContent, RevisionContent, CONTENT_VERSION};
 pub use error::{DbError, ErrorKind, Result};
-pub use knowledge::KnowledgePoint;
+pub use knowledge::{KnowledgeLink, KnowledgePoint};
 pub use questions::{Counts, Occurrence, QuestionSummary, Revision, RevisionSummary, Scope, Subject};
 pub use review::{Review, ReviewInput, ReviewStatus, Verdict};
 pub use search::{SearchHit, SearchPage, SearchQuery};

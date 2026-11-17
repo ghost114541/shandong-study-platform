@@ -13,6 +13,12 @@ export interface KnowledgePoint {
   question_count: number
 }
 
+export interface KnowledgeLink {
+  knowledge_id: string
+  original_id: string
+  title: string
+}
+
 export interface SearchFilters {
   subjectId: string
   knowledgeId: string
@@ -33,7 +39,7 @@ export const knowledge = {
     invoke<void>('create_knowledge', { id: crypto.randomUUID(), subjectId, parentId, title, sortOrder }),
   rename: (id: string, title: string) => invoke<void>('rename_knowledge', { id, title }),
   alias: (id: string, alias: string) => invoke<void>('add_knowledge_alias', { id, alias }),
-  forQuestion: (questionId: string) => invoke<string[]>('question_knowledge', { questionId }),
+  forQuestion: (questionId: string) => invoke<KnowledgeLink[]>('question_knowledge_links', { questionId }),
   link: (questionId: string, id: string, linked: boolean) => invoke<void>('set_question_knowledge', { questionId, id, linked }),
   search: (filters: SearchFilters, page: number) => invoke<SearchPage>('search_questions', { query: {
     subject_id: filters.subjectId || null, knowledge_id: filters.knowledgeId || null,

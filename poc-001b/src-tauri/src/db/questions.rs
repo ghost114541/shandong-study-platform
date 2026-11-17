@@ -127,9 +127,8 @@ impl Database {
 
     pub fn recent_questions(&self, limit: i64) -> Result<Vec<QuestionSummary>> {
         let mut statement = self.connection.prepare(
-            "SELECT q.id, q.subject_id, r.id FROM question q
+            "SELECT q.id, q.subject_id, r.id FROM logical_question q
              LEFT JOIN current_question_revision r ON r.question_id = q.id
-             WHERE NOT EXISTS (SELECT 1 FROM question_duplicate d WHERE d.duplicate_id = q.id)
              ORDER BY r.id DESC, q.id LIMIT ?1",
         )?;
         let rows = statement.query_map([limit], |row| {
@@ -205,9 +204,8 @@ impl Database {
     pub fn occurrences_for(&self, canonical: &str) -> Result<Vec<Occurrence>> {
         let mut statement = self.connection.prepare(
             "SELECT paper_id, source_key, question_id FROM question_occurrence
-             WHERE question_id = ?1 OR question_id IN (
-                 SELECT duplicate_id FROM question_duplicate WHERE canonical_id = ?1
-             )
+             JOIN question_identity i ON i.original_id = question_id
+             WHERE i.logical_id = (SELECT logical_id FROM question_identity WHERE original_id = ?1)
              ORDER BY paper_id, source_key",
         )?;
         let rows = statement.query_map([canonical], |row| {
@@ -224,9 +222,8 @@ impl Database {
         Ok(self.connection.query_row(
             "SELECT count(*), coalesce(sum(json_array_length(r.content_json, '$.parts')), 0),
                     (SELECT count(*) FROM question_occurrence)
-             FROM question q
-             LEFT JOIN current_question_revision r ON r.question_id = q.id
-             WHERE NOT EXISTS (SELECT 1 FROM question_duplicate d WHERE d.duplicate_id = q.id)",
+             FROM logical_question q
+             LEFT JOIN current_question_revision r ON r.question_id = q.id",
             [],
             |row| {
                 Ok(Counts {

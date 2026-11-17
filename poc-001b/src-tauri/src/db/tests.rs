@@ -82,7 +82,7 @@ fn dev003_t01_review_effective_by_utc_calendar_date() {
 #[test]
 fn test_001_initializes_schema_wal_foreign_keys_and_history() {
     let (_temp, db) = database();
-    assert_eq!(db.schema_version().unwrap(), 2);
+    assert_eq!(db.schema_version().unwrap(), 3);
     let read = |sql| {
         db.connection
             .query_row(sql, [], |r| r.get::<_, i32>(0))
@@ -147,7 +147,7 @@ fn test_002_reopens_same_database_without_reapplying_migration() {
             |r| Ok((r.get(0)?, r.get(1)?)),
         )
         .unwrap();
-    assert_eq!(remaining, (2, before));
+    assert_eq!(remaining, (3, before));
     assert_eq!(reopened.current_revision("q1").unwrap().unwrap().id, id);
 }
 
@@ -548,7 +548,7 @@ fn validates_knowledge_hierarchy_and_structured_database_errors() {
         matches!(Database::open(&path), Err(error) if error.kind == ErrorKind::IncompatibleDatabase)
     );
     locking_connection
-        .pragma_update(None, "user_version", 2)
+        .pragma_update(None, "user_version", 3)
         .unwrap();
     locking_connection
         .pragma_update(None, "foreign_keys", false)
