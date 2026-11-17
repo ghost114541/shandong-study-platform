@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { difficultyLabel } from './metadata-api'
 import { Content } from './paper'
+import { AttachmentDeclarations } from './attachment-image'
 import { reviewStatusLabel } from './sqlite-api'
 import type { RevisionDetail } from './sqlite-api'
 import type { KnowledgeLink, SearchHit } from './knowledge-api'
@@ -26,7 +27,7 @@ export function SearchPreview({ hit, subject, loaded, error, close, open }: {
     {hit.source_label && <p>原卷 {hit.source_label}</p>}
     {error && <p role="alert">{error}</p>}
     {!error && !loaded && <p role="status">正在读取试题…</p>}
-    {loaded && content && <>
+    {loaded && content && <AttachmentDeclarations.Provider value={content.attachments}>
       <p className="review-status">答案审核 · {reviewStatusLabel(loaded.detail)} · 修订 #{loaded.detail.revision.id}</p>
       <p>知识点 {points.join('、') || '未关联'}</p>
       <div className="preview-stem"><Content data={content.stem} />
@@ -48,6 +49,6 @@ export function SearchPreview({ hit, subject, loaded, error, close, open }: {
           {part.answer ? <Content data={part.answer} /> : <p>暂无答案。</p>}
         </section>)}
       </section>}
-    </>}
+    </AttachmentDeclarations.Provider>}
   </aside>
 }

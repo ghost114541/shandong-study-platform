@@ -1,9 +1,10 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { invoke } from '@tauri-apps/api/core'
 import { QuestionEditor } from './editor'
+import { AttachmentDeclarations } from './attachment-image'
 import type { ConfirmLeave, ReportGuard } from './leave-guard'
-import { CONTENT_VERSION, revisionToPaper } from './model'
-import type { PaperData, RevisionContent, RichDocument } from './model'
+import { CONTENT_VERSION, referencedAttachments, revisionToPaper } from './model'
+import type { Attachment, PaperData, RevisionContent, RichDocument } from './model'
 import { Content, Paper } from './paper'
 import { QuestionKnowledge } from './question-knowledge'
 import { QuestionMetadataPanel } from './question-metadata'
@@ -52,15 +53,17 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
   const [field, setField] = useState<Field>('stem')
   const [editorGeneration, setEditorGeneration] = useState(0)
   const [busy, setBusy] = useState(true)
+  const [importing, setImporting] = useState(false)
+  const blocked = busy || importing
   const [dirty, setDirty] = useState(false)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
-  const [preview, setPreview] = useState<{ data: PaperData; revisionId: number; mode: Mode } | null>(null)
+  const [preview, setPreview] = useState<{ data: PaperData; attachments: Attachment[]; revisionId: number; mode: Mode } | null>(null)
   const revisionId = selection?.detail?.revision.id ?? null
   const readOnly = selection?.view !== 'current'
   const subjectName = (id: string) => subjects.find((subject) => subject.id === id)?.name ?? id
 
-  useLayoutEffect(() => reportGuard(dirty, busy), [reportGuard, dirty, busy])
+  useLayoutEffect(() => reportGuard(dirty, blocked), [reportGuard, dirty, blocked])
 
   useEffect(() => {
     if (revisionId === null) return
@@ -174,17 +177,19 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
     })
   }
 
-  function updateDocument(doc: RichDocument) {
+  function updateDocument(doc: RichDocument, imported?: Attachment) {
     update((previous) => {
-      if (field === 'stem' || field === 'answer') return { ...previous, [field]: doc }
+      const attachments = imported && !previous.attachments.some((item) => item.id === imported.id)
+        ? [...previous.attachments, imported] : previous.attachments
+      if (field === 'stem' || field === 'answer') return { ...previous, attachments, [field]: doc }
       const { index, key } = targetPart(field)
-      return { ...previous, parts: previous.parts.map((part, i) => i === index ? { ...part, [key]: doc } : part) }
+      return { ...previous, attachments, parts: previous.parts.map((part, i) => i === index ? { ...part, [key]: doc } : part) }
     })
   }
 
   async function save() {
     if (!selection || readOnly || !dirty) return
-    const revision = await sqlite.save(selection.questionId, selection.subjectId, selection.fresh, revisionId, draft)
+    const revision = await sqlite.save(selection.questionId, selection.subjectId, selection.fresh, revisionId, { ...draft, attachments: referencedAttachments(draft) })
     setSelection({ ...selection, detail: { revision, review: null, review_status: 'unreviewed' }, fresh: false })
     setDraft(revision.content)
     setDirty(false)
@@ -198,13 +203,14 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
     if (!selection || revisionId === null || dirty) return
     const saved = await sqlite.revision(revisionId)
     if (saved?.revision.question_id !== selection.questionId) throw new Error('找不到预览所引用的已保存修订。')
-    setPreview({ mode, revisionId, data: revisionToPaper(saved.revision.content, subjectName(selection.subjectId)) })
+    setPreview({ mode, revisionId, attachments: saved.revision.content.attachments, data: revisionToPaper(saved.revision.content, subjectName(selection.subjectId)) })
     setMessage('正在预览 SQLite 修订 #' + revisionId)
   }
 
   async function exportPdf() {
     if (!preview) return
-    if (document.querySelector('.paper .attachment-notice')) throw new Error('预览中有文件未验证的附件，无法导出完整 PDF。')
+    const attachmentIssue = document.querySelector('.paper .attachment-notice')
+    if (attachmentIssue) throw new Error('无法导出 PDF。' + attachmentIssue.textContent)
     await Promise.all(Array.from(document.querySelectorAll<HTMLImageElement>('.paper img')).map((img) => img.decode()
       .catch(() => { throw new Error('预览中有图片无法解码，无法导出完整 PDF。') })))
     await document.fonts.ready
@@ -215,30 +221,32 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
   return <>
     <header className="app-header">
       <div><h1>知卷</h1><p>本地 SQLite 题库</p></div>
-      <button className="primary" disabled={busy || readOnly || !dirty} onClick={() => void perform(save)}>保存到 SQLite</button>
+      <button className="primary" disabled={blocked || readOnly || !dirty} onClick={() => void perform(save)}>保存到 SQLite</button>
     </header>
     <main>
       <nav className="mode-bar" aria-label="题卷与答案">
         <div className="actions">
-          <button aria-pressed={!preview} disabled={busy} onClick={() => { setPreview(null); setMessage(''); setError('') }}>编辑试题</button>
-          <button aria-pressed={preview?.mode === 'paper'} disabled={busy || dirty || revisionId === null} onClick={() => void perform(() => openPreview('paper'))}>题卷预览</button>
-          <button aria-pressed={preview?.mode === 'answers'} disabled={busy || dirty || revisionId === null} onClick={() => void perform(() => openPreview('answers'))}>答案卷预览</button>
+          <button aria-pressed={!preview} disabled={blocked} onClick={() => { setPreview(null); setMessage(''); setError('') }}>编辑试题</button>
+          <button aria-pressed={preview?.mode === 'paper'} disabled={blocked || dirty || revisionId === null} onClick={() => void perform(() => openPreview('paper'))}>题卷预览</button>
+          <button aria-pressed={preview?.mode === 'answers'} disabled={blocked || dirty || revisionId === null} onClick={() => void perform(() => openPreview('answers'))}>答案卷预览</button>
         </div>
-        {preview && <button className="primary" disabled={busy} onClick={() => void perform(exportPdf)}>导出当前 PDF</button>}
+        {preview && <button className="primary" disabled={blocked} onClick={() => void perform(exportPdf)}>导出当前 PDF</button>}
       </nav>
       <div className="status" aria-live="polite">
         {error && <p role="alert">{error}</p>}
         <p>{busy ? '正在处理…' : message || (dirty ? '有未保存的修改。' : '')}</p>
       </div>
-      {preview ? <Paper data={preview.data} answer={preview.mode === 'answers'} /> : <div className="workspace">
+      {preview ? <AttachmentDeclarations.Provider key={preview.mode + preview.revisionId} value={preview.attachments}>
+        <Paper data={preview.data} answer={preview.mode === 'answers'} />
+      </AttachmentDeclarations.Provider> : <div className="workspace">
         <aside className="sidebar">
           <h2>最近试题</h2>
-          <label className="select-field">学科<select value={newSubject} disabled={busy} onChange={(event) => setNewSubject(event.target.value)}>
+          <label className="select-field">学科<select value={newSubject} disabled={blocked} onChange={(event) => setNewSubject(event.target.value)}>
             {subjects.map((subject) => <option key={subject.id} value={subject.id}>{subject.name}</option>)}
           </select></label>
-          <button disabled={busy || !newSubject} onClick={newQuestion}>新建试题</button>
+          <button disabled={blocked || !newSubject} onClick={newQuestion}>新建试题</button>
           {questions.map((question) => <button key={question.id} title={question.id} data-question-id={question.id}
-            disabled={busy} aria-pressed={selection?.questionId === question.id} onClick={() => open(question)}>
+            disabled={blocked} aria-pressed={selection?.questionId === question.id} onClick={() => open(question)}>
             <span>{subjectName(question.subject_id)} · {question.id.slice(0, 8)}</span>
           </button>)}
         </aside>
@@ -249,9 +257,9 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
               + (selection.detail?.revision.base_revision_id != null ? ' · 基线 #' + selection.detail.revision.base_revision_id : '')}
           </p>
           {!selection.fresh && <div className="actions revision-controls">
-            <button disabled={busy} onClick={() => viewRevision('current')}>读取当前修订</button>
-            <button disabled={busy || !history.some((item) => item.scope === 'public')} onClick={() => viewRevision('original')}>查看公共原版</button>
-            <label className="select-field">历史修订<select disabled={busy} value={typeof selection.view === 'number' ? selection.view : ''}
+            <button disabled={blocked} onClick={() => viewRevision('current')}>读取当前修订</button>
+            <button disabled={blocked || !history.some((item) => item.scope === 'public')} onClick={() => viewRevision('original')}>查看公共原版</button>
+            <label className="select-field">历史修订<select disabled={blocked} value={typeof selection.view === 'number' ? selection.view : ''}
               onChange={(event) => { if (event.target.value) viewRevision(Number(event.target.value)) }}>
               <option value="">选择修订</option>
               {history.map((item) => <option key={item.id} value={item.id}>#{item.id} · {item.scope === 'public' ? '公共' : '用户'}</option>)}
@@ -259,7 +267,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
           </div>}
           {selection.detail && <p className="review-status">答案审核记录 · {reviewStatusLabel(selection.detail)}</p>}
           {readOnly && <p>历史与公共原版视图为只读。可返回当前修订继续编辑。</p>}
-          <fieldset className="question-fields" disabled={busy || readOnly}>
+          <fieldset className="question-fields" disabled={blocked || readOnly}>
             <label>题型 <input aria-label="题型" value={draft.question_type} onChange={(event) => {
               const question_type = event.target.value
               update((previous) => ({ ...previous, question_type }))
@@ -276,7 +284,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
                 if (Number.isFinite(score)) updatePartScore(index, score)
               }} /></label>)}
           </fieldset>
-          <label className="select-field">编辑内容<select value={field} disabled={busy} onChange={(event) => setField(event.target.value as Field)}>
+          <label className="select-field">编辑内容<select value={field} disabled={blocked} onChange={(event) => setField(event.target.value as Field)}>
             <option value="stem">整题题干</option>
             <option value="answer">整题答案</option>
             {draft.parts.flatMap((part, index) => [
@@ -284,13 +292,15 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
               <option key={part.id + '-answer'} value={'answer:' + index}>小问 {index + 1} · 答案</option>,
             ])}
           </select></label>
-          {readOnly ? <div className="original-view"><Content data={activeDocument(draft, field)} /></div>
-            : <div inert={busy}><QuestionEditor key={editorGeneration + ':' + revisionId + ':' + field}
-              content={activeDocument(draft, field)} onChange={updateDocument} onError={setError} /></div>}
+          <AttachmentDeclarations.Provider value={draft.attachments}>
+            {readOnly ? <div className="original-view"><Content data={activeDocument(draft, field)} /></div>
+              : <div inert={busy}><QuestionEditor key={editorGeneration + ':' + revisionId + ':' + field}
+                externalImages onImportingChange={setImporting} content={activeDocument(draft, field)} onChange={updateDocument} onError={setError} /></div>}
+          </AttachmentDeclarations.Provider>
           {!selection.fresh && <QuestionKnowledge key={selection.questionId} questionId={selection.questionId}
-            subjectId={selection.subjectId} editable={!busy && !readOnly} />}
+            subjectId={selection.subjectId} editable={!blocked && !readOnly} />}
           {!selection.fresh && <QuestionMetadataPanel key={'metadata:' + selection.questionId}
-            questionId={selection.questionId} editable={!busy && !readOnly} />}
+            questionId={selection.questionId} editable={!blocked && !readOnly} />}
         </section> : <section className="panel"><p>{busy ? '正在读取试题…' : '选择一道试题，或新建试题。'}</p></section>}
       </div>}
     </main>

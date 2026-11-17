@@ -7,7 +7,7 @@ import zlib
 from pathlib import Path
 
 
-def picture(path):
+def picture(path, variant=False):
     width, height = 170, 100
     def chunk(kind, data):
         return struct.pack(">I", len(data)) + kind + data + struct.pack(">I", zlib.crc32(kind + data))
@@ -17,7 +17,7 @@ def picture(path):
         for x in range(width):
             curve = 74 - (x - 85) ** 2 / 103
             if abs(y - curve) < 2:
-                pixels.extend((18, 110, 104))
+                pixels.extend((155, 64, 56) if variant else (18, 110, 104))
             elif x in (12, 85) or y == 90:
                 pixels.extend((58, 79, 94))
             else:
@@ -30,16 +30,16 @@ def picture(path):
 
 def main():
     command, path, *args = sys.argv[1:]
-    if command == "picture":
-        picture(path)
+    if command in ("picture", "attachment-picture"):
+        picture(path, variant=command == "attachment-picture")
         return
     profile = Path(path).parent.name
     assert profile.startswith(("org.shandong-study.dev002-", "org.shandong-study.dev003-", "org.shandong-study.dev004-", "org.shandong-study.dev005-")), profile
     assert Path(path).name == "study.sqlite3"
-    if command in ("copy-schema-one", "copy-schema-two"):
+    if command in ("copy-schema-one", "copy-schema-two", "copy-schema-three"):
         source = Path(path)
         target = Path(args[0])
-        version = 1 if command == "copy-schema-one" else 2
+        version = {"copy-schema-one": 1, "copy-schema-two": 2, "copy-schema-three": 3}[command]
         assert source.parent.name.startswith(f"org.shandong-study.dev{version + 1:03d}-")
         assert target.parent.name.startswith(f"org.shandong-study.dev{version + 2:03d}-")
         assert target.name == "study.sqlite3" and not target.exists()
@@ -70,6 +70,26 @@ def main():
                 dict(row) for row in db.execute("SELECT revision_id, text FROM revision_search_text ORDER BY 1")
             ]
             print(json.dumps(data, sort_keys=True))
+        elif command == "snapshot-v3":
+            tables = ("subject", "question", "question_part", "question_revision", "question_duplicate",
+                      "verification_record", "knowledge_point", "knowledge_alias", "question_knowledge",
+                      "paper", "question_occurrence", "composition", "composition_item",
+                      "question_annotation", "question_tag", "paper_user_metadata", "revision_search_text")
+            data = {table: [dict(row) for row in db.execute(f"SELECT * FROM {table} ORDER BY rowid")] for table in tables}
+            print(json.dumps(data, sort_keys=True))
+        elif command == "seed-legacy-attachment":
+            key = args[0]
+            payload = {
+                "schema_version": 1, "question_type": "解答题", "score": 0, "parts": [],
+                "attachments": [{"id": "missing", "media_type": "image/png", "byte_size": 68, "sha256": "de" * 32}],
+                "stem": {"type": "doc", "content": [
+                    {"type": "paragraph", "content": [{"type": "text", "text": "外部附件占位验收"}]},
+                    {"type": "image", "attrs": {"src": "attachment:missing"}},
+                ]},
+            }
+            db.execute("INSERT INTO question VALUES (?, 'math')", [key])
+            db.execute("INSERT INTO question_revision(question_id,scope,content_version,content_json) VALUES (?,'user',1,?)",
+                       [key, json.dumps(payload, ensure_ascii=False)])
         elif command == "seed-ui":
             assert profile.startswith(("org.shandong-study.dev004-", "org.shandong-study.dev005-"))
             db.execute("PRAGMA recursive_triggers=ON")

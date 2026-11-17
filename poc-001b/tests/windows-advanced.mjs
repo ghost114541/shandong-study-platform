@@ -16,7 +16,7 @@ export async function schemaTwoUpgrade({ database, out, start, close, evaluate }
   assert.ok(before.question_revision.length && before.verification_record.length && before.question_knowledge.length)
   await start()
   const upgraded = probe('info')
-  assert.equal(upgraded.version, 3)
+  assert.equal(upgraded.version, process.env.POC001B_TEST_APP_IDENTIFIER.includes('.dev005-') ? 4 : 3)
   assert.deepEqual(upgraded.migrations.slice(0, 2), original.migrations)
   assert.deepEqual(probe('snapshot-v2'), before)
   const sample = before.question[0].id
@@ -42,7 +42,10 @@ export async function advancedRegression({ database, out, start, close, click, e
   const point = 'dev003-demo-quadratic'
   const hit = (id) => `[data-search-question-id="${id}"]`
   const query = (selector, value) => `document.querySelector(${JSON.stringify(selector)})${value}`
-  const pick = (selector) => evaluate(query(selector, '.click()'))
+  const pick = async (selector) => {
+    await waitFor(() => evaluate(query(selector, "?.matches(':not(:disabled)')")), selector)
+    await evaluate(query(selector, '.click()'))
+  }
   const set = (selector, value) => evaluate(`(() => {
     const input = document.querySelector(${JSON.stringify(selector)});
     Object.getOwnPropertyDescriptor(Object.getPrototypeOf(input), 'value').set.call(input, ${JSON.stringify(value)});
@@ -110,14 +113,7 @@ export async function advancedRegression({ database, out, start, close, click, e
   assert.ok(saved.tags.includes('桌面标签'))
   assert.deepEqual(saved.origins.map(({ year, region, source }) => [year, region, source]), [[2024, '北京', '模拟'], [2022, '山东', '省卷'], [2022, '山东', '省卷']])
   const attachmentId = 'dev004-unresolved'
-  await ipc(evaluate, 'create_question', { questionId: attachmentId, subjectId: 'math', contentJson: JSON.stringify({
-    schema_version: 1, question_type: '解答题', score: 0, parts: [],
-    attachments: [{ id: 'missing', media_type: 'image/png', byte_size: 68, sha256: 'de'.repeat(32) }],
-    stem: { type: 'doc', content: [
-      { type: 'paragraph', content: [{ type: 'text', text: '外部附件占位验收' }] },
-      { type: 'image', attrs: { src: 'attachment:missing' } },
-    ] },
-  }) })
+  dataProbe(database, 'seed-legacy-attachment', attachmentId)
   console.log('DEV004-T03 PASS: native editor saved difficulty, tags and two paper origins; re-opened values verified')
   await click('试题检索')
   await enabled('select[aria-label=筛选学科]')
@@ -137,7 +133,7 @@ export async function advancedRegression({ database, out, start, close, click, e
     const start = performance.now();
     const observer = new MutationObserver(() => {
       const stem = document.querySelector('.preview-stem');
-      if (!stem) return;
+      if (!stem?.querySelector('img')) return;
       observer.disconnect();
       Promise.all([...stem.querySelectorAll('img')].map(img => img.decode())).then(() => resolve(performance.now() - start), reject);
     });
@@ -222,6 +218,13 @@ export async function advancedRegression({ database, out, start, close, click, e
   await waitFor(() => evaluate("document.querySelector('.search-preview [role=alert]')?.textContent.includes('找不到搜索结果指定的修订')"), '侧边预览读取错误')
   assert.equal(await evaluate("document.querySelectorAll('[data-search-question-id]').length"), 5)
   assert.ok(await evaluate("document.querySelector('.applied-filters').textContent.includes('分页样本')"))
+  await pick(hit(slow))
+  await click('打开完整试题')
+  await waitFor(() => evaluate("document.querySelector('.original-view')?.textContent.includes('分页样本 25')"), '打开历史修订 A 只读')
+  await click('读取当前修订')
+  await waitFor(() => evaluate("document.querySelector('.tiptap')?.textContent.includes('外部产生的新修订')"), '明确读取当前 B 可编辑')
+  await click('试题检索')
+  await waitFor(() => evaluate("document.querySelector('.search-layout')?.textContent.includes('第 2 页')"), '历史阅读返回第 2 页')
   await pick(hit(fast))
   await click('打开完整试题')
   await waitFor(() => evaluate("document.querySelector('.tiptap')?.textContent.includes('分页样本 26')"), '打开第 2 页试题')

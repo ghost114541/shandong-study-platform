@@ -65,6 +65,7 @@ const questionSet = z.strictObject({
 export type QuestionSet = z.infer<typeof questionSet>
 export type RichDocument = z.infer<typeof document>
 export type RichBlock = RichDocument['content'][number]
+export type RichImageAttributes = Extract<RichBlock, { type: 'image' }>['attrs']
 
 function pictures(documents: RichDocument[]): string[] {
   return documents.flatMap((doc) => doc.content.flatMap((block) => block.type === 'image' ? [block.attrs.src] : []))
@@ -80,6 +81,8 @@ const attachment = z.strictObject({
   byte_size: z.number().int().positive(),
   sha256: z.string().length(64).regex(/^[0-9a-fA-F]+$/),
 })
+export type Attachment = z.infer<typeof attachment>
+
 const revisionContent = z.strictObject({
   schema_version: z.literal(CONTENT_VERSION),
   question_type: nonblank,
@@ -109,6 +112,13 @@ const revisionContent = z.strictObject({
 })
 
 export type RevisionContent = z.infer<typeof revisionContent>
+
+export function referencedAttachments(value: RevisionContent): Attachment[] {
+  const documents = [value.stem, value.answer, value.analysis,
+    ...value.parts.flatMap((part) => [part.prompt, part.answer, part.analysis])]
+  const sources = new Set(pictures(documents.filter((doc) => doc !== null)))
+  return value.attachments.filter((item) => sources.has('attachment:' + item.id))
+}
 
 export function parseRevisionContent(input: unknown): RevisionContent {
   const result = revisionContent.safeParse(input)

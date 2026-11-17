@@ -3,6 +3,7 @@ import { execFileSync, spawn } from 'node:child_process'
 import { once } from 'node:events'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { createHash } from 'node:crypto'
 
 const probe = 'tests/sqlite-probe.py'
 const python = (command, file, ...args) => execFileSync('python', [probe, command, file, ...args], { encoding: 'utf8' })
@@ -13,6 +14,7 @@ export async function sqliteRegression(harness) {
     await click(kind === 'paper' ? '题卷预览' : '答案卷预览')
     await status('正在预览 SQLite 修订 #' + revision)
     assert.ok(await evaluate("document.querySelector('.paper')?.textContent.includes('知卷试题')"))
+    if (kind === 'paper') await waitFor(() => evaluate("document.querySelector('.paper img')?.naturalWidth === 170"), '题卷图片完成加载')
     await snapshot(kind + '-revision-' + revision)
     await click('导出当前 PDF')
     const name = `revision-${revision}-${kind}.pdf`
@@ -94,7 +96,14 @@ export async function sqliteRegression(harness) {
   assert.deepEqual(source.parts.map(({ id }) => id), first.parts.map(({ id }) => id))
   assert.deepEqual(source.parts.map(({ score }) => score), [4, 6])
   const picture = source.stem.content.find(({ type }) => type === 'image')
-  assert.equal(picture.attrs.src, 'data:image/png;base64,' + readFileSync(fixture).toString('base64'))
+  const bytes = readFileSync(fixture)
+  if (process.argv.includes('--stage-a')) {
+    assert.equal(picture.attrs.src, 'data:image/png;base64,' + bytes.toString('base64'))
+  } else {
+    const sha256 = createHash('sha256').update(bytes).digest('hex')
+    assert.equal(picture.attrs.src, 'attachment:sha256-' + sha256)
+    assert.deepEqual(readFileSync(join(profile, 'attachments', sha256.slice(0, 2), sha256)), bytes)
+  }
   assert.ok(a.content_json.includes('  y=x^2+2  '))
   assert.ok(a.content_json.includes('y(2)=2^2+2'))
   console.log('DEV002-T02 PASS: first save inserted question ' + question.id + ' with revision ' + a.id + ' and two part IDs')

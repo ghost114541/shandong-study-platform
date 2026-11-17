@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import katex from 'katex'
-import { attachmentNotice, imageUrl, mathOptions } from './editor'
+import { imageUrl, mathOptions } from './editor'
+import { AttachmentImage } from './attachment-image'
 import { projectPaper } from './model'
 import type { PaperData, RichBlock, RichDocument } from './model'
 
@@ -21,7 +22,7 @@ export function Content({ data }: { data: RichDocument }) {
     if (block.type === 'image') {
       const { src, alt, title, width, height } = block.attrs
       const url = imageUrl(src)
-      return url === null ? <p key={index} className="attachment-notice">{attachmentNotice(src)}</p>
+      return url === null ? <AttachmentImage key={index} id={src.slice('attachment:'.length)} attrs={block.attrs} className="paper-image" />
         : <img key={index} className="paper-image" src={url} alt={alt ?? ''} title={title ?? undefined}
           style={{ width: width ?? undefined, height: height ?? undefined }} />
     }

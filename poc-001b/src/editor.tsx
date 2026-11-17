@@ -3,29 +3,40 @@ import type { ChangeEvent, FormEvent } from 'react'
 import { mergeAttributes } from '@tiptap/core'
 import Image from '@tiptap/extension-image'
 import { BlockMath, InlineMath } from '@tiptap/extension-mathematics'
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
+import { EditorContent, useEditor, useEditorState, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
+import type { NodeViewProps } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import katex from 'katex'
 import 'katex/contrib/mhchem'
 import graph from '../../poc-001/assets/parabola.svg?url'
 import { bundledGraph, parseDocument } from './model'
-import type { RichDocument } from './model'
+import type { Attachment, RichDocument, RichImageAttributes } from './model'
+import { AttachmentImage, imageByteLimit, imageTypes, importImage } from './attachment-image'
+import { describeError } from './sqlite-api'
 
 export const mathOptions = { trust: false, strict: 'ignore' } as const
-const fileTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/gif']
 export function imageUrl(src: string): string | null {
   if (src.startsWith('attachment:')) return null
   return src === bundledGraph ? graph : src
 }
 
-export function attachmentNotice(src: string): string {
-  return '附件 ' + src.slice('attachment:'.length) + ' 已登记，文件尚未解析或验证。'
+function EditorImage({ node, selected }: NodeViewProps) {
+  const attrs = node.attrs as RichImageAttributes
+  const url = imageUrl(attrs.src)
+  return <NodeViewWrapper className={selected ? 'ProseMirror-selectednode' : undefined} contentEditable={false}>
+    {url === null ? <AttachmentImage id={attrs.src.slice('attachment:'.length)} attrs={attrs} />
+      : <img src={url} alt={attrs.alt ?? ''} title={attrs.title ?? undefined}
+        style={{ width: attrs.width ?? undefined, height: attrs.height ?? undefined }} />}
+  </NodeViewWrapper>
 }
 
 const LocalImage = Image.extend({
+  addNodeView() {
+    return ReactNodeViewRenderer(EditorImage)
+  },
   renderHTML({ HTMLAttributes }) {
     const src = imageUrl(HTMLAttributes.src)
-    if (src === null) return ['span', { class: 'attachment-notice' }, attachmentNotice(HTMLAttributes.src)]
+    if (src === null) return ['span', { class: 'attachment-notice' }, '图片附件']
     return ['img', mergeAttributes(HTMLAttributes, { src })]
   },
 }).configure({ allowBase64: true })
@@ -38,14 +49,17 @@ interface FormulaDraft {
 
 interface Props {
   content: RichDocument
-  onChange: (data: RichDocument) => void
+  onChange: (data: RichDocument, imported?: Attachment) => void
+  externalImages?: boolean
+  onImportingChange?: (importing: boolean) => void
   onError: (message: string) => void
 }
 
-export function QuestionEditor({ content, onChange, onError }: Props) {
+export function QuestionEditor({ content, onChange, onError, externalImages = false, onImportingChange }: Props) {
   const [draft, setDraft] = useState<FormulaDraft | null>(null)
   const [formulaError, setFormulaError] = useState('')
   const [imageBusy, setImageBusy] = useState(false)
+  const imported = useRef<Attachment | undefined>(undefined)
   const dialog = useRef<HTMLDialogElement>(null)
   const editor = useEditor({
     extensions: [
@@ -76,7 +90,7 @@ export function QuestionEditor({ content, onChange, onError }: Props) {
     },
     onUpdate({ editor }) {
       try {
-        onChange(parseDocument(editor.getJSON()))
+        onChange(parseDocument(editor.getJSON()), imported.current)
       } catch (error) {
         onError(String(error))
       }
@@ -122,32 +136,38 @@ export function QuestionEditor({ content, onChange, onError }: Props) {
     const file = event.currentTarget.files?.[0]
     event.currentTarget.value = ''
     if (!file) return
-    if (!fileTypes.includes(file.type) || file.size > 5 * 1024 * 1024) {
+    if (file.size > imageByteLimit || (!externalImages && !imageTypes.includes(file.type))) {
       onError('请选择不超过 5 MiB 的 PNG、JPEG、WebP 或 GIF。')
       return
     }
     setImageBusy(true)
-    const reader = new FileReader()
-    reader.onload = async () => {
-      try {
-        const src = String(reader.result)
+    onImportingChange?.(true)
+    try {
+      let src: string
+      if (externalImages) {
+        imported.current = await importImage(file)
+        src = 'attachment:' + imported.current.id
+      } else {
+        src = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onload = () => resolve(String(reader.result))
+          reader.onerror = () => reject(new Error('读取图片失败。'))
+          reader.readAsDataURL(file)
+        })
         const image = new window.Image()
         image.src = src
-        await image.decode()
-        if (!editor.isDestroyed) {
-          const inserted = editor.chain().focus().insertContentAt(editor.state.selection.to, {
-            type: 'image', attrs: { src, alt: file.name },
-          }).run()
-          if (!inserted) onError('此位置不能插入图片。')
-        }
-      } catch {
-        onError('图片无法解码。')
-      } finally {
-        setImageBusy(false)
+        await image.decode().catch(() => { throw new Error('图片无法解码。') })
       }
+      if (!editor.isDestroyed && !editor.chain().focus().insertContentAt(editor.state.selection.to, {
+        type: 'image', attrs: { src, alt: file.name },
+      }).run()) onError('此位置不能插入图片。')
+    } catch (error) {
+      if (!editor.isDestroyed) onError(describeError(error))
+    } finally {
+      imported.current = undefined
+      setImageBusy(false)
+      onImportingChange?.(false)
     }
-    reader.onerror = () => { setImageBusy(false); onError('读取图片失败。') }
-    reader.readAsDataURL(file)
   }
 
   return <>
@@ -156,8 +176,9 @@ export function QuestionEditor({ content, onChange, onError }: Props) {
       <button aria-pressed={formatting.italic} onMouseDown={(event) => event.preventDefault()} onClick={() => editor.chain().focus().toggleItalic().run()}><i>斜体</i></button>
       <button onClick={() => setDraft({ kind: 'inline', latex: '' })}>插入行内公式</button>
       <button onClick={() => setDraft({ kind: 'block', latex: '' })}>插入独立公式</button>
-      <label className="file-button">添加图片<input type="file" aria-label="添加图片" accept={fileTypes.join(',')} onChange={insertImage} disabled={imageBusy} /></label>
+      <label className="file-button">添加图片<input type="file" aria-label="添加图片" accept={imageTypes.join(',')} onChange={insertImage} disabled={imageBusy} /></label>
     </div>
+    {imageBusy && <p role="status">正在导入图片…</p>}
     <EditorContent editor={editor} />
     <p className="hint">点击编辑区中的公式可以修改原始 LaTeX。</p>
     <dialog ref={dialog} onCancel={dismiss} aria-labelledby="formula-title">
