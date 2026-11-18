@@ -37,6 +37,11 @@ function nativeControls({ evaluate, send, waitFor }) {
     visible(selector) + `.some(e => e.innerText.includes(${JSON.stringify(text)}))`), text)
   async function fill(selector, value) {
     await present(selector)
+    await waitFor(() => evaluate(`(() => {
+      const field = ${visible(selector)}[0]
+      return field && !field.disabled && (field.tagName !== 'SELECT'
+        || Array.from(field.options).some((option) => option.value === ${JSON.stringify(value)}))
+    })()`), 'input enabled with expected option: ' + selector)
     await evaluate(`(() => {
       const field = ${visible(selector)}[0]
       Object.getOwnPropertyDescriptor(Object.getPrototypeOf(field), 'value').set.call(field, ${JSON.stringify(value)})
@@ -291,7 +296,7 @@ export async function favoritesRegression(h) {
 
   await close()
   const inspected = JSON.parse(execFileSync(python, ['tests/favorites-probe.py', 'state', database], { encoding: 'utf8' }))
-  assert.equal(inspected.version, 7)
+  assert.equal(inspected.version, process.env.POC001B_TEST_APP_IDENTIFIER.startsWith('org.shandong-study.dev009-') ? 8 : 7)
   assert.equal(inspected.names[1], '期末练习')
   assert.ok(inspected.relations.some((row) => row[0] === review && row[1] === question && row[2] === 1))
   await start(true)

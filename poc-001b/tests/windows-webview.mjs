@@ -115,7 +115,8 @@ async function start(offline = false) {
   const state = execFileSync('powershell.exe', ['-NoProfile', '-Command',
     '$p = Get-Process -Id ' + child.pid + '; if (!$p.MainWindowHandle) { exit 1 }; $p.MainWindowTitle'], { encoding: 'utf8' })
   assert.ok(state.trim())
-  const schema = process.argv.includes('--stage-a') ? 3 : isolatedIdentifier.startsWith('org.shandong-study.dev008-') ? 7
+  const schema = process.argv.includes('--stage-a') ? 3 : isolatedIdentifier.startsWith('org.shandong-study.dev009-') ? 8
+    : isolatedIdentifier.startsWith('org.shandong-study.dev008-') ? 7
     : isolatedIdentifier.startsWith('org.shandong-study.dev007-') ? 6
     : isolatedIdentifier.startsWith('org.shandong-study.dev006-') ? 5
     : isolatedIdentifier.startsWith('org.shandong-study.dev005-') ? 4 : isolatedIdentifier.startsWith('org.shandong-study.dev004-') ? 3

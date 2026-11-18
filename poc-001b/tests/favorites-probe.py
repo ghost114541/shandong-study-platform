@@ -1,6 +1,7 @@
 """Inspect isolated DEV-008 Windows profiles and generate original benchmark records."""
 import hashlib
 import json
+import re
 import shutil
 import sqlite3
 import sys
@@ -70,8 +71,10 @@ def main():
     action, raw_path, *args = sys.argv[1:]
     path = Path(raw_path).resolve()
     assert path.name == "study.sqlite3"
-    assert path.parent.name.startswith("org.shandong-study.dev008-")
+    dev009 = re.fullmatch(r"org\.shandong-study\.dev009-[a-f0-9]{8}", path.parent.name) is not None
+    assert dev009 or path.parent.name.startswith("org.shandong-study.dev008-")
     if action == "backup":
+        assert not dev009
         source = Path(args[0]).resolve()
         assert source.name == path.name and source.parent.name.startswith("org.shandong-study.dev007-")
         assert not path.exists()
@@ -89,6 +92,7 @@ def main():
         print(f"Schema 6 SQLite backup includes {len(before['files'])} hashed resource files.")
         return
     if action == "verify-upgrade":
+        assert not dev009
         before = json.loads(Path(args[0]).read_text(encoding="utf-8"))
         with connect(path, "ro") as db:
             after = snapshot(db, path.parent, 7)
@@ -108,7 +112,8 @@ def main():
     with connect(path, "rw") as db:
         db.execute("PRAGMA foreign_keys = ON")
         db.execute("PRAGMA recursive_triggers = ON")
-        assert db.execute("PRAGMA user_version").fetchone() == (7,)
+        version = db.execute("PRAGMA user_version").fetchone()[0]
+        assert version == (8 if dev009 else 7)
         if action == "lock":
             db.execute("BEGIN IMMEDIATE")
             print("locked", flush=True)
@@ -124,7 +129,7 @@ def main():
             assert db.execute("PRAGMA integrity_check").fetchall() == [("ok",)]
             assert db.execute("PRAGMA foreign_key_check").fetchall() == []
             print(json.dumps({
-                "version": 7,
+                "version": version,
                 "names": [name for name, in db.execute("SELECT name FROM favorite_collection ORDER BY sort_order,id")],
                 "relations": db.execute("SELECT m.collection_id, f.original_id, f.important "
                                         "FROM favorite_member m JOIN favorite_identity f ON f.id = m.target_id").fetchall(),

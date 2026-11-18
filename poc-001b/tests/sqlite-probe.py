@@ -1,5 +1,6 @@
 """Inspect, lock and seed review evidence in the isolated Windows test profile."""
 import json
+import re
 import shutil
 import sqlite3
 import struct
@@ -35,7 +36,8 @@ def main():
         picture(path, variant=command == "attachment-picture")
         return
     profile = Path(path).parent.name
-    assert profile.startswith(tuple(f"org.shandong-study.dev{number:03d}-" for number in range(2, 9))), profile
+    dev009 = re.fullmatch(r"org\.shandong-study\.dev009-[a-f0-9]{8}", profile) is not None
+    assert dev009 or profile.startswith(tuple(f"org.shandong-study.dev{number:03d}-" for number in range(2, 9))), profile
     assert Path(path).name == "study.sqlite3"
     if command in ("copy-schema-one", "copy-schema-two", "copy-schema-three", "copy-schema-four"):
         source = Path(path)
@@ -88,7 +90,7 @@ def main():
                             assert row.pop(column, None) is None
             print(json.dumps(data, sort_keys=True))
         elif command == "compose-alias":
-            assert profile.startswith(("org.shandong-study.dev006-", "org.shandong-study.dev007-", "org.shandong-study.dev008-"))
+            assert dev009 or profile.startswith(("org.shandong-study.dev006-", "org.shandong-study.dev007-", "org.shandong-study.dev008-"))
             db.execute(
                 """INSERT INTO question_duplicate(duplicate_id, canonical_id, reviewer, confirmed_on, evidence)
                    VALUES (?, ?, '验收复核员', date('now'), '原始测试题已逐项核对')""", args,
@@ -114,7 +116,7 @@ def main():
             db.execute("INSERT INTO question_revision(question_id,scope,content_version,content_json) VALUES (?,'user',1,?)",
                        [key, json.dumps(payload, ensure_ascii=False)])
         elif command == "seed-ui":
-            assert profile.startswith(("org.shandong-study.dev004-", "org.shandong-study.dev005-", "org.shandong-study.dev006-", "org.shandong-study.dev007-", "org.shandong-study.dev008-"))
+            assert dev009 or profile.startswith(("org.shandong-study.dev004-", "org.shandong-study.dev005-", "org.shandong-study.dev006-", "org.shandong-study.dev007-", "org.shandong-study.dev008-"))
             db.execute("PRAGMA recursive_triggers=ON")
             def doc(text):
                 return {"type": "doc", "content": [{"type": "paragraph", "content": [{"type": "text", "text": text}]}]}

@@ -2,7 +2,8 @@
 param(
     [Parameter(Mandatory)][int]$AppProcess,
     [Parameter(Mandatory)][string]$Title,
-    [Parameter(Mandatory)][string]$Filename
+    [Parameter(Mandatory)][string]$Filename,
+    [string]$Screenshot
 )
 $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
@@ -22,6 +23,10 @@ public static class PdfTestWindows {
     [DllImport("user32.dll")] static extern int GetDlgCtrlID(IntPtr hwnd);
     [DllImport("user32.dll")] static extern bool PostMessage(IntPtr hwnd, uint message, IntPtr w, IntPtr l);
     [DllImport("user32.dll", CharSet=CharSet.Unicode)] static extern IntPtr SendMessage(IntPtr hwnd, uint message, IntPtr w, string l);
+    [StructLayout(LayoutKind.Sequential)] public struct RECT { public int Left, Top, Right, Bottom; }
+    [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
+    [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr hwnd, out RECT bounds);
+    [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr hwnd, IntPtr dc, uint flags);
     public static bool SetFilename(IntPtr window, string filename) {
         bool written = false;
         EnumChildWindows(window, (wnd, arg) => {
@@ -61,9 +66,29 @@ public static class PdfTestWindows {
 }
 '@
 $deadline = [DateTime]::UtcNow.AddSeconds(15)
+if ($Screenshot) { [void][PdfTestWindows]::SetProcessDPIAware() }
 do {
     $handle = [PdfTestWindows]::Find([uint32]$AppProcess, $Title)
     if ($handle -ne [IntPtr]::Zero -and [PdfTestWindows]::SetFilename($handle, $Filename)) {
+        if ($Screenshot) {
+            Add-Type -AssemblyName System.Drawing
+            $bounds = New-Object PdfTestWindows+RECT
+            if (-not [PdfTestWindows]::GetWindowRect($handle, [ref]$bounds)) { throw 'Could not read dialog bounds' }
+            $image = New-Object System.Drawing.Bitmap(($bounds.Right - $bounds.Left), ($bounds.Bottom - $bounds.Top))
+            $graphics = [System.Drawing.Graphics]::FromImage($image)
+            try {
+                $dc = $graphics.GetHdc()
+                $captured = [PdfTestWindows]::PrintWindow($handle, $dc, 2)
+                $graphics.ReleaseHdc($dc)
+                if (-not $captured) { throw 'Could not capture native dialog' }
+                # The shell navigation can show unrelated personal quick-access items.
+                $graphics.FillRectangle([System.Drawing.Brushes]::White, 0, 164, 225, $image.Height - 164)
+                $image.Save($Screenshot, [System.Drawing.Imaging.ImageFormat]::Png)
+            } finally {
+                $graphics.Dispose()
+                $image.Dispose()
+            }
+        }
         if ([PdfTestWindows]::Confirm($handle)) {
             Write-Output "Selected file through native Win32 controls in $Title"
             exit 0
