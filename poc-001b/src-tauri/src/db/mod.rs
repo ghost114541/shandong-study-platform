@@ -6,6 +6,7 @@ mod favorites;
 mod knowledge;
 mod metadata;
 mod migrations;
+mod pack_zip;
 mod paper_composition;
 mod paper_files;
 mod paper_print;

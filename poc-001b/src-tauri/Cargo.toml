@@ -11,9 +11,12 @@ tauri-build = { version = "2", features = [] }
 base64 = "0.22"
 cap-fs-ext = "4"
 cap-std = "4"
+fs2 = "0.4"
 image = { version = "0.25", default-features = false, features = ["png", "jpeg", "webp", "gif"] }
 lopdf = { version = "=0.47.0", default-features = false }
 rusqlite = { version = "0.42", features = ["bundled"] }
+same-file = "1"
+semver = { version = "1", features = ["serde"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sha2 = "0.11"
@@ -21,6 +24,7 @@ tauri = { version = "~2.12.0", features = [] }
 tauri-plugin-dialog = "2"
 tempfile = "3"
 tokio = { version = "1", features = ["sync", "time"] }
+zip = { version = "=9.6.0", default-features = false, features = ["deflate-flate2"] }
 
 [target.'cfg(windows)'.dependencies]
 webview2-com = "0.39.1"
