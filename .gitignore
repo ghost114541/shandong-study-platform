@@ -3,3 +3,4 @@ poc-001b/dist/
 poc-001b/src-tauri/target/
 poc-001b/src-tauri/gen/
 poc-001b/.test-output/
+/poc-001b/.pdf-public/

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { getCurrentWindow } from '@tauri-apps/api/window'
 import { SQLiteWorkspace } from './sqlite-workspace'
@@ -11,10 +11,14 @@ import { totalScore } from './composition-api'
 import { useComposition } from './use-composition'
 import type { SearchSeed } from './knowledge-api'
 import type { QuestionSummary } from './sqlite-api'
+import type { ReaderTarget, ScreenshotDraft } from './paper-reader-api'
 import 'katex/dist/katex.min.css'
 import './style.css'
 
-type Workspace = { name: 'editor'; question?: QuestionSummary } | { name: 'search'; seed?: SearchSeed }
+const PaperLibrary = lazy(() => import('./paper-library').then(({ PaperLibrary }) => ({ default: PaperLibrary })))
+
+type Workspace = { name: 'editor'; question?: QuestionSummary; source?: ReaderTarget; draft?: ScreenshotDraft }
+  | { name: 'search'; seed?: SearchSeed } | { name: 'papers'; target?: ReaderTarget }
   | { name: 'knowledge' | 'legacy' | 'composition' }
 
 function App() {
@@ -95,6 +99,7 @@ function App() {
       <button aria-pressed={workspace.name === 'editor'} disabled={guard.busy || composition.busy} onClick={() => navigate({ name: 'editor' })}>SQLite 题库</button>
       <button aria-pressed={workspace.name === 'knowledge'} disabled={guard.busy || composition.busy} onClick={() => navigate({ name: 'knowledge' })}>知识库</button>
       <button aria-pressed={workspace.name === 'search'} disabled={guard.busy || composition.busy} onClick={() => navigate({ name: 'search' })}>试题检索</button>
+      <button aria-pressed={workspace.name === 'papers'} disabled={guard.busy || composition.busy} onClick={() => navigate({ name: 'papers' })}>试卷库</button>
       <button aria-pressed={workspace.name === 'composition'} disabled={guard.busy || composition.busy}
         onClick={() => navigate({ name: 'composition' })}>自定义组卷</button>
       <button aria-pressed={workspace.name === 'legacy'} disabled={guard.busy || composition.busy} onClick={() => navigate({ name: 'legacy' })}>POC-001B JSON 演示</button>
@@ -102,7 +107,14 @@ function App() {
     </nav>
     {windowError && <p role="alert" className="window-error">{windowError}</p>}
     {workspace.name === 'legacy' && <LegacyWorkspace reportGuard={reportGuard} />}
-    {workspace.name === 'editor' && <SQLiteWorkspace reportGuard={reportGuard} confirmLeave={confirmLeave} initialQuestion={workspace.question} />}
+    {workspace.name === 'editor' && <SQLiteWorkspace reportGuard={reportGuard} confirmLeave={confirmLeave}
+      initialQuestion={workspace.question} initialDraft={workspace.draft} returnReader={workspace.source ?? workspace.draft?.target}
+      openReader={(target) => navigate({ name: 'papers', target })} />}
+    {workspace.name === 'papers' && <Suspense fallback={<p role="status">正在加载试卷库…</p>}>
+      <PaperLibrary initialTarget={workspace.target} reportGuard={reportGuard} confirmLeave={confirmLeave}
+        openQuestion={(question, source) => navigate({ name: 'editor', question, source })}
+        openDraft={(draft) => navigate({ name: 'editor', draft })} />
+    </Suspense>}
     {workspace.name === 'knowledge' && <KnowledgeWorkspace openSearch={(seed) => navigate({ name: 'search', seed })} />}
     {workspace.name === 'composition' && <CompositionWorkspace state={composition} confirmReplace={confirmReplace} />}
     {searchSession && <div hidden={workspace.name !== 'search'} className="search-container">

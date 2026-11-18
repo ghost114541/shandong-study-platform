@@ -1,6 +1,7 @@
 import { invoke } from '@tauri-apps/api/core'
 import { parseRevisionContent } from './model'
 import type { RevisionContent } from './model'
+import type { RegionLink } from './paper-reader-api'
 
 export interface Subject {
   id: string
@@ -70,10 +71,10 @@ export const sqlite = {
   original: (questionId: string) => read('public_original', { questionId }),
   revision: (revisionId: number) => read('read_revision', { revisionId }),
   review: (revisionId: number) => invoke<RevisionReview>('revision_review', { revisionId }),
-  async save(questionId: string, subjectId: string, fresh: boolean, expectedCurrent: number | null, draft: RevisionContent): Promise<Revision> {
+  async save(questionId: string, subjectId: string, fresh: boolean, expectedCurrent: number | null, draft: RevisionContent, source?: RegionLink): Promise<Revision> {
     const contentJson = JSON.stringify(parseRevisionContent(draft))
     return validated(await (fresh
-      ? invoke<Revision>('create_question', { questionId, subjectId, contentJson })
+      ? invoke<Revision>('create_question', { questionId, subjectId, contentJson, source })
       : invoke<Revision>('save_user_revision', { questionId, expectedCurrent, contentJson })))
   },
 }

@@ -8,11 +8,13 @@ import type { Attachment, PaperData, RevisionContent, RichDocument } from './mod
 import { Content, Paper } from './paper'
 import { QuestionKnowledge } from './question-knowledge'
 import { QuestionMetadataPanel } from './question-metadata'
+import { PaperLocations } from './paper-locations'
+import type { ReaderTarget, ScreenshotDraft } from './paper-reader-api'
 import { describeError, reviewStatusLabel, sqlite } from './sqlite-api'
 import type { QuestionSummary, RevisionDetail, RevisionSummary, Subject } from './sqlite-api'
 
 type Mode = 'paper' | 'answers'
-type Field = 'stem' | 'answer' | `prompt:${number}` | `answer:${number}`
+type Field = 'stem' | 'answer' | 'analysis' | `prompt:${number}` | `answer:${number}`
 type View = 'current' | 'original' | number
 interface Selection {
   questionId: string
@@ -20,6 +22,7 @@ interface Selection {
   detail: RevisionDetail | null
   view: View
   fresh: boolean
+  screenshot?: ScreenshotDraft
 }
 
 const blank: RichDocument = { type: 'doc', content: [{ type: 'paragraph' }] }
@@ -34,20 +37,24 @@ function targetPart(field: Field): { index: number; key: 'prompt' | 'answer' } {
 }
 
 function activeDocument(content: RevisionContent, field: Field): RichDocument {
-  if (field === 'stem' || field === 'answer') return content[field] ?? blank
+  if (field === 'stem' || field === 'answer' || field === 'analysis') return content[field] ?? blank
   const { index, key } = targetPart(field)
   return content.parts[index]?.[key] ?? blank
 }
 
-export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: {
+export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, initialDraft, returnReader, openReader }: {
   reportGuard: ReportGuard
   confirmLeave: ConfirmLeave
   initialQuestion?: QuestionSummary
+  initialDraft?: ScreenshotDraft
+  returnReader?: ReaderTarget
+  openReader: (target: ReaderTarget) => void
 }) {
   const [subjects, setSubjects] = useState<Subject[]>([])
   const [newSubject, setNewSubject] = useState('')
   const [questions, setQuestions] = useState<QuestionSummary[]>([])
   const [history, setHistory] = useState<RevisionSummary[]>([])
+  const [returnFromQuestion, setReturnFromQuestion] = useState(initialQuestion?.id)
   const [selection, setSelection] = useState<Selection | null>(null)
   const [draft, setDraft] = useState(emptyRevision)
   const [field, setField] = useState<Field>('stem')
@@ -92,7 +99,16 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
   function reset(next: Selection, revisions: RevisionSummary[]) {
     setSelection(next)
     setHistory(revisions)
-    setDraft(next.detail?.revision.content ?? emptyRevision)
+    const captures = next.screenshot?.attachments
+    if (captures) {
+      setDraft({
+        ...emptyRevision,
+        attachments: [...new Map(captures.map((item) => [item.id, item])).values()],
+        stem: { type: 'doc', content: [{ type: 'paragraph' }, ...captures.map((item, index) => ({
+          type: 'image' as const, attrs: { src: 'attachment:' + item.id, alt: '原卷截图 ' + (index + 1) },
+        }))] },
+      })
+    } else setDraft(next.detail?.revision.content ?? emptyRevision)
     setDirty(next.fresh)
     setField('stem')
     setEditorGeneration((generation) => generation + 1)
@@ -123,7 +139,12 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
       const list = initialQuestion && !allQuestions.some((question) => question.id === initialQuestion.id)
         ? [initialQuestion, ...allQuestions].slice(0, 25) : allQuestions
       setQuestions(list)
-      if (target) await load(target, 'current', initialQuestion?.current_revision_id ?? undefined)
+      if (initialDraft) {
+        const questionId = crypto.randomUUID()
+        setReturnFromQuestion(questionId)
+        reset({ questionId, subjectId: initialDraft.subjectId, detail: null, view: 'current',
+          fresh: true, screenshot: initialDraft }, [])
+      } else if (target) await load(target, 'current', initialQuestion?.current_revision_id ?? undefined)
     }).catch((err: unknown) => setError('无法打开 SQLite 工作区：' + describeError(err)))
       .finally(() => setBusy(false))
   }, [])
@@ -181,7 +202,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
     update((previous) => {
       const attachments = imported && !previous.attachments.some((item) => item.id === imported.id)
         ? [...previous.attachments, imported] : previous.attachments
-      if (field === 'stem' || field === 'answer') return { ...previous, attachments, [field]: doc }
+      if (field === 'stem' || field === 'answer' || field === 'analysis') return { ...previous, attachments, [field]: doc }
       const { index, key } = targetPart(field)
       return { ...previous, attachments, parts: previous.parts.map((part, i) => i === index ? { ...part, [key]: doc } : part) }
     })
@@ -189,7 +210,8 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
 
   async function save() {
     if (!selection || readOnly || !dirty) return
-    const revision = await sqlite.save(selection.questionId, selection.subjectId, selection.fresh, revisionId, { ...draft, attachments: referencedAttachments(draft) })
+    const revision = await sqlite.save(selection.questionId, selection.subjectId, selection.fresh, revisionId,
+      { ...draft, attachments: referencedAttachments(draft) }, selection.screenshot?.link)
     setSelection({ ...selection, detail: { revision, review: null, review_status: 'unreviewed' }, fresh: false })
     setDraft(revision.content)
     setDirty(false)
@@ -266,6 +288,13 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
             </select></label>
           </div>}
           {selection.detail && <p className="review-status">答案审核记录 · {reviewStatusLabel(selection.detail)}</p>}
+          {returnReader && returnFromQuestion === selection.questionId && <button disabled={blocked}
+            onClick={() => openReader(returnReader)}>返回原卷定位</button>}
+          {selection.detail && <PaperLocations key={selection.questionId + ':' + revisionId} questionId={selection.questionId}
+            disabled={blocked} open={(location) => openReader({
+              fileId: location.file_id, page: location.page_index, location,
+              returnQuestion: { id: selection.questionId, subject_id: selection.subjectId, current_revision_id: null },
+            })} />}
           {readOnly && <p>历史与公共原版视图为只读。可返回当前修订继续编辑。</p>}
           <fieldset className="question-fields" disabled={blocked || readOnly}>
             <label>题型 <input aria-label="题型" value={draft.question_type} onChange={(event) => {
@@ -287,6 +316,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion }: 
           <label className="select-field">编辑内容<select value={field} disabled={blocked} onChange={(event) => setField(event.target.value as Field)}>
             <option value="stem">整题题干</option>
             <option value="answer">整题答案</option>
+            <option value="analysis">整题解析</option>
             {draft.parts.flatMap((part, index) => [
               <option key={part.id + '-prompt'} value={'prompt:' + index}>小问 {index + 1} · 题干</option>,
               <option key={part.id + '-answer'} value={'answer:' + index}>小问 {index + 1} · 答案</option>,
