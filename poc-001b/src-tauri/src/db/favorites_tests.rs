@@ -217,6 +217,20 @@ fn dev008_t05_t07_t09_t14_merge_keep_source_and_cross_folder_mark() {
     assert_eq!(status.logical_id, "A");
     assert_eq!(status.collections.len(), 2);
     assert_eq!(status.collections[0].relations, 2);
+    assert_eq!(
+        db.change_favorites(FavoriteCommand::Remove {
+            collection: "default".into(),
+            target: question("B"),
+            expected_relations: Some(1),
+        })
+        .unwrap_err()
+        .kind,
+        ErrorKind::Conflict
+    );
+    assert_eq!(
+        db.favorite_status(&question("B")).unwrap().collections[0].relations,
+        2
+    );
     add(&mut db, &review, vec![question("B")]).unwrap();
     assert_eq!(db.favorite_counts().unwrap().relations, 3);
     let saved = db
@@ -347,6 +361,37 @@ fn dev008_t08_t17_concurrent_idempotency_failed_batch_and_delete_roll_back() {
             .unwrap(),
         1
     );
+    db.integrity_check().unwrap();
+}
+
+#[test]
+fn dev008_t08_collection_delete_and_add_are_serialized() {
+    let (temp, mut db) = open();
+    let path = temp.path().join(DATABASE_FILENAME);
+    let folder = folder(&mut db, "竞争");
+    db.create_question("resource", "math").unwrap();
+    let worker_path = path.clone();
+    let worker_folder = folder.clone();
+    let gate = Arc::new(Barrier::new(2));
+    let worker_gate = gate.clone();
+    let worker = std::thread::spawn(move || {
+        let mut db = Database::open(&worker_path).unwrap();
+        worker_gate.wait();
+        add(&mut db, &worker_folder, vec![question("resource")])
+    });
+    gate.wait();
+    db.change_favorite_collection(CollectionCommand::Delete { id: folder })
+        .unwrap();
+    if let Err(error) = worker.join().unwrap() {
+        assert_eq!(error.kind, ErrorKind::Missing);
+    }
+    assert!(db
+        .favorite_status(&question("resource"))
+        .unwrap()
+        .collections
+        .is_empty());
+    assert_eq!(db.favorite_collections().unwrap().len(), 1);
+    assert_eq!(db.questions().unwrap().len(), 1);
     db.integrity_check().unwrap();
 }
 
