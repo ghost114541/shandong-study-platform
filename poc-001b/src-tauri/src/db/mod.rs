@@ -2,6 +2,7 @@ mod attachments;
 mod composition;
 mod content;
 mod error;
+mod favorites;
 mod knowledge;
 mod metadata;
 mod migrations;
@@ -16,6 +17,10 @@ pub use attachments::{AttachmentIntegrity, MAX_IMAGE_BYTES};
 pub use composition::{Composition, SavedItem};
 pub use content::{Attachment, PartContent, RevisionContent, CONTENT_VERSION};
 pub use error::{DbError, ErrorKind, Result};
+pub use favorites::{
+    CollectionCommand, FavoriteCollection, FavoriteCommand, FavoriteCounts, FavoritePage,
+    FavoriteQuery, FavoriteRef, FavoriteStatus,
+};
 pub use knowledge::{KnowledgeLink, KnowledgePoint};
 pub use metadata::{PaperMetadata, PaperOccurrence, QuestionMetadata};
 pub use paper_files::{ImportPaper, Location, PaperFile, PaperRecord, PdfRegion, RegionLink};
@@ -108,5 +113,7 @@ fn check_integrity(connection: &Connection, full: bool) -> Result<()> {
 
 #[cfg(test)]
 mod tests;
+#[cfg(test)]
+mod favorites_tests;
 #[cfg(test)]
 mod paper_tests;

@@ -41,6 +41,11 @@ pub(super) const MIGRATIONS: &[Migration] = &[
         name: "paper_files",
         sql: include_str!("../../migrations/0006_paper_files.sql"),
     },
+    Migration {
+        version: 7,
+        name: "favorites",
+        sql: include_str!("../../migrations/0007_favorites.sql"),
+    },
 ];
 
 pub(super) fn apply(connection: &mut Connection) -> Result<()> {

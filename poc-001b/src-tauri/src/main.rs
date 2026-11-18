@@ -3,6 +3,7 @@
 mod composition_export;
 mod composition_ipc;
 mod editor_ipc;
+mod favorites_ipc;
 mod paper_reader_ipc;
 #[cfg(windows)]
 mod pdf;
@@ -133,6 +134,12 @@ fn main() {
             editor_ipc::save_question_metadata,
             editor_ipc::add_paper_occurrence,
             editor_ipc::save_paper_metadata,
+            favorites_ipc::favorite_collections,
+            favorites_ipc::favorite_counts,
+            favorites_ipc::favorite_status,
+            favorites_ipc::favorite_page,
+            favorites_ipc::change_favorites,
+            favorites_ipc::change_favorite_collection,
             paper_reader_ipc::import_paper_pdf,
             paper_reader_ipc::list_paper_records,
             paper_reader_ipc::open_paper_pdf,

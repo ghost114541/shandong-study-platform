@@ -343,6 +343,14 @@ impl Database {
         Ok(records)
     }
 
+    pub(super) fn paper_bytes_available(&self, digest: &str, expected_size: u64) -> bool {
+        self.attachment_store
+            .resource_shard(FOLDER, digest, false)
+            .and_then(|dir| open_regular(&dir, Path::new(digest)))
+            .and_then(|file| file.metadata())
+            .is_ok_and(|metadata| metadata.len() == expected_size)
+    }
+
     pub fn paper_pdf(&self, id: &str) -> Result<(PaperFile, Vec<u8>)> {
         let file = registered(&self.connection, id)?;
         let dir = self
