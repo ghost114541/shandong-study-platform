@@ -1,0 +1,8 @@
+Native Win32 window hwnd present, process PID 3748, URL http://tauri.localhost/
+Three real WebView2 PrintToPdf exports
+Native Win32 window hwnd present, process PID 24936, URL http://tauri.localhost/
+Native close/restart, network-disabled resource reload, formula and attachment round trip PASS
+Native Win32 window hwnd present, process PID 17876, URL http://tauri.localhost/
+Native Win32 window hwnd present, process PID 35628, URL http://tauri.localhost/
+Native Win32 window hwnd present, process PID 34284, URL http://tauri.localhost/
+Native invalid JSON, invalid structure and unsupported schema messages PASS

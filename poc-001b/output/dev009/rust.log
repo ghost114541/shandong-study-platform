@@ -1,0 +1,286 @@
+   Compiling shandong-poc-001b v0.1.0 (C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9.91s
+     Running unittests src\lib.rs (src-tauri\target\debug\build\shandong-poc-001b/ad40a2475fe2daf4\out\shandong_poc_001b-ad40a2475fe2daf4.exe)
+
+running 62 tests
+test db::migrations::tests::test_003_failed_upgrade_rolls_back_ddl_data_and_version ... ok
+test db::migrations::tests::dev003_t10_schema_two_failure_rolls_back_subjects_and_ddl ... ok
+test db::pack_zip::tests::poc003_crash_worker ... ok
+
+running 1 test
+POC003 child pid=27468 killed, committed=false, status=staged, visible=0, sha256=9af8e698a35d535a5d86525b1c7e4aa835658412dba5f622f50fa18f31b2250e
+
+running 1 test
+POC003 child pid=16104 killed, committed=true, status=installed, visible=1, sha256=9af8e698a35d535a5d86525b1c7e4aa835658412dba5f622f50fa18f31b2250e
+test db::pack_zip::tests::poc003_kills_child_before_and_after_commit ... ok
+test db::pack_zip::tests::poc003_output_budget_checks_actual_read ... ok
+test db::pack_zip::tests::poc003_reads_real_zip_and_hashes_stream ... ok
+test db::pack_zip::tests::poc003_refuses_high_ratio_before_decompressing ... ok
+test db::pack_zip::tests::poc003_refuses_nonportable_members ... ok
+test db::favorites_tests::dev008_t03_t04_create_rename_reorder_validate ... ok
+test db::attachments::tests::dev005_t03_animated_gif_is_decoded_beyond_the_first_frame ... ok
+test db::attachments::tests::dev005_t06_registration_failure_and_interrupted_stage_are_retryable ... ok
+test db::attachments::tests::dev005_t03_t04_imports_four_formats_and_reuses_physical_files ... ok
+test db::favorites_tests::dev008_t08_collection_delete_and_add_are_serialized ... ok
+test db::attachments::tests::dev005_t08_t10_fixed_revisions_and_missing_or_corrupt_files ... ok
+test db::favorites_tests::dev008_t05_t07_t09_t14_merge_keep_source_and_cross_folder_mark ... ok
+test db::favorites_tests::dev008_t01_t02_upgrade_retains_migrations_and_default_stays_unique ... ok
+test db::tests::dev002_shared_rich_text_contract ... ok
+test db::favorites_tests::dev008_t08_t17_concurrent_idempotency_failed_batch_and_delete_roll_back ... ok
+test db::migrations::tests::dev004_t02_schema_two_preserves_records_and_pinned_revision ... ok
+test db::favorites_tests::dev008_t13_t15_t18_latest_user_revision_review_and_fixed_selection_survive_reopen ... ok
+test db::migrations::tests::dev003_t02_t10_upgrade_preserves_schema_one_user_data_and_pins ... ok
+schema 7 => 8; revision=1; pre=e33ce9e08f9970ce647442be88a0cf5b2de52955df72ab284d1638396e196d10; post=910d7cc5df62d959c088301a088f1ac35a0030043dea129eea4488f63d587045; prior favorite=1; integrity=ok
+test db::pack_tests::dev009_t02_migrates_schema7_with_historical_revision_and_favorite ... ok
+test db::attachments::tests::dev005_t05_invalid_formats_sizes_ids_permissions_and_path_escape ... ok
+test db::favorites_tests::dev008_t06_t10_t16_multi_type_pdf_versions_metadata_and_safe_folder_delete ... ok
+test db::paper_files::tests::dev007_bad_pdf_copy_interrupted_directory_failure_and_sql_rollback ... ok
+test db::paper_files::tests::dev007_cross_page_alias_correction_and_failed_new_question_are_consistent ... ok
+test db::paper_tests::dev006_failed_duplicate_and_bad_points_roll_back_version ... ok
+test db::paper_files::tests::dev007_dedup_distinct_papers_same_name_versions_and_hash_failures ... ok
+test db::paper_tests::dev006_invalid_answer_analysis_image_blocks_pair_only_at_export ... ok
+test db::tests::dev002_editor_branches_from_public_without_changing_original ... ok
+test db::paper_tests::dev006_projection_is_disjoint_and_identity_stays_pinned ... ok
+test db::tests::dev003_t01_review_effective_by_utc_calendar_date ... ok
+test db::tests::explicit_duplicate_confirmation_preserves_existing_sources_and_revisions ... ok
+test db::tests::dev002_editor_atomic_create_reopen_and_revision_conflicts ... ok
+test db::tests::knowledge_tests::dev003_t03_t04_t05_tree_sort_constraints_and_aliases ... ok
+test db::tests::knowledge_tests::dev003_t02_nine_subjects_are_seeded_once ... ok
+test db::tests::metadata_tests::dev004_t06_search_audit_matches_effective_current_revision_state ... ok
+test db::tests::test_001_initializes_schema_wal_foreign_keys_and_history ... ok
+test db::tests::knowledge_tests::dev003_t06_t07_t08_link_and_search_current_without_duplicates ... ok
+test db::tests::rich_text_round_trip_keeps_latex_attachment_and_part_id_and_rejects_bad_content ... ok
+test db::tests::test_005_verification_is_version_bound_and_honors_review_chain_and_expiry ... ok
+test db::tests::metadata_tests::dev004_t03_t04_t05_metadata_persists_and_origin_predicates_share_one_occurrence ... ok
+test db::tests::test_002_reopens_same_database_without_reapplying_migration ... ok
+test db::tests::metadata_tests::dev005_t01_shared_origin_rejects_stale_baseline_from_another_connection ... ok
+test db::tests::test_004_counts_unique_questions_separately_from_parts_and_occurrences ... ok
+test db::tests::test_006_user_revision_is_selected_and_public_original_is_unchanged ... ok
+test db::tests::test_008_saved_composition_reopens_pinned_revision_and_rolls_back_missing_items ... ok
+test db::tests::metadata_tests::dev004_t07_year_and_difficulty_sort_stable_with_ties_and_missing_values ... ok
+test db::tests::test_007_public_update_preserves_user_revision_and_first_public_content ... ok
+test db::tests::test_009_blocks_revision_mutation_deletion_and_cross_question_references ... ok
+test db::tests::validates_knowledge_hierarchy_and_structured_database_errors ... ok
+rejected missing-manifest: InvalidContent: ZIP 缺少声明的文件。
+rejected json: InvalidContent: 资源包 JSON 无效（第 1 行，第 1 列）。
+rejected duplicate-key: InvalidContent: 资源包 JSON 无效（第 1 行，第 93 列）。
+rejected protocol: UnsupportedContent: 资源包格式、协议、软件版本或 Schema 不兼容。
+rejected schema: UnsupportedContent: 资源包格式、协议、软件版本或 Schema 不兼容。
+rejected app: UnsupportedContent: 资源包格式、协议、软件版本或 Schema 不兼容。
+rejected content: UnsupportedContent: 资源包格式、协议、软件版本或 Schema 不兼容。
+rejected format: UnsupportedContent: 资源包格式、协议、软件版本或 Schema 不兼容。
+rejected version: InvalidContent: 资源包 JSON 无效（第 1 行，第 115 列）。
+rejected traversal: InvalidContent: ZIP 文件路径不安全或文件类型不受支持。
+rejected absolute: InvalidContent: ZIP 文件路径不安全或文件类型不受支持。
+test db::tests::knowledge_tests::dev004_t01_alias_knowledge_is_searchable_without_rewriting_sources ... ok
+rejected drive: InvalidContent: ZIP 文件路径不安全或文件类型不受支持。
+rejected unc: InvalidContent: ZIP 文件路径不安全或文件类型不受支持。
+rejected reserved: InvalidContent: ZIP 文件路径不安全或文件类型不受支持。
+rejected case: InvalidContent: ZIP 文件路径在 Windows 上冲突。
+rejected overlap: InvalidContent: ZIP 文件和目录路径冲突。
+rejected link: InvalidContent: ZIP 文件路径不安全或文件类型不受支持。
+rejected fifo: InvalidContent: ZIP 文件路径不安全或文件类型不受支持。
+rejected duplicate-path: InvalidContent: ZIP 成员重复或成员数量不一致。
+rejected ratio: InvalidContent: ZIP 单文件超过解压大小或压缩比上限。
+rejected member-count: InvalidContent: ZIP 目录范围无效，或成员数量超过上限。
+rejected member-size: InvalidContent: ZIP 单文件超过解压大小或压缩比上限。
+test db::pack_tests::dev009_t08_preflight_rejects_bad_hierarchy_references_and_ownership ... ok
+staging_unwritable: rollback, safe cleanup, retry success; original failure = FileAccess: 资源包文件操作失败。not a directory
+test db::pack_tests::dev009_committed_cleanup_republishes_a_missing_link_from_valid_stage ... ok
+test db::pack_tests::dev009_t20_cross_connection_concurrency_and_t21_integrity_history ... ok
+test db::pack_tests::dev009_reuses_unchanged_revision_and_rejects_stale_confirmation ... ok
+protected user revision=5, historical public=1, new public=7, composition pinned, favorites/marks, duplicate, old PDF/regions, attachment, user knowledge/aliases, local metadata
+staged_corrupt: rollback, safe cleanup, retry success; original failure = Integrity: 资源文件 0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9 字节数异常。
+test db::pack_tests::dev009_t09_to_t17_import_upgrade_and_preserve_user_resources ... ok
+rejected total-size: InvalidContent: ZIP 总解压大小超过上限。
+rejected corrupt: InvalidContent: 文件 LICENSES/rights-and-attribution.json 的字节数或 SHA-256 不匹配。
+rejected size: InvalidContent: 清单路径、字节数或 SHA-256 无效。LICENSES/rights-and-attribution.json
+rejected missing: InvalidContent: ZIP 文件与 Manifest 清单数量不一致或有重复路径。
+rejected extra: InvalidContent: ZIP 文件与 Manifest 清单数量不一致或有重复路径。
+rejected duplicate-id: InvalidContent: JSONL 资源 ID 无效或重复。
+rejected image: AttachmentUnsupportedFormat: 图片格式不支持。请选择 PNG、JPEG、WebP 或 GIF。
+rejected pdf: InvalidContent: 文件缺少有效的 PDF 文件头或结束标记。
+rejected attachment: InvalidContent: 试题 kp009-q-0000 引用了缺失或声明不符的图片。
+test db::pack_tests::dev009_t03_to_t07_checks_container_manifest_and_decode_failures ... ok
+existing_target: rollback, safe cleanup, retry success; original failure = Integrity: 资源文件 0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9 字节数异常。
+sqlite_resource: rollback, safe cleanup, retry success; original failure = Constraint: isolated DEV-009 failure
+DEV003-T09 synthetic=10000 SQLite=3.54.1 main_bytes=8658944 wal_bytes=0
+QUERY PLAN MATERIALIZE page_rows
+QUERY PLAN SEARCH q USING COVERING INDEX question_subject_identity (subject_id=? AND id=?)
+QUERY PLAN LIST SUBQUERY 3
+QUERY PLAN COMPOUND QUERY
+QUERY PLAN LEFT-MOST SUBQUERY
+QUERY PLAN MATERIALIZE selected
+QUERY PLAN SETUP
+QUERY PLAN SEARCH knowledge_point USING INDEX sqlite_autoindex_knowledge_point_1 (id=?)
+QUERY PLAN RECURSIVE STEP
+QUERY PLAN SCAN k
+QUERY PLAN SCAN s
+QUERY PLAN SCAN question_knowledge
+QUERY PLAN SEARCH q USING COVERING INDEX sqlite_autoindex_question_1 (id=?)
+QUERY PLAN BLOOM FILTER ON s (id=?)
+QUERY PLAN SEARCH s USING AUTOMATIC COVERING INDEX (id=?)
+QUERY PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+QUERY PLAN UNION ALL
+QUERY PLAN SCAN q USING COVERING INDEX sqlite_autoindex_question_1
+QUERY PLAN SEARCH k USING COVERING INDEX sqlite_autoindex_pack_question_knowledge_1 (question_id=?)
+QUERY PLAN CORRELATED SCALAR SUBQUERY 14
+QUERY PLAN SEARCH pack_question_version USING COVERING INDEX sqlite_autoindex_pack_question_version_1 (question_id=?)
+QUERY PLAN CORRELATED SCALAR SUBQUERY 15
+QUERY PLAN SEARCH h USING COVERING INDEX sqlite_autoindex_pack_knowledge_hidden_1 (question_id=? AND knowledge_id=?)
+QUERY PLAN CORRELATED SCALAR SUBQUERY 16
+QUERY PLAN SEARCH u USING COVERING INDEX sqlite_autoindex_question_knowledge_1 (question_id=? AND knowledge_id=?)
+QUERY PLAN BLOOM FILTER ON s (id=?)
+QUERY PLAN SEARCH s USING AUTOMATIC COVERING INDEX (id=?)
+QUERY PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+QUERY PLAN SEARCH q USING COVERING INDEX sqlite_autoindex_question_1 (id=?)
+QUERY PLAN SEARCH revision USING COVERING INDEX sqlite_autoindex_question_revision_1 (question_id=? AND id=? AND rowid=?)
+QUERY PLAN CORRELATED SCALAR SUBQUERY 10
+QUERY PLAN SEARCH question_revision USING COVERING INDEX question_revision_selection (question_id=? AND scope=?)
+QUERY PLAN CORRELATED SCALAR SUBQUERY 11
+QUERY PLAN SEARCH question_revision USING COVERING INDEX question_revision_selection (question_id=? AND scope=?)
+QUERY PLAN REUSE SUBQUERY 10
+QUERY PLAN REUSE SUBQUERY 11
+QUERY PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+QUERY PLAN SEARCH search USING INTEGER PRIMARY KEY (rowid=?)
+QUERY PLAN SEARCH a USING INDEX sqlite_autoindex_question_annotation_1 (question_id=?) LEFT-JOIN
+QUERY PLAN SCAN page_rows
+QUERY PLAN CORRELATED SCALAR SUBQUERY 5
+QUERY PLAN CO-ROUTINE question_members
+QUERY PLAN COMPOUND QUERY
+QUERY PLAN LEFT-MOST SUBQUERY
+QUERY PLAN SCAN q USING COVERING INDEX sqlite_autoindex_question_1
+QUERY PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+QUERY PLAN UNION ALL
+QUERY PLAN SCAN question_duplicate
+QUERY PLAN BLOOM FILTER ON m (logical_id=?)
+QUERY PLAN SEARCH m USING AUTOMATIC PARTIAL COVERING INDEX (logical_id=?)
+QUERY PLAN SEARCH o USING INDEX question_occurrence_question (question_id=?)
+QUERY PLAN SEARCH p USING INDEX sqlite_autoindex_paper_1 (id=?)
+QUERY PLAN SEARCH u USING INDEX sqlite_autoindex_paper_user_metadata_1 (paper_id=?) LEFT-JOIN
+QUERY PLAN SEARCH v USING INDEX sqlite_autoindex_pack_paper_version_1 (paper_id=? AND version_id=?) LEFT-JOIN
+QUERY PLAN CORRELATED SCALAR SUBQUERY 24
+QUERY PLAN SEARCH pack_paper_version USING COVERING INDEX sqlite_autoindex_pack_paper_version_1 (paper_id=?)
+QUERY PLAN USE TEMP B-TREE FOR ORDER BY
+Schema 7 synthetic relations=1000 batch_total_ms=144.360 sidebar_ms=4.879 first_page_ms=20.508 filter_ms=10.164 page_2_ms=11.420 mark_ms=0.753
+sqlite_result: rollback, safe cleanup, retry success; original failure = Constraint: isolated DEV-009 failure
+DEV004-T11 synthetic=10000 database_bytes=14536704 sources=20000 tags=13333 links=15000
+PLAN MATERIALIZE page_rows
+PLAN MATERIALIZE matched_origins
+PLAN CO-ROUTINE question_members
+PLAN COMPOUND QUERY
+PLAN LEFT-MOST SUBQUERY
+PLAN SCAN q USING COVERING INDEX sqlite_autoindex_question_1
+PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+PLAN UNION ALL
+PLAN SCAN question_duplicate
+PLAN SCAN p USING COVERING INDEX sqlite_autoindex_paper_1
+PLAN SEARCH o USING COVERING INDEX occurrence_identity (paper_id=?)
+PLAN BLOOM FILTER ON m (original_id=?)
+PLAN SEARCH m USING AUTOMATIC COVERING INDEX (original_id=?)
+PLAN SEARCH u USING INDEX sqlite_autoindex_paper_user_metadata_1 (paper_id=?) LEFT-JOIN
+PLAN SEARCH v USING INDEX sqlite_autoindex_pack_paper_version_1 (paper_id=? AND version_id=?) LEFT-JOIN
+PLAN CORRELATED SCALAR SUBQUERY 19
+PLAN SEARCH pack_paper_version USING COVERING INDEX sqlite_autoindex_pack_paper_version_1 (paper_id=?)
+PLAN USE TEMP B-TREE FOR GROUP BY
+PLAN SEARCH q USING COVERING INDEX sqlite_autoindex_question_1 (id=?)
+PLAN LIST SUBQUERY 4
+PLAN COMPOUND QUERY
+PLAN LEFT-MOST SUBQUERY
+PLAN MATERIALIZE selected
+PLAN SETUP
+PLAN SEARCH knowledge_point USING INDEX sqlite_autoindex_knowledge_point_1 (id=?)
+PLAN RECURSIVE STEP
+cancel: rollback, safe cleanup, retry success; original failure = InvalidContent: 安装已取消。
+PLAN SCAN k
+PLAN SCAN s
+PLAN SCAN q USING COVERING INDEX sqlite_autoindex_question_1
+PLAN SEARCH question_knowledge USING COVERING INDEX sqlite_autoindex_question_knowledge_1 (question_id=?)
+PLAN BLOOM FILTER ON s (id=?)
+PLAN SEARCH s USING AUTOMATIC COVERING INDEX (id=?)
+PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+PLAN UNION ALL
+PLAN SCAN q USING COVERING INDEX sqlite_autoindex_question_1
+PLAN SEARCH k USING COVERING INDEX sqlite_autoindex_pack_question_knowledge_1 (question_id=?)
+PLAN CORRELATED SCALAR SUBQUERY 22
+PLAN SEARCH pack_question_version USING COVERING INDEX sqlite_autoindex_pack_question_version_1 (question_id=?)
+PLAN CORRELATED SCALAR SUBQUERY 23
+PLAN SEARCH h USING COVERING INDEX sqlite_autoindex_pack_knowledge_hidden_1 (question_id=? AND knowledge_id=?)
+PLAN CORRELATED SCALAR SUBQUERY 24
+PLAN SEARCH u USING COVERING INDEX sqlite_autoindex_question_knowledge_1 (question_id=? AND knowledge_id=?)
+PLAN BLOOM FILTER ON s (id=?)
+PLAN SEARCH s USING AUTOMATIC COVERING INDEX (id=?)
+PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+PLAN SEARCH revision USING COVERING INDEX sqlite_autoindex_question_revision_1 (question_id=? AND id=? AND rowid=?)
+PLAN CORRELATED SCALAR SUBQUERY 12
+PLAN SEARCH question_revision USING COVERING INDEX question_revision_selection (question_id=? AND scope=?)
+PLAN CORRELATED SCALAR SUBQUERY 13
+PLAN SEARCH question_revision USING COVERING INDEX question_revision_selection (question_id=? AND scope=?)
+PLAN REUSE SUBQUERY 12
+PLAN REUSE SUBQUERY 13
+PLAN SEARCH q USING COVERING INDEX question_subject_identity (subject_id=? AND id=?)
+PLAN LIST SUBQUERY 5
+PLAN COMPOUND QUERY
+PLAN LEFT-MOST SUBQUERY
+PLAN SEARCH t USING COVERING INDEX question_tag_tag (tag=?)
+PLAN SEARCH q USING COVERING INDEX sqlite_autoindex_question_1 (id=?)
+PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+PLAN CREATE BLOOM FILTER
+PLAN UNION ALL
+PLAN SEARCH t USING COVERING INDEX question_tag_tag (tag=?)
+PLAN SEARCH question_duplicate USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?)
+PLAN CREATE BLOOM FILTER
+PLAN REUSE LIST SUBQUERY 4
+PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+PLAN SEARCH search USING INTEGER PRIMARY KEY (rowid=?)
+PLAN SEARCH a USING INDEX sqlite_autoindex_question_annotation_1 (question_id=?)
+PLAN BLOOM FILTER ON y (logical_id=?)
+PLAN SEARCH y USING AUTOMATIC COVERING INDEX (logical_id=?) LEFT-JOIN
+PLAN USE TEMP B-TREE FOR ORDER BY
+PLAN SCAN page_rows
+PLAN CORRELATED SCALAR SUBQUERY 7
+PLAN CO-ROUTINE question_members
+PLAN COMPOUND QUERY
+PLAN LEFT-MOST SUBQUERY
+PLAN SCAN q USING COVERING INDEX sqlite_autoindex_question_1
+PLAN SEARCH d USING INDEX sqlite_autoindex_question_duplicate_1 (duplicate_id=?) LEFT-JOIN
+PLAN UNION ALL
+PLAN SCAN question_duplicate
+PLAN BLOOM FILTER ON m (logical_id=?)
+PLAN SEARCH m USING AUTOMATIC COVERING INDEX (logical_id=?)
+PLAN SEARCH o USING INDEX question_occurrence_question (question_id=?)
+PLAN SEARCH p USING INDEX sqlite_autoindex_paper_1 (id=?)
+PLAN SEARCH u USING INDEX sqlite_autoindex_paper_user_metadata_1 (paper_id=?) LEFT-JOIN
+PLAN SEARCH v USING INDEX sqlite_autoindex_pack_paper_version_1 (paper_id=? AND version_id=?) LEFT-JOIN
+PLAN CORRELATED SCALAR SUBQUERY 36
+PLAN SEARCH pack_paper_version USING COVERING INDEX sqlite_autoindex_pack_paper_version_1 (paper_id=?)
+PLAN USE TEMP B-TREE FOR ORDER BY
+PLAN USE TEMP B-TREE FOR ORDER BY
+test db::pack_tests::dev009_t18_faults_at_staging_publication_sqlite_and_result_registration ... ok
+pagination verified: 858 distinct matches, 35 pages, last page 8
+combined-first: iterations=30 min_ms=6.047 p50_ms=6.364 p95_ms=7.219 max_ms=7.539
+combined-late: iterations=30 min_ms=19.175 p50_ms=20.388 p95_ms=21.634 max_ms=21.768
+pagination results=333 pages=14 last_page=8
+global-keyword-late: iterations=30 min_ms=20.883 p50_ms=22.380 p95_ms=25.026 max_ms=25.523
+test db::tests::knowledge_tests::dev003_t09_synthetic_ten_thousand_query_benchmark ... ok
+Schema 7 synthetic relations=5000 batch_total_ms=518.967 sidebar_ms=24.437 first_page_ms=49.699 filter_ms=32.440 page_2_ms=30.954 mark_ms=1.584
+test db::favorites_tests::dev008_t10_t19_mixed_1000_and_5000_query_benchmark ... ok
+combined-first: p50_ms=114.137 p95_ms=135.782
+combined-page-6: p50_ms=109.825 p95_ms=113.936
+test db::tests::metadata_tests::dev004_t11_metadata_query_benchmark ... ok
+
+test result: ok. 62 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.36s
+
+     Running unittests src\main.rs (src-tauri\target\debug\build\shandong-poc-001b/1352e76bf690ba13\out\shandong_poc_001b-1352e76bf690ba13.exe)
+
+running 2 tests
+test storage::tests::distinguishes_corruption_and_unsupported_versions ... ok
+test storage::tests::round_trip_replacement_preserves_content_and_ids ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests shandong_poc_001b
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

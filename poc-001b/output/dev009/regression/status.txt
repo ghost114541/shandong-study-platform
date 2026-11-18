@@ -1,0 +1,8 @@
+advanced exit=0
+attachments exit=0
+favorites exit=0
+legacy exit=0
+sqlite exit=0
+knowledge exit=0
+composition exit=0
+paper-reader exit=0

@@ -1,0 +1,5 @@
+legacy_pdf exit=0
+sqlite_pdf exit=0
+attachments_pdf exit=0
+composition_pdf exit=0
+paper_reader_pdf exit=0

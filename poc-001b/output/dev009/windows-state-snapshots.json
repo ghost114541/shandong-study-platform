@@ -1,0 +1,3119 @@
+{
+  "before-schema8": {
+    "schema": 7,
+    "database_sha256": "6b0376dbe08cb962fb40008281a3ef0c9825817644ce11f3260e711578d56eb5",
+    "database_wal_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sqlite_backup_sha256": "6b0376dbe08cb962fb40008281a3ef0c9825817644ce11f3260e711578d56eb5",
+    "counts": {
+      "subject": 9,
+      "knowledge_point": 2,
+      "knowledge_alias": 0,
+      "question": 2,
+      "question_part": 0,
+      "question_revision": 2,
+      "question_duplicate": 0,
+      "verification_record": 0,
+      "composition": 1,
+      "composition_item": 1,
+      "favorite_collection": 2,
+      "favorite_target": 2,
+      "favorite_member": 3,
+      "attachment": 0,
+      "paper": 1,
+      "paper_file": 1,
+      "paper_region": 0,
+      "question_occurrence": 0,
+      "paper_user_metadata": 1
+    },
+    "fingerprints": {
+      "subject": "62819cfc73c8baf0dd90f4c99ac6515564701ffc062b753888bb4a1d6fe22371",
+      "knowledge_point": "100bddabf7e9424b9898b9923ba0fa56a8a64d8fbe4caaf09b1d65786f413de3",
+      "knowledge_alias": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question": "7545d068fbcb2a3bb58bc02acb70720206487013ffcc42b7eb66ad46fc8dfa87",
+      "question_part": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question_revision": "2d9b118484a5c81a292151b8cdda5cdbe3015f0d17d1e5ed74e2dbf58e40f657",
+      "question_duplicate": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "verification_record": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "composition": "c6f6da7134413156e39055205b405f7abfd1d5ef5a4402e86e5153fe5fd83113",
+      "composition_item": "5ce9b70faf168db0beb2688102051e851fa469ad1947afdf0c324a8534d59f19",
+      "favorite_collection": "322865d88ab9feb9ada3310b4c3ac9154230d684794b8d244f95ed1d4896940c",
+      "favorite_target": "04031e14f132812e1da08a1eaf2c0896391ebb7af4347e04525a73a5374a17c0",
+      "favorite_member": "b827595143ae42e568dc17b2ddc58312b677fc1f16dbf342b1fd694d436cd1ce",
+      "attachment": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "paper": "3cc5bd7a44a9a7688acd2e068f079d7ec0458de07bcbd8ec5202481be34b1647",
+      "paper_file": "5fb0a9aa073191b2f8fcd6bb435779ddeede8f7459cabef4335b1fd62d79795c",
+      "paper_region": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question_occurrence": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "paper_user_metadata": "f7af13b9815dc6100e6c095a5a26e4b31b59a1b67025708997a489225065bf9c"
+    },
+    "versions": [],
+    "operations": [],
+    "migrations": [
+      [
+        1,
+        "core",
+        "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395"
+      ],
+      [
+        2,
+        "knowledge",
+        "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5"
+      ],
+      [
+        3,
+        "search_metadata",
+        "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7"
+      ],
+      [
+        4,
+        "attachments",
+        "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08"
+      ],
+      [
+        5,
+        "composition",
+        "c19d525c03bf8747dc3ddbd1a27838b78f90126d8a87e7aac0d90d5ce2408106"
+      ],
+      [
+        6,
+        "paper_files",
+        "f343f6faeb23b3838e924da60fc4ef2b592958e7ca58ca77a0ebe55604bba335"
+      ],
+      [
+        7,
+        "favorites",
+        "5a6ef4139723ecc84a6444892ba4757fd56c899035b58c81b70e94381a6d4830"
+      ]
+    ],
+    "file_size_sha": {
+      "paper-pdfs/df/df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6": [
+        7665,
+        "df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6"
+      ]
+    },
+    "user_revision_fingerprints": [
+      [
+        1,
+        "dev008-q",
+        "f76b71db61d0c5c9612009c7807366b43a0a7a3b157df6d1bffe62c3a7d4b3e0"
+      ],
+      [
+        2,
+        "dev008-q2",
+        "158c218a4acb5423db54199b99b8666e3322b3197574f82a3a2cac3123e736d0"
+      ]
+    ],
+    "bytes_on_disk": 400881
+  },
+  "after-schema8": {
+    "schema": 8,
+    "database_sha256": "6b0376dbe08cb962fb40008281a3ef0c9825817644ce11f3260e711578d56eb5",
+    "database_wal_sha256": "d090fdc4004bb67b8663c3a0e21555b3aa1ecd67b56a32d01c78e7dfef045768",
+    "sqlite_backup_sha256": "60cac3da1861f73772da95b4df03adb8725ac0b66d1515959ce896bff08cd419",
+    "counts": {
+      "subject": 9,
+      "knowledge_point": 2,
+      "knowledge_alias": 0,
+      "question": 2,
+      "question_part": 0,
+      "question_revision": 2,
+      "question_duplicate": 0,
+      "verification_record": 0,
+      "composition": 1,
+      "composition_item": 1,
+      "favorite_collection": 2,
+      "favorite_target": 2,
+      "favorite_member": 3,
+      "attachment": 0,
+      "paper": 1,
+      "paper_file": 1,
+      "paper_region": 0,
+      "question_occurrence": 0,
+      "paper_user_metadata": 1
+    },
+    "fingerprints": {
+      "subject": "62819cfc73c8baf0dd90f4c99ac6515564701ffc062b753888bb4a1d6fe22371",
+      "knowledge_point": "100bddabf7e9424b9898b9923ba0fa56a8a64d8fbe4caaf09b1d65786f413de3",
+      "knowledge_alias": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question": "7545d068fbcb2a3bb58bc02acb70720206487013ffcc42b7eb66ad46fc8dfa87",
+      "question_part": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question_revision": "2d9b118484a5c81a292151b8cdda5cdbe3015f0d17d1e5ed74e2dbf58e40f657",
+      "question_duplicate": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "verification_record": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "composition": "c6f6da7134413156e39055205b405f7abfd1d5ef5a4402e86e5153fe5fd83113",
+      "composition_item": "5ce9b70faf168db0beb2688102051e851fa469ad1947afdf0c324a8534d59f19",
+      "favorite_collection": "322865d88ab9feb9ada3310b4c3ac9154230d684794b8d244f95ed1d4896940c",
+      "favorite_target": "04031e14f132812e1da08a1eaf2c0896391ebb7af4347e04525a73a5374a17c0",
+      "favorite_member": "b827595143ae42e568dc17b2ddc58312b677fc1f16dbf342b1fd694d436cd1ce",
+      "attachment": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "paper": "3cc5bd7a44a9a7688acd2e068f079d7ec0458de07bcbd8ec5202481be34b1647",
+      "paper_file": "5fb0a9aa073191b2f8fcd6bb435779ddeede8f7459cabef4335b1fd62d79795c",
+      "paper_region": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question_occurrence": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "paper_user_metadata": "f7af13b9815dc6100e6c095a5a26e4b31b59a1b67025708997a489225065bf9c"
+    },
+    "versions": [],
+    "operations": [],
+    "migrations": [
+      [
+        1,
+        "core",
+        "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395"
+      ],
+      [
+        2,
+        "knowledge",
+        "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5"
+      ],
+      [
+        3,
+        "search_metadata",
+        "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7"
+      ],
+      [
+        4,
+        "attachments",
+        "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08"
+      ],
+      [
+        5,
+        "composition",
+        "c19d525c03bf8747dc3ddbd1a27838b78f90126d8a87e7aac0d90d5ce2408106"
+      ],
+      [
+        6,
+        "paper_files",
+        "f343f6faeb23b3838e924da60fc4ef2b592958e7ca58ca77a0ebe55604bba335"
+      ],
+      [
+        7,
+        "favorites",
+        "5a6ef4139723ecc84a6444892ba4757fd56c899035b58c81b70e94381a6d4830"
+      ],
+      [
+        8,
+        "resource_packs",
+        "e447bc649b322a0b9ed1d97e0ce5cde9b7c538909cf36d24063fec9afedb33f4"
+      ]
+    ],
+    "file_size_sha": {
+      "paper-pdfs/df/df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6": [
+        7665,
+        "df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6"
+      ]
+    },
+    "user_revision_fingerprints": [
+      [
+        1,
+        "dev008-q",
+        "f76b71db61d0c5c9612009c7807366b43a0a7a3b157df6d1bffe62c3a7d4b3e0"
+      ],
+      [
+        2,
+        "dev008-q2",
+        "158c218a4acb5423db54199b99b8666e3322b3197574f82a3a2cac3123e736d0"
+      ]
+    ],
+    "bytes_on_disk": 582193
+  },
+  "installed-small": {
+    "schema": 8,
+    "database_sha256": "6b0376dbe08cb962fb40008281a3ef0c9825817644ce11f3260e711578d56eb5",
+    "database_wal_sha256": "7eba6266d2bf8865fbb6702a43778bd7826f4edc631eb781c0b43ac63d41cdc4",
+    "sqlite_backup_sha256": "761c09bd0fcd62a5e398240089f862761e252656e231fcb9bd6c2b9153bab63b",
+    "counts": {
+      "subject": 9,
+      "knowledge_point": 4,
+      "knowledge_alias": 0,
+      "question": 6,
+      "question_part": 4,
+      "question_revision": 6,
+      "question_duplicate": 0,
+      "verification_record": 0,
+      "composition": 1,
+      "composition_item": 1,
+      "favorite_collection": 2,
+      "favorite_target": 2,
+      "favorite_member": 3,
+      "attachment": 1,
+      "paper": 2,
+      "paper_file": 4,
+      "paper_region": 1,
+      "question_occurrence": 1,
+      "paper_user_metadata": 1
+    },
+    "fingerprints": {
+      "subject": "62819cfc73c8baf0dd90f4c99ac6515564701ffc062b753888bb4a1d6fe22371",
+      "knowledge_point": "fa48305bf7c379a6e00b90bd9a1c7e265570c810f29be3733f214afd746d6762",
+      "knowledge_alias": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question": "f0369d4f0395e427ca996dbecec37253f38a17fc84af79ca33dce05a356ab817",
+      "question_part": "a3b5f44304f761ce0b69134b5a8f2bc18faf1555a3d83303de384c06b433cb2f",
+      "question_revision": "3730ca2be68f968cdcc0315063f541889cfd1b19fd24370ae10fbc108d1566d2",
+      "question_duplicate": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "verification_record": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "composition": "c6f6da7134413156e39055205b405f7abfd1d5ef5a4402e86e5153fe5fd83113",
+      "composition_item": "5ce9b70faf168db0beb2688102051e851fa469ad1947afdf0c324a8534d59f19",
+      "favorite_collection": "322865d88ab9feb9ada3310b4c3ac9154230d684794b8d244f95ed1d4896940c",
+      "favorite_target": "04031e14f132812e1da08a1eaf2c0896391ebb7af4347e04525a73a5374a17c0",
+      "favorite_member": "b827595143ae42e568dc17b2ddc58312b677fc1f16dbf342b1fd694d436cd1ce",
+      "attachment": "ee46449f27962af45eef521bf844fe96e383e3340db663a09e1c0b30d463b159",
+      "paper": "798af5c36bbe2afa041d096ce939950789407f3b3a6724554b3897338566e3f6",
+      "paper_file": "a86e2d5745e17dadef8ca33d1975a2111e6668a267c7302b851029e044c881ad",
+      "paper_region": "f19e3aa768b3bb62de38bec9bee1dfdfdc025ec5a55701f2ab43cfc1981ee829",
+      "question_occurrence": "ad32305723347a4a1f5804a6eac62570f79e5d9df2b1f04425f499154bb1541b",
+      "paper_user_metadata": "f7af13b9815dc6100e6c095a5a26e4b31b59a1b67025708997a489225065bf9c"
+    },
+    "versions": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "94f5b77ce3a23be423e0f2edb2bf97922c5f4faef2a63b30674313e47c6cd6b5",
+        null
+      ]
+    ],
+    "operations": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ]
+    ],
+    "migrations": [
+      [
+        1,
+        "core",
+        "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395"
+      ],
+      [
+        2,
+        "knowledge",
+        "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5"
+      ],
+      [
+        3,
+        "search_metadata",
+        "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7"
+      ],
+      [
+        4,
+        "attachments",
+        "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08"
+      ],
+      [
+        5,
+        "composition",
+        "c19d525c03bf8747dc3ddbd1a27838b78f90126d8a87e7aac0d90d5ce2408106"
+      ],
+      [
+        6,
+        "paper_files",
+        "f343f6faeb23b3838e924da60fc4ef2b592958e7ca58ca77a0ebe55604bba335"
+      ],
+      [
+        7,
+        "favorites",
+        "5a6ef4139723ecc84a6444892ba4757fd56c899035b58c81b70e94381a6d4830"
+      ],
+      [
+        8,
+        "resource_packs",
+        "e447bc649b322a0b9ed1d97e0ce5cde9b7c538909cf36d24063fec9afedb33f4"
+      ]
+    ],
+    "file_size_sha": {
+      "attachments/eb/eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        73,
+        "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+      ],
+      "paper-pdfs/0a/0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9": [
+        617,
+        "0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9"
+      ],
+      "paper-pdfs/36/364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8": [
+        619,
+        "364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8"
+      ],
+      "paper-pdfs/b6/b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2": [
+        619,
+        "b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2"
+      ],
+      "paper-pdfs/df/df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6": [
+        7665,
+        "df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6"
+      ]
+    },
+    "user_revision_fingerprints": [
+      [
+        1,
+        "dev008-q",
+        "f76b71db61d0c5c9612009c7807366b43a0a7a3b157df6d1bffe62c3a7d4b3e0"
+      ],
+      [
+        2,
+        "dev008-q2",
+        "158c218a4acb5423db54199b99b8666e3322b3197574f82a3a2cac3123e736d0"
+      ]
+    ],
+    "bytes_on_disk": 921961
+  },
+  "after-kill-writing": {
+    "schema": 8,
+    "database_sha256": "6b0376dbe08cb962fb40008281a3ef0c9825817644ce11f3260e711578d56eb5",
+    "database_wal_sha256": "ce1199abf9a80510c186e2e1af658116a7d26d5997758827ef8dfcc5981c21fe",
+    "sqlite_backup_sha256": "2c82f3eb2334210b66662ffa81765009e01c0e1b048a150574973cbc05e2887d",
+    "counts": {
+      "subject": 9,
+      "knowledge_point": 4,
+      "knowledge_alias": 0,
+      "question": 6,
+      "question_part": 4,
+      "question_revision": 7,
+      "question_duplicate": 0,
+      "verification_record": 0,
+      "composition": 2,
+      "composition_item": 2,
+      "favorite_collection": 2,
+      "favorite_target": 3,
+      "favorite_member": 4,
+      "attachment": 1,
+      "paper": 2,
+      "paper_file": 4,
+      "paper_region": 1,
+      "question_occurrence": 1,
+      "paper_user_metadata": 1
+    },
+    "fingerprints": {
+      "subject": "62819cfc73c8baf0dd90f4c99ac6515564701ffc062b753888bb4a1d6fe22371",
+      "knowledge_point": "fa48305bf7c379a6e00b90bd9a1c7e265570c810f29be3733f214afd746d6762",
+      "knowledge_alias": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question": "f0369d4f0395e427ca996dbecec37253f38a17fc84af79ca33dce05a356ab817",
+      "question_part": "a3b5f44304f761ce0b69134b5a8f2bc18faf1555a3d83303de384c06b433cb2f",
+      "question_revision": "dec43d88f8b591e4f5f919c61b8b2a7021087f4264528c8f6f204353625dee7f",
+      "question_duplicate": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "verification_record": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "composition": "5301d05396135e43996e67cdb3b97401c03aa4e19577bd6fd59ee95a893b0ea9",
+      "composition_item": "52a12fc16785ba93094d8dde3c73ec118a04c82c3631cc225418639b051d8afa",
+      "favorite_collection": "322865d88ab9feb9ada3310b4c3ac9154230d684794b8d244f95ed1d4896940c",
+      "favorite_target": "d6c637f53f25c8c45dfbd83f97137349633b55f05eba7ee098507f452efac7ef",
+      "favorite_member": "4384151614e9303df62bdc31181a2da1d68e25e4c0bbebeecc14b2c3721031af",
+      "attachment": "ee46449f27962af45eef521bf844fe96e383e3340db663a09e1c0b30d463b159",
+      "paper": "798af5c36bbe2afa041d096ce939950789407f3b3a6724554b3897338566e3f6",
+      "paper_file": "a86e2d5745e17dadef8ca33d1975a2111e6668a267c7302b851029e044c881ad",
+      "paper_region": "f19e3aa768b3bb62de38bec9bee1dfdfdc025ec5a55701f2ab43cfc1981ee829",
+      "question_occurrence": "ad32305723347a4a1f5804a6eac62570f79e5d9df2b1f04425f499154bb1541b",
+      "paper_user_metadata": "f7af13b9815dc6100e6c095a5a26e4b31b59a1b67025708997a489225065bf9c"
+    },
+    "versions": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "94f5b77ce3a23be423e0f2edb2bf97922c5f4faef2a63b30674313e47c6cd6b5",
+        null
+      ]
+    ],
+    "operations": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "validated",
+        1,
+        null
+      ]
+    ],
+    "migrations": [
+      [
+        1,
+        "core",
+        "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395"
+      ],
+      [
+        2,
+        "knowledge",
+        "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5"
+      ],
+      [
+        3,
+        "search_metadata",
+        "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7"
+      ],
+      [
+        4,
+        "attachments",
+        "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08"
+      ],
+      [
+        5,
+        "composition",
+        "c19d525c03bf8747dc3ddbd1a27838b78f90126d8a87e7aac0d90d5ce2408106"
+      ],
+      [
+        6,
+        "paper_files",
+        "f343f6faeb23b3838e924da60fc4ef2b592958e7ca58ca77a0ebe55604bba335"
+      ],
+      [
+        7,
+        "favorites",
+        "5a6ef4139723ecc84a6444892ba4757fd56c899035b58c81b70e94381a6d4830"
+      ],
+      [
+        8,
+        "resource_packs",
+        "e447bc649b322a0b9ed1d97e0ce5cde9b7c538909cf36d24063fec9afedb33f4"
+      ]
+    ],
+    "file_size_sha": {
+      "attachments/eb/eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        73,
+        "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+      ],
+      "paper-pdfs/0a/0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9": [
+        617,
+        "0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9"
+      ],
+      "paper-pdfs/36/364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8": [
+        619,
+        "364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8"
+      ],
+      "paper-pdfs/b6/b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2": [
+        619,
+        "b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2"
+      ],
+      "paper-pdfs/df/df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6": [
+        7665,
+        "df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6"
+      ],
+      "pack-staging/33/3301d9a1fea8ebd8e842c597d505735c.eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        36,
+        "c16556f2361c01bbb5cfdd17376f87b0ed45f11d748ae5e4e5d00c223e3631b9"
+      ]
+    },
+    "user_revision_fingerprints": [
+      [
+        1,
+        "dev008-q",
+        "f76b71db61d0c5c9612009c7807366b43a0a7a3b157df6d1bffe62c3a7d4b3e0"
+      ],
+      [
+        2,
+        "dev008-q2",
+        "158c218a4acb5423db54199b99b8666e3322b3197574f82a3a2cac3123e736d0"
+      ],
+      [
+        7,
+        "kp009-q-0000",
+        "87f191c78148fc1d0c0bdfd6ff172b3890ebd574a637274dbefd561eb1ae0f0e"
+      ]
+    ],
+    "bytes_on_disk": 1041484
+  },
+  "after-kill-before_commit": {
+    "schema": 8,
+    "database_sha256": "6b0376dbe08cb962fb40008281a3ef0c9825817644ce11f3260e711578d56eb5",
+    "database_wal_sha256": "03ec44d41b27139ed9d7863946929c468877a0f9fce8f2f3a0cc2b90797e2c16",
+    "sqlite_backup_sha256": "0959e98765582d32120efab32d2e5b99f8406493d7c0a7204a56c76b3d311a1c",
+    "counts": {
+      "subject": 9,
+      "knowledge_point": 4,
+      "knowledge_alias": 0,
+      "question": 6,
+      "question_part": 4,
+      "question_revision": 7,
+      "question_duplicate": 0,
+      "verification_record": 0,
+      "composition": 2,
+      "composition_item": 2,
+      "favorite_collection": 2,
+      "favorite_target": 3,
+      "favorite_member": 4,
+      "attachment": 1,
+      "paper": 2,
+      "paper_file": 4,
+      "paper_region": 1,
+      "question_occurrence": 1,
+      "paper_user_metadata": 1
+    },
+    "fingerprints": {
+      "subject": "62819cfc73c8baf0dd90f4c99ac6515564701ffc062b753888bb4a1d6fe22371",
+      "knowledge_point": "fa48305bf7c379a6e00b90bd9a1c7e265570c810f29be3733f214afd746d6762",
+      "knowledge_alias": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question": "f0369d4f0395e427ca996dbecec37253f38a17fc84af79ca33dce05a356ab817",
+      "question_part": "a3b5f44304f761ce0b69134b5a8f2bc18faf1555a3d83303de384c06b433cb2f",
+      "question_revision": "dec43d88f8b591e4f5f919c61b8b2a7021087f4264528c8f6f204353625dee7f",
+      "question_duplicate": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "verification_record": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "composition": "5301d05396135e43996e67cdb3b97401c03aa4e19577bd6fd59ee95a893b0ea9",
+      "composition_item": "52a12fc16785ba93094d8dde3c73ec118a04c82c3631cc225418639b051d8afa",
+      "favorite_collection": "322865d88ab9feb9ada3310b4c3ac9154230d684794b8d244f95ed1d4896940c",
+      "favorite_target": "d6c637f53f25c8c45dfbd83f97137349633b55f05eba7ee098507f452efac7ef",
+      "favorite_member": "4384151614e9303df62bdc31181a2da1d68e25e4c0bbebeecc14b2c3721031af",
+      "attachment": "ee46449f27962af45eef521bf844fe96e383e3340db663a09e1c0b30d463b159",
+      "paper": "798af5c36bbe2afa041d096ce939950789407f3b3a6724554b3897338566e3f6",
+      "paper_file": "a86e2d5745e17dadef8ca33d1975a2111e6668a267c7302b851029e044c881ad",
+      "paper_region": "f19e3aa768b3bb62de38bec9bee1dfdfdc025ec5a55701f2ab43cfc1981ee829",
+      "question_occurrence": "ad32305723347a4a1f5804a6eac62570f79e5d9df2b1f04425f499154bb1541b",
+      "paper_user_metadata": "f7af13b9815dc6100e6c095a5a26e4b31b59a1b67025708997a489225065bf9c"
+    },
+    "versions": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "94f5b77ce3a23be423e0f2edb2bf97922c5f4faef2a63b30674313e47c6cd6b5",
+        null
+      ]
+    ],
+    "operations": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "committing",
+        1,
+        null
+      ]
+    ],
+    "migrations": [
+      [
+        1,
+        "core",
+        "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395"
+      ],
+      [
+        2,
+        "knowledge",
+        "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5"
+      ],
+      [
+        3,
+        "search_metadata",
+        "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7"
+      ],
+      [
+        4,
+        "attachments",
+        "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08"
+      ],
+      [
+        5,
+        "composition",
+        "c19d525c03bf8747dc3ddbd1a27838b78f90126d8a87e7aac0d90d5ce2408106"
+      ],
+      [
+        6,
+        "paper_files",
+        "f343f6faeb23b3838e924da60fc4ef2b592958e7ca58ca77a0ebe55604bba335"
+      ],
+      [
+        7,
+        "favorites",
+        "5a6ef4139723ecc84a6444892ba4757fd56c899035b58c81b70e94381a6d4830"
+      ],
+      [
+        8,
+        "resource_packs",
+        "e447bc649b322a0b9ed1d97e0ce5cde9b7c538909cf36d24063fec9afedb33f4"
+      ]
+    ],
+    "file_size_sha": {
+      "attachments/eb/eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        73,
+        "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+      ],
+      "paper-pdfs/0a/0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9": [
+        617,
+        "0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9"
+      ],
+      "paper-pdfs/36/364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8": [
+        619,
+        "364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8"
+      ],
+      "paper-pdfs/b6/b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2": [
+        619,
+        "b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2"
+      ],
+      "paper-pdfs/df/df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6": [
+        7665,
+        "df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6"
+      ],
+      "paper-pdfs/f0/f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68": [
+        617,
+        "f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68"
+      ],
+      "paper-pdfs/f8/f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb": [
+        619,
+        "f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb"
+      ],
+      "paper-pdfs/fb/fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759": [
+        619,
+        "fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759"
+      ],
+      "pack-staging/53/53c420d23bcd961b273017e7f6352f3b.eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        73,
+        "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+      ],
+      "pack-staging/53/53c420d23bcd961b273017e7f6352f3b.f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68": [
+        617,
+        "f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68"
+      ],
+      "pack-staging/53/53c420d23bcd961b273017e7f6352f3b.f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb": [
+        619,
+        "f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb"
+      ],
+      "pack-staging/53/53c420d23bcd961b273017e7f6352f3b.fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759": [
+        619,
+        "fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759"
+      ]
+    },
+    "user_revision_fingerprints": [
+      [
+        1,
+        "dev008-q",
+        "f76b71db61d0c5c9612009c7807366b43a0a7a3b157df6d1bffe62c3a7d4b3e0"
+      ],
+      [
+        2,
+        "dev008-q2",
+        "158c218a4acb5423db54199b99b8666e3322b3197574f82a3a2cac3123e736d0"
+      ],
+      [
+        7,
+        "kp009-q-0000",
+        "87f191c78148fc1d0c0bdfd6ff172b3890ebd574a637274dbefd561eb1ae0f0e"
+      ]
+    ],
+    "bytes_on_disk": 1090557
+  },
+  "before-successful-retry": {
+    "schema": 8,
+    "database_sha256": "6b0376dbe08cb962fb40008281a3ef0c9825817644ce11f3260e711578d56eb5",
+    "database_wal_sha256": "ab3a483952b894b2a604a3c3ebc3e8c0dc2c855309e1cf3269310b4095491912",
+    "sqlite_backup_sha256": "1dea796b47dd99b55d80f8c68028993b6df89041e01760001ac442e8c78f2f0f",
+    "counts": {
+      "subject": 9,
+      "knowledge_point": 4,
+      "knowledge_alias": 0,
+      "question": 6,
+      "question_part": 4,
+      "question_revision": 7,
+      "question_duplicate": 0,
+      "verification_record": 0,
+      "composition": 2,
+      "composition_item": 2,
+      "favorite_collection": 2,
+      "favorite_target": 3,
+      "favorite_member": 4,
+      "attachment": 1,
+      "paper": 2,
+      "paper_file": 4,
+      "paper_region": 1,
+      "question_occurrence": 1,
+      "paper_user_metadata": 1
+    },
+    "fingerprints": {
+      "subject": "62819cfc73c8baf0dd90f4c99ac6515564701ffc062b753888bb4a1d6fe22371",
+      "knowledge_point": "fa48305bf7c379a6e00b90bd9a1c7e265570c810f29be3733f214afd746d6762",
+      "knowledge_alias": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question": "f0369d4f0395e427ca996dbecec37253f38a17fc84af79ca33dce05a356ab817",
+      "question_part": "a3b5f44304f761ce0b69134b5a8f2bc18faf1555a3d83303de384c06b433cb2f",
+      "question_revision": "dec43d88f8b591e4f5f919c61b8b2a7021087f4264528c8f6f204353625dee7f",
+      "question_duplicate": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "verification_record": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "composition": "5301d05396135e43996e67cdb3b97401c03aa4e19577bd6fd59ee95a893b0ea9",
+      "composition_item": "52a12fc16785ba93094d8dde3c73ec118a04c82c3631cc225418639b051d8afa",
+      "favorite_collection": "322865d88ab9feb9ada3310b4c3ac9154230d684794b8d244f95ed1d4896940c",
+      "favorite_target": "d6c637f53f25c8c45dfbd83f97137349633b55f05eba7ee098507f452efac7ef",
+      "favorite_member": "4384151614e9303df62bdc31181a2da1d68e25e4c0bbebeecc14b2c3721031af",
+      "attachment": "ee46449f27962af45eef521bf844fe96e383e3340db663a09e1c0b30d463b159",
+      "paper": "798af5c36bbe2afa041d096ce939950789407f3b3a6724554b3897338566e3f6",
+      "paper_file": "a86e2d5745e17dadef8ca33d1975a2111e6668a267c7302b851029e044c881ad",
+      "paper_region": "f19e3aa768b3bb62de38bec9bee1dfdfdc025ec5a55701f2ab43cfc1981ee829",
+      "question_occurrence": "ad32305723347a4a1f5804a6eac62570f79e5d9df2b1f04425f499154bb1541b",
+      "paper_user_metadata": "f7af13b9815dc6100e6c095a5a26e4b31b59a1b67025708997a489225065bf9c"
+    },
+    "versions": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "94f5b77ce3a23be423e0f2edb2bf97922c5f4faef2a63b30674313e47c6cd6b5",
+        null
+      ]
+    ],
+    "operations": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ]
+    ],
+    "migrations": [
+      [
+        1,
+        "core",
+        "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395"
+      ],
+      [
+        2,
+        "knowledge",
+        "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5"
+      ],
+      [
+        3,
+        "search_metadata",
+        "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7"
+      ],
+      [
+        4,
+        "attachments",
+        "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08"
+      ],
+      [
+        5,
+        "composition",
+        "c19d525c03bf8747dc3ddbd1a27838b78f90126d8a87e7aac0d90d5ce2408106"
+      ],
+      [
+        6,
+        "paper_files",
+        "f343f6faeb23b3838e924da60fc4ef2b592958e7ca58ca77a0ebe55604bba335"
+      ],
+      [
+        7,
+        "favorites",
+        "5a6ef4139723ecc84a6444892ba4757fd56c899035b58c81b70e94381a6d4830"
+      ],
+      [
+        8,
+        "resource_packs",
+        "e447bc649b322a0b9ed1d97e0ce5cde9b7c538909cf36d24063fec9afedb33f4"
+      ]
+    ],
+    "file_size_sha": {
+      "attachments/eb/eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        73,
+        "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+      ],
+      "paper-pdfs/0a/0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9": [
+        617,
+        "0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9"
+      ],
+      "paper-pdfs/36/364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8": [
+        619,
+        "364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8"
+      ],
+      "paper-pdfs/b6/b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2": [
+        619,
+        "b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2"
+      ],
+      "paper-pdfs/df/df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6": [
+        7665,
+        "df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6"
+      ]
+    },
+    "user_revision_fingerprints": [
+      [
+        1,
+        "dev008-q",
+        "f76b71db61d0c5c9612009c7807366b43a0a7a3b157df6d1bffe62c3a7d4b3e0"
+      ],
+      [
+        2,
+        "dev008-q2",
+        "158c218a4acb5423db54199b99b8666e3322b3197574f82a3a2cac3123e736d0"
+      ],
+      [
+        7,
+        "kp009-q-0000",
+        "87f191c78148fc1d0c0bdfd6ff172b3890ebd574a637274dbefd561eb1ae0f0e"
+      ]
+    ],
+    "bytes_on_disk": 1095001
+  },
+  "after-kill-committed": {
+    "schema": 8,
+    "database_sha256": "6b0376dbe08cb962fb40008281a3ef0c9825817644ce11f3260e711578d56eb5",
+    "database_wal_sha256": "9008498c003541a365e418f6d6d3b4af38a4fe68237922095e760e1d65bc3203",
+    "sqlite_backup_sha256": "c1dd72f5ff0aea86bcf67863de0d39ea7ebdb58b2a3c587f5b4381847b74cf8a",
+    "counts": {
+      "subject": 9,
+      "knowledge_point": 4,
+      "knowledge_alias": 0,
+      "question": 7,
+      "question_part": 5,
+      "question_revision": 12,
+      "question_duplicate": 0,
+      "verification_record": 0,
+      "composition": 2,
+      "composition_item": 2,
+      "favorite_collection": 2,
+      "favorite_target": 3,
+      "favorite_member": 4,
+      "attachment": 1,
+      "paper": 2,
+      "paper_file": 7,
+      "paper_region": 2,
+      "question_occurrence": 1,
+      "paper_user_metadata": 1
+    },
+    "fingerprints": {
+      "subject": "62819cfc73c8baf0dd90f4c99ac6515564701ffc062b753888bb4a1d6fe22371",
+      "knowledge_point": "fa48305bf7c379a6e00b90bd9a1c7e265570c810f29be3733f214afd746d6762",
+      "knowledge_alias": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question": "d94d302052925c2f4a2cfd0ba3daf9749a976c2030a103812b4fb1a90170f51a",
+      "question_part": "46b069910ee5c760ee89351516be08ebf69c8e3ddf93e396b090dee4052f4282",
+      "question_revision": "babb864daeecb7dab6dbf6aa42b3cd73eb426b8e7c8b185f99908ef244bd99e5",
+      "question_duplicate": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "verification_record": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "composition": "5301d05396135e43996e67cdb3b97401c03aa4e19577bd6fd59ee95a893b0ea9",
+      "composition_item": "52a12fc16785ba93094d8dde3c73ec118a04c82c3631cc225418639b051d8afa",
+      "favorite_collection": "322865d88ab9feb9ada3310b4c3ac9154230d684794b8d244f95ed1d4896940c",
+      "favorite_target": "d6c637f53f25c8c45dfbd83f97137349633b55f05eba7ee098507f452efac7ef",
+      "favorite_member": "4384151614e9303df62bdc31181a2da1d68e25e4c0bbebeecc14b2c3721031af",
+      "attachment": "ee46449f27962af45eef521bf844fe96e383e3340db663a09e1c0b30d463b159",
+      "paper": "798af5c36bbe2afa041d096ce939950789407f3b3a6724554b3897338566e3f6",
+      "paper_file": "982bbf0d10278c778c537e0c6ae402734ef2ea92f27d2c923e790ffa6cc394d9",
+      "paper_region": "ba3ef1824d7c6c525dbc31f0b5b0e84b62419710709ede151a3f136a553be2a1",
+      "question_occurrence": "ad32305723347a4a1f5804a6eac62570f79e5d9df2b1f04425f499154bb1541b",
+      "paper_user_metadata": "f7af13b9815dc6100e6c095a5a26e4b31b59a1b67025708997a489225065bf9c"
+    },
+    "versions": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "94f5b77ce3a23be423e0f2edb2bf97922c5f4faef2a63b30674313e47c6cd6b5",
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "24fb0fccc211960a8f9abc0ae3dbe574c7865b7ecb83ee6d334f92513f508913",
+        null
+      ]
+    ],
+    "operations": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "installed",
+        1,
+        null
+      ]
+    ],
+    "migrations": [
+      [
+        1,
+        "core",
+        "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395"
+      ],
+      [
+        2,
+        "knowledge",
+        "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5"
+      ],
+      [
+        3,
+        "search_metadata",
+        "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7"
+      ],
+      [
+        4,
+        "attachments",
+        "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08"
+      ],
+      [
+        5,
+        "composition",
+        "c19d525c03bf8747dc3ddbd1a27838b78f90126d8a87e7aac0d90d5ce2408106"
+      ],
+      [
+        6,
+        "paper_files",
+        "f343f6faeb23b3838e924da60fc4ef2b592958e7ca58ca77a0ebe55604bba335"
+      ],
+      [
+        7,
+        "favorites",
+        "5a6ef4139723ecc84a6444892ba4757fd56c899035b58c81b70e94381a6d4830"
+      ],
+      [
+        8,
+        "resource_packs",
+        "e447bc649b322a0b9ed1d97e0ce5cde9b7c538909cf36d24063fec9afedb33f4"
+      ]
+    ],
+    "file_size_sha": {
+      "attachments/eb/eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        73,
+        "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+      ],
+      "paper-pdfs/0a/0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9": [
+        617,
+        "0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9"
+      ],
+      "paper-pdfs/36/364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8": [
+        619,
+        "364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8"
+      ],
+      "paper-pdfs/b6/b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2": [
+        619,
+        "b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2"
+      ],
+      "paper-pdfs/df/df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6": [
+        7665,
+        "df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6"
+      ],
+      "paper-pdfs/f0/f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68": [
+        617,
+        "f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68"
+      ],
+      "paper-pdfs/f8/f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb": [
+        619,
+        "f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb"
+      ],
+      "paper-pdfs/fb/fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759": [
+        619,
+        "fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759"
+      ],
+      "pack-staging/90/908fe53dd1c976e107d44a9a223180f9.eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        73,
+        "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+      ],
+      "pack-staging/90/908fe53dd1c976e107d44a9a223180f9.f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68": [
+        617,
+        "f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68"
+      ],
+      "pack-staging/90/908fe53dd1c976e107d44a9a223180f9.f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb": [
+        619,
+        "f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb"
+      ],
+      "pack-staging/90/908fe53dd1c976e107d44a9a223180f9.fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759": [
+        619,
+        "fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759"
+      ]
+    },
+    "user_revision_fingerprints": [
+      [
+        1,
+        "dev008-q",
+        "f76b71db61d0c5c9612009c7807366b43a0a7a3b157df6d1bffe62c3a7d4b3e0"
+      ],
+      [
+        2,
+        "dev008-q2",
+        "158c218a4acb5423db54199b99b8666e3322b3197574f82a3a2cac3123e736d0"
+      ],
+      [
+        7,
+        "kp009-q-0000",
+        "87f191c78148fc1d0c0bdfd6ff172b3890ebd574a637274dbefd561eb1ae0f0e"
+      ]
+    ],
+    "bytes_on_disk": 1354233
+  },
+  "after-offline-restart": {
+    "schema": 8,
+    "database_sha256": "6b0376dbe08cb962fb40008281a3ef0c9825817644ce11f3260e711578d56eb5",
+    "database_wal_sha256": "40a61c1617c175e7479d58a5876088d0403f76892c835f89a98d4ca6f1178ec2",
+    "sqlite_backup_sha256": "588dc3c26f269e9952c4bf2515a45ba6b37a39b7c633c27a7fd136a013d88dea",
+    "counts": {
+      "subject": 9,
+      "knowledge_point": 4,
+      "knowledge_alias": 0,
+      "question": 7,
+      "question_part": 5,
+      "question_revision": 12,
+      "question_duplicate": 0,
+      "verification_record": 0,
+      "composition": 2,
+      "composition_item": 2,
+      "favorite_collection": 2,
+      "favorite_target": 3,
+      "favorite_member": 4,
+      "attachment": 1,
+      "paper": 2,
+      "paper_file": 7,
+      "paper_region": 2,
+      "question_occurrence": 1,
+      "paper_user_metadata": 1
+    },
+    "fingerprints": {
+      "subject": "62819cfc73c8baf0dd90f4c99ac6515564701ffc062b753888bb4a1d6fe22371",
+      "knowledge_point": "fa48305bf7c379a6e00b90bd9a1c7e265570c810f29be3733f214afd746d6762",
+      "knowledge_alias": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question": "d94d302052925c2f4a2cfd0ba3daf9749a976c2030a103812b4fb1a90170f51a",
+      "question_part": "46b069910ee5c760ee89351516be08ebf69c8e3ddf93e396b090dee4052f4282",
+      "question_revision": "babb864daeecb7dab6dbf6aa42b3cd73eb426b8e7c8b185f99908ef244bd99e5",
+      "question_duplicate": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "verification_record": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "composition": "5301d05396135e43996e67cdb3b97401c03aa4e19577bd6fd59ee95a893b0ea9",
+      "composition_item": "52a12fc16785ba93094d8dde3c73ec118a04c82c3631cc225418639b051d8afa",
+      "favorite_collection": "322865d88ab9feb9ada3310b4c3ac9154230d684794b8d244f95ed1d4896940c",
+      "favorite_target": "d6c637f53f25c8c45dfbd83f97137349633b55f05eba7ee098507f452efac7ef",
+      "favorite_member": "4384151614e9303df62bdc31181a2da1d68e25e4c0bbebeecc14b2c3721031af",
+      "attachment": "ee46449f27962af45eef521bf844fe96e383e3340db663a09e1c0b30d463b159",
+      "paper": "798af5c36bbe2afa041d096ce939950789407f3b3a6724554b3897338566e3f6",
+      "paper_file": "982bbf0d10278c778c537e0c6ae402734ef2ea92f27d2c923e790ffa6cc394d9",
+      "paper_region": "ba3ef1824d7c6c525dbc31f0b5b0e84b62419710709ede151a3f136a553be2a1",
+      "question_occurrence": "ad32305723347a4a1f5804a6eac62570f79e5d9df2b1f04425f499154bb1541b",
+      "paper_user_metadata": "f7af13b9815dc6100e6c095a5a26e4b31b59a1b67025708997a489225065bf9c"
+    },
+    "versions": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "94f5b77ce3a23be423e0f2edb2bf97922c5f4faef2a63b30674313e47c6cd6b5",
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "24fb0fccc211960a8f9abc0ae3dbe574c7865b7ecb83ee6d334f92513f508913",
+        null
+      ]
+    ],
+    "operations": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "installed",
+        0,
+        null
+      ]
+    ],
+    "migrations": [
+      [
+        1,
+        "core",
+        "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395"
+      ],
+      [
+        2,
+        "knowledge",
+        "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5"
+      ],
+      [
+        3,
+        "search_metadata",
+        "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7"
+      ],
+      [
+        4,
+        "attachments",
+        "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08"
+      ],
+      [
+        5,
+        "composition",
+        "c19d525c03bf8747dc3ddbd1a27838b78f90126d8a87e7aac0d90d5ce2408106"
+      ],
+      [
+        6,
+        "paper_files",
+        "f343f6faeb23b3838e924da60fc4ef2b592958e7ca58ca77a0ebe55604bba335"
+      ],
+      [
+        7,
+        "favorites",
+        "5a6ef4139723ecc84a6444892ba4757fd56c899035b58c81b70e94381a6d4830"
+      ],
+      [
+        8,
+        "resource_packs",
+        "e447bc649b322a0b9ed1d97e0ce5cde9b7c538909cf36d24063fec9afedb33f4"
+      ]
+    ],
+    "file_size_sha": {
+      "attachments/eb/eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        73,
+        "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+      ],
+      "paper-pdfs/0a/0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9": [
+        617,
+        "0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9"
+      ],
+      "paper-pdfs/36/364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8": [
+        619,
+        "364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8"
+      ],
+      "paper-pdfs/b6/b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2": [
+        619,
+        "b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2"
+      ],
+      "paper-pdfs/df/df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6": [
+        7665,
+        "df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6"
+      ],
+      "paper-pdfs/f0/f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68": [
+        617,
+        "f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68"
+      ],
+      "paper-pdfs/f8/f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb": [
+        619,
+        "f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb"
+      ],
+      "paper-pdfs/fb/fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759": [
+        619,
+        "fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759"
+      ]
+    },
+    "user_revision_fingerprints": [
+      [
+        1,
+        "dev008-q",
+        "f76b71db61d0c5c9612009c7807366b43a0a7a3b157df6d1bffe62c3a7d4b3e0"
+      ],
+      [
+        2,
+        "dev008-q2",
+        "158c218a4acb5423db54199b99b8666e3322b3197574f82a3a2cac3123e736d0"
+      ],
+      [
+        7,
+        "kp009-q-0000",
+        "87f191c78148fc1d0c0bdfd6ff172b3890ebd574a637274dbefd561eb1ae0f0e"
+      ]
+    ],
+    "bytes_on_disk": 1360536
+  },
+  "e2e-completed": {
+    "schema": 8,
+    "database_sha256": "6b0376dbe08cb962fb40008281a3ef0c9825817644ce11f3260e711578d56eb5",
+    "database_wal_sha256": "40a61c1617c175e7479d58a5876088d0403f76892c835f89a98d4ca6f1178ec2",
+    "sqlite_backup_sha256": "588dc3c26f269e9952c4bf2515a45ba6b37a39b7c633c27a7fd136a013d88dea",
+    "counts": {
+      "subject": 9,
+      "knowledge_point": 4,
+      "knowledge_alias": 0,
+      "question": 7,
+      "question_part": 5,
+      "question_revision": 12,
+      "question_duplicate": 0,
+      "verification_record": 0,
+      "composition": 2,
+      "composition_item": 2,
+      "favorite_collection": 2,
+      "favorite_target": 3,
+      "favorite_member": 4,
+      "attachment": 1,
+      "paper": 2,
+      "paper_file": 7,
+      "paper_region": 2,
+      "question_occurrence": 1,
+      "paper_user_metadata": 1
+    },
+    "fingerprints": {
+      "subject": "62819cfc73c8baf0dd90f4c99ac6515564701ffc062b753888bb4a1d6fe22371",
+      "knowledge_point": "fa48305bf7c379a6e00b90bd9a1c7e265570c810f29be3733f214afd746d6762",
+      "knowledge_alias": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question": "d94d302052925c2f4a2cfd0ba3daf9749a976c2030a103812b4fb1a90170f51a",
+      "question_part": "46b069910ee5c760ee89351516be08ebf69c8e3ddf93e396b090dee4052f4282",
+      "question_revision": "babb864daeecb7dab6dbf6aa42b3cd73eb426b8e7c8b185f99908ef244bd99e5",
+      "question_duplicate": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "verification_record": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "composition": "5301d05396135e43996e67cdb3b97401c03aa4e19577bd6fd59ee95a893b0ea9",
+      "composition_item": "52a12fc16785ba93094d8dde3c73ec118a04c82c3631cc225418639b051d8afa",
+      "favorite_collection": "322865d88ab9feb9ada3310b4c3ac9154230d684794b8d244f95ed1d4896940c",
+      "favorite_target": "d6c637f53f25c8c45dfbd83f97137349633b55f05eba7ee098507f452efac7ef",
+      "favorite_member": "4384151614e9303df62bdc31181a2da1d68e25e4c0bbebeecc14b2c3721031af",
+      "attachment": "ee46449f27962af45eef521bf844fe96e383e3340db663a09e1c0b30d463b159",
+      "paper": "798af5c36bbe2afa041d096ce939950789407f3b3a6724554b3897338566e3f6",
+      "paper_file": "982bbf0d10278c778c537e0c6ae402734ef2ea92f27d2c923e790ffa6cc394d9",
+      "paper_region": "ba3ef1824d7c6c525dbc31f0b5b0e84b62419710709ede151a3f136a553be2a1",
+      "question_occurrence": "ad32305723347a4a1f5804a6eac62570f79e5d9df2b1f04425f499154bb1541b",
+      "paper_user_metadata": "f7af13b9815dc6100e6c095a5a26e4b31b59a1b67025708997a489225065bf9c"
+    },
+    "versions": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "94f5b77ce3a23be423e0f2edb2bf97922c5f4faef2a63b30674313e47c6cd6b5",
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "24fb0fccc211960a8f9abc0ae3dbe574c7865b7ecb83ee6d334f92513f508913",
+        null
+      ]
+    ],
+    "operations": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "installed",
+        0,
+        null
+      ]
+    ],
+    "migrations": [
+      [
+        1,
+        "core",
+        "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395"
+      ],
+      [
+        2,
+        "knowledge",
+        "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5"
+      ],
+      [
+        3,
+        "search_metadata",
+        "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7"
+      ],
+      [
+        4,
+        "attachments",
+        "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08"
+      ],
+      [
+        5,
+        "composition",
+        "c19d525c03bf8747dc3ddbd1a27838b78f90126d8a87e7aac0d90d5ce2408106"
+      ],
+      [
+        6,
+        "paper_files",
+        "f343f6faeb23b3838e924da60fc4ef2b592958e7ca58ca77a0ebe55604bba335"
+      ],
+      [
+        7,
+        "favorites",
+        "5a6ef4139723ecc84a6444892ba4757fd56c899035b58c81b70e94381a6d4830"
+      ],
+      [
+        8,
+        "resource_packs",
+        "e447bc649b322a0b9ed1d97e0ce5cde9b7c538909cf36d24063fec9afedb33f4"
+      ]
+    ],
+    "file_size_sha": {
+      "attachments/eb/eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        73,
+        "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+      ],
+      "paper-pdfs/0a/0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9": [
+        617,
+        "0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9"
+      ],
+      "paper-pdfs/36/364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8": [
+        619,
+        "364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8"
+      ],
+      "paper-pdfs/b6/b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2": [
+        619,
+        "b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2"
+      ],
+      "paper-pdfs/df/df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6": [
+        7665,
+        "df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6"
+      ],
+      "paper-pdfs/f0/f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68": [
+        617,
+        "f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68"
+      ],
+      "paper-pdfs/f8/f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb": [
+        619,
+        "f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb"
+      ],
+      "paper-pdfs/fb/fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759": [
+        619,
+        "fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759"
+      ]
+    },
+    "user_revision_fingerprints": [
+      [
+        1,
+        "dev008-q",
+        "f76b71db61d0c5c9612009c7807366b43a0a7a3b157df6d1bffe62c3a7d4b3e0"
+      ],
+      [
+        2,
+        "dev008-q2",
+        "158c218a4acb5423db54199b99b8666e3322b3197574f82a3a2cac3123e736d0"
+      ],
+      [
+        7,
+        "kp009-q-0000",
+        "87f191c78148fc1d0c0bdfd6ff172b3890ebd574a637274dbefd561eb1ae0f0e"
+      ]
+    ],
+    "bytes_on_disk": 1360536
+  },
+  "performance-before-medium": {
+    "schema": 8,
+    "database_sha256": "6b0376dbe08cb962fb40008281a3ef0c9825817644ce11f3260e711578d56eb5",
+    "database_wal_sha256": "40a61c1617c175e7479d58a5876088d0403f76892c835f89a98d4ca6f1178ec2",
+    "sqlite_backup_sha256": "588dc3c26f269e9952c4bf2515a45ba6b37a39b7c633c27a7fd136a013d88dea",
+    "counts": {
+      "subject": 9,
+      "knowledge_point": 4,
+      "knowledge_alias": 0,
+      "question": 7,
+      "question_part": 5,
+      "question_revision": 12,
+      "question_duplicate": 0,
+      "verification_record": 0,
+      "composition": 2,
+      "composition_item": 2,
+      "favorite_collection": 2,
+      "favorite_target": 3,
+      "favorite_member": 4,
+      "attachment": 1,
+      "paper": 2,
+      "paper_file": 7,
+      "paper_region": 2,
+      "question_occurrence": 1,
+      "paper_user_metadata": 1
+    },
+    "fingerprints": {
+      "subject": "62819cfc73c8baf0dd90f4c99ac6515564701ffc062b753888bb4a1d6fe22371",
+      "knowledge_point": "fa48305bf7c379a6e00b90bd9a1c7e265570c810f29be3733f214afd746d6762",
+      "knowledge_alias": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question": "d94d302052925c2f4a2cfd0ba3daf9749a976c2030a103812b4fb1a90170f51a",
+      "question_part": "46b069910ee5c760ee89351516be08ebf69c8e3ddf93e396b090dee4052f4282",
+      "question_revision": "babb864daeecb7dab6dbf6aa42b3cd73eb426b8e7c8b185f99908ef244bd99e5",
+      "question_duplicate": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "verification_record": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "composition": "5301d05396135e43996e67cdb3b97401c03aa4e19577bd6fd59ee95a893b0ea9",
+      "composition_item": "52a12fc16785ba93094d8dde3c73ec118a04c82c3631cc225418639b051d8afa",
+      "favorite_collection": "322865d88ab9feb9ada3310b4c3ac9154230d684794b8d244f95ed1d4896940c",
+      "favorite_target": "d6c637f53f25c8c45dfbd83f97137349633b55f05eba7ee098507f452efac7ef",
+      "favorite_member": "4384151614e9303df62bdc31181a2da1d68e25e4c0bbebeecc14b2c3721031af",
+      "attachment": "ee46449f27962af45eef521bf844fe96e383e3340db663a09e1c0b30d463b159",
+      "paper": "798af5c36bbe2afa041d096ce939950789407f3b3a6724554b3897338566e3f6",
+      "paper_file": "982bbf0d10278c778c537e0c6ae402734ef2ea92f27d2c923e790ffa6cc394d9",
+      "paper_region": "ba3ef1824d7c6c525dbc31f0b5b0e84b62419710709ede151a3f136a553be2a1",
+      "question_occurrence": "ad32305723347a4a1f5804a6eac62570f79e5d9df2b1f04425f499154bb1541b",
+      "paper_user_metadata": "f7af13b9815dc6100e6c095a5a26e4b31b59a1b67025708997a489225065bf9c"
+    },
+    "versions": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "94f5b77ce3a23be423e0f2edb2bf97922c5f4faef2a63b30674313e47c6cd6b5",
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "24fb0fccc211960a8f9abc0ae3dbe574c7865b7ecb83ee6d334f92513f508913",
+        null
+      ]
+    ],
+    "operations": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "installed",
+        0,
+        null
+      ]
+    ],
+    "migrations": [
+      [
+        1,
+        "core",
+        "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395"
+      ],
+      [
+        2,
+        "knowledge",
+        "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5"
+      ],
+      [
+        3,
+        "search_metadata",
+        "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7"
+      ],
+      [
+        4,
+        "attachments",
+        "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08"
+      ],
+      [
+        5,
+        "composition",
+        "c19d525c03bf8747dc3ddbd1a27838b78f90126d8a87e7aac0d90d5ce2408106"
+      ],
+      [
+        6,
+        "paper_files",
+        "f343f6faeb23b3838e924da60fc4ef2b592958e7ca58ca77a0ebe55604bba335"
+      ],
+      [
+        7,
+        "favorites",
+        "5a6ef4139723ecc84a6444892ba4757fd56c899035b58c81b70e94381a6d4830"
+      ],
+      [
+        8,
+        "resource_packs",
+        "e447bc649b322a0b9ed1d97e0ce5cde9b7c538909cf36d24063fec9afedb33f4"
+      ]
+    ],
+    "file_size_sha": {
+      "attachments/eb/eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        73,
+        "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+      ],
+      "paper-pdfs/0a/0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9": [
+        617,
+        "0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9"
+      ],
+      "paper-pdfs/36/364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8": [
+        619,
+        "364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8"
+      ],
+      "paper-pdfs/b6/b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2": [
+        619,
+        "b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2"
+      ],
+      "paper-pdfs/df/df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6": [
+        7665,
+        "df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6"
+      ],
+      "paper-pdfs/f0/f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68": [
+        617,
+        "f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68"
+      ],
+      "paper-pdfs/f8/f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb": [
+        619,
+        "f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb"
+      ],
+      "paper-pdfs/fb/fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759": [
+        619,
+        "fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759"
+      ]
+    },
+    "user_revision_fingerprints": [
+      [
+        1,
+        "dev008-q",
+        "f76b71db61d0c5c9612009c7807366b43a0a7a3b157df6d1bffe62c3a7d4b3e0"
+      ],
+      [
+        2,
+        "dev008-q2",
+        "158c218a4acb5423db54199b99b8666e3322b3197574f82a3a2cac3123e736d0"
+      ],
+      [
+        7,
+        "kp009-q-0000",
+        "87f191c78148fc1d0c0bdfd6ff172b3890ebd574a637274dbefd561eb1ae0f0e"
+      ]
+    ],
+    "bytes_on_disk": 1360536
+  },
+  "performance-after-medium": {
+    "schema": 8,
+    "database_sha256": "6b0376dbe08cb962fb40008281a3ef0c9825817644ce11f3260e711578d56eb5",
+    "database_wal_sha256": "e7e1d5938d9abe3924ca0d9bd41a97aea96f6263bfdb822a3118eb8a92fe2ef4",
+    "sqlite_backup_sha256": "22db3745f0b43ac8a07103e4d54079623b7998ba395b8b6c6fa256e44d122e9a",
+    "counts": {
+      "subject": 9,
+      "knowledge_point": 12,
+      "knowledge_alias": 0,
+      "question": 507,
+      "question_part": 505,
+      "question_revision": 512,
+      "question_duplicate": 0,
+      "verification_record": 0,
+      "composition": 2,
+      "composition_item": 2,
+      "favorite_collection": 2,
+      "favorite_target": 3,
+      "favorite_member": 4,
+      "attachment": 30,
+      "paper": 10,
+      "paper_file": 31,
+      "paper_region": 10,
+      "question_occurrence": 9,
+      "paper_user_metadata": 1
+    },
+    "fingerprints": {
+      "subject": "62819cfc73c8baf0dd90f4c99ac6515564701ffc062b753888bb4a1d6fe22371",
+      "knowledge_point": "e1ac16b81679f60942bd3ccdde787fee8248a59b38c260c36422fe221df8734f",
+      "knowledge_alias": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question": "5bced0dbeb846fa7509d4da630c810ee6d2f0032162577cc94158891c9028a43",
+      "question_part": "01001a3e0d29f875a2b735a72360be02f631d2fda44d84d1648035e8b43791f9",
+      "question_revision": "35c06ae7ff8f5f9fc8e47300b4f8592e95a8aed3dfcee99f0f723e6cf6ae7972",
+      "question_duplicate": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "verification_record": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "composition": "5301d05396135e43996e67cdb3b97401c03aa4e19577bd6fd59ee95a893b0ea9",
+      "composition_item": "52a12fc16785ba93094d8dde3c73ec118a04c82c3631cc225418639b051d8afa",
+      "favorite_collection": "322865d88ab9feb9ada3310b4c3ac9154230d684794b8d244f95ed1d4896940c",
+      "favorite_target": "d6c637f53f25c8c45dfbd83f97137349633b55f05eba7ee098507f452efac7ef",
+      "favorite_member": "4384151614e9303df62bdc31181a2da1d68e25e4c0bbebeecc14b2c3721031af",
+      "attachment": "85854aea244cdc9e65306881785a26d134ed225b6de7dad94f16c4b3a67b6f0c",
+      "paper": "2483ca6703ad4d1a3c25c1b6a145603c3a48933f51dd7a24f544b1fbb338a976",
+      "paper_file": "af7379f49ef2f5ff5605992dc33fa5cfac36838b6384b33d9a786885f8339b3d",
+      "paper_region": "cf86a5d2052a559c68d13ce4617b8b8932841c8666a0c6c9938948e0ed492319",
+      "question_occurrence": "eb4eaffddeb0fdc2843a731ce2d2ee499f6ad2003d3c51f407d05f26c40b4c60",
+      "paper_user_metadata": "f7af13b9815dc6100e6c095a5a26e4b31b59a1b67025708997a489225065bf9c"
+    },
+    "versions": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "94f5b77ce3a23be423e0f2edb2bf97922c5f4faef2a63b30674313e47c6cd6b5",
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "24fb0fccc211960a8f9abc0ae3dbe574c7865b7ecb83ee6d334f92513f508913",
+        null
+      ],
+      [
+        "knowpaper.medium",
+        "1.0.0",
+        "0e0125481342f113de980eb7f9a865a3a1b8e1852b4d0b1fc9f36c1db9f11959",
+        null
+      ]
+    ],
+    "operations": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.medium",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ]
+    ],
+    "migrations": [
+      [
+        1,
+        "core",
+        "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395"
+      ],
+      [
+        2,
+        "knowledge",
+        "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5"
+      ],
+      [
+        3,
+        "search_metadata",
+        "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7"
+      ],
+      [
+        4,
+        "attachments",
+        "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08"
+      ],
+      [
+        5,
+        "composition",
+        "c19d525c03bf8747dc3ddbd1a27838b78f90126d8a87e7aac0d90d5ce2408106"
+      ],
+      [
+        6,
+        "paper_files",
+        "f343f6faeb23b3838e924da60fc4ef2b592958e7ca58ca77a0ebe55604bba335"
+      ],
+      [
+        7,
+        "favorites",
+        "5a6ef4139723ecc84a6444892ba4757fd56c899035b58c81b70e94381a6d4830"
+      ],
+      [
+        8,
+        "resource_packs",
+        "e447bc649b322a0b9ed1d97e0ce5cde9b7c538909cf36d24063fec9afedb33f4"
+      ]
+    ],
+    "file_size_sha": {
+      "attachments/13/13eb8a49d4bd9e99dfcc4016354d2bf6870b339c10825d5c668a0728bd9e0869": [
+        74,
+        "13eb8a49d4bd9e99dfcc4016354d2bf6870b339c10825d5c668a0728bd9e0869"
+      ],
+      "attachments/15/15cd5804fa19b0cbdd483c539610fa945833983ce9e5cede6a716e5bad706f1f": [
+        74,
+        "15cd5804fa19b0cbdd483c539610fa945833983ce9e5cede6a716e5bad706f1f"
+      ],
+      "attachments/1b/1bebe8b72382804cb38496be04a77c1a91eb2c5d09e1c0f52756ac9bcab859e7": [
+        74,
+        "1bebe8b72382804cb38496be04a77c1a91eb2c5d09e1c0f52756ac9bcab859e7"
+      ],
+      "attachments/1e/1edb77d9e1a7b4f3862ee0cd5350e7cd3dafda303dade446856835d8517b5757": [
+        74,
+        "1edb77d9e1a7b4f3862ee0cd5350e7cd3dafda303dade446856835d8517b5757"
+      ],
+      "attachments/25/250ef44f06d02df5ee6d3d397756289ece14631233ff677746db155cd95e8990": [
+        74,
+        "250ef44f06d02df5ee6d3d397756289ece14631233ff677746db155cd95e8990"
+      ],
+      "attachments/26/2656783a76d4ae9d0e04be40f4cfc68720a779747103ae1b0b3d18ad560dfd5b": [
+        74,
+        "2656783a76d4ae9d0e04be40f4cfc68720a779747103ae1b0b3d18ad560dfd5b"
+      ],
+      "attachments/38/385696be40b45857f7899f9034e5b4bbca70d5af6e83b14637063046dc6499e9": [
+        74,
+        "385696be40b45857f7899f9034e5b4bbca70d5af6e83b14637063046dc6499e9"
+      ],
+      "attachments/41/4180be7a245f1e60355f1b07630a1d595795e04068cb41264b3473aa471b5ea6": [
+        74,
+        "4180be7a245f1e60355f1b07630a1d595795e04068cb41264b3473aa471b5ea6"
+      ],
+      "attachments/44/44fe0be0bbfcc53791dcf856c5ee3d8d50ccb24c73f71539a16f77db8e2439b2": [
+        74,
+        "44fe0be0bbfcc53791dcf856c5ee3d8d50ccb24c73f71539a16f77db8e2439b2"
+      ],
+      "attachments/47/47ca40fbf5d399cfa294351c02b041ec60987c4933bcd642f6f04e013ed3b80c": [
+        74,
+        "47ca40fbf5d399cfa294351c02b041ec60987c4933bcd642f6f04e013ed3b80c"
+      ],
+      "attachments/67/67dca8a75ec285f8e192c96d1ea7680fc38e1f8208ede804e37fa7225cce4f31": [
+        74,
+        "67dca8a75ec285f8e192c96d1ea7680fc38e1f8208ede804e37fa7225cce4f31"
+      ],
+      "attachments/68/68728d722a3b5287292f469c76603cee3751b213903b0f013f53edb4062dac36": [
+        74,
+        "68728d722a3b5287292f469c76603cee3751b213903b0f013f53edb4062dac36"
+      ],
+      "attachments/6f/6f61dfddcb30ad9185bdd3380e36eedb529c94c30405f9f0f51568c441eda698": [
+        74,
+        "6f61dfddcb30ad9185bdd3380e36eedb529c94c30405f9f0f51568c441eda698"
+      ],
+      "attachments/73/7397f86f2251a5a39e7402d702eb187754e4d3bc4f380b776d6a7586526b5f23": [
+        74,
+        "7397f86f2251a5a39e7402d702eb187754e4d3bc4f380b776d6a7586526b5f23"
+      ],
+      "attachments/75/75ddd48ec48e41829b105417bd14383d7894765fb9e8fcc42593fc3d3b506888": [
+        74,
+        "75ddd48ec48e41829b105417bd14383d7894765fb9e8fcc42593fc3d3b506888"
+      ],
+      "attachments/7c/7cb1ac71729dff7ce0291d15b86ee71d6f1d8794f444cd0530d4fb1efd1a0747": [
+        74,
+        "7cb1ac71729dff7ce0291d15b86ee71d6f1d8794f444cd0530d4fb1efd1a0747"
+      ],
+      "attachments/84/84df3f88e4f4130ef777e9de85a8e4feccb37d309f73e045c0d322baafc7797d": [
+        74,
+        "84df3f88e4f4130ef777e9de85a8e4feccb37d309f73e045c0d322baafc7797d"
+      ],
+      "attachments/89/897cc7d7b3ae46952cdd20875e79f147150d0f3aaefff0fd9621b02b03d7c534": [
+        74,
+        "897cc7d7b3ae46952cdd20875e79f147150d0f3aaefff0fd9621b02b03d7c534"
+      ],
+      "attachments/9d/9dbb2fa00946c70b59d26d9cc0835943cff3aae451aab45b4f552e16d53d7d33": [
+        74,
+        "9dbb2fa00946c70b59d26d9cc0835943cff3aae451aab45b4f552e16d53d7d33"
+      ],
+      "attachments/b5/b57fbc23ba35a5b31e0302d74b22471de08435397258b9018ffb0abd9ab94df7": [
+        74,
+        "b57fbc23ba35a5b31e0302d74b22471de08435397258b9018ffb0abd9ab94df7"
+      ],
+      "attachments/c2/c25359a03298d842cf2fea3ffda80a1713a1ea936903146bad14cb217b662c16": [
+        74,
+        "c25359a03298d842cf2fea3ffda80a1713a1ea936903146bad14cb217b662c16"
+      ],
+      "attachments/c5/c567223f65194da831e6807355fc14dcb627597c98a5aed4ea8a459d3dcbd53f": [
+        74,
+        "c567223f65194da831e6807355fc14dcb627597c98a5aed4ea8a459d3dcbd53f"
+      ],
+      "attachments/d4/d447227933164d41be0110ce6b6e1418a099acf3d6f6117cbfd839b6ce27bc07": [
+        74,
+        "d447227933164d41be0110ce6b6e1418a099acf3d6f6117cbfd839b6ce27bc07"
+      ],
+      "attachments/d8/d8b3cb2b5e0f9dc8f17fed200838e70e8fe6dd314271d10e375346f8611ed715": [
+        74,
+        "d8b3cb2b5e0f9dc8f17fed200838e70e8fe6dd314271d10e375346f8611ed715"
+      ],
+      "attachments/df/df0e4fa624af1d5ff7c3d0259a50ab52f049fa854ffce2d28157eab815ea9793": [
+        74,
+        "df0e4fa624af1d5ff7c3d0259a50ab52f049fa854ffce2d28157eab815ea9793"
+      ],
+      "attachments/eb/eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        73,
+        "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+      ],
+      "attachments/ed/edc8df073294f7bdb823b750d595ede80b896371220fac82cf9588f2155adf60": [
+        74,
+        "edc8df073294f7bdb823b750d595ede80b896371220fac82cf9588f2155adf60"
+      ],
+      "attachments/f0/f075a617ec0eb3f151b6047c42676c42766d48af5de0c91c26549e0f0f60de8c": [
+        74,
+        "f075a617ec0eb3f151b6047c42676c42766d48af5de0c91c26549e0f0f60de8c"
+      ],
+      "attachments/f1/f1a328e1a7f61492c15790ef76b94cce93ceeb78be0bf391b4a6fc581c8dd38a": [
+        74,
+        "f1a328e1a7f61492c15790ef76b94cce93ceeb78be0bf391b4a6fc581c8dd38a"
+      ],
+      "attachments/ff/ff434d5c61002a57a079e113e0aea30c9dc6da1934ceb0b6081ffb7d850d988e": [
+        74,
+        "ff434d5c61002a57a079e113e0aea30c9dc6da1934ceb0b6081ffb7d850d988e"
+      ],
+      "paper-pdfs/08/08b6507af9ffc87dc9791c474bbe72fcac8f21bb7407550875ed5308a329d53e": [
+        617,
+        "08b6507af9ffc87dc9791c474bbe72fcac8f21bb7407550875ed5308a329d53e"
+      ],
+      "paper-pdfs/0a/0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9": [
+        617,
+        "0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9"
+      ],
+      "paper-pdfs/21/214d4926ceefbdfc912b41c7547bb838756b03ba41586f7469d34999398193b0": [
+        619,
+        "214d4926ceefbdfc912b41c7547bb838756b03ba41586f7469d34999398193b0"
+      ],
+      "paper-pdfs/26/26c5a4d7c38011e66b90798a8c30571dde20c11fad7abf1e82315a3f883295d7": [
+        617,
+        "26c5a4d7c38011e66b90798a8c30571dde20c11fad7abf1e82315a3f883295d7"
+      ],
+      "paper-pdfs/30/3023781ba1c803e921f5e9b4c760e66e79d311236f8c4081f3774f8d4cfcb870": [
+        619,
+        "3023781ba1c803e921f5e9b4c760e66e79d311236f8c4081f3774f8d4cfcb870"
+      ],
+      "paper-pdfs/36/364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8": [
+        619,
+        "364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8"
+      ],
+      "paper-pdfs/44/44571ff2d003f569b216f0cacb16aa8766c5fe7ec337365cd910edf70d7d698b": [
+        619,
+        "44571ff2d003f569b216f0cacb16aa8766c5fe7ec337365cd910edf70d7d698b"
+      ],
+      "paper-pdfs/53/53f3a26cd0a50e46a827a786076e9948fec43c82e2ad64383f39f34d06562474": [
+        619,
+        "53f3a26cd0a50e46a827a786076e9948fec43c82e2ad64383f39f34d06562474"
+      ],
+      "paper-pdfs/65/65cf31411264fd6de67634e1e0ff3feb4a4fdb2a2b4e24165ca42f969975a469": [
+        619,
+        "65cf31411264fd6de67634e1e0ff3feb4a4fdb2a2b4e24165ca42f969975a469"
+      ],
+      "paper-pdfs/66/66b6b12e76c120b33454cbaa105816148b3b5a567960a232d9392a28a72f619d": [
+        617,
+        "66b6b12e76c120b33454cbaa105816148b3b5a567960a232d9392a28a72f619d"
+      ],
+      "paper-pdfs/67/67d4f4e67231828bcc3b54aec454ba69d5a7eb39a1bcb54f96f05de25f919827": [
+        619,
+        "67d4f4e67231828bcc3b54aec454ba69d5a7eb39a1bcb54f96f05de25f919827"
+      ],
+      "paper-pdfs/6b/6b43bde845790d5a07529b088fa4596e2a074d17abcd1cf911e7fe0210866303": [
+        619,
+        "6b43bde845790d5a07529b088fa4596e2a074d17abcd1cf911e7fe0210866303"
+      ],
+      "paper-pdfs/7c/7cc4df2d3f6f9c850239948f5bffc7c3d4bdd24e65bf2c2e259e48222c6ed5a4": [
+        619,
+        "7cc4df2d3f6f9c850239948f5bffc7c3d4bdd24e65bf2c2e259e48222c6ed5a4"
+      ],
+      "paper-pdfs/84/840e6170f46389d96ad10172473ce11fbfe848ff2803b77549aa6cc0bc6fbebb": [
+        617,
+        "840e6170f46389d96ad10172473ce11fbfe848ff2803b77549aa6cc0bc6fbebb"
+      ],
+      "paper-pdfs/93/934f8a054f1993421f489a4ce7deebf3fe2f88e0e29b5f87f9dc711a6145ea17": [
+        619,
+        "934f8a054f1993421f489a4ce7deebf3fe2f88e0e29b5f87f9dc711a6145ea17"
+      ],
+      "paper-pdfs/9f/9f61c27f791bd9c000a70588140d5f49ea97f78536fb988c018e99fd01684dbc": [
+        619,
+        "9f61c27f791bd9c000a70588140d5f49ea97f78536fb988c018e99fd01684dbc"
+      ],
+      "paper-pdfs/b2/b2ca6c8022a8915ce29253d95bb81ca314abcc2ab0e3cae06dc830b22e70e323": [
+        617,
+        "b2ca6c8022a8915ce29253d95bb81ca314abcc2ab0e3cae06dc830b22e70e323"
+      ],
+      "paper-pdfs/b6/b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2": [
+        619,
+        "b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2"
+      ],
+      "paper-pdfs/bb/bbd4cd9963384af55eb317c6630d905343ad531ae0f1f436c844ef6bc7a2fad0": [
+        619,
+        "bbd4cd9963384af55eb317c6630d905343ad531ae0f1f436c844ef6bc7a2fad0"
+      ],
+      "paper-pdfs/bf/bffe049154a89221c3caa59fef24a3871cf7e1bf200015d66a82358e9be863ea": [
+        617,
+        "bffe049154a89221c3caa59fef24a3871cf7e1bf200015d66a82358e9be863ea"
+      ],
+      "paper-pdfs/ca/ca9374e3625f0583b8a0dc6953e6a18a57c14c076ee2418202668445f71d6e9c": [
+        619,
+        "ca9374e3625f0583b8a0dc6953e6a18a57c14c076ee2418202668445f71d6e9c"
+      ],
+      "paper-pdfs/d0/d0f488fcfda1b96e51ea608a65b37fbc15ebab8c73a3a94b2dcfb5e893c09df8": [
+        617,
+        "d0f488fcfda1b96e51ea608a65b37fbc15ebab8c73a3a94b2dcfb5e893c09df8"
+      ],
+      "paper-pdfs/df/df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6": [
+        7665,
+        "df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6"
+      ],
+      "paper-pdfs/f0/f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68": [
+        617,
+        "f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68"
+      ],
+      "paper-pdfs/f6/f6841268547b91370d2f372d461bf61706d5aa56bb2adc2bd041f3eb624d7c39": [
+        619,
+        "f6841268547b91370d2f372d461bf61706d5aa56bb2adc2bd041f3eb624d7c39"
+      ],
+      "paper-pdfs/f8/f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb": [
+        619,
+        "f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb"
+      ],
+      "paper-pdfs/f8/f8ca6eff5f7cbb9662366cf0f6c0928bf7d5d93474901562787825599996f1ec": [
+        619,
+        "f8ca6eff5f7cbb9662366cf0f6c0928bf7d5d93474901562787825599996f1ec"
+      ],
+      "paper-pdfs/fb/fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759": [
+        619,
+        "fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759"
+      ]
+    },
+    "user_revision_fingerprints": [
+      [
+        1,
+        "dev008-q",
+        "f76b71db61d0c5c9612009c7807366b43a0a7a3b157df6d1bffe62c3a7d4b3e0"
+      ],
+      [
+        2,
+        "dev008-q2",
+        "158c218a4acb5423db54199b99b8666e3322b3197574f82a3a2cac3123e736d0"
+      ],
+      [
+        7,
+        "kp009-q-0000",
+        "87f191c78148fc1d0c0bdfd6ff172b3890ebd574a637274dbefd561eb1ae0f0e"
+      ]
+    ],
+    "bytes_on_disk": 2533387
+  },
+  "performance-before-large": {
+    "schema": 8,
+    "database_sha256": "6b0376dbe08cb962fb40008281a3ef0c9825817644ce11f3260e711578d56eb5",
+    "database_wal_sha256": "e7e1d5938d9abe3924ca0d9bd41a97aea96f6263bfdb822a3118eb8a92fe2ef4",
+    "sqlite_backup_sha256": "22db3745f0b43ac8a07103e4d54079623b7998ba395b8b6c6fa256e44d122e9a",
+    "counts": {
+      "subject": 9,
+      "knowledge_point": 12,
+      "knowledge_alias": 0,
+      "question": 507,
+      "question_part": 505,
+      "question_revision": 512,
+      "question_duplicate": 0,
+      "verification_record": 0,
+      "composition": 2,
+      "composition_item": 2,
+      "favorite_collection": 2,
+      "favorite_target": 3,
+      "favorite_member": 4,
+      "attachment": 30,
+      "paper": 10,
+      "paper_file": 31,
+      "paper_region": 10,
+      "question_occurrence": 9,
+      "paper_user_metadata": 1
+    },
+    "fingerprints": {
+      "subject": "62819cfc73c8baf0dd90f4c99ac6515564701ffc062b753888bb4a1d6fe22371",
+      "knowledge_point": "e1ac16b81679f60942bd3ccdde787fee8248a59b38c260c36422fe221df8734f",
+      "knowledge_alias": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question": "5bced0dbeb846fa7509d4da630c810ee6d2f0032162577cc94158891c9028a43",
+      "question_part": "01001a3e0d29f875a2b735a72360be02f631d2fda44d84d1648035e8b43791f9",
+      "question_revision": "35c06ae7ff8f5f9fc8e47300b4f8592e95a8aed3dfcee99f0f723e6cf6ae7972",
+      "question_duplicate": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "verification_record": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "composition": "5301d05396135e43996e67cdb3b97401c03aa4e19577bd6fd59ee95a893b0ea9",
+      "composition_item": "52a12fc16785ba93094d8dde3c73ec118a04c82c3631cc225418639b051d8afa",
+      "favorite_collection": "322865d88ab9feb9ada3310b4c3ac9154230d684794b8d244f95ed1d4896940c",
+      "favorite_target": "d6c637f53f25c8c45dfbd83f97137349633b55f05eba7ee098507f452efac7ef",
+      "favorite_member": "4384151614e9303df62bdc31181a2da1d68e25e4c0bbebeecc14b2c3721031af",
+      "attachment": "85854aea244cdc9e65306881785a26d134ed225b6de7dad94f16c4b3a67b6f0c",
+      "paper": "2483ca6703ad4d1a3c25c1b6a145603c3a48933f51dd7a24f544b1fbb338a976",
+      "paper_file": "af7379f49ef2f5ff5605992dc33fa5cfac36838b6384b33d9a786885f8339b3d",
+      "paper_region": "cf86a5d2052a559c68d13ce4617b8b8932841c8666a0c6c9938948e0ed492319",
+      "question_occurrence": "eb4eaffddeb0fdc2843a731ce2d2ee499f6ad2003d3c51f407d05f26c40b4c60",
+      "paper_user_metadata": "f7af13b9815dc6100e6c095a5a26e4b31b59a1b67025708997a489225065bf9c"
+    },
+    "versions": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "94f5b77ce3a23be423e0f2edb2bf97922c5f4faef2a63b30674313e47c6cd6b5",
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "24fb0fccc211960a8f9abc0ae3dbe574c7865b7ecb83ee6d334f92513f508913",
+        null
+      ],
+      [
+        "knowpaper.medium",
+        "1.0.0",
+        "0e0125481342f113de980eb7f9a865a3a1b8e1852b4d0b1fc9f36c1db9f11959",
+        null
+      ]
+    ],
+    "operations": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.medium",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ]
+    ],
+    "migrations": [
+      [
+        1,
+        "core",
+        "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395"
+      ],
+      [
+        2,
+        "knowledge",
+        "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5"
+      ],
+      [
+        3,
+        "search_metadata",
+        "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7"
+      ],
+      [
+        4,
+        "attachments",
+        "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08"
+      ],
+      [
+        5,
+        "composition",
+        "c19d525c03bf8747dc3ddbd1a27838b78f90126d8a87e7aac0d90d5ce2408106"
+      ],
+      [
+        6,
+        "paper_files",
+        "f343f6faeb23b3838e924da60fc4ef2b592958e7ca58ca77a0ebe55604bba335"
+      ],
+      [
+        7,
+        "favorites",
+        "5a6ef4139723ecc84a6444892ba4757fd56c899035b58c81b70e94381a6d4830"
+      ],
+      [
+        8,
+        "resource_packs",
+        "e447bc649b322a0b9ed1d97e0ce5cde9b7c538909cf36d24063fec9afedb33f4"
+      ]
+    ],
+    "file_size_sha": {
+      "attachments/13/13eb8a49d4bd9e99dfcc4016354d2bf6870b339c10825d5c668a0728bd9e0869": [
+        74,
+        "13eb8a49d4bd9e99dfcc4016354d2bf6870b339c10825d5c668a0728bd9e0869"
+      ],
+      "attachments/15/15cd5804fa19b0cbdd483c539610fa945833983ce9e5cede6a716e5bad706f1f": [
+        74,
+        "15cd5804fa19b0cbdd483c539610fa945833983ce9e5cede6a716e5bad706f1f"
+      ],
+      "attachments/1b/1bebe8b72382804cb38496be04a77c1a91eb2c5d09e1c0f52756ac9bcab859e7": [
+        74,
+        "1bebe8b72382804cb38496be04a77c1a91eb2c5d09e1c0f52756ac9bcab859e7"
+      ],
+      "attachments/1e/1edb77d9e1a7b4f3862ee0cd5350e7cd3dafda303dade446856835d8517b5757": [
+        74,
+        "1edb77d9e1a7b4f3862ee0cd5350e7cd3dafda303dade446856835d8517b5757"
+      ],
+      "attachments/25/250ef44f06d02df5ee6d3d397756289ece14631233ff677746db155cd95e8990": [
+        74,
+        "250ef44f06d02df5ee6d3d397756289ece14631233ff677746db155cd95e8990"
+      ],
+      "attachments/26/2656783a76d4ae9d0e04be40f4cfc68720a779747103ae1b0b3d18ad560dfd5b": [
+        74,
+        "2656783a76d4ae9d0e04be40f4cfc68720a779747103ae1b0b3d18ad560dfd5b"
+      ],
+      "attachments/38/385696be40b45857f7899f9034e5b4bbca70d5af6e83b14637063046dc6499e9": [
+        74,
+        "385696be40b45857f7899f9034e5b4bbca70d5af6e83b14637063046dc6499e9"
+      ],
+      "attachments/41/4180be7a245f1e60355f1b07630a1d595795e04068cb41264b3473aa471b5ea6": [
+        74,
+        "4180be7a245f1e60355f1b07630a1d595795e04068cb41264b3473aa471b5ea6"
+      ],
+      "attachments/44/44fe0be0bbfcc53791dcf856c5ee3d8d50ccb24c73f71539a16f77db8e2439b2": [
+        74,
+        "44fe0be0bbfcc53791dcf856c5ee3d8d50ccb24c73f71539a16f77db8e2439b2"
+      ],
+      "attachments/47/47ca40fbf5d399cfa294351c02b041ec60987c4933bcd642f6f04e013ed3b80c": [
+        74,
+        "47ca40fbf5d399cfa294351c02b041ec60987c4933bcd642f6f04e013ed3b80c"
+      ],
+      "attachments/67/67dca8a75ec285f8e192c96d1ea7680fc38e1f8208ede804e37fa7225cce4f31": [
+        74,
+        "67dca8a75ec285f8e192c96d1ea7680fc38e1f8208ede804e37fa7225cce4f31"
+      ],
+      "attachments/68/68728d722a3b5287292f469c76603cee3751b213903b0f013f53edb4062dac36": [
+        74,
+        "68728d722a3b5287292f469c76603cee3751b213903b0f013f53edb4062dac36"
+      ],
+      "attachments/6f/6f61dfddcb30ad9185bdd3380e36eedb529c94c30405f9f0f51568c441eda698": [
+        74,
+        "6f61dfddcb30ad9185bdd3380e36eedb529c94c30405f9f0f51568c441eda698"
+      ],
+      "attachments/73/7397f86f2251a5a39e7402d702eb187754e4d3bc4f380b776d6a7586526b5f23": [
+        74,
+        "7397f86f2251a5a39e7402d702eb187754e4d3bc4f380b776d6a7586526b5f23"
+      ],
+      "attachments/75/75ddd48ec48e41829b105417bd14383d7894765fb9e8fcc42593fc3d3b506888": [
+        74,
+        "75ddd48ec48e41829b105417bd14383d7894765fb9e8fcc42593fc3d3b506888"
+      ],
+      "attachments/7c/7cb1ac71729dff7ce0291d15b86ee71d6f1d8794f444cd0530d4fb1efd1a0747": [
+        74,
+        "7cb1ac71729dff7ce0291d15b86ee71d6f1d8794f444cd0530d4fb1efd1a0747"
+      ],
+      "attachments/84/84df3f88e4f4130ef777e9de85a8e4feccb37d309f73e045c0d322baafc7797d": [
+        74,
+        "84df3f88e4f4130ef777e9de85a8e4feccb37d309f73e045c0d322baafc7797d"
+      ],
+      "attachments/89/897cc7d7b3ae46952cdd20875e79f147150d0f3aaefff0fd9621b02b03d7c534": [
+        74,
+        "897cc7d7b3ae46952cdd20875e79f147150d0f3aaefff0fd9621b02b03d7c534"
+      ],
+      "attachments/9d/9dbb2fa00946c70b59d26d9cc0835943cff3aae451aab45b4f552e16d53d7d33": [
+        74,
+        "9dbb2fa00946c70b59d26d9cc0835943cff3aae451aab45b4f552e16d53d7d33"
+      ],
+      "attachments/b5/b57fbc23ba35a5b31e0302d74b22471de08435397258b9018ffb0abd9ab94df7": [
+        74,
+        "b57fbc23ba35a5b31e0302d74b22471de08435397258b9018ffb0abd9ab94df7"
+      ],
+      "attachments/c2/c25359a03298d842cf2fea3ffda80a1713a1ea936903146bad14cb217b662c16": [
+        74,
+        "c25359a03298d842cf2fea3ffda80a1713a1ea936903146bad14cb217b662c16"
+      ],
+      "attachments/c5/c567223f65194da831e6807355fc14dcb627597c98a5aed4ea8a459d3dcbd53f": [
+        74,
+        "c567223f65194da831e6807355fc14dcb627597c98a5aed4ea8a459d3dcbd53f"
+      ],
+      "attachments/d4/d447227933164d41be0110ce6b6e1418a099acf3d6f6117cbfd839b6ce27bc07": [
+        74,
+        "d447227933164d41be0110ce6b6e1418a099acf3d6f6117cbfd839b6ce27bc07"
+      ],
+      "attachments/d8/d8b3cb2b5e0f9dc8f17fed200838e70e8fe6dd314271d10e375346f8611ed715": [
+        74,
+        "d8b3cb2b5e0f9dc8f17fed200838e70e8fe6dd314271d10e375346f8611ed715"
+      ],
+      "attachments/df/df0e4fa624af1d5ff7c3d0259a50ab52f049fa854ffce2d28157eab815ea9793": [
+        74,
+        "df0e4fa624af1d5ff7c3d0259a50ab52f049fa854ffce2d28157eab815ea9793"
+      ],
+      "attachments/eb/eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        73,
+        "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+      ],
+      "attachments/ed/edc8df073294f7bdb823b750d595ede80b896371220fac82cf9588f2155adf60": [
+        74,
+        "edc8df073294f7bdb823b750d595ede80b896371220fac82cf9588f2155adf60"
+      ],
+      "attachments/f0/f075a617ec0eb3f151b6047c42676c42766d48af5de0c91c26549e0f0f60de8c": [
+        74,
+        "f075a617ec0eb3f151b6047c42676c42766d48af5de0c91c26549e0f0f60de8c"
+      ],
+      "attachments/f1/f1a328e1a7f61492c15790ef76b94cce93ceeb78be0bf391b4a6fc581c8dd38a": [
+        74,
+        "f1a328e1a7f61492c15790ef76b94cce93ceeb78be0bf391b4a6fc581c8dd38a"
+      ],
+      "attachments/ff/ff434d5c61002a57a079e113e0aea30c9dc6da1934ceb0b6081ffb7d850d988e": [
+        74,
+        "ff434d5c61002a57a079e113e0aea30c9dc6da1934ceb0b6081ffb7d850d988e"
+      ],
+      "paper-pdfs/08/08b6507af9ffc87dc9791c474bbe72fcac8f21bb7407550875ed5308a329d53e": [
+        617,
+        "08b6507af9ffc87dc9791c474bbe72fcac8f21bb7407550875ed5308a329d53e"
+      ],
+      "paper-pdfs/0a/0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9": [
+        617,
+        "0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9"
+      ],
+      "paper-pdfs/21/214d4926ceefbdfc912b41c7547bb838756b03ba41586f7469d34999398193b0": [
+        619,
+        "214d4926ceefbdfc912b41c7547bb838756b03ba41586f7469d34999398193b0"
+      ],
+      "paper-pdfs/26/26c5a4d7c38011e66b90798a8c30571dde20c11fad7abf1e82315a3f883295d7": [
+        617,
+        "26c5a4d7c38011e66b90798a8c30571dde20c11fad7abf1e82315a3f883295d7"
+      ],
+      "paper-pdfs/30/3023781ba1c803e921f5e9b4c760e66e79d311236f8c4081f3774f8d4cfcb870": [
+        619,
+        "3023781ba1c803e921f5e9b4c760e66e79d311236f8c4081f3774f8d4cfcb870"
+      ],
+      "paper-pdfs/36/364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8": [
+        619,
+        "364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8"
+      ],
+      "paper-pdfs/44/44571ff2d003f569b216f0cacb16aa8766c5fe7ec337365cd910edf70d7d698b": [
+        619,
+        "44571ff2d003f569b216f0cacb16aa8766c5fe7ec337365cd910edf70d7d698b"
+      ],
+      "paper-pdfs/53/53f3a26cd0a50e46a827a786076e9948fec43c82e2ad64383f39f34d06562474": [
+        619,
+        "53f3a26cd0a50e46a827a786076e9948fec43c82e2ad64383f39f34d06562474"
+      ],
+      "paper-pdfs/65/65cf31411264fd6de67634e1e0ff3feb4a4fdb2a2b4e24165ca42f969975a469": [
+        619,
+        "65cf31411264fd6de67634e1e0ff3feb4a4fdb2a2b4e24165ca42f969975a469"
+      ],
+      "paper-pdfs/66/66b6b12e76c120b33454cbaa105816148b3b5a567960a232d9392a28a72f619d": [
+        617,
+        "66b6b12e76c120b33454cbaa105816148b3b5a567960a232d9392a28a72f619d"
+      ],
+      "paper-pdfs/67/67d4f4e67231828bcc3b54aec454ba69d5a7eb39a1bcb54f96f05de25f919827": [
+        619,
+        "67d4f4e67231828bcc3b54aec454ba69d5a7eb39a1bcb54f96f05de25f919827"
+      ],
+      "paper-pdfs/6b/6b43bde845790d5a07529b088fa4596e2a074d17abcd1cf911e7fe0210866303": [
+        619,
+        "6b43bde845790d5a07529b088fa4596e2a074d17abcd1cf911e7fe0210866303"
+      ],
+      "paper-pdfs/7c/7cc4df2d3f6f9c850239948f5bffc7c3d4bdd24e65bf2c2e259e48222c6ed5a4": [
+        619,
+        "7cc4df2d3f6f9c850239948f5bffc7c3d4bdd24e65bf2c2e259e48222c6ed5a4"
+      ],
+      "paper-pdfs/84/840e6170f46389d96ad10172473ce11fbfe848ff2803b77549aa6cc0bc6fbebb": [
+        617,
+        "840e6170f46389d96ad10172473ce11fbfe848ff2803b77549aa6cc0bc6fbebb"
+      ],
+      "paper-pdfs/93/934f8a054f1993421f489a4ce7deebf3fe2f88e0e29b5f87f9dc711a6145ea17": [
+        619,
+        "934f8a054f1993421f489a4ce7deebf3fe2f88e0e29b5f87f9dc711a6145ea17"
+      ],
+      "paper-pdfs/9f/9f61c27f791bd9c000a70588140d5f49ea97f78536fb988c018e99fd01684dbc": [
+        619,
+        "9f61c27f791bd9c000a70588140d5f49ea97f78536fb988c018e99fd01684dbc"
+      ],
+      "paper-pdfs/b2/b2ca6c8022a8915ce29253d95bb81ca314abcc2ab0e3cae06dc830b22e70e323": [
+        617,
+        "b2ca6c8022a8915ce29253d95bb81ca314abcc2ab0e3cae06dc830b22e70e323"
+      ],
+      "paper-pdfs/b6/b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2": [
+        619,
+        "b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2"
+      ],
+      "paper-pdfs/bb/bbd4cd9963384af55eb317c6630d905343ad531ae0f1f436c844ef6bc7a2fad0": [
+        619,
+        "bbd4cd9963384af55eb317c6630d905343ad531ae0f1f436c844ef6bc7a2fad0"
+      ],
+      "paper-pdfs/bf/bffe049154a89221c3caa59fef24a3871cf7e1bf200015d66a82358e9be863ea": [
+        617,
+        "bffe049154a89221c3caa59fef24a3871cf7e1bf200015d66a82358e9be863ea"
+      ],
+      "paper-pdfs/ca/ca9374e3625f0583b8a0dc6953e6a18a57c14c076ee2418202668445f71d6e9c": [
+        619,
+        "ca9374e3625f0583b8a0dc6953e6a18a57c14c076ee2418202668445f71d6e9c"
+      ],
+      "paper-pdfs/d0/d0f488fcfda1b96e51ea608a65b37fbc15ebab8c73a3a94b2dcfb5e893c09df8": [
+        617,
+        "d0f488fcfda1b96e51ea608a65b37fbc15ebab8c73a3a94b2dcfb5e893c09df8"
+      ],
+      "paper-pdfs/df/df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6": [
+        7665,
+        "df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6"
+      ],
+      "paper-pdfs/f0/f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68": [
+        617,
+        "f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68"
+      ],
+      "paper-pdfs/f6/f6841268547b91370d2f372d461bf61706d5aa56bb2adc2bd041f3eb624d7c39": [
+        619,
+        "f6841268547b91370d2f372d461bf61706d5aa56bb2adc2bd041f3eb624d7c39"
+      ],
+      "paper-pdfs/f8/f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb": [
+        619,
+        "f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb"
+      ],
+      "paper-pdfs/f8/f8ca6eff5f7cbb9662366cf0f6c0928bf7d5d93474901562787825599996f1ec": [
+        619,
+        "f8ca6eff5f7cbb9662366cf0f6c0928bf7d5d93474901562787825599996f1ec"
+      ],
+      "paper-pdfs/fb/fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759": [
+        619,
+        "fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759"
+      ]
+    },
+    "user_revision_fingerprints": [
+      [
+        1,
+        "dev008-q",
+        "f76b71db61d0c5c9612009c7807366b43a0a7a3b157df6d1bffe62c3a7d4b3e0"
+      ],
+      [
+        2,
+        "dev008-q2",
+        "158c218a4acb5423db54199b99b8666e3322b3197574f82a3a2cac3123e736d0"
+      ],
+      [
+        7,
+        "kp009-q-0000",
+        "87f191c78148fc1d0c0bdfd6ff172b3890ebd574a637274dbefd561eb1ae0f0e"
+      ]
+    ],
+    "bytes_on_disk": 2533387
+  },
+  "performance-after-large": {
+    "schema": 8,
+    "database_sha256": "c4632d69d00d10f472f2f53c5ae9c7604abb787dc5a368889eed6bd51252a5b3",
+    "database_wal_sha256": "de40f3584ffe73a49a8829aed9acfb4547238db2db3ed76b894c6f7de4e808b3",
+    "sqlite_backup_sha256": "9b5632456fb9be9a4af1ec06203f828264d07e5d84e86a30295cd315ff0842a3",
+    "counts": {
+      "subject": 9,
+      "knowledge_point": 20,
+      "knowledge_alias": 0,
+      "question": 2507,
+      "question_part": 2505,
+      "question_revision": 2512,
+      "question_duplicate": 0,
+      "verification_record": 0,
+      "composition": 2,
+      "composition_item": 2,
+      "favorite_collection": 2,
+      "favorite_target": 3,
+      "favorite_member": 4,
+      "attachment": 64,
+      "paper": 30,
+      "paper_file": 91,
+      "paper_region": 30,
+      "question_occurrence": 29,
+      "paper_user_metadata": 1
+    },
+    "fingerprints": {
+      "subject": "62819cfc73c8baf0dd90f4c99ac6515564701ffc062b753888bb4a1d6fe22371",
+      "knowledge_point": "b3c9da9fe445a2c1096a4350e533517e183615be795276626aeec977cff1b330",
+      "knowledge_alias": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "question": "42c1e7261a1802229b0829956e89a9fcfbb324d95de3aad1eadc9df9f0e71cb6",
+      "question_part": "ecee728f9c84feb76e38e2dce285e92de4a03549b72f0f09700de2a005f21167",
+      "question_revision": "ec000006aabe34855a56df83c6945667012446fc968ff9046c7d2334597a3965",
+      "question_duplicate": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "verification_record": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "composition": "5301d05396135e43996e67cdb3b97401c03aa4e19577bd6fd59ee95a893b0ea9",
+      "composition_item": "52a12fc16785ba93094d8dde3c73ec118a04c82c3631cc225418639b051d8afa",
+      "favorite_collection": "322865d88ab9feb9ada3310b4c3ac9154230d684794b8d244f95ed1d4896940c",
+      "favorite_target": "d6c637f53f25c8c45dfbd83f97137349633b55f05eba7ee098507f452efac7ef",
+      "favorite_member": "4384151614e9303df62bdc31181a2da1d68e25e4c0bbebeecc14b2c3721031af",
+      "attachment": "05073a11662dbb355dc6dffda6ce0e0fd20d9db95dd49547573cabc51316a866",
+      "paper": "16cf4296c2b4df98a2cf87b98f726c77a1abd86960ef029e1e97c49de2bae5ca",
+      "paper_file": "d8100eeb63de1a9397a8a269ce8a45916b8b3330471f4a36a511ef624925cc7e",
+      "paper_region": "e6b6a464b6d4a99a2b767e06c3d2ffc0f62e25c8c56f269e5dd1615cb2f7f6ef",
+      "question_occurrence": "3f02b6bcfd0200cbcedeea9de8007e5584d82519307f9857601f3cd1e1f719fd",
+      "paper_user_metadata": "f7af13b9815dc6100e6c095a5a26e4b31b59a1b67025708997a489225065bf9c"
+    },
+    "versions": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "94f5b77ce3a23be423e0f2edb2bf97922c5f4faef2a63b30674313e47c6cd6b5",
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "24fb0fccc211960a8f9abc0ae3dbe574c7865b7ecb83ee6d334f92513f508913",
+        null
+      ],
+      [
+        "knowpaper.medium",
+        "1.0.0",
+        "0e0125481342f113de980eb7f9a865a3a1b8e1852b4d0b1fc9f36c1db9f11959",
+        null
+      ],
+      [
+        "knowpaper.large",
+        "1.0.0",
+        "c68196dac8387ea4cc1f0ae01df2b9af58f32e1b9d987456afa824951cf3c54a",
+        null
+      ]
+    ],
+    "operations": [
+      [
+        "knowpaper.fixture",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "interrupted",
+        0,
+        "安装在提交前中断，已恢复。可重新选择资源包。"
+      ],
+      [
+        "knowpaper.fixture",
+        "1.1.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.medium",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ],
+      [
+        "knowpaper.large",
+        "1.0.0",
+        "installed",
+        0,
+        null
+      ]
+    ],
+    "migrations": [
+      [
+        1,
+        "core",
+        "d4c9be95b6e7015a41fbe6b05ed81d5535bea4e8f80b0d62b7e683fb6a1c8395"
+      ],
+      [
+        2,
+        "knowledge",
+        "9a3049c8cea905a11f0d9b0bebb78dc78f4a6976156f382dc36ba305168a5ec5"
+      ],
+      [
+        3,
+        "search_metadata",
+        "1ce1b74ae4ab149818252e8e8ee1a2bdc40410a77f56f2dec8afc0542e869df7"
+      ],
+      [
+        4,
+        "attachments",
+        "47f18f176415e124abffbe90f3fc67ef662afc2634da20a07efc410bf7a7fb08"
+      ],
+      [
+        5,
+        "composition",
+        "c19d525c03bf8747dc3ddbd1a27838b78f90126d8a87e7aac0d90d5ce2408106"
+      ],
+      [
+        6,
+        "paper_files",
+        "f343f6faeb23b3838e924da60fc4ef2b592958e7ca58ca77a0ebe55604bba335"
+      ],
+      [
+        7,
+        "favorites",
+        "5a6ef4139723ecc84a6444892ba4757fd56c899035b58c81b70e94381a6d4830"
+      ],
+      [
+        8,
+        "resource_packs",
+        "e447bc649b322a0b9ed1d97e0ce5cde9b7c538909cf36d24063fec9afedb33f4"
+      ]
+    ],
+    "file_size_sha": {
+      "attachments/01/017e23df573fae55371e5409ac55940a6b172e5f392b3e47efd2474f94aca2b1": [
+        74,
+        "017e23df573fae55371e5409ac55940a6b172e5f392b3e47efd2474f94aca2b1"
+      ],
+      "attachments/01/01dccbee6cd871a6d0110d57e3374d1837264341ae3ef63bb34285ba5e2db5f0": [
+        74,
+        "01dccbee6cd871a6d0110d57e3374d1837264341ae3ef63bb34285ba5e2db5f0"
+      ],
+      "attachments/0b/0b888f6a2d9ff0d777640b78045515c0e0887ed5d4084311b59512d5b295f561": [
+        74,
+        "0b888f6a2d9ff0d777640b78045515c0e0887ed5d4084311b59512d5b295f561"
+      ],
+      "attachments/0e/0e3b5b41f948100e4ce2e037eb4661e2329db847c27ab3c31fbd71742e2fe80d": [
+        74,
+        "0e3b5b41f948100e4ce2e037eb4661e2329db847c27ab3c31fbd71742e2fe80d"
+      ],
+      "attachments/11/11dcf5674db05916789f0a943d0ef4dd6b1b1c58a2edebbee0feb15f6ad1b975": [
+        74,
+        "11dcf5674db05916789f0a943d0ef4dd6b1b1c58a2edebbee0feb15f6ad1b975"
+      ],
+      "attachments/13/13eb8a49d4bd9e99dfcc4016354d2bf6870b339c10825d5c668a0728bd9e0869": [
+        74,
+        "13eb8a49d4bd9e99dfcc4016354d2bf6870b339c10825d5c668a0728bd9e0869"
+      ],
+      "attachments/15/15cd5804fa19b0cbdd483c539610fa945833983ce9e5cede6a716e5bad706f1f": [
+        74,
+        "15cd5804fa19b0cbdd483c539610fa945833983ce9e5cede6a716e5bad706f1f"
+      ],
+      "attachments/1a/1a462f57f56687b8fe50a4f514e5e8795e10bca55fac1089351f14cf8a81e914": [
+        74,
+        "1a462f57f56687b8fe50a4f514e5e8795e10bca55fac1089351f14cf8a81e914"
+      ],
+      "attachments/1b/1bebe8b72382804cb38496be04a77c1a91eb2c5d09e1c0f52756ac9bcab859e7": [
+        74,
+        "1bebe8b72382804cb38496be04a77c1a91eb2c5d09e1c0f52756ac9bcab859e7"
+      ],
+      "attachments/1d/1da17677607b950419ca16be23919b6035823e8aefad6ef28103930a3f472355": [
+        74,
+        "1da17677607b950419ca16be23919b6035823e8aefad6ef28103930a3f472355"
+      ],
+      "attachments/1e/1e2579e3bb6e275228c04d7465dad1cbe5bb879c4f099a98259dbbd1b2a3dbfe": [
+        74,
+        "1e2579e3bb6e275228c04d7465dad1cbe5bb879c4f099a98259dbbd1b2a3dbfe"
+      ],
+      "attachments/1e/1edb77d9e1a7b4f3862ee0cd5350e7cd3dafda303dade446856835d8517b5757": [
+        74,
+        "1edb77d9e1a7b4f3862ee0cd5350e7cd3dafda303dade446856835d8517b5757"
+      ],
+      "attachments/25/250ef44f06d02df5ee6d3d397756289ece14631233ff677746db155cd95e8990": [
+        74,
+        "250ef44f06d02df5ee6d3d397756289ece14631233ff677746db155cd95e8990"
+      ],
+      "attachments/26/2656783a76d4ae9d0e04be40f4cfc68720a779747103ae1b0b3d18ad560dfd5b": [
+        74,
+        "2656783a76d4ae9d0e04be40f4cfc68720a779747103ae1b0b3d18ad560dfd5b"
+      ],
+      "attachments/2e/2e5f51a25be7a0ce7557c127672290ac5f458af0a04d9b0815ae2f7d3d8c7d0d": [
+        74,
+        "2e5f51a25be7a0ce7557c127672290ac5f458af0a04d9b0815ae2f7d3d8c7d0d"
+      ],
+      "attachments/32/3252d16239a80865910a255ba8eb56b1a67c703d49b83ff0bad580bbfc6781e5": [
+        74,
+        "3252d16239a80865910a255ba8eb56b1a67c703d49b83ff0bad580bbfc6781e5"
+      ],
+      "attachments/33/33004142436fcce331afc3dd6949802563fbaae588781dc26b33440f94f40bcd": [
+        74,
+        "33004142436fcce331afc3dd6949802563fbaae588781dc26b33440f94f40bcd"
+      ],
+      "attachments/34/34303b1b048a81dc5bf43149cbce4a67feec7899edff9000476f02437c138d75": [
+        74,
+        "34303b1b048a81dc5bf43149cbce4a67feec7899edff9000476f02437c138d75"
+      ],
+      "attachments/35/359487e06afbdaf68b8a85f86b7d2938b6b8fcf42edb73d87295cb4303b11c00": [
+        74,
+        "359487e06afbdaf68b8a85f86b7d2938b6b8fcf42edb73d87295cb4303b11c00"
+      ],
+      "attachments/38/385696be40b45857f7899f9034e5b4bbca70d5af6e83b14637063046dc6499e9": [
+        74,
+        "385696be40b45857f7899f9034e5b4bbca70d5af6e83b14637063046dc6499e9"
+      ],
+      "attachments/3e/3eed57ac05e5a4ae048e09aa0fcaaf81e11e86fcf47d79e969b3073d33c1a7d3": [
+        74,
+        "3eed57ac05e5a4ae048e09aa0fcaaf81e11e86fcf47d79e969b3073d33c1a7d3"
+      ],
+      "attachments/41/4180be7a245f1e60355f1b07630a1d595795e04068cb41264b3473aa471b5ea6": [
+        74,
+        "4180be7a245f1e60355f1b07630a1d595795e04068cb41264b3473aa471b5ea6"
+      ],
+      "attachments/44/44fe0be0bbfcc53791dcf856c5ee3d8d50ccb24c73f71539a16f77db8e2439b2": [
+        74,
+        "44fe0be0bbfcc53791dcf856c5ee3d8d50ccb24c73f71539a16f77db8e2439b2"
+      ],
+      "attachments/47/4740284b1f881452f2c1d9f9770b1b93a81bca219cb40c35bf65300ce169754e": [
+        74,
+        "4740284b1f881452f2c1d9f9770b1b93a81bca219cb40c35bf65300ce169754e"
+      ],
+      "attachments/47/47ca40fbf5d399cfa294351c02b041ec60987c4933bcd642f6f04e013ed3b80c": [
+        74,
+        "47ca40fbf5d399cfa294351c02b041ec60987c4933bcd642f6f04e013ed3b80c"
+      ],
+      "attachments/54/542aa176e2f5b47a1f85d25a3608926434b4c81b6bc22a908950dde68b965776": [
+        74,
+        "542aa176e2f5b47a1f85d25a3608926434b4c81b6bc22a908950dde68b965776"
+      ],
+      "attachments/56/56771b5e202454ad4cfefd12c88199885b1fc7265ae3b258fd19c3117a095fe6": [
+        74,
+        "56771b5e202454ad4cfefd12c88199885b1fc7265ae3b258fd19c3117a095fe6"
+      ],
+      "attachments/5d/5d28c293ce2b66d602fc8c691e56df9330a4000f41618bc1e6e1a22587198d78": [
+        74,
+        "5d28c293ce2b66d602fc8c691e56df9330a4000f41618bc1e6e1a22587198d78"
+      ],
+      "attachments/5e/5e023e46e10fb3b93f74e1b22b797209a338954117de0b23731e94fd0e13ca4a": [
+        74,
+        "5e023e46e10fb3b93f74e1b22b797209a338954117de0b23731e94fd0e13ca4a"
+      ],
+      "attachments/67/67dca8a75ec285f8e192c96d1ea7680fc38e1f8208ede804e37fa7225cce4f31": [
+        74,
+        "67dca8a75ec285f8e192c96d1ea7680fc38e1f8208ede804e37fa7225cce4f31"
+      ],
+      "attachments/68/68728d722a3b5287292f469c76603cee3751b213903b0f013f53edb4062dac36": [
+        74,
+        "68728d722a3b5287292f469c76603cee3751b213903b0f013f53edb4062dac36"
+      ],
+      "attachments/68/6879a5dc0b338c7e8531eed7e882273bb1ab03ab7fc6d2125d93b478623966f7": [
+        74,
+        "6879a5dc0b338c7e8531eed7e882273bb1ab03ab7fc6d2125d93b478623966f7"
+      ],
+      "attachments/69/692272d74419f4099752214e6a14999cbc0ef5cbaa8755091346c7ba8a64edb7": [
+        74,
+        "692272d74419f4099752214e6a14999cbc0ef5cbaa8755091346c7ba8a64edb7"
+      ],
+      "attachments/6f/6f61dfddcb30ad9185bdd3380e36eedb529c94c30405f9f0f51568c441eda698": [
+        74,
+        "6f61dfddcb30ad9185bdd3380e36eedb529c94c30405f9f0f51568c441eda698"
+      ],
+      "attachments/73/7397f86f2251a5a39e7402d702eb187754e4d3bc4f380b776d6a7586526b5f23": [
+        74,
+        "7397f86f2251a5a39e7402d702eb187754e4d3bc4f380b776d6a7586526b5f23"
+      ],
+      "attachments/75/75ddd48ec48e41829b105417bd14383d7894765fb9e8fcc42593fc3d3b506888": [
+        74,
+        "75ddd48ec48e41829b105417bd14383d7894765fb9e8fcc42593fc3d3b506888"
+      ],
+      "attachments/78/789f85866a05994583c3c782a8ebeb74138877c1b9d02046618801f833a55b58": [
+        74,
+        "789f85866a05994583c3c782a8ebeb74138877c1b9d02046618801f833a55b58"
+      ],
+      "attachments/7c/7cb1ac71729dff7ce0291d15b86ee71d6f1d8794f444cd0530d4fb1efd1a0747": [
+        74,
+        "7cb1ac71729dff7ce0291d15b86ee71d6f1d8794f444cd0530d4fb1efd1a0747"
+      ],
+      "attachments/84/84df3f88e4f4130ef777e9de85a8e4feccb37d309f73e045c0d322baafc7797d": [
+        74,
+        "84df3f88e4f4130ef777e9de85a8e4feccb37d309f73e045c0d322baafc7797d"
+      ],
+      "attachments/89/897cc7d7b3ae46952cdd20875e79f147150d0f3aaefff0fd9621b02b03d7c534": [
+        74,
+        "897cc7d7b3ae46952cdd20875e79f147150d0f3aaefff0fd9621b02b03d7c534"
+      ],
+      "attachments/96/96820932e8aeb0f6beabd2c9f9c5be83c85b10101563f2d94afca785c38b78d9": [
+        74,
+        "96820932e8aeb0f6beabd2c9f9c5be83c85b10101563f2d94afca785c38b78d9"
+      ],
+      "attachments/9d/9d2f4eec63164ea5afb070c1d1c4e29e5e7c41134f0b3cbf0e43e55694c4e8a4": [
+        74,
+        "9d2f4eec63164ea5afb070c1d1c4e29e5e7c41134f0b3cbf0e43e55694c4e8a4"
+      ],
+      "attachments/9d/9dbb2fa00946c70b59d26d9cc0835943cff3aae451aab45b4f552e16d53d7d33": [
+        74,
+        "9dbb2fa00946c70b59d26d9cc0835943cff3aae451aab45b4f552e16d53d7d33"
+      ],
+      "attachments/a1/a10df854c394d64a17715343a0b9fba8178f500d0ced2cac8e5d6f03de9d71ef": [
+        74,
+        "a10df854c394d64a17715343a0b9fba8178f500d0ced2cac8e5d6f03de9d71ef"
+      ],
+      "attachments/a5/a5e04ac3ce315492a41539db7f80defc49a41c39038615c35ac75c4d8322134a": [
+        74,
+        "a5e04ac3ce315492a41539db7f80defc49a41c39038615c35ac75c4d8322134a"
+      ],
+      "attachments/b5/b57fbc23ba35a5b31e0302d74b22471de08435397258b9018ffb0abd9ab94df7": [
+        74,
+        "b57fbc23ba35a5b31e0302d74b22471de08435397258b9018ffb0abd9ab94df7"
+      ],
+      "attachments/c2/c25359a03298d842cf2fea3ffda80a1713a1ea936903146bad14cb217b662c16": [
+        74,
+        "c25359a03298d842cf2fea3ffda80a1713a1ea936903146bad14cb217b662c16"
+      ],
+      "attachments/c5/c567223f65194da831e6807355fc14dcb627597c98a5aed4ea8a459d3dcbd53f": [
+        74,
+        "c567223f65194da831e6807355fc14dcb627597c98a5aed4ea8a459d3dcbd53f"
+      ],
+      "attachments/cb/cb4d0ad0b28ea686ed5f45f40c6d870193a80672773f8f428e66eddb33535001": [
+        74,
+        "cb4d0ad0b28ea686ed5f45f40c6d870193a80672773f8f428e66eddb33535001"
+      ],
+      "attachments/d4/d447227933164d41be0110ce6b6e1418a099acf3d6f6117cbfd839b6ce27bc07": [
+        74,
+        "d447227933164d41be0110ce6b6e1418a099acf3d6f6117cbfd839b6ce27bc07"
+      ],
+      "attachments/d8/d8b3cb2b5e0f9dc8f17fed200838e70e8fe6dd314271d10e375346f8611ed715": [
+        74,
+        "d8b3cb2b5e0f9dc8f17fed200838e70e8fe6dd314271d10e375346f8611ed715"
+      ],
+      "attachments/de/ded1fba1bfb50ec561249445bf9b04c04eeb7c5c07f79ae2e1c3df2e93b90f33": [
+        74,
+        "ded1fba1bfb50ec561249445bf9b04c04eeb7c5c07f79ae2e1c3df2e93b90f33"
+      ],
+      "attachments/df/df0e4fa624af1d5ff7c3d0259a50ab52f049fa854ffce2d28157eab815ea9793": [
+        74,
+        "df0e4fa624af1d5ff7c3d0259a50ab52f049fa854ffce2d28157eab815ea9793"
+      ],
+      "attachments/e0/e03a6294cf4a8c813b5fa12d20952ede8b82659c01068a9def4133e6c09318b0": [
+        74,
+        "e03a6294cf4a8c813b5fa12d20952ede8b82659c01068a9def4133e6c09318b0"
+      ],
+      "attachments/e6/e6f4e0cde7373d59fec22ea8758479fe0528606a8d126fa4bd2f593ba45e9bdd": [
+        74,
+        "e6f4e0cde7373d59fec22ea8758479fe0528606a8d126fa4bd2f593ba45e9bdd"
+      ],
+      "attachments/e8/e86266cdfdcf352d15e5aaed62d5368e92498a0e5ebd047b2e3136e2fad5e978": [
+        74,
+        "e86266cdfdcf352d15e5aaed62d5368e92498a0e5ebd047b2e3136e2fad5e978"
+      ],
+      "attachments/eb/eb9f0a5989c2dc21305c49bc08f2a6831d292e533ea25e7dd64827f96afb40eb": [
+        74,
+        "eb9f0a5989c2dc21305c49bc08f2a6831d292e533ea25e7dd64827f96afb40eb"
+      ],
+      "attachments/eb/eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c": [
+        73,
+        "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+      ],
+      "attachments/ed/edc8df073294f7bdb823b750d595ede80b896371220fac82cf9588f2155adf60": [
+        74,
+        "edc8df073294f7bdb823b750d595ede80b896371220fac82cf9588f2155adf60"
+      ],
+      "attachments/ef/efad3bb05ef423138c398553c10e711068132f6964c3fee2ae5679ec32fa1769": [
+        74,
+        "efad3bb05ef423138c398553c10e711068132f6964c3fee2ae5679ec32fa1769"
+      ],
+      "attachments/f0/f075a617ec0eb3f151b6047c42676c42766d48af5de0c91c26549e0f0f60de8c": [
+        74,
+        "f075a617ec0eb3f151b6047c42676c42766d48af5de0c91c26549e0f0f60de8c"
+      ],
+      "attachments/f1/f1a328e1a7f61492c15790ef76b94cce93ceeb78be0bf391b4a6fc581c8dd38a": [
+        74,
+        "f1a328e1a7f61492c15790ef76b94cce93ceeb78be0bf391b4a6fc581c8dd38a"
+      ],
+      "attachments/f9/f9b241313c2bf9ed819eedfab63608c63c5a9b6d4715dd87f3a057c4378da370": [
+        74,
+        "f9b241313c2bf9ed819eedfab63608c63c5a9b6d4715dd87f3a057c4378da370"
+      ],
+      "attachments/ff/ff434d5c61002a57a079e113e0aea30c9dc6da1934ceb0b6081ffb7d850d988e": [
+        74,
+        "ff434d5c61002a57a079e113e0aea30c9dc6da1934ceb0b6081ffb7d850d988e"
+      ],
+      "paper-pdfs/05/059526d9f1e9e93991559ca8c7e9c9c4943b372e305ab0e6ec5c1cb1db3a1dce": [
+        620,
+        "059526d9f1e9e93991559ca8c7e9c9c4943b372e305ab0e6ec5c1cb1db3a1dce"
+      ],
+      "paper-pdfs/08/08b6507af9ffc87dc9791c474bbe72fcac8f21bb7407550875ed5308a329d53e": [
+        617,
+        "08b6507af9ffc87dc9791c474bbe72fcac8f21bb7407550875ed5308a329d53e"
+      ],
+      "paper-pdfs/0a/0aa2f21240bbb317f4db44adc3b252002861de205b8f5691e48e104a1bd64990": [
+        620,
+        "0aa2f21240bbb317f4db44adc3b252002861de205b8f5691e48e104a1bd64990"
+      ],
+      "paper-pdfs/0a/0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9": [
+        617,
+        "0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9"
+      ],
+      "paper-pdfs/0b/0bd1f00f2f175694e46390b0fc55fa69c1a273aaa74f15d9df4790876e45b9c8": [
+        620,
+        "0bd1f00f2f175694e46390b0fc55fa69c1a273aaa74f15d9df4790876e45b9c8"
+      ],
+      "paper-pdfs/0d/0d454907e5f3e83855a77913b905b049163e4d3dd52b162173eb7130dd25376e": [
+        617,
+        "0d454907e5f3e83855a77913b905b049163e4d3dd52b162173eb7130dd25376e"
+      ],
+      "paper-pdfs/15/15d35f61ca332bb5e74651da0419317880b9261410e12911bd9e8fd8c41c903d": [
+        618,
+        "15d35f61ca332bb5e74651da0419317880b9261410e12911bd9e8fd8c41c903d"
+      ],
+      "paper-pdfs/19/1990bcd2f3f03dba5baffa16b1c8d33eefe422d7ad96753dc5928174bbd2002d": [
+        620,
+        "1990bcd2f3f03dba5baffa16b1c8d33eefe422d7ad96753dc5928174bbd2002d"
+      ],
+      "paper-pdfs/20/20178c65733ce37846a9c75937c954ad01c1325768c111751b1fd0aabc27cdd2": [
+        618,
+        "20178c65733ce37846a9c75937c954ad01c1325768c111751b1fd0aabc27cdd2"
+      ],
+      "paper-pdfs/20/20a2f49caf0c19c19f416a452d253c6d952b1bc713687fe9d7bc797dd1ae231b": [
+        620,
+        "20a2f49caf0c19c19f416a452d253c6d952b1bc713687fe9d7bc797dd1ae231b"
+      ],
+      "paper-pdfs/21/214d4926ceefbdfc912b41c7547bb838756b03ba41586f7469d34999398193b0": [
+        619,
+        "214d4926ceefbdfc912b41c7547bb838756b03ba41586f7469d34999398193b0"
+      ],
+      "paper-pdfs/23/23d9ad4c838081ab2096fc14c15a058ae02528527c1ea02c33a9c387bda6a6a6": [
+        620,
+        "23d9ad4c838081ab2096fc14c15a058ae02528527c1ea02c33a9c387bda6a6a6"
+      ],
+      "paper-pdfs/26/26c5a4d7c38011e66b90798a8c30571dde20c11fad7abf1e82315a3f883295d7": [
+        617,
+        "26c5a4d7c38011e66b90798a8c30571dde20c11fad7abf1e82315a3f883295d7"
+      ],
+      "paper-pdfs/28/28e03dd6b223cc3a2b9e6e7184d1d7e6df4a81aa5dc7998f7478ba785844b742": [
+        620,
+        "28e03dd6b223cc3a2b9e6e7184d1d7e6df4a81aa5dc7998f7478ba785844b742"
+      ],
+      "paper-pdfs/30/3023781ba1c803e921f5e9b4c760e66e79d311236f8c4081f3774f8d4cfcb870": [
+        619,
+        "3023781ba1c803e921f5e9b4c760e66e79d311236f8c4081f3774f8d4cfcb870"
+      ],
+      "paper-pdfs/36/364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8": [
+        619,
+        "364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8"
+      ],
+      "paper-pdfs/38/38d235531642c5e7fdf66dabf3a600222ad03f2cc13fc14272b0d97fd25cbf35": [
+        618,
+        "38d235531642c5e7fdf66dabf3a600222ad03f2cc13fc14272b0d97fd25cbf35"
+      ],
+      "paper-pdfs/39/392ad83fabd0865a54811efda77a2116dac7025fbfb71ee4b1cc488b82491340": [
+        618,
+        "392ad83fabd0865a54811efda77a2116dac7025fbfb71ee4b1cc488b82491340"
+      ],
+      "paper-pdfs/3a/3afe8fa13af7fec6a2cff038281fde9fbf98a6803a3e50477c7a030e17d30eb9": [
+        620,
+        "3afe8fa13af7fec6a2cff038281fde9fbf98a6803a3e50477c7a030e17d30eb9"
+      ],
+      "paper-pdfs/44/44571ff2d003f569b216f0cacb16aa8766c5fe7ec337365cd910edf70d7d698b": [
+        619,
+        "44571ff2d003f569b216f0cacb16aa8766c5fe7ec337365cd910edf70d7d698b"
+      ],
+      "paper-pdfs/53/53f3a26cd0a50e46a827a786076e9948fec43c82e2ad64383f39f34d06562474": [
+        619,
+        "53f3a26cd0a50e46a827a786076e9948fec43c82e2ad64383f39f34d06562474"
+      ],
+      "paper-pdfs/54/54ef7009efa56acdd9dd4bb8bc759f0eb9f0067a47728ee997d1c25552059c45": [
+        620,
+        "54ef7009efa56acdd9dd4bb8bc759f0eb9f0067a47728ee997d1c25552059c45"
+      ],
+      "paper-pdfs/5e/5e97e79f55e5962184eb3082994f4a4a622f54b44292425f5ab6870f69b167d0": [
+        618,
+        "5e97e79f55e5962184eb3082994f4a4a622f54b44292425f5ab6870f69b167d0"
+      ],
+      "paper-pdfs/5f/5f98d649a86d5a4aab2b14fe2d4564e3629a799d61332870dc2b863536c89468": [
+        618,
+        "5f98d649a86d5a4aab2b14fe2d4564e3629a799d61332870dc2b863536c89468"
+      ],
+      "paper-pdfs/65/65cf31411264fd6de67634e1e0ff3feb4a4fdb2a2b4e24165ca42f969975a469": [
+        619,
+        "65cf31411264fd6de67634e1e0ff3feb4a4fdb2a2b4e24165ca42f969975a469"
+      ],
+      "paper-pdfs/66/66b6b12e76c120b33454cbaa105816148b3b5a567960a232d9392a28a72f619d": [
+        617,
+        "66b6b12e76c120b33454cbaa105816148b3b5a567960a232d9392a28a72f619d"
+      ],
+      "paper-pdfs/67/67d4f4e67231828bcc3b54aec454ba69d5a7eb39a1bcb54f96f05de25f919827": [
+        619,
+        "67d4f4e67231828bcc3b54aec454ba69d5a7eb39a1bcb54f96f05de25f919827"
+      ],
+      "paper-pdfs/6b/6b43bde845790d5a07529b088fa4596e2a074d17abcd1cf911e7fe0210866303": [
+        619,
+        "6b43bde845790d5a07529b088fa4596e2a074d17abcd1cf911e7fe0210866303"
+      ],
+      "paper-pdfs/75/754ac6bd9727bc8bb7cb7efba1d59da7a4c07ef8060fed843cb19e08075ab19d": [
+        618,
+        "754ac6bd9727bc8bb7cb7efba1d59da7a4c07ef8060fed843cb19e08075ab19d"
+      ],
+      "paper-pdfs/7c/7cc4df2d3f6f9c850239948f5bffc7c3d4bdd24e65bf2c2e259e48222c6ed5a4": [
+        619,
+        "7cc4df2d3f6f9c850239948f5bffc7c3d4bdd24e65bf2c2e259e48222c6ed5a4"
+      ],
+      "paper-pdfs/83/830564e460bc41f64c76b8f47d8528929c1aa0ba5a9c15f13637563e37974bde": [
+        620,
+        "830564e460bc41f64c76b8f47d8528929c1aa0ba5a9c15f13637563e37974bde"
+      ],
+      "paper-pdfs/84/840e6170f46389d96ad10172473ce11fbfe848ff2803b77549aa6cc0bc6fbebb": [
+        617,
+        "840e6170f46389d96ad10172473ce11fbfe848ff2803b77549aa6cc0bc6fbebb"
+      ],
+      "paper-pdfs/84/84baaa44b411c521d972b778fe977c605d6a9de99416b42e88871dabb7193290": [
+        619,
+        "84baaa44b411c521d972b778fe977c605d6a9de99416b42e88871dabb7193290"
+      ],
+      "paper-pdfs/91/9144b4ef7f3366492410a3b5257d4c2629446ad77ce42aaa8dadf172333b7fd4": [
+        620,
+        "9144b4ef7f3366492410a3b5257d4c2629446ad77ce42aaa8dadf172333b7fd4"
+      ],
+      "paper-pdfs/93/934f8a054f1993421f489a4ce7deebf3fe2f88e0e29b5f87f9dc711a6145ea17": [
+        619,
+        "934f8a054f1993421f489a4ce7deebf3fe2f88e0e29b5f87f9dc711a6145ea17"
+      ],
+      "paper-pdfs/95/9555faabf0e8d8fa8aa3ba22c211d527270c8f8fd7f2d3ffe309aad1b0333bdf": [
+        620,
+        "9555faabf0e8d8fa8aa3ba22c211d527270c8f8fd7f2d3ffe309aad1b0333bdf"
+      ],
+      "paper-pdfs/98/98e2dee3c76e9750c42ebd8d2533c58f25c2146bb8419422ff70c35b94aeb69f": [
+        620,
+        "98e2dee3c76e9750c42ebd8d2533c58f25c2146bb8419422ff70c35b94aeb69f"
+      ],
+      "paper-pdfs/99/9963631299fcbbd6c8f6f7ced76403f94f95f06f722d916473b4d67b7ecfb0d7": [
+        620,
+        "9963631299fcbbd6c8f6f7ced76403f94f95f06f722d916473b4d67b7ecfb0d7"
+      ],
+      "paper-pdfs/9f/9f0973b2453ada48fb9f262f59adb15924121890408a1c8ead93b6c64740705d": [
+        620,
+        "9f0973b2453ada48fb9f262f59adb15924121890408a1c8ead93b6c64740705d"
+      ],
+      "paper-pdfs/9f/9f61c27f791bd9c000a70588140d5f49ea97f78536fb988c018e99fd01684dbc": [
+        619,
+        "9f61c27f791bd9c000a70588140d5f49ea97f78536fb988c018e99fd01684dbc"
+      ],
+      "paper-pdfs/a6/a6173d74f0dafe4bf72cf6d805f6c95277a4511245c9165d3c2fc34b1bb41542": [
+        619,
+        "a6173d74f0dafe4bf72cf6d805f6c95277a4511245c9165d3c2fc34b1bb41542"
+      ],
+      "paper-pdfs/a6/a66fc6f72e596a8436e3bbdeefb065961b10b62a7b9d25c03bff6c44ba1d5459": [
+        618,
+        "a66fc6f72e596a8436e3bbdeefb065961b10b62a7b9d25c03bff6c44ba1d5459"
+      ],
+      "paper-pdfs/ac/acc1d5825dd28863d068c198c5e1b9d0aa25ae8f2777a6cf450e84f1b15b2791": [
+        618,
+        "acc1d5825dd28863d068c198c5e1b9d0aa25ae8f2777a6cf450e84f1b15b2791"
+      ],
+      "paper-pdfs/ae/aed130e76ae14414a470ee0095821dd4bea31c1292640bd702a4ca8cd18bd7dd": [
+        620,
+        "aed130e76ae14414a470ee0095821dd4bea31c1292640bd702a4ca8cd18bd7dd"
+      ],
+      "paper-pdfs/b2/b2ca6c8022a8915ce29253d95bb81ca314abcc2ab0e3cae06dc830b22e70e323": [
+        617,
+        "b2ca6c8022a8915ce29253d95bb81ca314abcc2ab0e3cae06dc830b22e70e323"
+      ],
+      "paper-pdfs/b6/b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2": [
+        619,
+        "b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2"
+      ],
+      "paper-pdfs/bb/bbd4cd9963384af55eb317c6630d905343ad531ae0f1f436c844ef6bc7a2fad0": [
+        619,
+        "bbd4cd9963384af55eb317c6630d905343ad531ae0f1f436c844ef6bc7a2fad0"
+      ],
+      "paper-pdfs/bc/bc336b937257eb2523150c3bd28365dd62d943c13d9d2041b6afc51fe3cb8915": [
+        618,
+        "bc336b937257eb2523150c3bd28365dd62d943c13d9d2041b6afc51fe3cb8915"
+      ],
+      "paper-pdfs/bf/bffe049154a89221c3caa59fef24a3871cf7e1bf200015d66a82358e9be863ea": [
+        617,
+        "bffe049154a89221c3caa59fef24a3871cf7e1bf200015d66a82358e9be863ea"
+      ],
+      "paper-pdfs/ca/ca9374e3625f0583b8a0dc6953e6a18a57c14c076ee2418202668445f71d6e9c": [
+        619,
+        "ca9374e3625f0583b8a0dc6953e6a18a57c14c076ee2418202668445f71d6e9c"
+      ],
+      "paper-pdfs/d0/d0f488fcfda1b96e51ea608a65b37fbc15ebab8c73a3a94b2dcfb5e893c09df8": [
+        617,
+        "d0f488fcfda1b96e51ea608a65b37fbc15ebab8c73a3a94b2dcfb5e893c09df8"
+      ],
+      "paper-pdfs/d7/d7b647794f5b6d6e5cfb4ec234ba95a4520d2ff0a661a0d6d656d20651b3544c": [
+        618,
+        "d7b647794f5b6d6e5cfb4ec234ba95a4520d2ff0a661a0d6d656d20651b3544c"
+      ],
+      "paper-pdfs/d9/d943b0b7d78dbf179dce30d0efbdabf8b83fa75313464fe594652b668068773b": [
+        620,
+        "d943b0b7d78dbf179dce30d0efbdabf8b83fa75313464fe594652b668068773b"
+      ],
+      "paper-pdfs/db/dbb88d5f62b9a5ab3b9b628b71b4ac565d28dc5b20dcc88b69f2754221b2f77c": [
+        620,
+        "dbb88d5f62b9a5ab3b9b628b71b4ac565d28dc5b20dcc88b69f2754221b2f77c"
+      ],
+      "paper-pdfs/df/df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6": [
+        7665,
+        "df987b1da0ed5549336b30b5a5c14b8927ef0e74917c0f76fecdb91fa230d3a6"
+      ],
+      "paper-pdfs/e9/e93676e2cc460f68b9f3061678f732db3935e03bf4b1c65382fada627fa1700d": [
+        620,
+        "e93676e2cc460f68b9f3061678f732db3935e03bf4b1c65382fada627fa1700d"
+      ],
+      "paper-pdfs/eb/ebf80bde363fbaf2226fd8e4d6c07002a337b7d3873504ce1275d9f6ae20f685": [
+        620,
+        "ebf80bde363fbaf2226fd8e4d6c07002a337b7d3873504ce1275d9f6ae20f685"
+      ],
+      "paper-pdfs/ef/efd349afc644f2ece75fbbc5a24656d293946364f04255609d651eb53f083d77": [
+        620,
+        "efd349afc644f2ece75fbbc5a24656d293946364f04255609d651eb53f083d77"
+      ],
+      "paper-pdfs/f0/f02d1e40f6895634712b2f8246699098a2fc5c1adbc885da3b5d41838a06d456": [
+        620,
+        "f02d1e40f6895634712b2f8246699098a2fc5c1adbc885da3b5d41838a06d456"
+      ],
+      "paper-pdfs/f0/f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68": [
+        617,
+        "f058b5c2ba2a65b493f785c2c5604eaa3464ce0fd3d729f0c9dfad750ca6ef68"
+      ],
+      "paper-pdfs/f6/f6841268547b91370d2f372d461bf61706d5aa56bb2adc2bd041f3eb624d7c39": [
+        619,
+        "f6841268547b91370d2f372d461bf61706d5aa56bb2adc2bd041f3eb624d7c39"
+      ],
+      "paper-pdfs/f8/f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb": [
+        619,
+        "f859a35b39b14db81169cada3471e2f4b6061a260a9d950de2a76beec88ca0bb"
+      ],
+      "paper-pdfs/f8/f8ca6eff5f7cbb9662366cf0f6c0928bf7d5d93474901562787825599996f1ec": [
+        619,
+        "f8ca6eff5f7cbb9662366cf0f6c0928bf7d5d93474901562787825599996f1ec"
+      ],
+      "paper-pdfs/fb/fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759": [
+        619,
+        "fb1e34f8ee3bd63758468467844e685df3d5b83348a24e7cbd0e9645ba2f7759"
+      ]
+    },
+    "user_revision_fingerprints": [
+      [
+        1,
+        "dev008-q",
+        "f76b71db61d0c5c9612009c7807366b43a0a7a3b157df6d1bffe62c3a7d4b3e0"
+      ],
+      [
+        2,
+        "dev008-q2",
+        "158c218a4acb5423db54199b99b8666e3322b3197574f82a3a2cac3123e736d0"
+      ],
+      [
+        7,
+        "kp009-q-0000",
+        "87f191c78148fc1d0c0bdfd6ff172b3890ebd574a637274dbefd561eb1ae0f0e"
+      ]
+    ],
+    "bytes_on_disk": 10407276
+  }
+}

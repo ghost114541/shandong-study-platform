@@ -1,3 +1,16 @@
+# DEV-009 离线资源包交接（2026-11-19）
+
+**DEV-009 Windows 开发验收完成，待网页端 ChatGPT 独立源码审查。**
+
+- 分支 `dev/dev-009-resource-packs` 基于 `9453ae8722f243208d048fa77a0a6f5c30208a36`。资源管理支持本地 `.studyzip`、完整性与兼容校验、差异预览、增量升级、安装历史和中断恢复。
+- Schema 8 记录包版本和来源归属。实际 Schema 7 数据库备份已原生升级，旧数据指纹及资源文件哈希一致。公共版本追加后，个人修订优先、原审核、收藏、用户区域和组卷固定引用均保留。
+- E2E-006 使用 Windows 原生程序完整执行。实际强制终止覆盖暂存写入中、提交前、提交后未清理。合成大包 2,000 道题的性能及历史回归见测试矩阵。
+- 原卷经 Microsoft Print to PDF 写出并核验单页。OID-004 继续约束正式资源发行，macOS 和强制断电的验证状态见已知问题。
+
+[报告](DEV-009_REPORT.md) · [Schema 8](DEV-009_SCHEMA.md) · [协议 v1](DEV-009_PACK_FORMAT.md) · [POC-003](POC-003_REPORT.md) · [验收证据](DEV-009_TEST_RESULTS.md) · [已知问题](DEV-009_KNOWN_ISSUES.md)
+
+---
+
 # DEV-008 统一收藏交接（2026-11-18）
 
 **DEV-008 Windows 开发验收完成，待网页端 ChatGPT 独立源码审查。**

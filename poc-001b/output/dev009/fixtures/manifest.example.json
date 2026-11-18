@@ -1,0 +1,69 @@
+{
+  "format": "shandong-study-resource-pack",
+  "protocol_version": 1,
+  "pack_id": "knowpaper.fixture",
+  "pack_version": "1.0.0",
+  "display_name": "DEV-009 原创离线资源包",
+  "source": "KnowPaper 合成验收样本",
+  "min_app_version": "0.1.0",
+  "db_schema": 8,
+  "content_version": 1,
+  "counts": {
+    "knowledge": 2,
+    "questions": 4,
+    "papers": 1,
+    "images": 1,
+    "pdfs": 3
+  },
+  "license_manifest": "LICENSES/rights-and-attribution.json",
+  "files": [
+    {
+      "path": "LICENSES/rights-and-attribution.json",
+      "role": "rights",
+      "bytes": 336,
+      "sha256": "8f65f896a17bf9d0af6a8dcce5caf25b152cf940174a31ec683c9601445fbfea"
+    },
+    {
+      "path": "attachments/eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c.png",
+      "role": "image",
+      "bytes": 73,
+      "sha256": "eba63aec0791eb0e5488e885b5cece774b4daf459609f474cb659a8c4e228c0c"
+    },
+    {
+      "path": "data/knowledge.jsonl",
+      "role": "knowledge",
+      "bytes": 321,
+      "sha256": "eaa74562772e0c45431419a2e674d19e88c20f46264688626b27ebefe47b3b20"
+    },
+    {
+      "path": "data/papers.jsonl",
+      "role": "papers",
+      "bytes": 745,
+      "sha256": "bc25a2f7dbb56cd3fe777d88c9ae1a99f9aa06789bc209a05d31c82208193267"
+    },
+    {
+      "path": "data/questions.jsonl",
+      "role": "questions",
+      "bytes": 3847,
+      "sha256": "345a573ecbf3ec62efbd95440808c8483f6f89ac40d40752ee80215716bc164a"
+    },
+    {
+      "path": "paper-pdfs/0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9.pdf",
+      "role": "pdf",
+      "bytes": 617,
+      "sha256": "0ae1d11f355e289d2a04f96792c741edf1fb72675ae2c8bd8779362dc8d715a9"
+    },
+    {
+      "path": "paper-pdfs/364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8.pdf",
+      "role": "pdf",
+      "bytes": 619,
+      "sha256": "364188eb7f9e82a90418c35e207d2d986124d4d942efdc189728816c37949bd8"
+    },
+    {
+      "path": "paper-pdfs/b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2.pdf",
+      "role": "pdf",
+      "bytes": 619,
+      "sha256": "b680f477e81aea76ad1632198bae632c9dc0a299b7dd35eb2257b523de07f5e2"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+capture-1.png: 644 x 607 pixels
+capture-2.png: 910 x 548 pixels
+E2E-001 question PDF: 2 pages, both original PNGs match pixel for pixel
+E2E-001 answer PDF: 1 pages, expected answer and no screenshot images
+Microsoft Print to PDF created a one-page document with visible page content

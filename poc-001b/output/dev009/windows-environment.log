@@ -1,0 +1,10 @@
+Windows x64 25H2 build 26200.9974
+CPU: Intel(R) Core(TM) i7-14650HX
+RAM bytes: 16790917120
+WebView2: 157.0.4341.60
+Native EXE bytes: 29765632
+Native EXE SHA-256: ca3433322d3c2a9e02a2865d2e66e89b88ca8935736f41200b5d430cb8522550
+Rust: rustc 1.100.0 (0ef1bc386 2026-11-09)
+Node: v24.13.0
+SQLite Rust bundled runtime and real DEV-008 Schema 7 database tested
+Profile identifier: org.shandong-study.dev009-c1a003a9
