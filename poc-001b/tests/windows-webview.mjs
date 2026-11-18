@@ -9,6 +9,7 @@ import { knowledgeRegression, upgradeRegression } from './windows-knowledge.mjs'
 import { advancedRegression, schemaTwoUpgrade } from './windows-advanced.mjs'
 import { attachmentRegression, schemaThreeUpgrade } from './windows-attachments.mjs'
 import { compositionRegression, schemaFourUpgrade } from './windows-composition.mjs'
+import { readerRegression } from './windows-paper-reader.mjs'
 
 const executable = resolve(process.argv[2] ?? 'src-tauri/target/release/shandong-poc-001b.exe')
 const sqliteMode = process.argv.includes('--sqlite')
@@ -17,12 +18,13 @@ const upgradeMode = process.argv.includes('--upgrade')
 const advancedMode = process.argv.includes('--advanced')
 const attachmentsMode = process.argv.includes('--attachments')
 const compositionMode = process.argv.includes('--composition')
-const editorMode = sqliteMode || knowledgeMode || upgradeMode || advancedMode || attachmentsMode || compositionMode
+const readerMode = ['--paper-reader', '--paper-print', '--schema-six'].some((flag) => process.argv.includes(flag))
+const editorMode = sqliteMode || knowledgeMode || upgradeMode || advancedMode || attachmentsMode || compositionMode || readerMode
 const port = Number(process.env.POC001B_TEST_CDP_PORT ?? 19245)
 const isolatedIdentifier = process.env.POC001B_TEST_APP_IDENTIFIER
 assert.match(isolatedIdentifier ?? '', /^org\.shandong-study\.dev\d+-[a-f0-9]+$/i, 'Use an isolated build identifier')
 const out = resolve(join('.test-output', isolatedIdentifier,
-  upgradeMode ? 'upgrade' : compositionMode ? 'composition' : attachmentsMode ? 'attachments' : advancedMode ? 'advanced' : knowledgeMode ? 'knowledge' : sqliteMode ? 'sqlite' : 'legacy'))
+  readerMode ? 'paper-reader' : upgradeMode ? 'upgrade' : compositionMode ? 'composition' : attachmentsMode ? 'attachments' : advancedMode ? 'advanced' : knowledgeMode ? 'knowledge' : sqliteMode ? 'sqlite' : 'legacy'))
 const profile = join(process.env.APPDATA, isolatedIdentifier)
 const database = join(profile, 'study.sqlite3')
 const storage = join(profile, 'questions.json')
@@ -55,7 +57,7 @@ async function send(method, params = {}) {
     const timeout = setTimeout(() => {
       pending.delete(id)
       reject(new Error('CDP 请求超时 ' + method))
-    }, method === 'Runtime.evaluate' && compositionMode ? 150000 : 5000)
+    }, method === 'Runtime.evaluate' && (compositionMode || readerMode) ? 150000 : 5000)
     pending.set(id, (reply) => {
       clearTimeout(timeout)
       if (reply.error) reject(new Error(reply.error.message))
@@ -111,7 +113,8 @@ async function start(offline = false) {
   const state = execFileSync('powershell.exe', ['-NoProfile', '-Command',
     '$p = Get-Process -Id ' + child.pid + '; if (!$p.MainWindowHandle) { exit 1 }; $p.MainWindowTitle'], { encoding: 'utf8' })
   assert.ok(state.trim())
-  const schema = process.argv.includes('--stage-a') ? 3 : isolatedIdentifier.startsWith('org.shandong-study.dev006-') ? 5
+  const schema = process.argv.includes('--stage-a') ? 3 : isolatedIdentifier.startsWith('org.shandong-study.dev007-') ? 6
+    : isolatedIdentifier.startsWith('org.shandong-study.dev006-') ? 5
     : isolatedIdentifier.startsWith('org.shandong-study.dev005-') ? 4 : isolatedIdentifier.startsWith('org.shandong-study.dev004-') ? 3
     : isolatedIdentifier.startsWith('org.shandong-study.dev003-') ? 2 : 1
   assert.equal(await evaluate("window.__TAURI_INTERNALS__.invoke('database_status')"), schema)
@@ -261,7 +264,11 @@ async function legacyRegression() {
 
 try {
   const harness = { out, profile, database, port, pid: () => child.pid, start, close, nativeClose, snapshot, click, send, evaluate, status, waitFor, fillFormula }
-  if (compositionMode) await compositionRegression(harness)
+  if (process.argv.includes('--schema-six')) {
+    await start(); await close(); await start(); await close()
+    console.log('Actual Schema 5 profile opened and restarted natively at Schema 6')
+  } else if (readerMode) await readerRegression(harness)
+  else if (compositionMode) await compositionRegression(harness)
   else if (upgradeMode && isolatedIdentifier.startsWith('org.shandong-study.dev006-')) await schemaFourUpgrade(harness)
   else if (attachmentsMode) await attachmentRegression(harness)
   else if (upgradeMode && isolatedIdentifier.startsWith('org.shandong-study.dev005-')) await schemaThreeUpgrade(harness)
@@ -278,6 +285,7 @@ try {
       editor: document.querySelector('.tiptap')?.textContent,
       images: Array.from(document.querySelectorAll('.tiptap img'), (image) => [image.alt, image.naturalWidth]),
       composition: document.querySelector('.composition-workspace')?.innerText.slice(0, 1500),
+      reader: document.querySelector('.paper-library')?.innerText.slice(0, 1800),
     })`).catch(String))
     await snapshot('failure').catch(() => {})
   }
