@@ -3,6 +3,7 @@
 mod composition_export;
 mod composition_ipc;
 mod editor_ipc;
+mod paper_reader_ipc;
 #[cfg(windows)]
 mod pdf;
 mod storage;
@@ -71,6 +72,8 @@ async fn export_pdf(
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
+        .manage(paper_reader_ipc::PdfSessions::default())
         .manage(composition_export::PrintJobs::default())
         .setup(|app| {
             let status = app
@@ -130,6 +133,16 @@ fn main() {
             editor_ipc::save_question_metadata,
             editor_ipc::add_paper_occurrence,
             editor_ipc::save_paper_metadata,
+            paper_reader_ipc::import_paper_pdf,
+            paper_reader_ipc::list_paper_records,
+            paper_reader_ipc::open_paper_pdf,
+            paper_reader_ipc::read_paper_chunk,
+            paper_reader_ipc::close_paper_pdf,
+            paper_reader_ipc::save_original_pdf,
+            paper_reader_ipc::list_pdf_locations,
+            paper_reader_ipc::link_paper_regions,
+            paper_reader_ipc::open_region_question,
+            paper_reader_ipc::show_source_print_dialog,
         ])
         .run(tauri::generate_context!())
         .expect("could not start POC-001B");

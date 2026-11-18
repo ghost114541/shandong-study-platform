@@ -231,10 +231,11 @@ pub async fn create_question(
     question_id: String,
     subject_id: String,
     content_json: String,
+    source: Option<shandong_poc_001b::db::RegionLink>,
 ) -> Result<Revision> {
     database(app, move |db| {
         let content = RevisionContent::from_json(&content_json)?;
-        let id = db.create_question_with_revision(&question_id, &subject_id, &content)?;
+        let id = db.create_question_with_source(&question_id, &subject_id, &content, source.as_ref())?;
         Ok(Revision {
             id,
             question_id,

@@ -41,6 +41,10 @@ impl AttachmentStore {
     }
 
     fn shard(&self, hash: &str, create: bool) -> io::Result<Dir> {
+        self.resource_shard("attachments", hash, create)
+    }
+
+    pub(super) fn resource_shard(&self, folder: &str, hash: &str, create: bool) -> io::Result<Dir> {
         let data = match (
             self.data_directory.parent(),
             self.data_directory.file_name(),
@@ -68,7 +72,7 @@ impl AttachmentStore {
             }
             parent.open_dir_nofollow(name)
         };
-        child(&child(&data, "attachments")?, &hash[..2])
+        child(&child(&data, folder)?, &hash[..2])
     }
 
     fn install(&self, item: &Attachment, bytes: &[u8]) -> Result<()> {
@@ -139,7 +143,7 @@ impl AttachmentStore {
 }
 
 #[cfg(unix)]
-fn sync_directory(dir: &Dir) -> io::Result<()> {
+pub(super) fn sync_directory(dir: &Dir) -> io::Result<()> {
     // Some operating systems open the capability itself with O_PATH.
     use cap_fs_ext::OpenOptionsMaybeDirExt;
     dir.open_with(".", OpenOptions::new().read(true).maybe_dir(true))?
@@ -178,7 +182,7 @@ fn io_error(id: &str, err: io::Error) -> DbError {
     }
 }
 
-fn hash(bytes: &[u8]) -> String {
+pub(super) fn hash(bytes: &[u8]) -> String {
     Sha256::digest(bytes)
         .iter()
         .map(|byte| format!("{byte:02x}"))

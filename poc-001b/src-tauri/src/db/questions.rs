@@ -265,6 +265,19 @@ impl Database {
         subject: &str,
         content: &RevisionContent,
     ) -> Result<i64> {
+        self.create_question_with_source(question, subject, content, None)
+    }
+
+    pub fn create_question_with_source(
+        &mut self,
+        question: &str,
+        subject: &str,
+        content: &RevisionContent,
+        source: Option<&super::RegionLink>,
+    ) -> Result<i64> {
+        if let Some(link) = source {
+            self.paper_pdf(&link.file_id)?;
+        }
         let json = content.to_json()?;
         let tx = self
             .connection
@@ -279,6 +292,9 @@ impl Database {
             content,
             &json,
         )?;
+        if let Some(link) = source {
+            super::paper_files::save_regions(&tx, question, link, false)?;
+        }
         tx.commit()?;
         Ok(id)
     }
