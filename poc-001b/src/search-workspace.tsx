@@ -8,6 +8,10 @@ import { SearchPreview } from './search-preview'
 import type { LoadedPreview } from './search-preview'
 import { describeError, sqlite } from './sqlite-api'
 import type { QuestionSummary, Subject } from './sqlite-api'
+import { FavoriteControl, FavoritePicker } from './favorite-controls'
+import { favorites } from './favorites-api'
+import type { FavoriteRef } from './favorites-api'
+import { useFavoriteRead } from './use-favorites'
 
 export function SearchWorkspace({ seed, active, openQuestion, onAdd, adding, basketError, basketStatus }: {
   seed?: SearchSeed; active: boolean; openQuestion: (question: QuestionSummary) => void
@@ -24,6 +28,12 @@ export function SearchWorkspace({ seed, active, openQuestion, onAdd, adding, bas
   const [selected, setSelected] = useState<SearchHit | null>(null)
   const [preview, setPreview] = useState<LoadedPreview | null>(null)
   const [previewError, setPreviewError] = useState('')
+  const [checked, setChecked] = useState<string[]>([])
+  const [batch, setBatch] = useState<FavoriteRef[] | null>(null)
+  const [favoriteMessage, setFavoriteMessage] = useState('')
+  const targets: FavoriteRef[] = result?.hits.map(({ id }) => ({ kind: 'question', id })) ?? []
+  const saved = useFavoriteRead(active && targets.length ? JSON.stringify(targets) : null, () => favorites.status(targets))
+  const selectedIndex = targets.findIndex(({ id }) => id === selected?.id)
   const previewRequest = useRef(0)
   const wasActive = useRef(active)
   const activePointName = useRef('')
@@ -92,6 +102,8 @@ export function SearchWorkspace({ seed, active, openQuestion, onAdd, adding, bas
         activePointName.current = points.find((node) => node.id === active.knowledgeId)?.title ?? active.knowledgeId
       }
       closePreview()
+      setChecked([])
+      setFavoriteMessage('')
       setApplied(active)
       setPage(next)
       setResult(data)
@@ -137,19 +149,31 @@ export function SearchWorkspace({ seed, active, openQuestion, onAdd, adding, bas
       {error ? <p role="alert">{error}</p> : <p>{busy ? '正在查询…' : result?.hits.length === 0 ? '没有匹配的试题。' : ''}</p>}
       {active && basketError && <p role="alert">{basketError}</p>}
       {active && basketStatus.startsWith('已加入组卷篮') && <p role="status">{basketStatus}</p>}
+      {active && saved.error && <p role="alert">{saved.error}</p>}
+      {active && favoriteMessage && <p role="status">{favoriteMessage}</p>}
     </div>
     {result && <div className={'search-layout' + (selected ? ' has-preview' : '')}><section className="panel" aria-label="搜索结果">
       <h2>搜索结果</h2>
+      <button type="button" disabled={busy || !checked.length} aria-haspopup="dialog"
+        onClick={() => setBatch(checked.map((id) => ({ kind: 'question', id })))}>批量收藏已选试题（{checked.length}）</button>
       <p className="applied-filters">已应用 {conditions.join(' · ') || '全部试题'} · {sortLabels[applied.sort]}{applied.descending ? '降序' : '升序'}</p>
       <ul className="search-results">
-        {result.hits.map((hit) => <li key={hit.id}>
+        {result.hits.map((hit, index) => <li key={hit.id}>
           <button type="button" data-search-question-id={hit.id} disabled={busy} aria-pressed={selected?.id === hit.id} onClick={() => select(hit)}>
             <strong>{subjectName(hit.subject_id)} · {hit.question_type ?? '题型未标注'} · {difficultyLabel(hit.difficulty)}</strong>
             <span>{hit.snippet || '无可检索题干文字'}</span>
             {hit.source_label && <small>{hit.source_label}</small>}
           </button>
-          <button className="basket-add" type="button" disabled={busy || adding}
-            onClick={() => onAdd(hit.current_revision_id)}>加入组卷</button>
+          <div className="actions">
+            <label className="search-selection"><input type="checkbox" checked={checked.includes(hit.id)} disabled={busy}
+              aria-label={'选择试题 ' + (hit.snippet || hit.id)} onChange={(event) => {
+                const checkedNow = event.target.checked
+                setChecked((previous) => checkedNow ? [...previous, hit.id] : previous.filter((id) => id !== hit.id))
+              }} />选择</label>
+            <button className="basket-add" type="button" disabled={busy || adding}
+              onClick={() => onAdd(hit.current_revision_id)}>加入组卷</button>
+            <FavoriteControl kind="question" id={hit.id} known={saved.value?.[index]} shared disabled={busy} />
+          </div>
         </li>)}
       </ul>
       <div className="actions">
@@ -160,7 +184,11 @@ export function SearchWorkspace({ seed, active, openQuestion, onAdd, adding, bas
     </section>
       {selected && <SearchPreview key={previewRequest.current} hit={selected} subject={subjectName(selected.subject_id)}
         loaded={preview} error={previewError} close={closePreview} open={() => { closePreview(); openQuestion(selected) }}
-        adding={adding} add={(id) => onAdd(id)} />}
+        adding={adding} add={(id) => onAdd(id)} favorite={saved.value?.[selectedIndex]} />}
     </div>}
+    {batch && <FavoritePicker targets={batch} onClose={() => setBatch(null)} onSuccess={(message) => {
+      setFavoriteMessage(message)
+      setChecked([])
+    }} />}
   </main>
 }

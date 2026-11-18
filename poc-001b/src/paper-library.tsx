@@ -5,6 +5,7 @@ import type { ConfirmLeave, ReportGuard } from './leave-guard'
 import { paperReader, roleLabels } from './paper-reader-api'
 import type { PaperRecord, PdfRole, ReaderTarget, ScreenshotDraft } from './paper-reader-api'
 import { PaperReader } from './paper-reader'
+import { FavoriteControl } from './favorite-controls'
 import { describeError, sqlite } from './sqlite-api'
 import type { QuestionSummary, Subject } from './sqlite-api'
 import './paper-reader.css'
@@ -74,6 +75,7 @@ export function PaperLibrary({ initialTarget, confirmLeave, reportGuard, openQue
       <button onClick={() => change()}>返回试卷库</button>
       <h1>{paper?.title ?? '原卷阅读'}</h1>
       {target.returnQuestion && <button onClick={() => openQuestion(target.returnQuestion!)}>返回试题</button>}
+      {paper && <FavoriteControl key={paper.id} kind="paper" id={paper.id} />}
       {paper && file && <label>PDF 版本 <select aria-label="PDF 版本" value={file.id}
         onChange={(event) => change({ fileId: event.target.value, returnQuestion: target.returnQuestion })}>
         {paper.files.map((item) => <option key={item.id} value={item.id}>{fileLabel(item.role, item.original_name,
@@ -143,6 +145,7 @@ export function PaperLibrary({ initialTarget, confirmLeave, reportGuard, openQue
         <div>
           <h2>{record.title}</h2>
           <p>{[names.get(record.subject_id ?? ''), record.year, record.region, record.source].filter(Boolean).join(' · ')}</p>
+          <FavoriteControl kind="paper" id={record.id} disabled={busy} />
         </div>
         {record.files.length ? <ul>{record.files.map((item) => <li key={item.id}>
           <button disabled={busy} title={'SHA-256 ' + item.sha256} onClick={() => change({ fileId: item.id })}>

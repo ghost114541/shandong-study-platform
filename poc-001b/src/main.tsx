@@ -9,6 +9,9 @@ import { CompositionWorkspace } from './composition-workspace'
 import { PrintView } from './composition-print-view'
 import { totalScore } from './composition-api'
 import { useComposition } from './use-composition'
+import { FavoritesWorkspace } from './favorites-workspace'
+import type { KnowledgeTarget } from './favorites-workspace'
+import { favoritesSaving, refreshFavorites } from './use-favorites'
 import type { SearchSeed } from './knowledge-api'
 import type { QuestionSummary } from './sqlite-api'
 import type { ReaderTarget, ScreenshotDraft } from './paper-reader-api'
@@ -19,11 +22,13 @@ const PaperLibrary = lazy(() => import('./paper-library').then(({ PaperLibrary }
 
 type Workspace = { name: 'editor'; question?: QuestionSummary; source?: ReaderTarget; draft?: ScreenshotDraft }
   | { name: 'search'; seed?: SearchSeed } | { name: 'papers'; target?: ReaderTarget }
-  | { name: 'knowledge' | 'legacy' | 'composition' }
+  | { name: 'knowledge'; target?: KnowledgeTarget }
+  | { name: 'legacy' | 'composition' | 'favorites' }
 
 function App() {
   const [workspace, setWorkspace] = useState<Workspace>({ name: 'editor' })
   const composition = useComposition()
+  const [visitedFavorites, setVisitedFavorites] = useState(false)
   const [searchSession, setSearchSession] = useState<{ id: number; seed?: SearchSeed } | null>(null)
   const [confirming, setConfirming] = useState('')
   const [windowError, setWindowError] = useState('')
@@ -59,7 +64,7 @@ function App() {
   useEffect(() => {
     const window = getCurrentWindow()
     const listening = window.onCloseRequested((event) => {
-      const busy = currentGuard.current.busy || draftGuard.current.busy
+      const busy = currentGuard.current.busy || draftGuard.current.busy || favoritesSaving()
       const dirty = currentGuard.current.dirty || draftGuard.current.dirty
       if (!busy && !dirty) return
       event.preventDefault()
@@ -90,6 +95,10 @@ function App() {
         setSearchSession((previous) => previous && !next.seed ? previous : { id: (previous?.id ?? 0) + 1, seed: next.seed })
       }
       if (next.name === 'composition') void composition.refreshList()
+      if (next.name === 'favorites') {
+        setVisitedFavorites(true)
+        refreshFavorites()
+      }
       setWorkspace(next)
     })
   }
@@ -100,6 +109,8 @@ function App() {
       <button aria-pressed={workspace.name === 'knowledge'} disabled={guard.busy || composition.busy} onClick={() => navigate({ name: 'knowledge' })}>知识库</button>
       <button aria-pressed={workspace.name === 'search'} disabled={guard.busy || composition.busy} onClick={() => navigate({ name: 'search' })}>试题检索</button>
       <button aria-pressed={workspace.name === 'papers'} disabled={guard.busy || composition.busy} onClick={() => navigate({ name: 'papers' })}>试卷库</button>
+      <button aria-pressed={workspace.name === 'favorites'} disabled={guard.busy || composition.busy}
+        onClick={() => navigate({ name: 'favorites' })}>我的收藏</button>
       <button aria-pressed={workspace.name === 'composition'} disabled={guard.busy || composition.busy}
         onClick={() => navigate({ name: 'composition' })}>自定义组卷</button>
       <button aria-pressed={workspace.name === 'legacy'} disabled={guard.busy || composition.busy} onClick={() => navigate({ name: 'legacy' })}>POC-001B JSON 演示</button>
@@ -115,8 +126,16 @@ function App() {
         openQuestion={(question, source) => navigate({ name: 'editor', question, source })}
         openDraft={(draft) => navigate({ name: 'editor', draft })} />
     </Suspense>}
-    {workspace.name === 'knowledge' && <KnowledgeWorkspace openSearch={(seed) => navigate({ name: 'search', seed })} />}
+    {workspace.name === 'knowledge' && <KnowledgeWorkspace target={workspace.target} openSearch={(seed) => navigate({ name: 'search', seed })} />}
     {workspace.name === 'composition' && <CompositionWorkspace state={composition} confirmReplace={confirmReplace} />}
+    {visitedFavorites && <div hidden={workspace.name !== 'favorites'}>
+      <FavoritesWorkspace active={workspace.name === 'favorites'} onAdd={(id) => void composition.add(id)}
+        adding={composition.busy} basketError={composition.error} basketStatus={composition.status}
+        openQuestion={(question) => navigate({ name: 'editor', question })}
+        openPaper={(fileId) => navigate({ name: 'papers', target: { fileId } })}
+        openKnowledge={(target) => navigate({ name: 'knowledge', target })}
+        openSearch={(seed) => navigate({ name: 'search', seed })} />
+    </div>}
     {searchSession && <div hidden={workspace.name !== 'search'} className="search-container">
       <SearchWorkspace key={searchSession.id} seed={searchSession.seed} active={workspace.name === 'search'}
         onAdd={(id) => void composition.add(id)} adding={composition.busy}

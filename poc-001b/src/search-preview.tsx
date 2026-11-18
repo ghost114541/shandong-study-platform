@@ -5,16 +5,18 @@ import { AttachmentDeclarations } from './attachment-image'
 import { reviewStatusLabel } from './sqlite-api'
 import type { RevisionDetail } from './sqlite-api'
 import type { KnowledgeLink, SearchHit } from './knowledge-api'
+import { FavoriteControl } from './favorite-controls'
+import type { FavoriteStatus } from './favorites-api'
 
 export interface LoadedPreview {
   detail: RevisionDetail
   links: KnowledgeLink[]
 }
 
-export function SearchPreview({ hit, subject, loaded, error, close, open, add, adding }: {
+export function SearchPreview({ hit, subject, loaded, error, close, open, add, adding, favorite }: {
   hit: SearchHit; subject: string; loaded: LoadedPreview | null; error: string
   close: () => void; open: () => void
-  add: (id: number) => void; adding: boolean
+  add: (id: number) => void; adding: boolean; favorite?: FavoriteStatus
 }) {
   const [showAnswers, setShowAnswers] = useState(false)
   const content = loaded?.detail.revision.content
@@ -26,6 +28,7 @@ export function SearchPreview({ hit, subject, loaded, error, close, open, add, a
     </header>
     <p>{subject} · {content?.question_type ?? hit.question_type ?? '题型未标注'} · {difficultyLabel(hit.difficulty)}</p>
     {hit.source_label && <p>原卷 {hit.source_label}</p>}
+    <FavoriteControl kind="question" id={hit.id} known={favorite} shared />
     {error && <p role="alert">{error}</p>}
     {!error && !loaded && <p role="status">正在读取试题…</p>}
     {loaded && content && <AttachmentDeclarations.Provider value={content.attachments}>

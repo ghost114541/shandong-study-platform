@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
+import { FavoriteControl } from './favorite-controls'
 import { invoke } from '@tauri-apps/api/core'
 import { QuestionEditor } from './editor'
 import { AttachmentDeclarations } from './attachment-image'
@@ -274,6 +275,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, in
         </aside>
         {selection ? <section className="panel">
           <h2>{subjectName(selection.subjectId)} · {draft.question_type || '未填写题型'}</h2>
+          {!selection.fresh && <FavoriteControl key={selection.questionId} kind="question" id={selection.questionId} disabled={blocked} />}
           <p className="revision-meta">{selection.fresh ? '新试题' : revisionId === null ? '尚无修订'
             : `修订 #${revisionId} · ${selection.detail?.revision.scope === 'public' ? '公共版' : '用户版'}`
               + (selection.detail?.revision.base_revision_id != null ? ' · 基线 #' + selection.detail.revision.base_revision_id : '')}

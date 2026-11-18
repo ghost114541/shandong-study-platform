@@ -4,6 +4,8 @@ import { childrenByParent, choiceLabels, knowledge } from './knowledge-api'
 import type { KnowledgePoint, SearchSeed } from './knowledge-api'
 import { describeError, sqlite } from './sqlite-api'
 import type { Subject } from './sqlite-api'
+import { FavoriteControl } from './favorite-controls'
+import type { KnowledgeTarget } from './favorites-workspace'
 
 interface TreeProps {
   points: KnowledgePoint[]
@@ -33,7 +35,7 @@ function Tree({ points, children, selected, expanded, onToggle, onPick }: TreePr
   </ul>
 }
 
-export function KnowledgeWorkspace({ openSearch }: { openSearch: (seed: SearchSeed) => void }) {
+export function KnowledgeWorkspace({ target, openSearch }: { target?: KnowledgeTarget; openSearch: (seed: SearchSeed) => void }) {
   const [subjects, setSubjects] = useState<Subject[]>([])
   const [subject, setSubject] = useState('')
   const [points, setPoints] = useState<KnowledgePoint[]>([])
@@ -53,15 +55,33 @@ export function KnowledgeWorkspace({ openSearch }: { openSearch: (seed: SearchSe
   const choices = useMemo(() => choiceLabels(points), [points])
 
   useEffect(() => {
+    let active = true
     void sqlite.subjects().then(async (items) => {
+      if (!active) return
       setSubjects(items)
-      const id = (items.find((item) => item.id === 'math') ?? items[0])?.id
+      const id = target?.subjectId ?? (items.find((item) => item.id === 'math') ?? items[0])?.id
       if (!id) return
       const result = await knowledge.list(id)
+      if (!active) return
       setSubject(id)
       setPoints(result)
-    }).catch((err: unknown) => setError(describeError(err))).finally(() => setBusy(false))
-  }, [])
+      if (target) {
+        const point = result.find((entry) => entry.id === target.pointId)
+        if (!point || !point.enabled) throw new Error('该知识点已停用或无法找到。')
+        setSelected(point.id)
+        setRename(point.title)
+        const ancestors = new Set<string>()
+        let parent = point.parent_id
+        while (parent && !ancestors.has(parent)) {
+          ancestors.add(parent)
+          parent = result.find((entry) => entry.id === parent)?.parent_id ?? null
+        }
+        setExpanded(ancestors)
+      }
+    }).catch((err: unknown) => { if (active) setError(describeError(err)) })
+      .finally(() => { if (active) setBusy(false) })
+    return () => { active = false }
+  }, [target])
 
   async function perform(task: () => Promise<void>) {
     setBusy(true)
@@ -156,6 +176,7 @@ export function KnowledgeWorkspace({ openSearch }: { openSearch: (seed: SearchSe
           <h2>{current.title}</h2>
           <p>{current.origin === 'standard' ? '公共标准（演示）' : '用户知识点'} · {current.enabled ? '已启用' : '已停用'}</p>
           <p>上级知识点 {parentTitle ?? '无'} · 直接关联 {current.question_count} 道试题</p>
+          <FavoriteControl key={current.id} kind="knowledge" id={current.id} showMark disabled={busy} />
           <button type="button" disabled={!current.enabled || busy}
             onClick={() => openSearch({ subjectId: subject, knowledgeId: current.id, descendants: false })}>查看关联试题</button>
           {current.origin === 'user' && <form className="knowledge-form actions" onSubmit={(event) =>
