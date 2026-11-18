@@ -10,6 +10,7 @@ import { PrintView } from './composition-print-view'
 import { totalScore } from './composition-api'
 import { useComposition } from './use-composition'
 import { FavoritesWorkspace } from './favorites-workspace'
+import { ResourcePacksWorkspace } from './resource-packs-workspace'
 import type { KnowledgeTarget } from './favorites-workspace'
 import { favoritesSaving, refreshFavorites } from './use-favorites'
 import type { SearchSeed } from './knowledge-api'
@@ -23,12 +24,13 @@ const PaperLibrary = lazy(() => import('./paper-library').then(({ PaperLibrary }
 type Workspace = { name: 'editor'; question?: QuestionSummary; source?: ReaderTarget; draft?: ScreenshotDraft }
   | { name: 'search'; seed?: SearchSeed } | { name: 'papers'; target?: ReaderTarget }
   | { name: 'knowledge'; target?: KnowledgeTarget }
-  | { name: 'legacy' | 'composition' | 'favorites' }
+  | { name: 'legacy' | 'composition' | 'favorites' | 'resources' }
 
 function App() {
   const [workspace, setWorkspace] = useState<Workspace>({ name: 'editor' })
   const composition = useComposition()
   const [visitedFavorites, setVisitedFavorites] = useState(false)
+  const [resourceEpoch, setResourceEpoch] = useState(0)
   const [searchSession, setSearchSession] = useState<{ id: number; seed?: SearchSeed } | null>(null)
   const [confirming, setConfirming] = useState('')
   const [windowError, setWindowError] = useState('')
@@ -113,6 +115,8 @@ function App() {
         onClick={() => navigate({ name: 'favorites' })}>我的收藏</button>
       <button aria-pressed={workspace.name === 'composition'} disabled={guard.busy || composition.busy}
         onClick={() => navigate({ name: 'composition' })}>自定义组卷</button>
+      <button aria-pressed={workspace.name === 'resources'} disabled={guard.busy || composition.busy}
+        onClick={() => navigate({ name: 'resources' })}>资源管理</button>
       <button aria-pressed={workspace.name === 'legacy'} disabled={guard.busy || composition.busy} onClick={() => navigate({ name: 'legacy' })}>POC-001B JSON 演示</button>
       {composition.dirty && <span className="draft-indicator">未保存组卷 · {composition.draft.items.length} 题 · {totalScore(composition.draft.items)} 分</span>}
     </nav>
@@ -128,6 +132,8 @@ function App() {
     </Suspense>}
     {workspace.name === 'knowledge' && <KnowledgeWorkspace target={workspace.target} openSearch={(seed) => navigate({ name: 'search', seed })} />}
     {workspace.name === 'composition' && <CompositionWorkspace state={composition} confirmReplace={confirmReplace} />}
+    {workspace.name === 'resources' && <ResourcePacksWorkspace reportGuard={reportGuard}
+      onInstalled={() => { setResourceEpoch((epoch) => epoch + 1); refreshFavorites() }} />}
     {visitedFavorites && <div hidden={workspace.name !== 'favorites'}>
       <FavoritesWorkspace active={workspace.name === 'favorites'} onAdd={(id) => void composition.add(id)}
         adding={composition.busy} basketError={composition.error} basketStatus={composition.status}
@@ -138,6 +144,7 @@ function App() {
     </div>}
     {searchSession && <div hidden={workspace.name !== 'search'} className="search-container">
       <SearchWorkspace key={searchSession.id} seed={searchSession.seed} active={workspace.name === 'search'}
+        resourceEpoch={resourceEpoch}
         onAdd={(id) => void composition.add(id)} adding={composition.busy}
         basketError={composition.error} basketStatus={composition.status}
         openQuestion={(question) => navigate({ name: 'editor', question })} />

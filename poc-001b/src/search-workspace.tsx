@@ -13,8 +13,9 @@ import { favorites } from './favorites-api'
 import type { FavoriteRef } from './favorites-api'
 import { useFavoriteRead } from './use-favorites'
 
-export function SearchWorkspace({ seed, active, openQuestion, onAdd, adding, basketError, basketStatus }: {
+export function SearchWorkspace({ seed, active, resourceEpoch, openQuestion, onAdd, adding, basketError, basketStatus }: {
   seed?: SearchSeed; active: boolean; openQuestion: (question: QuestionSummary) => void
+  resourceEpoch: number
   onAdd: (id: number) => void; adding: boolean; basketError: string; basketStatus: string
 }) {
   const [subjects, setSubjects] = useState<Subject[]>([])
@@ -36,6 +37,7 @@ export function SearchWorkspace({ seed, active, openQuestion, onAdd, adding, bas
   const selectedIndex = targets.findIndex(({ id }) => id === selected?.id)
   const previewRequest = useRef(0)
   const wasActive = useRef(active)
+  const pointsEpoch = useRef(resourceEpoch)
   const activePointName = useRef('')
   const choices = useMemo(() => choiceLabels(points), [points])
   const subjectName = (id: string) => subjects.find((subject) => subject.id === id)?.name ?? id
@@ -54,9 +56,26 @@ export function SearchWorkspace({ seed, active, openQuestion, onAdd, adding, bas
   }, [])
 
   useEffect(() => {
-    if (active && !wasActive.current && result) search(applied, page)
+    if (active && !wasActive.current && result) {
+      if (pointsEpoch.current !== resourceEpoch) {
+        pointsEpoch.current = resourceEpoch
+        void perform(async () => {
+          const subject = filters.subjectId
+          const fresh = subject ? await knowledge.list(subject) : []
+          const appliedPoints = applied.subjectId && applied.subjectId !== subject
+            ? await knowledge.list(applied.subjectId) : fresh
+          activePointName.current = appliedPoints.find((point) => point.id === applied.knowledgeId)?.title ?? applied.knowledgeId
+          const data = await knowledge.search(applied, page)
+          setPoints(fresh)
+          closePreview()
+          setChecked([])
+          setFavoriteMessage('')
+          setResult(data)
+        })
+      } else search(applied, page)
+    }
     wasActive.current = active
-  }, [active])
+  }, [active, resourceEpoch])
 
   function closePreview() {
     previewRequest.current++

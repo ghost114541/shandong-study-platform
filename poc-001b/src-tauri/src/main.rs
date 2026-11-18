@@ -5,6 +5,7 @@ mod composition_ipc;
 mod editor_ipc;
 mod favorites_ipc;
 mod paper_reader_ipc;
+mod resource_pack_ipc;
 #[cfg(windows)]
 mod pdf;
 mod storage;
@@ -76,6 +77,7 @@ fn main() {
         .plugin(tauri_plugin_dialog::init())
         .manage(paper_reader_ipc::PdfSessions::default())
         .manage(composition_export::PrintJobs::default())
+        .manage(resource_pack_ipc::PackSession::default())
         .setup(|app| {
             let status = app
                 .path()
@@ -85,7 +87,10 @@ fn main() {
                     message: format!("找不到数据库目录：{err}"),
                 })
                 .and_then(|directory| {
-                    let db = Database::open(&directory.join(DATABASE_FILENAME))?;
+                    let mut db = Database::open(&directory.join(DATABASE_FILENAME))?;
+                    if let Err(error) = db.recover_resource_packs() {
+                        eprintln!("资源包恢复需要重试：{error}");
+                    }
                     let version = db.schema_version()?;
                     app.manage(Mutex::new(db));
                     Ok(version)
@@ -95,6 +100,13 @@ fn main() {
             }
             app.manage(DatabaseStartup(status));
             Ok(())
+        })
+        .on_window_event(|window, event| {
+            if let tauri::WindowEvent::CloseRequested { api, .. } = event {
+                if window.state::<resource_pack_ipc::PackSession>().busy() {
+                    api.prevent_close();
+                }
+            }
         })
         .invoke_handler(tauri::generate_handler![
             load_questions,
@@ -150,6 +162,12 @@ fn main() {
             paper_reader_ipc::link_paper_regions,
             paper_reader_ipc::open_region_question,
             paper_reader_ipc::show_source_print_dialog,
+            resource_pack_ipc::select_resource_pack,
+            resource_pack_ipc::install_resource_pack,
+            resource_pack_ipc::cancel_resource_pack,
+            resource_pack_ipc::discard_resource_pack,
+            resource_pack_ipc::resource_pack_history,
+            resource_pack_ipc::recover_resource_packs,
         ])
         .run(tauri::generate_context!())
         .expect("could not start POC-001B");
