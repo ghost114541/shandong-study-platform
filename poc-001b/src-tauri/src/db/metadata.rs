@@ -61,10 +61,10 @@ impl Database {
             }
         }
         let mut origin_query = self.connection.prepare(
-            "SELECT o.paper_id, o.question_id, o.source_key, p.title, pm.year, pm.region, pm.source
+            "SELECT o.paper_id, o.question_id, o.source_key, p.title, p.year, p.region, p.source
              FROM question_members m JOIN question_occurrence o ON o.question_id = m.original_id
-             JOIN paper p ON p.id = o.paper_id LEFT JOIN paper_user_metadata pm ON pm.paper_id = p.id
-             WHERE m.logical_id = ?1 ORDER BY pm.year IS NULL, pm.year DESC, o.paper_id, o.source_key",
+             JOIN effective_paper p ON p.id = o.paper_id
+             WHERE m.logical_id = ?1 ORDER BY p.year IS NULL, p.year DESC, o.paper_id, o.source_key",
         )?;
         let origins = origin_query
             .query_map([&logical], |r| {
@@ -165,8 +165,7 @@ impl Database {
         };
         let tx = self.connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
         let current = tx.query_row(
-            "SELECT pm.year, pm.region, pm.source FROM paper p
-             LEFT JOIN paper_user_metadata pm ON pm.paper_id = p.id WHERE p.id = ?1",
+            "SELECT year, region, source FROM effective_paper WHERE id = ?1",
             [paper],
             |r| Ok(PaperMetadata { year: r.get(0)?, region: r.get(1)?, source: r.get(2)? }),
         )?;

@@ -46,6 +46,11 @@ pub(super) const MIGRATIONS: &[Migration] = &[
         name: "favorites",
         sql: include_str!("../../migrations/0007_favorites.sql"),
     },
+    Migration {
+        version: 8,
+        name: "resource_packs",
+        sql: include_str!("../../migrations/0008_resource_packs.sql"),
+    },
 ];
 
 pub(super) fn apply(connection: &mut Connection) -> Result<()> {
@@ -187,8 +192,11 @@ mod tests {
         let b = old
             .append_revision("b", Scope::User, None, &content)
             .unwrap();
-        old.set_question_knowledge("b", "dev003-demo-functions", true)
-            .unwrap();
+        old.connection.execute(
+            "INSERT INTO question_knowledge(question_id,knowledge_id,subject_id)
+             VALUES ('b','dev003-demo-functions','math')",
+            [],
+        ).unwrap();
         old.create_paper("source", "旧原卷").unwrap();
         old.record_occurrence("source", "3", "b").unwrap();
         old.confirm_duplicate("b", "a", "复核员", "2026-11-17", "题干确认")

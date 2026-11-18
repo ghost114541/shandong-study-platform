@@ -26,11 +26,11 @@ impl Database {
     pub fn knowledge_points(&self, subject: &str) -> Result<Vec<KnowledgePoint>> {
         let mut statement = self.connection.prepare(
             "SELECT k.id, k.subject_id, k.title, k.parent_id, k.origin, k.sort_order, k.enabled,
-                    (SELECT json_group_array(alias ORDER BY alias) FROM knowledge_alias WHERE knowledge_id = k.id),
+                    (SELECT json_group_array(alias ORDER BY alias) FROM effective_knowledge_alias WHERE knowledge_id = k.id),
                     (SELECT count(DISTINCT link.logical_id) FROM logical_question_knowledge link
                      JOIN current_question_revision r ON r.question_id = link.logical_id
                      WHERE link.knowledge_id = k.id AND k.enabled = 1)
-             FROM knowledge_point k WHERE k.subject_id = ?1
+             FROM effective_knowledge_point k WHERE k.subject_id = ?1
              ORDER BY k.sort_order, k.title, k.id",
         )?;
         let mut rows = statement.query([subject])?;
@@ -104,7 +104,7 @@ impl Database {
 
     pub fn question_knowledge_ids(&self, question: &str) -> Result<Vec<String>> {
         let mut statement = self.connection.prepare(
-            "SELECT knowledge_id FROM question_knowledge WHERE question_id = ?1 ORDER BY knowledge_id",
+            "SELECT knowledge_id FROM effective_question_knowledge WHERE question_id = ?1 ORDER BY knowledge_id",
         )?;
         let rows = statement.query_map([question], |row| row.get(0))?;
         Ok(rows.collect::<rusqlite::Result<_>>()?)
@@ -113,7 +113,7 @@ impl Database {
     pub fn question_knowledge_links(&self, question: &str) -> Result<Vec<KnowledgeLink>> {
         let mut statement = self.connection.prepare(
             "SELECT link.knowledge_id, link.original_id, k.title
-             FROM logical_question_knowledge link JOIN knowledge_point k ON k.id = link.knowledge_id
+             FROM logical_question_knowledge link JOIN effective_knowledge_point k ON k.id = link.knowledge_id
              WHERE link.logical_id = (SELECT logical_id FROM question_identity WHERE original_id = ?1)
              ORDER BY k.title, link.knowledge_id, link.original_id",
         )?;
@@ -130,10 +130,18 @@ impl Database {
         linked: bool,
     ) -> Result<()> {
         if !linked {
-            self.connection.execute(
+            let tx = self.connection.transaction_with_behavior(rusqlite::TransactionBehavior::Immediate)?;
+            tx.execute(
                 "DELETE FROM question_knowledge WHERE question_id = ?1 AND knowledge_id = ?2",
                 params![question, point],
             )?;
+            tx.execute(
+                "INSERT INTO pack_knowledge_hidden(question_id, knowledge_id)
+                 SELECT question_id, knowledge_id FROM effective_question_knowledge
+                 WHERE question_id=?1 AND knowledge_id=?2 ON CONFLICT DO NOTHING",
+                params![question, point],
+            )?;
+            tx.commit()?;
             return Ok(());
         }
         let tx = self
@@ -148,6 +156,10 @@ impl Database {
         let subject = subject.ok_or_else(|| {
             DbError::new(ErrorKind::Constraint, "请选择与试题同学科的已启用知识点。")
         })?;
+        tx.execute(
+            "DELETE FROM pack_knowledge_hidden WHERE question_id=?1 AND knowledge_id=?2",
+            params![question, point],
+        )?;
         tx.execute(
             "INSERT INTO question_knowledge(question_id, knowledge_id, subject_id)
              VALUES (?1, ?2, ?3) ON CONFLICT DO NOTHING",

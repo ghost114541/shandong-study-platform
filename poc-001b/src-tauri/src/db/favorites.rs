@@ -428,12 +428,11 @@ impl Database {
                 SELECT g.kind, g.logical_id, g.added_at, a.important,
                     coalesce(p.title, k.title, nullif(trim(substr(st.text, 1, 144)), ''), g.logical_id) AS title,
                     s.id AS subject_id, s.name AS subject, r.id AS revision_id,
-                    st.question_type, pm.year, pm.region, parent.title AS parent, k.enabled, r.content_version
+                    st.question_type, p.year, p.region, parent.title AS parent, k.enabled, r.content_version
                 FROM grouped g JOIN active a USING (kind, logical_id)
-                LEFT JOIN paper p ON g.kind = 'paper' AND p.id = g.logical_id
-                LEFT JOIN paper_user_metadata pm ON pm.paper_id = p.id
-                LEFT JOIN knowledge_point k ON g.kind = 'knowledge' AND k.id = g.logical_id
-                LEFT JOIN knowledge_point parent ON parent.id = k.parent_id
+                LEFT JOIN effective_paper p ON g.kind = 'paper' AND p.id = g.logical_id
+                LEFT JOIN effective_knowledge_point k ON g.kind = 'knowledge' AND k.id = g.logical_id
+                LEFT JOIN effective_knowledge_point parent ON parent.id = k.parent_id
                 LEFT JOIN question q ON g.kind = 'question' AND q.id = g.logical_id
                 LEFT JOIN subject s ON s.id = coalesce(q.subject_id, p.subject_id, k.subject_id)
                 LEFT JOIN current_question_revision r ON r.question_id = q.id
@@ -442,9 +441,9 @@ impl Database {
                  AND (?4 = '' OR instr(lower(coalesce(st.text, p.title, k.title, '')), lower(?4)) > 0
                     OR instr(lower(g.logical_id), lower(?4)) > 0
                     OR instr(lower(coalesce(s.name, '')), lower(?4)) > 0
-                    OR instr(lower(coalesce(st.question_type, pm.region, parent.title, '')), lower(?4)) > 0
-                    OR instr(coalesce(cast(pm.year AS TEXT), ''), ?4) > 0
-                    OR EXISTS (SELECT 1 FROM knowledge_alias x WHERE x.knowledge_id = k.id
+                    OR instr(lower(coalesce(st.question_type, p.region, parent.title, '')), lower(?4)) > 0
+                    OR instr(coalesce(cast(p.year AS TEXT), ''), ?4) > 0
+                    OR EXISTS (SELECT 1 FROM effective_knowledge_alias x WHERE x.knowledge_id = k.id
                         AND instr(lower(x.alias), lower(?4)) > 0))
              )
              SELECT * FROM details ORDER BY {order} LIMIT ?5 OFFSET ?6"

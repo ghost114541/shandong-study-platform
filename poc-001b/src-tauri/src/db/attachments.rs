@@ -45,20 +45,7 @@ impl AttachmentStore {
     }
 
     pub(super) fn resource_shard(&self, folder: &str, hash: &str, create: bool) -> io::Result<Dir> {
-        let data = match (
-            self.data_directory.parent(),
-            self.data_directory.file_name(),
-        ) {
-            (Some(parent), Some(name)) => {
-                let parent = if parent.as_os_str().is_empty() {
-                    Path::new(".")
-                } else {
-                    parent
-                };
-                Dir::open_ambient_dir(parent, ambient_authority())?.open_dir_nofollow(name)?
-            }
-            _ => Dir::open_ambient_dir(&self.data_directory, ambient_authority())?,
-        };
+        let data = self.data_dir()?;
         let child = |parent: &Dir, name: &str| -> io::Result<Dir> {
             if create {
                 match parent.create_dir(name) {
@@ -73,6 +60,27 @@ impl AttachmentStore {
             parent.open_dir_nofollow(name)
         };
         child(&child(&data, folder)?, &hash[..2])
+    }
+
+    pub(super) fn base_path(&self) -> &Path {
+        &self.data_directory
+    }
+
+    pub(super) fn data_dir(&self) -> io::Result<Dir> {
+        match (
+            self.data_directory.parent(),
+            self.data_directory.file_name(),
+        ) {
+            (Some(parent), Some(name)) => {
+                let parent = if parent.as_os_str().is_empty() {
+                    Path::new(".")
+                } else {
+                    parent
+                };
+                Dir::open_ambient_dir(parent, ambient_authority())?.open_dir_nofollow(name)
+            }
+            _ => Dir::open_ambient_dir(&self.data_directory, ambient_authority()),
+        }
     }
 
     fn install(&self, item: &Attachment, bytes: &[u8]) -> Result<()> {
@@ -197,7 +205,7 @@ fn valid_id(id: &str) -> bool {
             .all(|b| b.is_ascii_alphanumeric() || b == b'-' || b == b'_')
 }
 
-fn registered(db: &Connection, id: &str) -> Result<Attachment> {
+pub(super) fn registered(db: &Connection, id: &str) -> Result<Attachment> {
     if !valid_id(id) {
         return Err(DbError::new(
             ErrorKind::AttachmentInvalidId,

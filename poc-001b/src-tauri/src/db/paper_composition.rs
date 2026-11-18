@@ -153,11 +153,11 @@ fn question(db: &Connection, revision: Revision) -> Result<PaperQuestion> {
     let (logical_id, subject, snippet, summary) = db.query_row(
         "SELECT COALESCE(d.canonical_id, q.id), s.name, substr(COALESCE(t.text, ''), 1, 100),
                 COALESCE((SELECT group_concat(title, '、') FROM (
-                    SELECT DISTINCT k.title FROM question_knowledge l JOIN knowledge_point k ON k.id = l.knowledge_id
+                    SELECT DISTINCT k.title FROM effective_question_knowledge l JOIN effective_knowledge_point k ON k.id = l.knowledge_id
                     WHERE l.question_id = q.id OR l.question_id = d.canonical_id
                     ORDER BY k.title LIMIT 3
                 )), (SELECT '来源 ' || p.title || ' · ' || o.source_key
-                     FROM question_occurrence o JOIN paper p ON p.id = o.paper_id
+                     FROM question_occurrence o JOIN effective_paper p ON p.id = o.paper_id
                      WHERE o.question_id = q.id OR o.question_id = d.canonical_id
                      ORDER BY p.title, o.source_key LIMIT 1), '')
          FROM question q JOIN subject s ON s.id = q.subject_id

@@ -368,7 +368,7 @@ impl Database {
     }
 }
 
-fn insert_question(connection: &rusqlite::Connection, id: &str, subject: &str) -> Result<()> {
+pub(super) fn insert_question(connection: &rusqlite::Connection, id: &str, subject: &str) -> Result<()> {
     connection.execute(
         "INSERT INTO question (id, subject_id) VALUES (?1, ?2)",
         params![id, subject],
@@ -376,7 +376,7 @@ fn insert_question(connection: &rusqlite::Connection, id: &str, subject: &str) -
     Ok(())
 }
 
-fn insert_revision(
+pub(super) fn insert_revision(
     connection: &rusqlite::Connection,
     store: &super::attachments::AttachmentStore,
     question: &str,

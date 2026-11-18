@@ -111,7 +111,7 @@ impl Bindings {
 
 const SOURCE_TABLES: &str =
     "question_members m JOIN question_occurrence o ON o.question_id = m.original_id
-     LEFT JOIN paper_user_metadata pm ON pm.paper_id = o.paper_id";
+     JOIN effective_paper pm ON pm.id = o.paper_id";
 
 pub(super) fn search_plan(query: &SearchQuery) -> Result<(String, Vec<Value>)> {
     let keyword = query.keyword.as_deref().unwrap_or_default().trim();
@@ -290,8 +290,8 @@ pub(super) fn search_plan(query: &SearchQuery) -> Result<(String, Vec<Value>)> {
             "WITH RECURSIVE {}
         SELECT result_id, subject_id, revision_id, snippet, question_type, difficulty, (
             SELECT substr(trim(coalesce(pm.year || ' · ', '') || coalesce(pm.region || ' · ', '')
-                || p.title || coalesce(' · ' || pm.source, '')), 1, 180)
-            FROM {SOURCE_TABLES} JOIN paper p ON p.id = o.paper_id
+                || pm.title || coalesce(' · ' || pm.source, '')), 1, 180)
+            FROM {SOURCE_TABLES}
             WHERE m.logical_id = page_rows.result_id AND {origin_predicate}
             ORDER BY pm.year IS NULL, pm.year DESC, o.paper_id, o.source_key LIMIT 1
         ) FROM page_rows ORDER BY {order}",

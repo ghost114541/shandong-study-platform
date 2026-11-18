@@ -80,7 +80,12 @@ fn dev008_t01_t02_upgrade_retains_migrations_and_default_stays_unique() {
     drop(connection);
     for _ in 0..2 {
         let db = Database::open(&path).unwrap();
-        assert_eq!(db.schema_version().unwrap(), 7);
+        assert_eq!(db.schema_version().unwrap() as usize, migrations::MIGRATIONS.len());
+        let favorites_installed: bool = db.connection.query_row(
+            "SELECT EXISTS(SELECT 1 FROM schema_migration WHERE version=7 AND name='favorites')",
+            [], |row| row.get(0),
+        ).unwrap();
+        assert!(favorites_installed);
         assert_eq!(db.occurrences_for("before").unwrap()[0].paper_id, "p");
         let folders = db.favorite_collections().unwrap();
         assert_eq!(folders.len(), 1);

@@ -6,7 +6,10 @@ mod favorites;
 mod knowledge;
 mod metadata;
 mod migrations;
+mod pack_format;
 mod pack_zip;
+mod pack_install;
+mod pack_resources;
 mod paper_composition;
 mod paper_files;
 mod paper_print;
@@ -25,6 +28,8 @@ pub use favorites::{
 pub use knowledge::{KnowledgeLink, KnowledgePoint};
 pub use metadata::{PaperMetadata, PaperOccurrence, QuestionMetadata};
 pub use paper_files::{ImportPaper, Location, PaperFile, PaperRecord, PdfRegion, RegionLink};
+pub use pack_format::ValidatedPack;
+pub use pack_install::{PackHistory, PackInstallResult, PackPreview, PackProgress};
 pub use paper_composition::{PaperDraft, PaperHeader, PaperItem, PaperPoints, PaperQuestion, PaperSelection, PaperSettings, SavedPaper};
 pub use paper_print::{CompositionPrintSnapshot, PreparedPrintPair, PrintPair};
 pub use questions::{Counts, Occurrence, QuestionSummary, Revision, RevisionSummary, Scope, Subject};
@@ -118,3 +123,5 @@ mod tests;
 mod favorites_tests;
 #[cfg(test)]
 mod paper_tests;
+#[cfg(test)]
+mod pack_tests;

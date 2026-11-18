@@ -6,6 +6,7 @@ use std::{
     fs::File,
     io::{self, BufReader, Read, Seek, SeekFrom, Write},
     path::Path,
+    sync::atomic::{AtomicBool, Ordering},
 };
 use zip::{CompressionMethod, ZipArchive};
 
@@ -62,7 +63,13 @@ pub(super) struct PackZip {
 }
 
 impl PackZip {
+    #[cfg(test)]
     pub(super) fn open(path: &Path) -> Result<Self> {
+        Self::open_cancellable(path, &AtomicBool::new(false))
+    }
+
+    pub(super) fn open_cancellable(path: &Path, cancel: &AtomicBool) -> Result<Self> {
+        check_cancel(cancel)?;
         let selected = File::open(path).map_err(file_error)?;
         let metadata = selected.metadata().map_err(file_error)?;
         if !metadata.is_file() || metadata.len() > MAX_ARCHIVE {
@@ -72,7 +79,13 @@ impl PackZip {
         let mut snapshot = tempfile::tempfile().map_err(file_error)?;
         let mut selected = BufReader::new(selected).take(MAX_ARCHIVE + 1);
         let mut digest = Sha256::new();
-        let bytes = copy_bounded(&mut selected, &mut snapshot, MAX_ARCHIVE, &mut digest)?;
+        let bytes = copy_bounded(
+            &mut selected,
+            &mut snapshot,
+            MAX_ARCHIVE,
+            &mut digest,
+            cancel,
+        )?;
         let mut reader = BufReader::new(snapshot);
         let expected = read_footer(&mut reader, bytes)?;
         let mut archive = ZipArchive::new(reader).map_err(zip_error)?;
@@ -83,6 +96,7 @@ impl PackZip {
         let mut folded = BTreeSet::new();
         let mut declared = 0;
         for index in 0..archive.len() {
+            check_cancel(cancel)?;
             let entry = archive.by_index_data(index).map_err(zip_error)?;
             let name = std::str::from_utf8(entry.name_raw())
                 .map_err(|_| invalid("ZIP 文件路径必须使用 ASCII。"))?;
@@ -110,11 +124,11 @@ impl PackZip {
             }
             let bytes = entry.size();
             declared += bytes.min(MAX_MEMBER + 1);
-            if bytes > MAX_MEMBER
-                || declared > MAX_TOTAL
-                || bytes > entry.compressed_size().saturating_mul(MAX_RATIO)
-            {
-                return Err(invalid("ZIP 文件超过解压大小或压缩比上限。"));
+            if bytes > MAX_MEMBER || bytes > entry.compressed_size().saturating_mul(MAX_RATIO) {
+                return Err(invalid("ZIP 单文件超过解压大小或压缩比上限。"));
+            }
+            if declared > MAX_TOTAL {
+                return Err(invalid("ZIP 总解压大小超过上限。"));
             }
             files.insert(name.to_owned(), (index, bytes));
         }
@@ -127,9 +141,7 @@ impl PackZip {
             }
         }
         archive.validate_header_consistency().map_err(zip_error)?;
-        if archive.has_overlapping_entries().map_err(zip_error)? {
-            return Err(invalid("ZIP 成员数据重叠。"));
-        }
+        check_cancel(cancel)?;
         Ok(Self {
             archive,
             files,
@@ -144,6 +156,7 @@ impl PackZip {
         limit: u64,
         remaining: &mut u64,
         output: &mut impl Write,
+        cancel: &AtomicBool,
     ) -> Result<(u64, String)> {
         let &(index, declared) = self
             .files
@@ -159,6 +172,7 @@ impl PackZip {
             output,
             declared.min(limit).min(*remaining),
             &mut digest,
+            cancel,
         )?;
         if actual != declared {
             return Err(invalid("ZIP 实际解压大小与声明不一致。"));
@@ -181,10 +195,12 @@ fn copy_bounded(
     mut output: impl Write,
     limit: u64,
     digest: &mut Sha256,
+    cancel: &AtomicBool,
 ) -> Result<u64> {
     let mut buffer = [0; 32 * 1024];
     let mut total = 0;
     loop {
+        check_cancel(cancel)?;
         let wanted = (limit - total + 1).min(buffer.len() as u64) as usize;
         let read = input
             .read(&mut buffer[..wanted])
@@ -198,6 +214,14 @@ fn copy_bounded(
         }
         digest.update(&buffer[..read]);
         output.write_all(&buffer[..read]).map_err(file_error)?;
+    }
+}
+
+pub(super) fn check_cancel(cancel: &AtomicBool) -> Result<()> {
+    if cancel.load(Ordering::Acquire) {
+        Err(invalid("资源包校验已取消。"))
+    } else {
+        Ok(())
     }
 }
 
@@ -253,7 +277,14 @@ mod tests {
         let mut pack = PackZip::open(file.path()).unwrap();
         let mut bytes = Vec::new();
         assert_eq!(
-            pack.copy("manifest.json", 64, &mut 64, &mut bytes).unwrap(),
+            pack.copy(
+                "manifest.json",
+                64,
+                &mut 64,
+                &mut bytes,
+                &AtomicBool::new(false)
+            )
+            .unwrap(),
             (2, super::super::attachments::hash(b"{}"))
         );
         assert_eq!(bytes, b"{}");
@@ -289,7 +320,13 @@ mod tests {
     #[test]
     fn poc003_output_budget_checks_actual_read() {
         let mut output = Vec::new();
-        let result = copy_bounded(&b"exceeds"[..], &mut output, 1, &mut Sha256::new());
+        let result = copy_bounded(
+            &b"exceeds"[..],
+            &mut output,
+            1,
+            &mut Sha256::new(),
+            &AtomicBool::new(false),
+        );
         assert!(result.unwrap_err().message.contains("实际"));
         assert!(output.is_empty());
     }
@@ -329,7 +366,13 @@ mod tests {
         .unwrap();
         let mut staged = File::create(root.join("stage")).unwrap();
         let (_, hash) = zip
-            .copy("attachments/demo.png", 256, &mut 256, &mut staged)
+            .copy(
+                "attachments/demo.png",
+                256,
+                &mut 256,
+                &mut staged,
+                &AtomicBool::new(false),
+            )
             .unwrap();
         staged.sync_all().unwrap();
         drop(staged);

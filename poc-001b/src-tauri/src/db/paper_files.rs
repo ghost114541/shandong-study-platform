@@ -169,6 +169,14 @@ fn read_selected(path: &Path) -> Result<Vec<u8>> {
 }
 
 fn page_count(bytes: &[u8]) -> Result<usize> {
+    validated_pdf_pages(bytes, false)
+}
+
+pub(super) fn pack_pdf_pages(bytes: &[u8]) -> Result<usize> {
+    validated_pdf_pages(bytes, true)
+}
+
+fn validated_pdf_pages(bytes: &[u8], passive_only: bool) -> Result<usize> {
     if !bytes.starts_with(b"%PDF-")
         || !bytes
             .iter()
@@ -195,11 +203,32 @@ fn page_count(bytes: &[u8]) -> Result<usize> {
     if pdf.is_encrypted() || pdf.trailer.has(b"Encrypt") {
         return Err(invalid("暂不支持加密或密码保护的 PDF。"));
     }
+    if passive_only && pdf.objects.values().any(pdf_active_object) {
+        return Err(invalid("资源包 PDF 不支持脚本、表单、动作或嵌入文件。"));
+    }
     let count = pdf.page_iter().take(MAX_PAGES + 1).count();
     if !(1..=MAX_PAGES).contains(&count) {
         return Err(invalid("PDF 必须包含 1–500 页可读取的页面。"));
     }
     Ok(count)
+}
+
+fn pdf_active_object(value: &lopdf::Object) -> bool {
+    use lopdf::Object;
+    fn active_dict(dict: &lopdf::Dictionary) -> bool {
+        dict.iter().any(|(key, value)| matches!(key.as_slice(),
+            b"OpenAction" | b"AA" | b"A" | b"JS" | b"JavaScript" | b"XFA" |
+            b"AcroForm" | b"EmbeddedFiles" | b"EF" | b"RichMediaContent")
+            || pdf_active_object(value))
+    }
+    match value {
+        Object::Dictionary(dict) => active_dict(dict),
+        Object::Stream(stream) => active_dict(&stream.dict),
+        Object::Array(items) => items.iter().any(pdf_active_object),
+        Object::Name(name) => matches!(name.as_slice(), b"JavaScript" | b"Launch" |
+            b"RichMedia" | b"EmbeddedFile" | b"FileAttachment" | b"GoToR" | b"SubmitForm"),
+        _ => false,
+    }
 }
 
 impl Database {
@@ -317,8 +346,7 @@ impl Database {
 
     pub fn paper_records(&self) -> Result<Vec<PaperRecord>> {
         let mut statement = self.connection.prepare(
-            "SELECT p.id, p.title, p.subject_id, m.year, m.region, m.source FROM paper p
-             LEFT JOIN paper_user_metadata m ON m.paper_id = p.id ORDER BY p.title, p.id",
+            "SELECT id, title, subject_id, year, region, source FROM effective_paper ORDER BY title, id",
         )?;
         let mut files = self.connection.prepare(&format!(
             "SELECT {FILE_COLUMNS} FROM paper_file WHERE paper_id = ?1 ORDER BY imported_at DESC, rowid DESC"
@@ -405,7 +433,7 @@ impl Database {
         let mut query = self.connection.prepare(&format!(
             "SELECT r.paper_id, p.title, r.file_id, r.source_key, r.question_id, r.ordinal,
                     r.page_index, r.x0, r.y0, r.x1, r.y1
-             FROM paper_region r JOIN paper p ON p.id = r.paper_id
+             FROM paper_region r JOIN effective_paper p ON p.id = r.paper_id
              WHERE {filter} ORDER BY r.file_id, r.source_key, r.ordinal"
         ))?;
         let locations = query
