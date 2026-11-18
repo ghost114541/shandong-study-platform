@@ -1,0 +1,5 @@
+*.log text eol=lf
+*.json text eol=lf
+*.pdf -text
+.gitattributes text eol=lf
+SHA256SUMS text eol=lf

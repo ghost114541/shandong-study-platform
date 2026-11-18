@@ -1,0 +1,94 @@
+[
+  {
+    "name": "two screenshot attachments and editor",
+    "ms": 328.3
+  },
+  {
+    "name": "perf20 first open after import",
+    "ms": 141.4,
+    "appWorkingSet": 96288768,
+    "appLifetimePeakWorkingSet": 229060608,
+    "webviewTreeWorkingSetSample": 903602176,
+    "webviewTreeProcessCount": 6
+  },
+  {
+    "name": "perf20 five thumbnails",
+    "ms": 171.5,
+    "appWorkingSet": 96288768,
+    "appLifetimePeakWorkingSet": 229060608,
+    "webviewTreeWorkingSetSample": 904863744,
+    "webviewTreeProcessCount": 6
+  },
+  {
+    "name": "perf20 jump 20",
+    "ms": 13,
+    "appWorkingSet": 96288768,
+    "appLifetimePeakWorkingSet": 229060608,
+    "webviewTreeWorkingSetSample": 906711040,
+    "webviewTreeProcessCount": 6
+  },
+  {
+    "name": "perf20 search",
+    "ms": 156.9,
+    "appWorkingSet": 96288768,
+    "appLifetimePeakWorkingSet": 229060608,
+    "webviewTreeWorkingSetSample": 913412096,
+    "webviewTreeProcessCount": 6
+  },
+  {
+    "name": "perf20 reopen",
+    "ms": 127.3,
+    "appWorkingSet": 96288768,
+    "appLifetimePeakWorkingSet": 229060608,
+    "webviewTreeWorkingSetSample": 919117824,
+    "webviewTreeProcessCount": 6
+  },
+  {
+    "name": "perf100 first open after import",
+    "ms": 145.3,
+    "appWorkingSet": 97390592,
+    "appLifetimePeakWorkingSet": 229060608,
+    "webviewTreeWorkingSetSample": 875290624,
+    "webviewTreeProcessCount": 6
+  },
+  {
+    "name": "perf100 five thumbnails",
+    "ms": 159.3,
+    "appWorkingSet": 97390592,
+    "appLifetimePeakWorkingSet": 229060608,
+    "webviewTreeWorkingSetSample": 874557440,
+    "webviewTreeProcessCount": 6
+  },
+  {
+    "name": "perf100 jump 50",
+    "ms": 19.8,
+    "appWorkingSet": 97390592,
+    "appLifetimePeakWorkingSet": 229060608,
+    "webviewTreeWorkingSetSample": 874987520,
+    "webviewTreeProcessCount": 6
+  },
+  {
+    "name": "perf100 jump 100",
+    "ms": 15.8,
+    "appWorkingSet": 97390592,
+    "appLifetimePeakWorkingSet": 229060608,
+    "webviewTreeWorkingSetSample": 878219264,
+    "webviewTreeProcessCount": 6
+  },
+  {
+    "name": "perf100 search",
+    "ms": 163.1,
+    "appWorkingSet": 97390592,
+    "appLifetimePeakWorkingSet": 229060608,
+    "webviewTreeWorkingSetSample": 879419392,
+    "webviewTreeProcessCount": 6
+  },
+  {
+    "name": "perf100 reopen",
+    "ms": 145.2,
+    "appWorkingSet": 97390592,
+    "appLifetimePeakWorkingSet": 229060608,
+    "webviewTreeWorkingSetSample": 890822656,
+    "webviewTreeProcessCount": 6
+  }
+]

@@ -1,3 +1,16 @@
+# DEV-007 原卷阅读与双向定位交接（2026-11-18）
+
+**DEV-007 Windows 开发验收完成，待网页端 ChatGPT 独立源码审查。**
+
+- 开发分支 `dev/dev-007-paper-reader` 源于已核验的 DEV-006 提交 `fc9c98e416565de83bb9111b60142f3733f3b670`。
+- Schema 6 复用原试卷和出现记录，登记不可变 PDF 文件版本及多页矩形。真实 Schema 5 测试库通过备份升级、两次 Windows 原生启动和历史记录对比。
+- 试卷库提供本地导入、离线阅读、文本搜索、原卷／答案／解析切换、截图进入试题编辑器、双向定位、原字节另存及 Windows 系统打印。DEV007-T01 至 T18、E2E-001 和 E2E-003 已执行并通过。
+- Microsoft Print to PDF 输出实测通过。实体纸张打印、macOS 和低内存设备专项留待验证。OID-004 继续独立审查正式资源分发权。
+
+[报告](DEV-007_REPORT.md) · [Schema 6](DEV-007_SCHEMA.md) · [导入设计](DEV-007_PDF_IMPORT_DESIGN.md) · [阅读器设计](DEV-007_READER_DESIGN.md) · [双向定位](DEV-007_BIDIRECTIONAL_LINK_DESIGN.md) · [验收证据](DEV-007_TEST_RESULTS.md) · [剩余事项](DEV-007_KNOWN_ISSUES.md)
+
+---
+
 # DEV-006 多题组卷交接（2026-11-18）
 
 **状态：Windows 功能验收完成，待独立源码审查。** 分支为 `dev/dev-006-paper-composition`，基准为 `66ebd57`。
