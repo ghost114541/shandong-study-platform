@@ -1,0 +1,4 @@
+Native Win32 window hwnd present, process PID 14376, URL http://tauri.localhost/
+{"schema":7,"size":1000,"batch_ms":95.84,"ipc_page_ms":15.09,"first_paint_ms":174.58,"folder_ms":169.25,"filter_ms":172.96,"page_ms":168.63,"mark_ms":170.3,"appWorkingSet":42151936,"appLifetimePeakWorkingSet":48807936,"webviewTreeWorkingSetSample":418779136,"webviewTreeProcessCount":6}
+Native Win32 window hwnd present, process PID 18904, URL http://tauri.localhost/
+{"schema":7,"size":5000,"batch_ms":496.46,"ipc_page_ms":38.41,"first_paint_ms":185.84,"folder_ms":169.19,"filter_ms":167.2,"page_ms":167.94,"mark_ms":171.58,"appWorkingSet":44613632,"appLifetimePeakWorkingSet":49315840,"webviewTreeWorkingSetSample":466579456,"webviewTreeProcessCount":6}

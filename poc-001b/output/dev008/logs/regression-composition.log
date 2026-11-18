@@ -1,0 +1,5 @@
+Native Win32 window hwnd present, process PID 26780, URL http://tauri.localhost/
+Native Win32 window hwnd present, process PID 11520, URL http://tauri.localhost/
+DEV006-T12 PASS: stale response, wrong window, suspended second view and output access failure produced no partial batch
+DEV006-T01-T04/T06-T09/T11: native basket, duplicate, pins, points, restart, versions, dual PDFs, and blocked damaged images exercised
+DEV006-T14 native debug build observations [{"size":10,"loadMs":348,"previewMs":171,"exportMs":1538,"appMiB":44.7,"familyMiB":539},{"size":30,"loadMs":338,"previewMs":336,"exportMs":1663,"appMiB":45.9,"familyMiB":562.6},{"size":50,"loadMs":328,"previewMs":413,"exportMs":1997,"appMiB":48.5,"familyMiB":589.6}]

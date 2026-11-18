@@ -1,0 +1,5 @@
+Schema 6 SQLite backup includes 8 hashed resource files.
+Native Win32 window hwnd present, process PID 2640, URL http://tauri.localhost/
+Native Win32 window hwnd present, process PID 8188, URL http://tauri.localhost/
+Actual Schema 6 profile opened and restarted natively at Schema 7
+Schema 6 → 7: 21 table hashes/counts, all six history rows and 8 file hashes preserved; one default; integrity/FK checks passed.

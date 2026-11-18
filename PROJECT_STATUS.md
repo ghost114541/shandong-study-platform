@@ -1,3 +1,15 @@
+# DEV-008 统一收藏交接（2026-11-18）
+
+**DEV-008 Windows 开发验收完成，待网页端 ChatGPT 独立源码审查。**
+
+- 分支 `dev/dev-008-favorites` 基于 `6a1b7ebe16073915c3fb7dd8b32f5100708d0b13`。SQLite Schema 7 支持试题、逻辑试卷与知识点收藏、收藏夹、重点、检索和打开实际资源。
+- 人工同题合并展示并保留原始收藏关系。组卷通过已有入口固定修订。真实 Schema 6 库已用两次原生启动、历史表及文件哈希校验完成升级。
+- 原生收藏工作流和离线重启回读通过，保留 12 张 Windows 截图。综合历史回归和双 PDF 内容检查通过。系统打印对话框已打开，单独的虚拟打印落盘复测未完成。
+
+[报告](DEV-008_REPORT.md) · [Schema 7](DEV-008_SCHEMA.md) · [收藏设计](DEV-008_FAVORITES_DESIGN.md) · [界面设计](DEV-008_UI_DESIGN.md) · [测试矩阵](DEV-008_TEST_RESULTS.md) · [已知问题](DEV-008_KNOWN_ISSUES.md)
+
+---
+
 # DEV-007 原卷阅读与双向定位交接（2026-11-18）
 
 **DEV-007 Windows 开发验收完成，待网页端 ChatGPT 独立源码审查。**

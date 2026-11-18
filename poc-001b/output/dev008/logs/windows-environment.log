@@ -1,0 +1,19 @@
+
+EditionID      : CoreCountrySpecific
+CurrentBuild   : 26200
+UBR            : 9974
+DisplayVersion : 25H2
+
+Intel(R) Core(TM) i7-14650HX
+WebView2 157.0.4341.60
+Windows-11-10.0.26200-SP0
+RAM bytes: 16790917120
+Physical CPUs: 16
+Logical CPUs: 24
+Inspection SQLite: 3.42.0
+v24.13.0
+rustc 1.100.0 (0ef1bc386 2026-11-09)
+
+Algorithm : SHA256
+Hash      : 14D457FE975981D6B90F37DD9EF945475EE3D58FE61E5DFFEEA7457352AB10DA
+Path      : C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri\target\debug\shandong-poc-001b.exe
