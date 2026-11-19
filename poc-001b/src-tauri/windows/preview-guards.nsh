@@ -34,7 +34,7 @@ Var PreviewGuard
   ${Else}
     ; Must be a directory (0x10) without the reparse-point flag (0x400).
     IntOp $0 $0 & 0x410
-    ${If} $0 != 0x10
+    ${If} $0 != 16
       !insertmacro PreviewAbort 12 "$(PreviewInvalidDirectory)"
     ${EndIf}
   ${EndIf}
