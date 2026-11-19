@@ -51,7 +51,43 @@ pub(super) const MIGRATIONS: &[Migration] = &[
         name: "resource_packs",
         sql: include_str!("../../migrations/0008_resource_packs.sql"),
     },
+    Migration {
+        version: 9,
+        name: "data_protection",
+        sql: include_str!("../../migrations/0009_data_protection.sql"),
+    },
 ];
+
+pub(super) fn verify_snapshot_schema(connection: &Connection, expected: i32) -> Result<()> {
+    let version: i32 = connection.query_row("PRAGMA user_version", [], |row| row.get(0))?;
+    let app: i32 = connection.query_row("PRAGMA application_id", [], |row| row.get(0))?;
+    if app != APPLICATION_ID || version != expected || !(1..=MIGRATIONS.len() as i32).contains(&version) {
+        return Err(DbError::new(ErrorKind::IncompatibleDatabase, "备份数据库的应用标识或 Schema 版本不符。"));
+    }
+    let mut reference = Connection::open_in_memory()?;
+    reference.pragma_update(None, "foreign_keys", true)?;
+    migrate(&mut reference, &MIGRATIONS[..version as usize])?;
+
+    fn schema(db: &Connection) -> Result<Vec<(String, String, String, Option<String>)>> {
+        let mut query = db.prepare("SELECT type,name,tbl_name,sql FROM sqlite_schema
+            WHERE name NOT GLOB 'sqlite_stat*' ORDER BY type,name")?;
+        let rows = query.query_map([], |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?,
+            r.get::<_, Option<String>>(3)?.map(|sql| sql.replace("\r\n", "\n")))))?;
+        Ok(rows.collect::<rusqlite::Result<_>>()?)
+    }
+    if schema(connection)? != schema(&reference)? {
+        return Err(DbError::new(ErrorKind::IncompatibleDatabase, "备份数据库表、视图或触发器与登记版本不符。"));
+    }
+    fn history(db: &Connection) -> Result<Vec<(i32, String, String)>> {
+        let mut query = db.prepare("SELECT version,name,checksum FROM schema_migration ORDER BY version")?;
+        let rows = query.query_map([], |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?)))?;
+        Ok(rows.collect::<rusqlite::Result<_>>()?)
+    }
+    if history(connection)? != history(&reference)? {
+        return Err(DbError::new(ErrorKind::Migration, "备份数据库迁移校验不符。"));
+    }
+    Ok(())
+}
 
 pub(super) fn apply(connection: &mut Connection) -> Result<()> {
     migrate(connection, MIGRATIONS)

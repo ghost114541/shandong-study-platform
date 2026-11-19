@@ -110,7 +110,7 @@ fn validate_settings(title: &str, settings: &PaperSettings) -> Result<()> {
     Ok(())
 }
 
-fn validate_item(
+pub(super) fn validate_item(
     revision: &Revision,
     points: &PaperPoints,
     settings: &PaperSettings,
@@ -186,10 +186,16 @@ fn decode<T: serde::de::DeserializeOwned>(value: &str) -> Result<T> {
 
 impl Database {
     pub fn create_composed_paper(&mut self, draft: &PaperDraft) -> Result<SavedPaper> {
+        self.create_paper_and_close_draft(draft, None)
+    }
+
+    pub fn create_paper_and_close_draft(
+        &mut self, draft: &PaperDraft, token: Option<&super::DraftToken>,
+    ) -> Result<SavedPaper> {
         let id: String =
             self.connection
                 .query_row("SELECT lower(hex(randomblob(16)))", [], |row| row.get(0))?;
-        self.save_paper(&id, draft)
+        self.save_paper_with_draft(&id, draft, token)
     }
 
     pub fn select_paper_question(
@@ -234,6 +240,12 @@ impl Database {
     }
 
     pub fn save_paper(&mut self, id: &str, draft: &PaperDraft) -> Result<SavedPaper> {
+        self.save_paper_with_draft(id, draft, None)
+    }
+
+    fn save_paper_with_draft(
+        &mut self, id: &str, draft: &PaperDraft, token: Option<&super::DraftToken>,
+    ) -> Result<SavedPaper> {
         let title = draft.title.trim();
         validate_settings(title, &draft.settings)?;
         if !(1..=MAX_ITEMS).contains(&draft.items.len()) {
@@ -274,6 +286,9 @@ impl Database {
             )?;
         }
         let saved = load_paper(&tx, id)?;
+        if let Some(token) = token {
+            super::drafts::close_draft(&tx, token, "composition", &token.id)?;
+        }
         tx.commit()?;
         Ok(saved)
     }

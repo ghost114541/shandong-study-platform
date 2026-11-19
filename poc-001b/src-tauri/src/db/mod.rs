@@ -1,6 +1,8 @@
 mod attachments;
+mod backup;
 mod composition;
 mod content;
+mod drafts;
 mod error;
 mod favorites;
 mod knowledge;
@@ -13,13 +15,17 @@ mod pack_resources;
 mod paper_composition;
 mod paper_files;
 mod paper_print;
+mod protection;
 mod questions;
 mod review;
 mod search;
+mod trash;
 
+pub use backup::{ensure_space, unpack_backup, validate_staged_library, BackupManifest, BackupPreview, BackupRecord, LibraryDiagnostics, ProtectionProgress};
 pub use attachments::{AttachmentIntegrity, MAX_IMAGE_BYTES};
 pub use composition::{Composition, SavedItem};
 pub use content::{Attachment, PartContent, RevisionContent, CONTENT_VERSION};
+pub use drafts::{DraftRecord, DraftToken, DraftWrite};
 pub use error::{DbError, ErrorKind, Result};
 pub use favorites::{
     CollectionCommand, FavoriteCollection, FavoriteCommand, FavoriteCounts, FavoritePage,
@@ -34,6 +40,7 @@ pub use paper_composition::{PaperDraft, PaperHeader, PaperItem, PaperPoints, Pap
 pub use paper_print::{CompositionPrintSnapshot, PreparedPrintPair, PrintPair};
 pub use questions::{Counts, Occurrence, QuestionSummary, Revision, RevisionSummary, Scope, Subject};
 pub use review::{Review, ReviewInput, ReviewStatus, Verdict};
+pub use trash::{TrashItem, TrashKind};
 pub use search::{SearchHit, SearchPage, SearchQuery, SearchSort, TextFilter};
 
 use rusqlite::Connection;
@@ -117,6 +124,8 @@ fn check_integrity(connection: &Connection, full: bool) -> Result<()> {
     Ok(())
 }
 
+#[cfg(test)]
+mod protection_tests;
 #[cfg(test)]
 mod tests;
 #[cfg(test)]

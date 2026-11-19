@@ -28,9 +28,10 @@ impl Database {
             "SELECT k.id, k.subject_id, k.title, k.parent_id, k.origin, k.sort_order, k.enabled,
                     (SELECT json_group_array(alias ORDER BY alias) FROM effective_knowledge_alias WHERE knowledge_id = k.id),
                     (SELECT count(DISTINCT link.logical_id) FROM logical_question_knowledge link
-                     JOIN current_question_revision r ON r.question_id = link.logical_id
+                     JOIN visible_question q ON q.id = link.logical_id
+                     JOIN current_question_revision r ON r.question_id = q.id
                      WHERE link.knowledge_id = k.id AND k.enabled = 1)
-             FROM effective_knowledge_point k WHERE k.subject_id = ?1
+             FROM visible_knowledge k WHERE k.subject_id = ?1
              ORDER BY k.sort_order, k.title, k.id",
         )?;
         let mut rows = statement.query([subject])?;

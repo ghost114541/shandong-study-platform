@@ -74,6 +74,7 @@ interface ImportInput {
 }
 
 export const paperReader = {
+  recordForFile: (fileId: string) => invoke<PaperRecord | null>('paper_record_for_file', { fileId }),
   records: () => invoke<PaperRecord[]>('list_paper_records'),
   import: (input: ImportInput) => invoke<PaperFile | null>('import_paper_pdf', { input }),
   open: (fileId: string) => invoke<{ token: number; file: PaperFile }>('open_paper_pdf', { fileId }),

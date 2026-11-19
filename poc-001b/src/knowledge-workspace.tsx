@@ -5,6 +5,7 @@ import type { KnowledgePoint, SearchSeed } from './knowledge-api'
 import { describeError, sqlite } from './sqlite-api'
 import type { Subject } from './sqlite-api'
 import { FavoriteControl } from './favorite-controls'
+import { TrashButton } from './trash-button'
 import type { KnowledgeTarget } from './favorites-workspace'
 
 interface TreeProps {
@@ -35,7 +36,7 @@ function Tree({ points, children, selected, expanded, onToggle, onPick }: TreePr
   </ul>
 }
 
-export function KnowledgeWorkspace({ target, openSearch }: { target?: KnowledgeTarget; openSearch: (seed: SearchSeed) => void }) {
+export function KnowledgeWorkspace({ target, openSearch, onTrashed }: { target?: KnowledgeTarget; openSearch: (seed: SearchSeed) => void; onTrashed: () => void }) {
   const [subjects, setSubjects] = useState<Subject[]>([])
   const [subject, setSubject] = useState('')
   const [points, setPoints] = useState<KnowledgePoint[]>([])
@@ -179,6 +180,12 @@ export function KnowledgeWorkspace({ target, openSearch }: { target?: KnowledgeT
           <FavoriteControl key={current.id} kind="knowledge" id={current.id} showMark disabled={busy} />
           <button type="button" disabled={!current.enabled || busy}
             onClick={() => openSearch({ subjectId: subject, knowledgeId: current.id, descendants: false })}>查看关联试题</button>
+          {current.origin === 'user' && <TrashButton kind="knowledge" id={current.id} disabled={busy}
+            onTrashed={() => {
+              onTrashed()
+              setSelected(null)
+              void perform(async () => setPoints(await knowledge.list(subject)))
+            }} />}
           {current.origin === 'user' && <form className="knowledge-form actions" onSubmit={(event) =>
             saveDetails(event, () => knowledge.rename(current.id, rename), '已保存知识点名称')}>
             <label>修改名称 <input required maxLength={120} value={rename} disabled={busy} onChange={(event) => setRename(event.target.value)} /></label>

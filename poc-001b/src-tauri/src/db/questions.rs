@@ -127,7 +127,7 @@ impl Database {
 
     pub fn recent_questions(&self, limit: i64) -> Result<Vec<QuestionSummary>> {
         let mut statement = self.connection.prepare(
-            "SELECT q.id, q.subject_id, r.id FROM logical_question q
+            "SELECT q.id, q.subject_id, r.id FROM visible_question q
              LEFT JOIN current_question_revision r ON r.question_id = q.id
              ORDER BY r.id DESC, q.id LIMIT ?1",
         )?;
@@ -275,6 +275,17 @@ impl Database {
         content: &RevisionContent,
         source: Option<&super::RegionLink>,
     ) -> Result<i64> {
+        self.create_question_and_close_draft(question, subject, content, source, None)
+    }
+
+    pub fn create_question_and_close_draft(
+        &mut self,
+        question: &str,
+        subject: &str,
+        content: &RevisionContent,
+        source: Option<&super::RegionLink>,
+        draft: Option<&super::DraftToken>,
+    ) -> Result<i64> {
         if let Some(link) = source {
             self.paper_pdf(&link.file_id)?;
         }
@@ -295,6 +306,9 @@ impl Database {
         if let Some(link) = source {
             super::paper_files::save_regions(&tx, question, link, false)?;
         }
+        if let Some(token) = draft {
+            super::drafts::close_draft(&tx, token, "question", question)?;
+        }
         tx.commit()?;
         Ok(id)
     }
@@ -305,10 +319,28 @@ impl Database {
         expected_current: Option<i64>,
         content: &RevisionContent,
     ) -> Result<i64> {
+        self.append_user_revision_and_close_draft(question, expected_current, content, None)
+    }
+
+    pub fn append_user_revision_and_close_draft(
+        &mut self,
+        question: &str,
+        expected_current: Option<i64>,
+        content: &RevisionContent,
+        draft: Option<&super::DraftToken>,
+    ) -> Result<i64> {
         let json = content.to_json()?;
         let tx = self
             .connection
             .transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let hidden: bool = tx.query_row(
+            "SELECT EXISTS(SELECT 1 FROM question_identity i JOIN trash_item t ON t.target_id=i.logical_id
+                WHERE i.original_id=?1 AND t.resource_type='question' AND t.restored_at IS NULL)",
+            [question], |row| row.get(0),
+        )?;
+        if hidden {
+            return Err(DbError::new(ErrorKind::Conflict, "请先从回收站恢复试题。"));
+        }
         let current = tx
             .query_row(
                 "SELECT id FROM current_question_revision WHERE question_id = ?1",
@@ -331,6 +363,9 @@ impl Database {
             content,
             &json,
         )?;
+        if let Some(token) = draft {
+            super::drafts::close_draft(&tx, token, "question", question)?;
+        }
         tx.commit()?;
         Ok(id)
     }

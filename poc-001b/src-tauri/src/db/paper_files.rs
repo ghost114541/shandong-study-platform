@@ -116,7 +116,7 @@ fn registered(db: &Connection, id: &str) -> Result<PaperFile> {
     .ok_or_else(|| invalid("该 PDF 版本未登记。"))
 }
 
-fn open_regular(dir: &Dir, name: &Path) -> io::Result<cap_std::fs::File> {
+pub(super) fn open_regular(dir: &Dir, name: &Path) -> io::Result<cap_std::fs::File> {
     let mut options = OpenOptions::new();
     options.read(true).follow(FollowSymlinks::No);
     #[cfg(unix)]
@@ -345,14 +345,29 @@ impl Database {
     }
 
     pub fn paper_records(&self) -> Result<Vec<PaperRecord>> {
-        let mut statement = self.connection.prepare(
-            "SELECT id, title, subject_id, year, region, source FROM effective_paper ORDER BY title, id",
-        )?;
+        self.query_paper_records(None)
+    }
+
+    pub fn paper_record_for_file(&self, id: &str) -> Result<Option<PaperRecord>> {
+        Ok(self.query_paper_records(Some(id))?.pop())
+    }
+
+    fn query_paper_records(&self, file: Option<&str>) -> Result<Vec<PaperRecord>> {
+        let sql = if file.is_some() {
+            "SELECT id,title,subject_id,year,region,source FROM effective_paper
+              WHERE id=(SELECT paper_id FROM paper_file WHERE id=?1)"
+        } else {
+            "SELECT id,title,subject_id,year,region,source FROM visible_paper ORDER BY title,id"
+        };
+        let mut statement = self.connection.prepare(sql)?;
         let mut files = self.connection.prepare(&format!(
             "SELECT {FILE_COLUMNS} FROM paper_file WHERE paper_id = ?1 ORDER BY imported_at DESC, rowid DESC"
         ))?;
         let mut records = Vec::new();
-        let mut rows = statement.query([])?;
+        let mut rows = match file {
+            Some(id) => statement.query([id])?,
+            None => statement.query([])?,
+        };
         while let Some(row) = rows.next()? {
             let id: String = row.get(0)?;
             let paper_files = files

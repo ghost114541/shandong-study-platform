@@ -6,24 +6,41 @@ import { paperReader, roleLabels } from './paper-reader-api'
 import type { PaperRecord, PdfRole, ReaderTarget, ScreenshotDraft } from './paper-reader-api'
 import { PaperReader } from './paper-reader'
 import { FavoriteControl } from './favorite-controls'
+import { TrashButton } from './trash-button'
 import { describeError, sqlite } from './sqlite-api'
 import type { QuestionSummary, Subject } from './sqlite-api'
 import './paper-reader.css'
 
-export function PaperLibrary({ initialTarget, confirmLeave, reportGuard, openQuestion, openDraft }: {
+export function PaperLibrary({ initialTarget, confirmLeave, reportGuard, openQuestion, openDraft, onTrashed }: {
   initialTarget?: ReaderTarget; confirmLeave: ConfirmLeave; reportGuard: ReportGuard
   openQuestion: (question: QuestionSummary, target?: ReaderTarget) => void; openDraft: (draft: ScreenshotDraft) => void
+  onTrashed: () => void
 }) {
   const [subjects, setSubjects] = useState<Subject[]>([])
   const [records, setRecords] = useState<PaperRecord[]>([])
   const [target, setTarget] = useState(initialTarget)
+  const [historical, setHistorical] = useState<PaperRecord | null>(null)
+  const [checkingTarget, setCheckingTarget] = useState(false)
   const [filter, setFilter] = useState({ subject: '', year: '', region: '' })
   const [importTo, setImportTo] = useState<PaperRecord | 'new' | null>(null)
   const [busy, setBusy] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const paper = target && records.find((record) => record.files.some((file) => file.id === target.fileId))
+  const listed = target && records.find((record) => record.files.some((file) => file.id === target.fileId))
+  const historicalFile = historical?.files.some(({ id }) => id === target?.fileId)
+  const paper = listed || (historicalFile ? historical : null)
   const file = paper?.files.find((file) => file.id === target?.fileId)
+
+  useEffect(() => {
+    if (!target || loading || listed) return
+    let active = true
+    setCheckingTarget(true)
+    void paperReader.recordForFile(target.fileId)
+      .then((record) => { if (active) setHistorical(record) })
+      .catch((cause: unknown) => { if (active) setError(describeError(cause)) })
+      .finally(() => { if (active) setCheckingTarget(false) })
+    return () => { active = false; setCheckingTarget(false) }
+  }, [target, loading, listed])
 
   useEffect(() => {
     let active = true
@@ -83,8 +100,9 @@ export function PaperLibrary({ initialTarget, confirmLeave, reportGuard, openQue
       </select></label>}
     </header>
     {error && <p role="alert">{error}</p>}
-    {loading && <p role="status">正在读取试卷登记…</p>}
-    {!loading && !file && <p role="alert">该原卷版本已不存在。</p>}
+    {(loading || checkingTarget) && <p role="status">正在读取试卷登记…</p>}
+    {!loading && !checkingTarget && !file && <p role="alert">该原卷版本已不存在。</p>}
+    {file && !listed && <p role="status">试卷位于回收站。可继续阅读已登记的历史版本。</p>}
     {paper && file && <PaperReader key={file.id} file={file} subjectId={paper.subject_id ?? ''} subjects={subjects}
       target={target} reportGuard={reportGuard} openQuestion={openQuestion} openDraft={openDraft} />}
   </main>
@@ -154,6 +172,10 @@ export function PaperLibrary({ initialTarget, confirmLeave, reportGuard, openQue
           <span>{(item.byte_size / 1024).toFixed(1)} KiB{item.source ? ' · ' + item.source : ''}</span>
         </li>)}</ul> : <p>只有来源记录，尚未导入 PDF。</p>}
         <button disabled={busy} onClick={() => { setError(''); setImportTo(record); window.scrollTo(0, 0) }}>添加 PDF 文件</button>
+        <TrashButton kind="paper" id={record.id} disabled={busy} onTrashed={() => {
+          onTrashed()
+          setRecords((previous) => previous.filter(({ id }) => id !== record.id))
+        }} />
       </article>)}
     </div>
   </main>

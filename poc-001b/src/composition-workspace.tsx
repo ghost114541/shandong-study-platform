@@ -117,6 +117,7 @@ export function CompositionWorkspace({ state, confirmReplace }: {
       <div>
         {state.error && <p role="alert">{state.error}</p>}
         <p className="composition-status" role="status">{busy ? '正在处理组卷…' : state.status}</p>
+        {dirty && <p role="status">{state.autosave.status}</p>}
         <section className="panel">
           <h2>{saved ? saved.title : '组卷篮'}</h2>
           <p>{draft.items.length} 道题 · 总分 {totalScore(draft.items)} 分 · {saved ? '已保存' : dirty ? '有未保存修改' : '草稿'}</p>

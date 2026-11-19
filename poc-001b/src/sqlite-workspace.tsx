@@ -1,4 +1,8 @@
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import { protection } from './data-protection-api'
+import type { DraftContent, DraftRecord, DraftToken } from './data-protection-api'
+import { useAutosave } from './use-autosave'
+import { TrashButton } from './trash-button'
 import { FavoriteControl } from './favorite-controls'
 import { invoke } from '@tauri-apps/api/core'
 import { QuestionEditor } from './editor'
@@ -17,6 +21,13 @@ import type { QuestionSummary, RevisionDetail, RevisionSummary, Subject } from '
 type Mode = 'paper' | 'answers'
 type Field = 'stem' | 'answer' | 'analysis' | `prompt:${number}` | `answer:${number}`
 type View = 'current' | 'original' | number
+interface QuestionDraftState {
+  subjectId: string
+  fresh: boolean
+  content: RevisionContent
+  field: Field
+  screenshot?: ScreenshotDraft
+}
 interface Selection {
   questionId: string
   subjectId: string
@@ -43,13 +54,15 @@ function activeDocument(content: RevisionContent, field: Field): RichDocument {
   return content.parts[index]?.[key] ?? blank
 }
 
-export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, initialDraft, returnReader, openReader }: {
+export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, initialDraft, recovered, returnReader, openReader, onTrashed }: {
   reportGuard: ReportGuard
   confirmLeave: ConfirmLeave
   initialQuestion?: QuestionSummary
   initialDraft?: ScreenshotDraft
+  recovered?: DraftRecord
   returnReader?: ReaderTarget
   openReader: (target: ReaderTarget) => void
+  onTrashed: () => void
 }) {
   const [subjects, setSubjects] = useState<Subject[]>([])
   const [newSubject, setNewSubject] = useState('')
@@ -64,6 +77,8 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, in
   const [importing, setImporting] = useState(false)
   const blocked = busy || importing
   const [dirty, setDirty] = useState(false)
+  const [identity, setIdentity] = useState<DraftToken>(() => ({ id: crypto.randomUUID(), sequence: 0 }))
+  const [draftConflict, setDraftConflict] = useState(false)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [preview, setPreview] = useState<{ data: PaperData; attachments: Attachment[]; revisionId: number; mode: Mode } | null>(null)
@@ -71,7 +86,15 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, in
   const readOnly = selection?.view !== 'current'
   const subjectName = (id: string) => subjects.find((subject) => subject.id === id)?.name ?? id
 
-  useLayoutEffect(() => reportGuard(dirty, blocked), [reportGuard, dirty, blocked])
+  const snapshot = useMemo<DraftContent | null>(() => dirty && selection && !readOnly ? {
+    object_type: 'question',
+    object_id: selection.questionId,
+    base_revision: revisionId,
+    payload: { subjectId: selection.subjectId, fresh: selection.fresh, screenshot: selection.screenshot, field, content: draft },
+    attachments: referencedAttachments(draft).map(({ id }) => id),
+  } : null, [dirty, readOnly, selection?.questionId, selection?.subjectId, selection?.fresh, selection?.screenshot, revisionId, field, draft])
+  const autosave = useAutosave(identity, snapshot)
+  useLayoutEffect(() => reportGuard(dirty, blocked, dirty ? autosave : undefined))
 
   useEffect(() => {
     if (revisionId === null) return
@@ -99,6 +122,8 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, in
 
   function reset(next: Selection, revisions: RevisionSummary[]) {
     setSelection(next)
+    setIdentity({ id: crypto.randomUUID(), sequence: 0 })
+    setDraftConflict(false)
     setHistory(revisions)
     const captures = next.screenshot?.attachments
     if (captures) {
@@ -140,7 +165,23 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, in
       const list = initialQuestion && !allQuestions.some((question) => question.id === initialQuestion.id)
         ? [initialQuestion, ...allQuestions].slice(0, 25) : allQuestions
       setQuestions(list)
-      if (initialDraft) {
+      if (recovered) {
+        const data = await protection.load<QuestionDraftState>(recovered.id)
+        const [detail, revisions, current] = await Promise.all([
+          recovered.base_revision === null ? null : sqlite.revision(recovered.base_revision),
+          data.fresh ? [] : sqlite.revisions(recovered.object_id),
+          sqlite.current(recovered.object_id),
+        ])
+        setIdentity({ id: recovered.id, sequence: recovered.sequence })
+        setSelection({ questionId: recovered.object_id, subjectId: data.subjectId,
+          detail, view: 'current', fresh: data.fresh, screenshot: data.screenshot })
+        setHistory(revisions)
+        setDraft(data.content)
+        setField(data.field)
+        setDraftConflict(recovered.conflict || (current?.revision.id ?? null) !== recovered.base_revision)
+        setDirty(true)
+        setMessage('已恢复试题草稿。')
+      } else if (initialDraft) {
         const questionId = crypto.randomUUID()
         setReturnFromQuestion(questionId)
         reset({ questionId, subjectId: initialDraft.subjectId, detail: null, view: 'current',
@@ -210,16 +251,32 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, in
   }
 
   async function save() {
-    if (!selection || readOnly || !dirty) return
+    if (!selection || readOnly || !dirty || draftConflict) return
     const revision = await sqlite.save(selection.questionId, selection.subjectId, selection.fresh, revisionId,
-      { ...draft, attachments: referencedAttachments(draft) }, selection.screenshot?.link)
+      { ...draft, attachments: referencedAttachments(draft) }, selection.screenshot?.link, autosave.token())
     setSelection({ ...selection, detail: { revision, review: null, review_status: 'unreviewed' }, fresh: false })
     setDraft(revision.content)
+    setIdentity({ id: crypto.randomUUID(), sequence: 0 })
     setDirty(false)
     setHistory([revision, ...history])
     setQuestions([{ id: revision.question_id, subject_id: selection.subjectId, current_revision_id: revision.id },
       ...questions.filter((question) => question.id !== revision.question_id)].slice(0, 25))
     setMessage('已保存 SQLite 修订 #' + revision.id)
+  }
+
+  async function acceptNewBase() {
+    if (!selection || !window.confirm('以当前修订为新基线继续编辑？请先核对最新修订。草稿保留，正式保存时会创建新修订。')) return
+    const detail = await sqlite.current(selection.questionId)
+    if (!detail) throw new Error('找不到当前修订。请保留草稿。')
+    setSelection({ ...selection, detail, fresh: false })
+    setDraftConflict(false)
+  }
+
+  function afterTrash() {
+    setSelection(null)
+    setHistory([])
+    onTrashed()
+    void perform(async () => setQuestions(await sqlite.questions()))
   }
 
   async function openPreview(mode: Mode) {
@@ -244,7 +301,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, in
   return <>
     <header className="app-header">
       <div><h1>知卷</h1><p>本地 SQLite 题库</p></div>
-      <button className="primary" disabled={blocked || readOnly || !dirty} onClick={() => void perform(save)}>保存到 SQLite</button>
+      <button className="primary" disabled={blocked || readOnly || !dirty || draftConflict} onClick={() => void perform(save)}>保存到 SQLite</button>
     </header>
     <main>
       <nav className="mode-bar" aria-label="题卷与答案">
@@ -258,6 +315,11 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, in
       <div className="status" aria-live="polite">
         {error && <p role="alert">{error}</p>}
         <p>{busy ? '正在处理…' : message || (dirty ? '有未保存的修改。' : '')}</p>
+        {dirty && <p role="status">{autosave.status}</p>}
+        {draftConflict && <div role="alert">
+          <p>当前试题修订已变化。请保留草稿并核对最新版本。</p>
+          <button disabled={blocked} onClick={() => void perform(acceptNewBase)}>确认使用最新修订作为基线</button>
+        </div>}
       </div>
       {preview ? <AttachmentDeclarations.Provider key={preview.mode + preview.revisionId} value={preview.attachments}>
         <Paper data={preview.data} answer={preview.mode === 'answers'} />
@@ -282,6 +344,8 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, in
           </p>
           {!selection.fresh && <div className="actions revision-controls">
             <button disabled={blocked} onClick={() => viewRevision('current')}>读取当前修订</button>
+            {selection.detail?.revision.scope !== 'public' && <TrashButton kind="question" id={selection.questionId}
+              disabled={blocked || dirty || readOnly} onTrashed={afterTrash} />}
             <button disabled={blocked || !history.some((item) => item.scope === 'public')} onClick={() => viewRevision('original')}>查看公共原版</button>
             <label className="select-field">历史修订<select disabled={blocked} value={typeof selection.view === 'number' ? selection.view : ''}
               onChange={(event) => { if (event.target.value) viewRevision(Number(event.target.value)) }}>

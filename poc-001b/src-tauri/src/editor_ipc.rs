@@ -23,6 +23,9 @@ pub(crate) async fn database<T: Send + 'static>(
         app.state::<DatabaseStartup>().0.clone()?;
         let state = app.state::<Mutex<Database>>();
         let mut db = state.lock().map_err(database_error)?;
+        if app.state::<crate::protection_ipc::ProtectionSession>().frozen() {
+            return Err(DbError { kind: ErrorKind::Busy, message: "请关闭并重新打开知卷以完成资源库切换。".into() });
+        }
         action(&mut db)
     })
     .await
@@ -232,10 +235,11 @@ pub async fn create_question(
     subject_id: String,
     content_json: String,
     source: Option<shandong_poc_001b::db::RegionLink>,
+    draft_token: Option<shandong_poc_001b::db::DraftToken>,
 ) -> Result<Revision> {
     database(app, move |db| {
         let content = RevisionContent::from_json(&content_json)?;
-        let id = db.create_question_with_source(&question_id, &subject_id, &content, source.as_ref())?;
+        let id = db.create_question_and_close_draft(&question_id, &subject_id, &content, source.as_ref(), draft_token.as_ref())?;
         Ok(Revision {
             id,
             question_id,
@@ -253,10 +257,11 @@ pub async fn save_user_revision(
     question_id: String,
     expected_current: Option<i64>,
     content_json: String,
+    draft_token: Option<shandong_poc_001b::db::DraftToken>,
 ) -> Result<Revision> {
     database(app, move |db| {
         let content = RevisionContent::from_json(&content_json)?;
-        let id = db.append_user_revision(&question_id, expected_current, &content)?;
+        let id = db.append_user_revision_and_close_draft(&question_id, expected_current, &content, draft_token.as_ref())?;
         Ok(Revision {
             id,
             question_id,

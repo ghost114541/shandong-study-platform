@@ -2,37 +2,50 @@
 
 mod composition_export;
 mod composition_ipc;
+mod draft_trash_ipc;
 mod editor_ipc;
 mod favorites_ipc;
+mod library_root;
 mod paper_reader_ipc;
+mod protection_ipc;
 mod resource_pack_ipc;
 #[cfg(windows)]
 mod pdf;
 mod storage;
 
 use editor_ipc::DatabaseStartup;
+use library_root::LibraryRoot;
+use protection_ipc::{PackStartupWarning, ProtectionSession};
 use serde_json::Value;
-use shandong_poc_001b::db::{Database, DbError, ErrorKind, DATABASE_FILENAME};
+use shandong_poc_001b::db::{DbError, ErrorKind};
 use std::path::PathBuf;
 use std::sync::Mutex;
 use tauri::Manager;
 
 fn data_directory(app: &tauri::AppHandle) -> Result<PathBuf, String> {
-    app.path()
-        .app_data_dir()
-        .map_err(|err| format!("找不到应用数据目录：{err}"))
+    let state = app.try_state::<Mutex<LibraryRoot>>().ok_or("资源库未打开。")?;
+    let root = state.lock().map_err(|error| error.to_string())?;
+    Ok(root.active().to_owned())
 }
 
 #[tauri::command]
-fn load_questions(app: tauri::AppHandle) -> Result<Option<Value>, String> {
-    storage::load(&data_directory(&app)?.join("questions.json"))
-}
-
-#[tauri::command]
-fn save_questions(app: tauri::AppHandle, data: Value) -> Result<PathBuf, String> {
+async fn load_questions(app: tauri::AppHandle) -> Result<Option<Value>, String> {
     let path = data_directory(&app)?.join("questions.json");
-    storage::save(&path, &data)?;
-    Ok(path)
+    editor_ipc::database(app, move |_| storage::load(&path).map_err(file_error))
+        .await.map_err(|error| error.message)
+}
+
+#[tauri::command]
+async fn save_questions(app: tauri::AppHandle, data: Value) -> Result<PathBuf, String> {
+    let path = data_directory(&app)?.join("questions.json");
+    editor_ipc::database(app, move |_| {
+        storage::save(&path, &data).map_err(file_error)?;
+        Ok(path)
+    }).await.map_err(|error| error.message)
+}
+
+fn file_error(message: String) -> DbError {
+    DbError { kind: ErrorKind::FileAccess, message }
 }
 
 #[tauri::command]
@@ -78,23 +91,29 @@ fn main() {
         .manage(paper_reader_ipc::PdfSessions::default())
         .manage(composition_export::PrintJobs::default())
         .manage(resource_pack_ipc::PackSession::default())
+        .manage(ProtectionSession::default())
         .setup(|app| {
-            let status = app
-                .path()
-                .app_data_dir()
-                .map_err(|err| DbError {
-                    kind: ErrorKind::FileAccess,
-                    message: format!("找不到数据库目录：{err}"),
-                })
+            let mut pack_warning = None;
+            let status = app.path().app_data_dir()
+                .map_err(|error| file_error(format!("找不到数据库目录：{error}")))
                 .and_then(|directory| {
-                    let mut db = Database::open(&directory.join(DATABASE_FILENAME))?;
+                    let mut root = LibraryRoot::lock(&directory).map_err(file_error)?;
+                    let result = root.open_database(
+                        |db| db.verify_library().map_err(|error| error.message),
+                        |phase| protection_ipc::checkpoint(app.handle(), phase),
+                    );
+                    app.manage(Mutex::new(root));
+                    let mut db = result.map_err(file_error)?;
                     if let Err(error) = db.recover_resource_packs() {
                         eprintln!("资源包恢复需要重试：{error}");
+                        pack_warning = Some("资源异常，请到资源管理执行检查与恢复。".into());
                     }
+                    db.reject_interrupted_backups()?;
                     let version = db.schema_version()?;
                     app.manage(Mutex::new(db));
                     Ok(version)
                 });
+            app.manage(PackStartupWarning(pack_warning));
             if let Err(error) = &status {
                 eprintln!("SQLite 初始化失败：{error}");
             }
@@ -103,7 +122,8 @@ fn main() {
         })
         .on_window_event(|window, event| {
             if let tauri::WindowEvent::CloseRequested { api, .. } = event {
-                if window.state::<resource_pack_ipc::PackSession>().busy() {
+                if window.state::<resource_pack_ipc::PackSession>().busy() ||
+                    window.state::<ProtectionSession>().busy() {
                     api.prevent_close();
                 }
             }
@@ -155,6 +175,7 @@ fn main() {
             paper_reader_ipc::import_paper_pdf,
             paper_reader_ipc::list_paper_records,
             paper_reader_ipc::open_paper_pdf,
+            paper_reader_ipc::paper_record_for_file,
             paper_reader_ipc::read_paper_chunk,
             paper_reader_ipc::close_paper_pdf,
             paper_reader_ipc::save_original_pdf,
@@ -168,6 +189,26 @@ fn main() {
             resource_pack_ipc::discard_resource_pack,
             resource_pack_ipc::resource_pack_history,
             resource_pack_ipc::recover_resource_packs,
+            protection_ipc::protection_status,
+            protection_ipc::backup_history,
+            protection_ipc::cancel_protection,
+            protection_ipc::create_backup,
+            protection_ipc::preview_restore,
+            protection_ipc::discard_restore,
+            protection_ipc::confirm_restore,
+            protection_ipc::storage_estimate,
+            protection_ipc::migrate_storage,
+            protection_ipc::rollback_library,
+            protection_ipc::diagnose_library,
+            draft_trash_ipc::list_drafts,
+            draft_trash_ipc::put_draft,
+            draft_trash_ipc::load_draft,
+            draft_trash_ipc::hydrate_composition_draft,
+            draft_trash_ipc::discard_draft,
+            draft_trash_ipc::list_trash,
+            draft_trash_ipc::trash_resource,
+            draft_trash_ipc::restore_trash,
+            draft_trash_ipc::clear_trash,
         ])
         .run(tauri::generate_context!())
         .expect("could not start POC-001B");

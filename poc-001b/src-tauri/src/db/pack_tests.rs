@@ -100,10 +100,10 @@ fn dev009_t02_migrates_schema7_with_historical_revision_and_favorite() {
     drop(before);
     for _ in 0..2 {
         let after = Database::open(&file).unwrap();
-        assert_eq!(after.schema_version().unwrap(), 8);
+        assert_eq!(after.schema_version().unwrap() as usize, migrations::MIGRATIONS.len());
         assert_eq!(after.revision(revision).unwrap(), old);
         assert_eq!(after.favorite_counts().unwrap().important, 1);
-        assert_eq!(scalar(&after, "SELECT count(*) FROM schema_migration"), 8);
+        assert_eq!(scalar(&after, "SELECT count(*) FROM schema_migration"), migrations::MIGRATIONS.len() as i64);
         assert_eq!(
             scalar(
                 &after,
@@ -114,7 +114,7 @@ fn dev009_t02_migrates_schema7_with_historical_revision_and_favorite() {
         after.integrity_check().unwrap();
     }
     let sha_after = attachments::hash(&fs::read(file).unwrap());
-    println!("schema 7 => 8; revision={revision}; pre={sha_before}; post={sha_after}; prior favorite=1; integrity=ok");
+    println!("schema 7 => {}; revision={revision}; pre={sha_before}; post={sha_after}; prior favorite=1; integrity=ok", migrations::MIGRATIONS.len());
 }
 
 #[test]

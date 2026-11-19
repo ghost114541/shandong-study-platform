@@ -98,14 +98,20 @@ export function initialPoints(question: PaperQuestion, group: string): PaperPoin
   }
 }
 
+import type { DraftToken } from './data-protection-api'
+
+export type StoredComposition = Omit<Draft, 'items'> & { items: { revision_id: number; points: PaperPoints }[] }
+export const storedComposition = (draft: Draft): StoredComposition => ({
+  ...draft, items: draft.items.map(({ question, points }) => ({ revision_id: question.revision.id, points })),
+})
+
 export const composition = {
   question: (revisionId: number, existing: number[]) => invoke<PaperQuestion>('composition_question', { revisionId, existing }),
   latest: (questionId: string) => invoke<PaperQuestion>('composition_latest', { questionId }),
   list: () => invoke<PaperHeader[]>('list_compositions'),
   read: (id: string) => invoke<SavedPaper>('read_composition', { id }),
-  save: (draft: Draft) => invoke<SavedPaper>('save_composition', {
-    draft: { ...draft, items: draft.items.map(({ question, points }) => ({ revision_id: question.revision.id, points })) },
-  }),
+  save: (draft: Draft, draftToken?: DraftToken) => invoke<SavedPaper>('save_composition', { draft: storedComposition(draft), draftToken }),
+  hydrate: (draft: StoredComposition) => invoke<PaperItem[]>('hydrate_composition_draft', { draft }),
   preview: (id: string) => invoke<PrintPair>('preview_composition', { id }),
   export: (id: string, identity: string, confirmed: boolean) =>
     invoke<{ warnings: string[]; paper: string | null; answers: string | null }>('export_composition', { id, identity, confirmed }),

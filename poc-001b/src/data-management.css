@@ -1,0 +1,13 @@
+.data-management { max-width: 1000px; margin: 0 auto; padding: 1.25rem; }
+.data-management .panel { margin-block: 1rem; padding: 1rem 1.25rem; }
+.data-management h2 { margin-top: 0; }
+.protection-path, .protection-list code, .protection-list small { overflow-wrap: anywhere; }
+.protection-list { padding: 0; list-style: none; }
+.protection-list li {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: .6rem 1rem; padding: .65rem 0; border-top: 1px solid #dae3e8;
+}
+.protection-list small, .protection-list code { display: block; margin-top: .3rem; }
+.protection-preview { margin-block: 1rem; padding: .5rem 1rem; background: #eff5f8; border-radius: .35rem; }
+.protection-feedback progress { margin-inline: .75rem; vertical-align: middle; width: min(25vw, 16rem); }
+.startup-notice { margin: .5rem auto; max-width: 1000px; padding-inline: 1rem; }

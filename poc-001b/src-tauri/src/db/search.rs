@@ -111,7 +111,7 @@ impl Bindings {
 
 const SOURCE_TABLES: &str =
     "question_members m JOIN question_occurrence o ON o.question_id = m.original_id
-     JOIN effective_paper pm ON pm.id = o.paper_id";
+     JOIN visible_paper pm ON pm.id = o.paper_id";
 
 pub(super) fn search_plan(query: &SearchQuery) -> Result<(String, Vec<Value>)> {
     let keyword = query.keyword.as_deref().unwrap_or_default().trim();
@@ -149,10 +149,10 @@ pub(super) fn search_plan(query: &SearchQuery) -> Result<(String, Vec<Value>)> {
         let descendants = binds.add(i64::from(query.descendants));
         ctes.push(format!(
             "selected(id, subject_id) AS (
-            SELECT id, subject_id FROM knowledge_point WHERE id = {point} AND enabled = 1
+            SELECT id, subject_id FROM visible_knowledge WHERE id = {point} AND enabled = 1
             UNION
             SELECT k.id, k.subject_id FROM selected s
-            JOIN knowledge_point k ON k.subject_id = s.subject_id AND k.parent_id = s.id
+            JOIN visible_knowledge k ON k.subject_id = s.subject_id AND k.parent_id = s.id
             WHERE {descendants} AND k.enabled = 1
         )"
         ));
@@ -277,7 +277,7 @@ pub(super) fn search_plan(query: &SearchQuery) -> Result<(String, Vec<Value>)> {
         SELECT q.id AS result_id, q.subject_id, r.id AS revision_id,
                substr(search.text, max(1, {keyword_position} - 24), 140) AS snippet,
                search.question_type, a.difficulty, {} AS sort_year
-        FROM logical_question q JOIN current_question_revision r ON r.question_id = q.id
+        FROM visible_question q JOIN current_question_revision r ON r.question_id = q.id
         JOIN revision_search_text search ON search.revision_id = r.id
         LEFT JOIN question_annotation a ON a.question_id = q.id
         {} {review_join}

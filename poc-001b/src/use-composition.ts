@@ -1,6 +1,9 @@
-import { useRef, useState } from 'react'
-import { blankDraft, composition, grouped, initialPoints } from './composition-api'
-import type { Draft, PaperHeader, PrintPair, SavedPaper } from './composition-api'
+import { useMemo, useRef, useState } from 'react'
+import { protection } from './data-protection-api'
+import type { DraftContent, DraftRecord, DraftToken } from './data-protection-api'
+import { useAutosave } from './use-autosave'
+import { blankDraft, composition, grouped, initialPoints, storedComposition } from './composition-api'
+import type { Draft, PaperHeader, PrintPair, SavedPaper, StoredComposition } from './composition-api'
 import { describeError } from './sqlite-api'
 
 export function useComposition() {
@@ -14,6 +17,13 @@ export function useComposition() {
   const [error, setError] = useState('')
   const [status, setStatus] = useState('')
   const [warnings, setWarnings] = useState<string[]>([])
+  const [identity, setIdentity] = useState<DraftToken>(() => ({ id: crypto.randomUUID(), sequence: 0 }))
+  const snapshot = useMemo<DraftContent | null>(() => dirty ? {
+    object_id: identity.id, object_type: 'composition', base_revision: null,
+    payload: storedComposition(draft), attachments: [],
+  } : null, [dirty, draft, identity])
+  const autosave = useAutosave(identity, snapshot)
+  const nextIdentity = () => setIdentity({ id: crypto.randomUUID(), sequence: 0 })
 
   function edit(next: Draft) {
     setDraft(next)
@@ -41,6 +51,7 @@ export function useComposition() {
 
   function openPaper(paper: SavedPaper) {
     clearView()
+    nextIdentity()
     setSaved(paper.header)
     setDraft({ title: paper.header.title, previous_id: null, settings: paper.settings, items: paper.items })
     setDirty(false)
@@ -48,6 +59,7 @@ export function useComposition() {
 
   function begin(version: boolean | null) {
     clearView()
+    nextIdentity()
     const copy = saved && version !== null
     setDraft(copy ? { ...draft, previous_id: version ? saved.id : null } : blankDraft())
     setSaved(null)
@@ -64,7 +76,7 @@ export function useComposition() {
 
   function save() {
     return run(async () => {
-      const paper = await composition.save(draft)
+      const paper = await composition.save(draft, autosave.token())
       openPaper(paper)
       setPapers((list) => [paper.header, ...list])
       setStatus('组卷已保存。')
@@ -104,6 +116,17 @@ export function useComposition() {
     })
   }
 
+  async function recover(record: DraftRecord) {
+    const stored = await protection.load<StoredComposition>(record.id)
+    const items = await composition.hydrate(stored)
+    clearView()
+    setIdentity({ id: record.id, sequence: record.sequence })
+    setSaved(null)
+    setDraft({ ...stored, items })
+    setDirty(true)
+    setStatus('已恢复组卷草稿。')
+  }
+
   function showPreview() {
     const id = saved?.id
     if (!id) return
@@ -130,7 +153,7 @@ export function useComposition() {
   }
 
   return { draft, saved, papers, preview, dirty, busy, error, status, warnings,
-    edit, begin, refreshList, open, save, add, refreshRevision, showPreview, exportPair,
+    edit, begin, refreshList, open, save, add, refreshRevision, showPreview, exportPair, recover, autosave,
     dismissWarnings: () => setWarnings([]) }
 }
 

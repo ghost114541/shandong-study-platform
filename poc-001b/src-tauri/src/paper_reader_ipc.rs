@@ -91,6 +91,11 @@ pub async fn list_paper_records(app: AppHandle) -> Result<Vec<PaperRecord>> {
 }
 
 #[tauri::command]
+pub async fn paper_record_for_file(app: AppHandle, file_id: String) -> Result<Option<PaperRecord>> {
+    database(app, move |db| db.paper_record_for_file(&file_id)).await
+}
+
+#[tauri::command]
 pub async fn open_paper_pdf(window: WebviewWindow, file_id: String) -> Result<PdfSession> {
     main_window(&window)?;
     let app = window.app_handle().clone();

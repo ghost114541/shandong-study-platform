@@ -63,6 +63,8 @@ async function read(command: string, args: Record<string, string | number>): Pro
   return detail && { ...detail, revision: validated(detail.revision) }
 }
 
+import type { DraftToken } from './data-protection-api'
+
 export const sqlite = {
   subjects: () => invoke<Subject[]>('list_subjects'),
   questions: () => invoke<QuestionSummary[]>('list_questions', { limit: 25 }),
@@ -71,11 +73,11 @@ export const sqlite = {
   original: (questionId: string) => read('public_original', { questionId }),
   revision: (revisionId: number) => read('read_revision', { revisionId }),
   review: (revisionId: number) => invoke<RevisionReview>('revision_review', { revisionId }),
-  async save(questionId: string, subjectId: string, fresh: boolean, expectedCurrent: number | null, draft: RevisionContent, source?: RegionLink): Promise<Revision> {
+  async save(questionId: string, subjectId: string, fresh: boolean, expectedCurrent: number | null, draft: RevisionContent, source?: RegionLink, draftToken?: DraftToken): Promise<Revision> {
     const contentJson = JSON.stringify(parseRevisionContent(draft))
     return validated(await (fresh
-      ? invoke<Revision>('create_question', { questionId, subjectId, contentJson, source })
-      : invoke<Revision>('save_user_revision', { questionId, expectedCurrent, contentJson })))
+      ? invoke<Revision>('create_question', { questionId, subjectId, contentJson, source, draftToken })
+      : invoke<Revision>('save_user_revision', { questionId, expectedCurrent, contentJson, draftToken })))
   },
 }
 

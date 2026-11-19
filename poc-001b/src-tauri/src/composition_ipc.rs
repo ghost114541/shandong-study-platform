@@ -30,6 +30,8 @@ pub async fn read_composition(app: AppHandle, id: String) -> Result<SavedPaper> 
 }
 
 #[tauri::command]
-pub async fn save_composition(app: AppHandle, draft: PaperDraft) -> Result<SavedPaper> {
-    database(app, move |db| db.create_composed_paper(&draft)).await
+pub async fn save_composition(
+    app: AppHandle, draft: PaperDraft, draft_token: Option<shandong_poc_001b::db::DraftToken>,
+) -> Result<SavedPaper> {
+    database(app, move |db| db.create_paper_and_close_draft(&draft, draft_token.as_ref())).await
 }
