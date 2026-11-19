@@ -276,7 +276,6 @@ function verifyManifest(binary, wanted) {
 
 try {
   verifyManifest(a, '0.2.0')
-  verifyManifest(b, '0.2.1')
   assert.ok(!existsSync(profile) && !existsSync(destination) && !installed().version, 'Use a fresh Preview namespace')
   mkdirSync(shots, { recursive: true })
   assert.equal(await setup('install-A', a, 'Install'), 0)
@@ -295,6 +294,8 @@ try {
   await click('创建完整备份')
   await pick('保存知卷完整备份', backup)
   await text('完整备份已创建并验证')
+  await wait(() => existsSync(join(resolve(b, '..'), 'manifest.json')), 'build B', 900000)
+  verifyManifest(b, '0.2.1')
   const { directory, previous } = await invoke('protection_status')
   assert.ok(previous)
   const roots = [directory, previous]
@@ -328,6 +329,18 @@ try {
   assertInstalled('0.2.1')
   assert.deepEqual(snapshot('B-after-repeat-and-downgrade', roots), pristine)
 
+  const originalProgram = sha(executable)
+  const locked = JSON.parse(ps('$stream=[IO.File]::Open(' + psString(executable) + ', "Open", "Read", "Read"); ' +
+    'try { $i=Start-Process -FilePath ' + psString(b) + ' -ArgumentList /S -WindowStyle Hidden -Wait -PassThru; ' +
+    '$copy=' + psString(join(out, 'test-locked-uninstaller.exe')) + '; Copy-Item -LiteralPath ' + psString(uninstall) + ' -Destination $copy; ' +
+    '$u=Start-Process -FilePath $copy -ArgumentList ' + psString('/S _?=' + destination) + ' -WindowStyle Hidden -Wait -PassThru; ' +
+    '@{install=$i.ExitCode; uninstall=$u.ExitCode} | ConvertTo-Json -Compress } finally { $stream.Dispose() }'))
+  console.log('Locked executable exit codes', JSON.stringify(locked))
+  assert.deepEqual(locked, { install: 13, uninstall: 13 })
+  assert.equal(sha(executable), originalProgram)
+  assertInstalled('0.2.1')
+  assert.deepEqual(snapshot('B-with-program-file-locked', roots), pristine)
+
   const uninstallerCopy = join(out, 'test-uninstaller.exe')
   copyFileSync(uninstall, uninstallerCopy)
   assert.equal(await setup('uninstall-B', uninstallerCopy, 'Uninstall'), 0)
@@ -348,6 +361,12 @@ try {
   await click('我的收藏')
   await text(collection)
   await shot('reinstalled-favorites')
+  await click('试卷库')
+  await text('DEV-011 原创测试原卷')
+  await shot('offline-paper-list')
+  const session = await invoke('open_paper_pdf', { fileId: paper.id })
+  assert.ok(session.file.page_count > 0)
+  await invoke('close_paper_pdf', { token: session.token })
   await click('自定义组卷')
   await text(title)
   await click(title, true)
@@ -360,6 +379,22 @@ try {
   await shot('offline-pdf-export')
   await stop()
   assert.deepEqual(snapshot('after-reinstall-start-and-export', roots), pristine)
+  const activeDb = join(roots[0], 'study.sqlite3')
+  const setSchema = version => execFileSync('python', ['-c',
+    'import sqlite3,sys; db=sqlite3.connect(sys.argv[1]); db.execute("PRAGMA user_version="+sys.argv[2]); db.close()',
+    activeDb, String(version)])
+  setSchema(99)
+  const unsupportedHash = sha(activeDb)
+  try {
+    await start('B-future-schema-refused', { expectedSchema: 99 })
+    await shot('future-schema-refused')
+    await stop()
+    assert.equal(sha(activeDb), unsupportedHash)
+  } finally {
+    if (target) await stop()
+    setSchema(9)
+  }
+  assert.deepEqual(snapshot('B-after-future-schema-test', roots), pristine)
   console.log('Completed installed Preview lifecycle.')
 } finally {
   if (target) await stop()
