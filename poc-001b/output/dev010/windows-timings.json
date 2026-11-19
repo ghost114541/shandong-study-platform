@@ -1,0 +1,103 @@
+[
+  {
+    "phase": "startup",
+    "ms": 745.5662000000001,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 747.2252000000003,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 745.2724000000003,
+    "offline": false
+  },
+  {
+    "phase": "backup-total-with-dialog",
+    "ms": 2013.3543,
+    "bytes": 4630623,
+    "sampledWorkingSet": {
+      "webview2": 439664640,
+      "tauri": 99876864
+    }
+  },
+  {
+    "phase": "startup",
+    "ms": 834.4645999999993,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 647.1224999999995,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 664.4966000000004,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 668.0491999999977,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 748.9150000000009,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 629.3313999999991,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 723.4775999999983,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 639.2396000000008,
+    "offline": false
+  },
+  {
+    "phase": "restore-precheck-with-dialog",
+    "ms": 1100.517100000001
+  },
+  {
+    "phase": "startup",
+    "ms": 891.831900000001,
+    "offline": true
+  },
+  {
+    "phase": "startup",
+    "ms": 865.1934999999976,
+    "offline": false
+  },
+  {
+    "phase": "question-autosave-after-edit",
+    "ms": 2029.7199999999975
+  },
+  {
+    "phase": "startup",
+    "ms": 826.7131999999983,
+    "offline": false
+  },
+  {
+    "phase": "question-draft-recovery",
+    "ms": 155.17309999999998
+  },
+  {
+    "phase": "startup",
+    "ms": 919.1469999999972,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 1072.469299999997,
+    "offline": false
+  }
+]

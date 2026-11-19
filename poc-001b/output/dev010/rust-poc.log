@@ -1,0 +1,16 @@
+   Compiling vswhom-sys v0.1.3
+   Compiling libsqlite3-sys v0.40.0
+   Compiling vswhom v0.1.0
+   Compiling embed-resource v3.0.12
+   Compiling tauri-winres v0.3.7
+   Compiling rusqlite v0.42.0
+   Compiling tauri-build v2.7.5
+   Compiling shandong-poc-001b v0.1.0 (C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 14.75s
+     Running unittests src\lib.rs (target\debug\build\shandong-poc-001b/f911f4acfbebc41c\out\shandong_poc_001b-f911f4acfbebc41c.exe)
+
+running 2 tests
+test db::protection::tests::dev010_t01_upgrade_schema_eight_preserves_rows_and_migration_history ... ok
+test db::protection::tests::dev010_t02_snapshot_has_committed_wal_and_excludes_open_transaction ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 62 filtered out; finished in 0.09s

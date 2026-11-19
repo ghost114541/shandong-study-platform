@@ -1,0 +1,9 @@
+Started Windows Tauri PID=16628 phase=normal origin=http://tauri.localhost/ offline=false
+Native draft reported failure while an independent SQLite writer held BEGIN IMMEDIATE.
+Stopped Windows Tauri PID=16628 forced=true result=[null,"SIGTERM"]
+Started Windows Tauri PID=27516 phase=normal origin=http://tauri.localhost/ offline=false
+Restored and formally saved an unreviewed revision of the same recovered personal question after a forced exit.
+Stopped Windows Tauri PID=27516 forced=true result=[null,"SIGTERM"]
+Started Windows Tauri PID=22924 phase=normal origin=http://tauri.localhost/ offline=false
+Original PDF crop, new UUID draft, forced exit, restored image and both location directions passed.
+Stopped Windows Tauri PID=22924 forced=false result=[0,null]

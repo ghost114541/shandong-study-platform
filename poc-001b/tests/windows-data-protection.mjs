@@ -184,6 +184,49 @@ async function queueRestore(screenshot) {
 }
 
 const extended = process.argv.includes('--extended')
+const migrationCrash = process.argv.includes('--migration-crash')
+
+async function runMigrationCrash() {
+  await start('resources')
+  const origin = await invoke('protection_status')
+  const original = snap('before-migration-crash', origin.directory)
+  await click('数据管理')
+  await click('更改存储位置')
+  await text('可用空间', 'dialog[open]')
+  const folder = join(work, 'migration-abort-' + process.pid)
+  mkdirSync(folder)
+  await click('确认操作')
+  await nativePick('选择资源库的新存储位置', folder)
+  await phase('resources')
+  await stop()
+  await start()
+  const reopened = await invoke('protection_status')
+  assert.equal(reopened.directory, origin.directory)
+  assert.equal(reopened.phase, 'failed')
+  assert.deepEqual(snap('after-migration-crash', reopened.directory), original)
+  await click('数据管理')
+  await text('数据操作在切换前中断')
+  await click('回退上一次资源库')
+  await click('确认操作')
+  await text('已准备好切换')
+  await stop(false)
+  await start()
+  const fallback = await invoke('protection_status')
+  assert.equal(fallback.directory, origin.previous)
+  assert.equal(fallback.previous, origin.directory)
+  snap('after-rollback', fallback.directory)
+  await click('数据管理')
+  await click('回退上一次资源库')
+  await click('确认操作')
+  await text('已准备好切换')
+  await stop(false)
+  await start()
+  const returned = await invoke('protection_status')
+  assert.equal(returned.directory, origin.directory)
+  assert.deepEqual(snap('after-return-to-d', returned.directory), original)
+  await stop(false)
+  console.log('Cross-volume copy interrupted; source intact. Rebooted into the old library and reversed the rollback.')
+}
 async function runExtended() {
   await start()
   const active = (await invoke('protection_status')).directory
@@ -281,6 +324,8 @@ async function runExtended() {
 try {
   if (extended) {
     await runExtended()
+  } else if (migrationCrash) {
+    await runMigrationCrash()
   } else {
   assert.ok(!existsSync(root) && !existsSync(baseline) && !existsSync(backup), 'use a new isolated profile and work directory')
   python('seed', source, identifier)
@@ -521,6 +566,7 @@ try {
   }
 } finally {
   await stop().catch((error) => console.error(error))
-  if (!extended) writeFileSync(join(out, 'windows-state-snapshots.json'), JSON.stringify(state, null, 2))
-  writeFileSync(join(out, extended ? 'windows-extended-timings.json' : 'windows-timings.json'), JSON.stringify(timings, null, 2))
+  if (!extended) writeFileSync(join(out, migrationCrash ? 'windows-migration-fault.json' : 'windows-state-snapshots.json'), JSON.stringify(state, null, 2))
+  const timingsFile = extended ? 'windows-extended-timings.json' : migrationCrash ? 'windows-migration-timings.json' : 'windows-timings.json'
+  writeFileSync(join(out, timingsFile), JSON.stringify(timings, null, 2))
 }

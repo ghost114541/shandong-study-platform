@@ -1,0 +1,17 @@
+[
+  {
+    "phase": "startup",
+    "ms": 1151.9326,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 833.6466999999993,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 760.2704000000012,
+    "offline": false
+  }
+]

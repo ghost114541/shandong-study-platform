@@ -1,0 +1,15 @@
+Started Windows Tauri PID=18752 phase=resources origin=http://tauri.localhost/ offline=false
+before-migration-crash {"files":131,"questions":2509,"schema":9}
+Selected file through native Win32 controls in 选择资源库的新存储位置 migration-abort-22616
+Reached checkpoint=resources, forcing Windows PID=18752 to stop
+Stopped Windows Tauri PID=18752 forced=true result=[null,"SIGTERM"]
+Started Windows Tauri PID=24144 phase=normal origin=http://tauri.localhost/ offline=false
+after-migration-crash {"files":131,"questions":2509,"schema":9}
+Stopped Windows Tauri PID=24144 forced=false result=[0,null]
+Started Windows Tauri PID=16536 phase=normal origin=http://tauri.localhost/ offline=false
+after-rollback {"files":130,"questions":2508,"schema":9}
+Stopped Windows Tauri PID=16536 forced=false result=[0,null]
+Started Windows Tauri PID=33384 phase=normal origin=http://tauri.localhost/ offline=false
+after-return-to-d {"files":131,"questions":2509,"schema":9}
+Stopped Windows Tauri PID=33384 forced=false result=[0,null]
+Cross-volume copy interrupted; source intact. Rebooted into the old library and reversed the rollback.

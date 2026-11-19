@@ -1,0 +1,33 @@
+   Compiling shandong-poc-001b v0.1.0 (C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.22s
+     Running unittests src\lib.rs (target\debug\build\shandong-poc-001b/f911f4acfbebc41c\out\shandong_poc_001b-f911f4acfbebc41c.exe)
+
+running 7 tests
+NTFS denied writes to the isolated backup directory; archive publication did not occur.
+test db::protection_tests::dev010_t28_ntfs_permission_denial_does_not_publish_a_backup ... ok
+test db::protection::tests::dev010_t01_upgrade_schema_eight_preserves_rows_and_migration_history ... ok
+test db::protection_tests::dev010_t24_t25_draft_orders_writes_and_commits_formal_save_atomically ... ok
+test db::protection_tests::dev010_t15_t19_trash_preserves_fixed_references_and_public_rules ... ok
+test db::protection::tests::dev010_t02_snapshot_has_committed_wal_and_excludes_open_transaction ... ok
+test db::protection_tests::dev010_t06_restore_old_schema_in_isolation ... ok
+test db::protection_tests::dev010_t03_t04_t12_backup_cancel_missing_image_and_space_cleanup ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 62 filtered out; finished in 0.36s
+
+     Running unittests src\main.rs (target\debug\build\shandong-poc-001b/3a1fabfede9d123e\out\shandong_poc_001b-3a1fabfede9d123e.exe)
+
+running 3 tests
+test library_root::tests::dev010_switch_child ... ok
+test library_root::tests::dev010_t11_failed_candidate_keeps_current_database ... ok
+
+running 1 test
+终止 before-open 后重启成功，旧库仍可打开。
+
+running 1 test
+终止 before-pointer 后重启成功，旧库仍可打开。
+
+running 1 test
+终止 after-pointer 后重启成功，旧库仍可打开。
+test library_root::tests::dev010_t13_kill_process_before_and_after_atomic_root_switch ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.45s
