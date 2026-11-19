@@ -6,3 +6,8 @@ poc-001b/.test-output/
 /poc-001b/.pdf-public/
 /poc-001b/preview-artifacts/
 /poc-001b/output/dev011/binaries/
+/poc-001b/output/dev011/acceptance/test-*.exe
+/poc-001b/output/dev011/acceptance/synthetic.knowbackup
+/poc-001b/output/dev011/runtime/
+/poc-001b/output/dev011/verification/
+/poc-001b/output/dev011/final-run/

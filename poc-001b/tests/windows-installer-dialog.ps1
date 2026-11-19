@@ -2,7 +2,8 @@ param(
     [Parameter(Mandatory)][ValidateSet('Install','Uninstall','Blocked')][string]$Mode,
     [Parameter(Mandatory)][string]$Executable,
     [Parameter(Mandatory)][string]$Output,
-    [Parameter(Mandatory)][string]$Label
+    [Parameter(Mandatory)][string]$Label,
+    [int]$ExistingProcess
 )
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
@@ -53,14 +54,22 @@ $argsForSetup = @{}
 if ($Mode -eq 'Uninstall') {
     $argsForSetup.ArgumentList = "_?=$env:LOCALAPPDATA\KnowPaper Preview"
 }
-$setup = Start-Process -FilePath $Executable -PassThru @argsForSetup
+$setup = if ($ExistingProcess) { Get-Process -Id $ExistingProcess } else {
+    Start-Process -FilePath $Executable -PassThru @argsForSetup
+}
+if ($setup.Path -ne $Executable) { throw "Unexpected executable for setup process" }
 $timer = [Diagnostics.Stopwatch]::StartNew()
 $steps = 0
 while (-not $setup.HasExited -and $timer.Elapsed.TotalSeconds -lt 80) {
     $setup.Refresh()
     $window = $setup.MainWindowHandle
     if ($window -ne [IntPtr]::Zero) {
-        $button = Get-Button $window 1
+        $buttonId = 1
+        $button = Get-Button $window $buttonId
+        if ($Mode -eq 'Blocked' -and $button -eq [IntPtr]::Zero) {
+            $buttonId = 2
+            $button = Get-Button $window $buttonId
+        }
         if ($button -ne [IntPtr]::Zero) {
             $steps++
             Save-Window $window ('page-' + $steps)
@@ -71,7 +80,7 @@ while (-not $setup.HasExited -and $timer.Elapsed.TotalSeconds -lt 80) {
                     [void][SetupTestWindow]::PostMessage($run, 0xF1, [IntPtr]::Zero, [IntPtr]::Zero)
                 }
             }
-            [void][SetupTestWindow]::PostMessage($button, 0xF5, [IntPtr]::Zero, [IntPtr]::Zero)
+            [void][SetupTestWindow]::PostMessage($window, 0x111, [IntPtr]$buttonId, $button)
             Start-Sleep -Milliseconds 800
         }
     }

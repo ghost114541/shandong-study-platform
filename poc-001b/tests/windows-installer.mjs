@@ -13,7 +13,8 @@ const destination = join(process.env.LOCALAPPDATA, 'KnowPaper Preview')
 const executable = join(destination, 'knowpaper-preview.exe')
 const uninstall = join(destination, 'uninstall.exe')
 const registry = 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\' + identifier
-const [aArg, bArg, outArg] = process.argv.slice(2)
+const [aArg, bArg, outArg, mode] = process.argv.slice(2)
+assert.ok(mode === undefined || ['--resume-a', '--resume-b', '--verify-ui', '--verify-config-denial'].includes(mode))
 assert.ok(aArg && bArg && outArg, 'Run from poc-001b: node tests/windows-installer.mjs <A.exe> <B.exe> <evidence-dir>')
 const a = resolve(aArg)
 const b = resolve(bArg)
@@ -24,6 +25,8 @@ const fixture = resolve('output/dev010/original-fixture.knowbackup')
 const fixturePdf = resolve('output/dev007/fixtures/original.pdf')
 const fingerprintScript = resolve('tests/dev010-fixtures.py')
 const backup = join(out, 'synthetic.knowbackup')
+const otherVolume = process.env.KNOWPAPER_DEV011_TEST_LIBRARY
+const draftId = '9be77aef-3ae3-4d4b-8a50-011000000001'
 const journal = join(profile, 'data-protection', 'root.json')
 const snapshots = {}
 const timings = []
@@ -115,7 +118,8 @@ async function evaluate(expression) {
 }
 
 const q = JSON.stringify
-const invoke = (name, args = {}) => evaluate('window.__TAURI_INTERNALS__.invoke(' + q(name) + ',' + q(args) + ')')
+const ipcFailure = '.catch(e => { throw new Error(JSON.stringify(e)) })'
+const invoke = (name, args = {}) => evaluate('window.__TAURI_INTERNALS__.invoke(' + q(name) + ',' + q(args) + ')' + ipcFailure)
 const text = label => wait(() => evaluate('document.body.innerText.includes(' + q(label) + ')'), label)
 const button = (label, partial) => 'Array.from(document.querySelectorAll("button")).find(e => e.getClientRects().length && !e.disabled && e.textContent.trim().' +
   (partial ? 'startsWith(' + q(label) + ')' : 'valueOf()===' + q(label)) + ')'
@@ -129,13 +133,14 @@ async function shot(name) {
   writeFileSync(join(shots, name + '.png'), Buffer.from(image.data, 'base64'))
 }
 
-async function start(label, { offline = false, expectedSchema = 9 } = {}) {
+async function start(label, { offline = false, expectedError, systemPathOnly = false } = {}) {
   assert.equal(target, undefined)
   const state = installed()
   const flags = '--remote-debugging-port=' + port + ' --remote-debugging-address=127.0.0.1' +
     (offline ? ' --proxy-server=http://127.0.0.1:1' : '')
   const began = performance.now()
-  ps('Start-Process -FilePath ' + psString(state.shortcut) + ' -WindowStyle Normal', {
+  const systemPath = systemPathOnly ? '$env:PATH=$env:SystemRoot + "\\System32;" + $env:SystemRoot; ' : ''
+  ps(systemPath + 'Start-Process -FilePath ' + psString(state.shortcut) + ' -WindowStyle Normal', {
     ...process.env, WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS: flags,
   })
   target = await wait(() => Number(ps('$p=Get-Process knowpaper-preview -ErrorAction SilentlyContinue | Where-Object Path -eq ' +
@@ -161,8 +166,8 @@ async function start(label, { offline = false, expectedSchema = 9 } = {}) {
     await text('SQLite 题库')
     assert.equal(await evaluate('navigator.onLine'), false)
   }
-  if (expectedSchema === 9) assert.equal(await invoke('database_status'), 9)
-  else await assert.rejects(invoke('database_status'), /版本|schema|Schema/i)
+  if (expectedError) await assert.rejects(invoke('database_status'), expectedError)
+  else assert.equal(await invoke('database_status'), 9)
   const elapsed = Math.round(performance.now() - began)
   const memory = JSON.parse(ps('$p=Get-Process -Id ' + target + '; $all=Get-CimInstance Win32_Process; ' +
     '$ids=@($p.Id); do { $n=$ids.Count; $ids+=@($all|Where-Object { $_.ParentProcessId -in $ids -and $_.ProcessId -notin $ids }|ForEach-Object ProcessId) } while ($n -ne $ids.Count); ' +
@@ -216,11 +221,17 @@ async function createLearningData() {
   await pick('导入试卷 PDF', fixturePdf)
   paper = await importPdf
   assert.equal(paper.sha256, sha(fixturePdf))
-  const image = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aS2sAAAAASUVORK5CYII=', 'base64')
   const imagePath = join(out, '原创图形.png')
-  writeFileSync(imagePath, image)
+  execFileSync('python', ['-c', [
+    'import struct, sys, zlib',
+    'def chunk(t, d): return struct.pack(">I",len(d))+t+d+struct.pack(">I",zlib.crc32(t+d))',
+    'header=struct.pack(">IIBBBBB",100,64,8,2,0,0,0)',
+    'rows=b"".join(b"\\x00"+bytes(c for x in range(100) for c in ((4,90,125) if abs(y-x/2-6)<2 else (255,255,255))) for y in range(64))',
+    'open(sys.argv[1],"wb").write(b"\\x89PNG\\r\\n\\x1a\\n"+chunk(b"IHDR",header)+chunk(b"IDAT",zlib.compress(rows))+chunk(b"IEND",b""))',
+  ].join('\n'), imagePath])
+  const image = readFileSync(imagePath)
   const attachment = await evaluate('window.__TAURI_INTERNALS__.invoke("import_attachment",new Uint8Array(' +
-    q([...image]) + ').buffer,{headers:{"x-image-media-type":"image/png"}})')
+    q([...image]) + ').buffer,{headers:{"x-image-media-type":"image/png"}})' + ipcFailure)
   assert.equal(attachment.sha256, sha(imagePath))
   const contract = readJson(resolve('tests/revision-contract.json'))
   const content = structuredClone(contract[1].content)
@@ -238,8 +249,8 @@ async function createLearningData() {
   const draft = { title, settings: { scope: '合成测试', duration_minutes: 10, gap_mm: 4, answer_space_mm: 0, groups: ['试题'] },
     items: [{ revision_id: first.id, points: { group: '试题', score: 8, part_scores: [] } }] }
   composition = await invoke('save_composition', { draft })
-  await invoke('put_draft', { draft: { token: { id: 'dev011-automatic-draft', sequence: 1 },
-    object_type: 'question', object_id: question, base_revision: revision.id, payload: { dev011: '合成草稿' },
+  await invoke('put_draft', { draft: { token: { id: draftId, sequence: 1 },
+    object_type: 'question', object_id: question, base_revision: revision.id, payload: { subjectId: 'math', fresh: false, field: 'stem', content },
     attachments: [attachment.id] } })
 }
 
@@ -251,7 +262,8 @@ async function verifyLearningData() {
   assert.equal((await invoke('read_composition', { id: composition.header.id })).items[0].question.revision.id,
     composition.items[0].question.revision.id)
   assert.ok((await invoke('favorite_collections')).some(item => item.name === collection))
-  assert.ok((await invoke('list_drafts')).some(item => item.id === 'dev011-automatic-draft'))
+  assert.ok((await invoke('list_drafts')).some(item => item.id === draftId))
+  assert.equal((await invoke('load_draft', { id: draftId })).subjectId, 'math')
   const location = (await invoke('list_pdf_locations', { questionId: question })).find(item => item.file_id === paper.id)
   assert.ok(location)
   assert.equal((await invoke('open_region_question', { fileId: paper.id, sourceKey: location.source_key, ordinal: location.ordinal })).id, question)
@@ -276,126 +288,210 @@ function verifyManifest(binary, wanted) {
 
 try {
   verifyManifest(a, '0.2.0')
-  assert.ok(!existsSync(profile) && !existsSync(destination) && !installed().version, 'Use a fresh Preview namespace')
-  mkdirSync(shots, { recursive: true })
-  assert.equal(await setup('install-A', a, 'Install'), 0)
-  assertInstalled('0.2.0')
-  await start('A-first-start')
-  assert.equal((await invoke('list_questions')).length, 0)
-  await shot('A-clean-installed-desktop')
-  await restoreFixture()
-  await stop()
-  await start('A-after-restoring-synthetic-history')
-  await createLearningData()
-  await click('试题检索')
-  await text('加入组卷')
-  await shot('A-study-data')
-  await click('数据管理')
-  await click('创建完整备份')
-  await pick('保存知卷完整备份', backup)
-  await text('完整备份已创建并验证')
-  await wait(() => existsSync(join(resolve(b, '..'), 'manifest.json')), 'build B', 900000)
   verifyManifest(b, '0.2.1')
-  const { directory, previous } = await invoke('protection_status')
-  assert.ok(previous)
-  const roots = [directory, previous]
-  await verifyLearningData()
-  assert.equal(await setup('upgrade-blocked-by-running-A', b, 'Blocked'), 10)
-  assertInstalled('0.2.0')
-  await stop()
-  const pristine = snapshot('A-before-upgrade', roots)
-
-  // File corruption is checked against the manifest and against NSIS itself.
-  const truncated = join(out, 'test-truncated-setup.exe')
-  writeFileSync(truncated, readFileSync(b).subarray(0, 2 * 1024 * 1024))
-  assert.notEqual(sha(truncated), sha(b))
-  assert.notEqual(await setup('truncated-bundle', truncated, 'Blocked'), 0)
-  assertInstalled('0.2.0')
-  assert.deepEqual(snapshot('A-after-truncation', roots), pristine)
-
-  assert.equal(await setup('upgrade-A-to-B', b, 'Install'), 0)
-  assertInstalled('0.2.1')
-  assert.deepEqual(snapshot('B-before-start', roots), pristine)
-  await start('B-first-start')
-  await verifyLearningData()
-  await click('试题检索')
-  await text('加入组卷')
-  await shot('B-preserved-study-data')
-  await stop()
-  assert.deepEqual(snapshot('B-after-first-start', roots), pristine)
-  assert.equal(silent('B-to-A-refused', a, '/S'), 11)
-  assertInstalled('0.2.1')
-  assert.equal(silent('B-repeat-install', b, '/S'), 0)
-  assertInstalled('0.2.1')
-  assert.deepEqual(snapshot('B-after-repeat-and-downgrade', roots), pristine)
-
-  const originalProgram = sha(executable)
-  const locked = JSON.parse(ps('$stream=[IO.File]::Open(' + psString(executable) + ', "Open", "Read", "Read"); ' +
-    'try { $i=Start-Process -FilePath ' + psString(b) + ' -ArgumentList /S -WindowStyle Hidden -Wait -PassThru; ' +
-    '$copy=' + psString(join(out, 'test-locked-uninstaller.exe')) + '; Copy-Item -LiteralPath ' + psString(uninstall) + ' -Destination $copy; ' +
-    '$u=Start-Process -FilePath $copy -ArgumentList ' + psString('/S _?=' + destination) + ' -WindowStyle Hidden -Wait -PassThru; ' +
-    '@{install=$i.ExitCode; uninstall=$u.ExitCode} | ConvertTo-Json -Compress } finally { $stream.Dispose() }'))
-  console.log('Locked executable exit codes', JSON.stringify(locked))
-  assert.deepEqual(locked, { install: 13, uninstall: 13 })
-  assert.equal(sha(executable), originalProgram)
-  assertInstalled('0.2.1')
-  assert.deepEqual(snapshot('B-with-program-file-locked', roots), pristine)
-
-  const uninstallerCopy = join(out, 'test-uninstaller.exe')
-  copyFileSync(uninstall, uninstallerCopy)
-  assert.equal(await setup('uninstall-B', uninstallerCopy, 'Uninstall'), 0)
-  const removed = installed()
-  assert.equal(removed.version, null)
-  assert.equal(removed.executable, false)
-  assert.equal(removed.linkTarget, null)
-  assert.equal(removed.desktop, false)
-  assert.equal(removed.directory, false)
-  assert.deepEqual(snapshot('after-uninstall', roots), pristine)
-  assert.equal(silent('reinstall-B', b, '/S'), 0)
-  assertInstalled('0.2.1')
-  await start('B-reinstalled-offline', { offline: true })
-  await verifyLearningData()
-  await click('试题检索')
-  await text('加入组卷')
-  await shot('offline-search')
-  await click('我的收藏')
-  await text(collection)
-  await shot('reinstalled-favorites')
-  await click('试卷库')
-  await text('DEV-011 原创测试原卷')
-  await shot('offline-paper-list')
-  const session = await invoke('open_paper_pdf', { fileId: paper.id })
-  assert.ok(session.file.page_count > 0)
-  await invoke('close_paper_pdf', { token: session.token })
-  await click('自定义组卷')
-  await text(title)
-  await click(title, true)
-  await click('生成双卷预览')
-  await text('导出双 PDF')
-  await shot('offline-composition')
-  await click('导出双 PDF')
-  await click('确认并导出')
-  await text('双 PDF 导出成功')
-  await shot('offline-pdf-export')
-  await stop()
-  assert.deepEqual(snapshot('after-reinstall-start-and-export', roots), pristine)
-  const activeDb = join(roots[0], 'study.sqlite3')
-  const setSchema = version => execFileSync('python', ['-c',
-    'import sqlite3,sys; db=sqlite3.connect(sys.argv[1]); db.execute("PRAGMA user_version="+sys.argv[2]); db.close()',
-    activeDb, String(version)])
-  setSchema(99)
-  const unsupportedHash = sha(activeDb)
-  try {
-    await start('B-future-schema-refused', { expectedSchema: 99 })
-    await shot('future-schema-refused')
+  let roots, pristine
+  if (mode) {
+    assertInstalled(mode === '--resume-a' ? '0.2.0' : '0.2.1')
+    Object.assign(snapshots, readJson(join(out, 'data-fingerprints.json')))
+    timings.push(...readJson(join(out, 'timings.json')))
+    pristine = snapshots['A-before-upgrade']
+    assert.equal(sha(backup), pristine.userBackup)
+    if (mode === '--verify-config-denial') {
+      assert.equal(sha(journal), pristine.journalHash)
+      roots = [pristine.journal.active, pristine.journal.previous].map(path => path[2] === '?' ? path.slice(4) : path)
+      const lock = join(profile, 'data-protection', 'profile.lock')
+      const acl = ps('(Get-Acl -LiteralPath ' + psString(lock) + ').GetSecurityDescriptorSddlForm("Access")')
+      try {
+        ps('$path=' + psString(lock) + '; $acl=Get-Acl -LiteralPath $path; ' +
+          '$sid=[Security.Principal.WindowsIdentity]::GetCurrent().User; ' +
+          '$rule=[Security.AccessControl.FileSystemAccessRule]::new($sid,"ReadData,WriteData","Deny"); ' +
+          '$acl.AddAccessRule($rule); Set-Acl -LiteralPath $path -AclObject $acl')
+        await start('B-profile-lock-access-denied', { expectedError: /拒绝|access is denied|os error 5/i })
+        await shot('profile-access-denied')
+        await stop()
+      } finally {
+        ps('$path=' + psString(lock) + '; $acl=Get-Acl -LiteralPath $path; ' +
+          '$acl.SetSecurityDescriptorSddlForm(' + psString(acl) + ', "Access"); Set-Acl -LiteralPath $path -AclObject $acl')
+      }
+      await start('B-profile-lock-recovered')
+      await stop()
+      assert.deepEqual(snapshot('B-after-profile-access-denial', roots), pristine)
+    } else {
+      if (mode === '--verify-ui') {
+        await start('B-offline-with-Windows-only-PATH', { offline: true, systemPathOnly: true })
+      } else {
+        await start('resume-synthetic-lifecycle')
+      }
+      const { directory, previous } = await invoke('protection_status')
+      roots = [directory, previous]
+      revision = (await invoke('current_revision', { questionId: question })).revision
+      const original = (await invoke('list_paper_records')).find(row => row.title === 'DEV-011 原创测试原卷')
+      paper = original.files.find(file => file.role === 'original')
+      const saved = (await invoke('list_compositions')).find(row => row.title === title)
+      composition = await invoke('read_composition', { id: saved.id })
+      await verifyLearningData()
+      if (mode === '--verify-ui') {
+        await shot('B-reinstalled-home')
+        await click('试卷库')
+        await text('DEV-011 原创测试原卷')
+        const selector = 'button[title="SHA-256 ' + paper.sha256 + '"]'
+        const opened = await evaluate('(()=>{const article=Array.from(document.querySelectorAll(".paper-library-list article"))' +
+          '.find(e=>e.querySelector("h2").textContent==="DEV-011 原创测试原卷"); ' +
+          'const pdf=article.querySelector(' + q(selector) + '); if (!pdf) return false; pdf.click(); return true})()')
+        assert.ok(opened)
+        await wait(() => evaluate('(()=>{const c=document.querySelector("canvas[aria-label]");' +
+          'if(!c || c.width<64 || c.height<64)return false; const p=c.getContext("2d").getImageData(0,0,c.width,c.height).data;' +
+          'return p.some((v,i)=>i%4===3 && i>16000 && v>0)})()'), 'rendered local PDF canvas')
+        await shot('offline-original-pdf-rendered')
+        await click('已关联试题', true)
+        await click('打开试题')
+        await text('DEV-011 原创试题')
+        await shot('offline-original-linked-question')
+      }
+      await stop()
+      assert.deepEqual(snapshot(mode === '--verify-ui' ? 'B-offline-reader' : 'resumed-synthetic-lifecycle', roots), pristine)
+    }
+  } else {
+    assert.ok(!existsSync(profile) && !existsSync(destination) && !installed().version, 'Use a fresh Preview namespace')
+    mkdirSync(shots, { recursive: true })
+    assert.equal(await setup('install-A', a, 'Install'), 0)
+    assertInstalled('0.2.0')
+    await start('A-first-start')
+    assert.equal((await invoke('list_questions')).length, 0)
+    await shot('A-clean-installed-desktop')
+    await restoreFixture()
     await stop()
-    assert.equal(sha(activeDb), unsupportedHash)
-  } finally {
-    if (target) await stop()
-    setSchema(9)
+    await start('A-after-restoring-synthetic-history')
+    if (otherVolume) {
+      mkdirSync(otherVolume)
+      await click('数据管理')
+      await click('更改存储位置')
+      await text('可用空间')
+      await click('确认操作')
+      await pick('选择资源库的新存储位置', otherVolume)
+      await text('已准备好切换')
+      await shot('A-pending-cross-volume-switch')
+      assert.equal(silent('upgrade-blocked-by-pending-switch', b, '/S'), 10)
+      await stop()
+      await start('A-cross-volume')
+      const state = await invoke('protection_status')
+      assert.ok(state.directory.toLowerCase().startsWith(otherVolume.toLowerCase() + '\\'))
+      assert.notEqual(state.directory.slice(0, 2).toLowerCase(), state.previous.slice(0, 2).toLowerCase())
+    }
+    await createLearningData()
+    await click('试题检索')
+    await text('加入组卷')
+    await shot('A-study-data')
+    await click('数据管理')
+    await click('创建完整备份')
+    assert.equal(silent('upgrade-blocked-at-backup-dialog', b, '/S'), 10)
+    await pick('保存知卷完整备份', backup)
+    await text('完整备份已创建并验证')
+    const { directory, previous } = await invoke('protection_status')
+    assert.ok(previous)
+    roots = [directory, previous]
+    await verifyLearningData()
+    assert.equal(await setup('upgrade-blocked-by-running-A', b, 'Blocked'), 10)
+    assertInstalled('0.2.0')
+    await stop()
+    pristine = snapshot('A-before-upgrade', roots)
   }
-  assert.deepEqual(snapshot('B-after-future-schema-test', roots), pristine)
-  console.log('Completed installed Preview lifecycle.')
+
+  if (!['--verify-ui', '--verify-config-denial'].includes(mode)) {
+    if (mode !== '--resume-b') {
+      // File corruption is checked against the manifest and against NSIS itself.
+      const truncated = join(out, 'test-truncated-setup.exe')
+      writeFileSync(truncated, readFileSync(b).subarray(0, 2 * 1024 * 1024))
+      assert.notEqual(sha(truncated), sha(b))
+      assert.notEqual(await setup('truncated-bundle', truncated, 'Blocked'), 0)
+      assertInstalled('0.2.0')
+      assert.deepEqual(snapshot('A-after-truncation', roots), pristine)
+
+      assert.equal(await setup('upgrade-A-to-B', b, 'Install'), 0)
+      assertInstalled('0.2.1')
+      assert.deepEqual(snapshot('B-before-start', roots), pristine)
+      await start('B-first-start')
+      await verifyLearningData()
+      await click('试题检索')
+      await text('加入组卷')
+      await shot('B-preserved-study-data')
+      await stop()
+      assert.deepEqual(snapshot('B-after-first-start', roots), pristine)
+    }
+    assert.equal(silent('B-to-A-refused', a, '/S'), 11)
+    assertInstalled('0.2.1')
+    assert.equal(silent('B-repeat-install', b, '/S'), 0)
+    assertInstalled('0.2.1')
+    assert.deepEqual(snapshot('B-after-repeat-and-downgrade', roots), pristine)
+
+    const originalProgram = sha(executable)
+    const locked = JSON.parse(ps('$stream=[IO.File]::Open(' + psString(executable) + ', "Open", "Read", "Read"); ' +
+      'try { $i=Start-Process -FilePath ' + psString(b) + ' -ArgumentList /S -WindowStyle Hidden -Wait -PassThru; ' +
+      '$copy=' + psString(join(out, 'test-locked-uninstaller.exe')) + '; Copy-Item -LiteralPath ' + psString(uninstall) + ' -Destination $copy; ' +
+      '$u=Start-Process -FilePath $copy -ArgumentList ' + psString('/S _?=' + destination) + ' -WindowStyle Hidden -Wait -PassThru; ' +
+      '@{install=$i.ExitCode; uninstall=$u.ExitCode} | ConvertTo-Json -Compress } finally { $stream.Dispose() }'))
+    console.log('Locked executable exit codes', JSON.stringify(locked))
+    assert.deepEqual(locked, { install: 13, uninstall: 13 })
+    assert.equal(sha(executable), originalProgram)
+    assertInstalled('0.2.1')
+    assert.deepEqual(snapshot('B-with-program-file-locked', roots), pristine)
+
+    const uninstallerCopy = join(out, 'test-uninstaller.exe')
+    copyFileSync(uninstall, uninstallerCopy)
+    assert.equal(await setup('uninstall-B', uninstallerCopy, 'Uninstall'), 0)
+    const removed = installed()
+    assert.equal(removed.version, null)
+    assert.equal(removed.executable, false)
+    assert.equal(removed.linkTarget, null)
+    assert.equal(removed.desktop, false)
+    assert.equal(removed.directory, false)
+    assert.deepEqual(snapshot('after-uninstall', roots), pristine)
+    assert.equal(silent('reinstall-B', b, '/S'), 0)
+    assertInstalled('0.2.1')
+    await start('B-reinstalled-offline', { offline: true })
+    await verifyLearningData()
+    await click('试题检索')
+    await text('加入组卷')
+    await shot('offline-search')
+    await click('我的收藏')
+    await text(collection)
+    await shot('reinstalled-favorites')
+    await click('试卷库')
+    await text('DEV-011 原创测试原卷')
+    await shot('offline-paper-list')
+    const session = await invoke('open_paper_pdf', { fileId: paper.id })
+    assert.ok(session.file.page_count > 0)
+    await invoke('close_paper_pdf', { token: session.token })
+    await click('自定义组卷')
+    await text(title)
+    await click(title, true)
+    await click('生成双卷预览')
+    await text('导出双 PDF')
+    await shot('offline-composition')
+    await click('导出双 PDF')
+    await click('确认并导出')
+    await text('双 PDF 导出成功')
+    await shot('offline-pdf-export')
+    await stop()
+    assert.deepEqual(snapshot('after-reinstall-start-and-export', roots), pristine)
+    const activeDb = join(roots[0], 'study.sqlite3')
+    const setSchema = version => execFileSync('python', ['-c',
+      'import sqlite3,sys; db=sqlite3.connect(sys.argv[1]); db.execute("PRAGMA user_version="+sys.argv[2]); db.close()',
+      activeDb, String(version)])
+    setSchema(99)
+    const unsupportedHash = sha(activeDb)
+    try {
+      await start('B-future-schema-refused', { expectedError: /版本|schema/i })
+      await shot('future-schema-refused')
+      await stop()
+      assert.equal(sha(activeDb), unsupportedHash)
+    } finally {
+      if (target) await stop()
+      setSchema(9)
+    }
+    assert.deepEqual(snapshot('B-after-future-schema-test', roots), pristine)
+    console.log('Completed installed Preview lifecycle.')
+  }
 } finally {
   if (target) await stop()
 }
