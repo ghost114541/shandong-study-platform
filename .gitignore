@@ -4,3 +4,5 @@ poc-001b/src-tauri/target/
 poc-001b/src-tauri/gen/
 poc-001b/.test-output/
 /poc-001b/.pdf-public/
+/poc-001b/preview-artifacts/
+/poc-001b/output/dev011/binaries/

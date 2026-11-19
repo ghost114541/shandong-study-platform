@@ -1,0 +1,58 @@
+name: Windows Preview installer
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [dev/dev-011-windows-installer]
+    paths:
+      - '.github/workflows/windows-installer-check.yml'
+      - 'poc-001b/src/**'
+      - 'poc-001b/src-tauri/**'
+      - 'poc-001b/scripts/windows-installer-manifest.ps1'
+      - 'poc-001b/package*.json'
+      - 'poc-001b/tests/**'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2025
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: poc-001b
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.13.0'
+          cache: npm
+          cache-dependency-path: poc-001b/package-lock.json
+      - name: Select Windows MSVC Rust toolchain
+        run: |
+          rustup toolchain install stable-x86_64-pc-windows-msvc --profile minimal
+          rustup override set stable-x86_64-pc-windows-msvc
+      - name: Install locked frontend dependencies
+        run: npm ci
+      - name: Check TypeScript and run frontend tests
+        run: |
+          npm run typecheck
+          npm test
+      - name: Run Rust tests
+        run: cargo test --locked --manifest-path src-tauri/Cargo.toml
+      - name: Build unsigned x64 NSIS installer
+        run: |
+          New-Item -ItemType Directory -Path preview-artifacts -Force | Out-Null
+          npm run tauri -- build --bundles nsis -- --locked 2>&1 | Tee-Object preview-artifacts/build.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ./scripts/windows-installer-manifest.ps1 -BundleDirectory src-tauri/target/release/bundle/nsis -Destination preview-artifacts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: knowpaper-preview-windows-x64-${{ github.sha }}
+          path: poc-001b/preview-artifacts/
+          if-no-files-found: error
+          retention-days: 14
