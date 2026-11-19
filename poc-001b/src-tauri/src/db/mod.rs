@@ -21,7 +21,7 @@ mod review;
 mod search;
 mod trash;
 
-pub use backup::{ensure_space, unpack_backup, validate_staged_library, BackupManifest, BackupPreview, BackupRecord, LibraryDiagnostics, ProtectionProgress};
+pub use backup::{ensure_space, preflight_backup_space, unpack_backup, validate_staged_library, BackupManifest, BackupPreview, BackupRecord, LibraryDiagnostics, ProtectionProgress};
 pub use attachments::{AttachmentIntegrity, MAX_IMAGE_BYTES};
 pub use composition::{Composition, SavedItem};
 pub use content::{Attachment, PartContent, RevisionContent, CONTENT_VERSION};

@@ -60,6 +60,8 @@ export interface RootStatus {
   phase: string
   error: string | null
   pack_warning: string | null
+  layout_warning: string | null
+  previous_protection: string | null
 }
 
 export interface Diagnostics {
@@ -88,6 +90,7 @@ export const protection = {
   restore: () => invoke<void>('confirm_restore'),
   estimate: () => invoke<number>('storage_estimate'),
   migrate: () => invoke<boolean>('migrate_storage'),
+  repairLayout: () => invoke<void>('repair_library_layout'),
   rollback: () => invoke<void>('rollback_library'),
   diagnostics: () => invoke<Diagnostics>('diagnose_library'),
   trash: () => invoke<TrashItem[]>('list_trash'),

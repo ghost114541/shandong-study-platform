@@ -5,6 +5,7 @@ mod composition_ipc;
 mod draft_trash_ipc;
 mod editor_ipc;
 mod favorites_ipc;
+mod library_paths;
 mod library_root;
 mod paper_reader_ipc;
 mod protection_ipc;
@@ -198,6 +199,7 @@ fn main() {
             protection_ipc::confirm_restore,
             protection_ipc::storage_estimate,
             protection_ipc::migrate_storage,
+            protection_ipc::repair_library_layout,
             protection_ipc::rollback_library,
             protection_ipc::diagnose_library,
             draft_trash_ipc::list_drafts,

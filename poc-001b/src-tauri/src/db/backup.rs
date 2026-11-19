@@ -387,17 +387,27 @@ impl Database {
     }
 }
 
-pub fn unpack_backup(
-    source: &Path,
-    directory: &Path,
-    progress: &mut ProtectionProgress<'_>,
-) -> Result<BackupPreview> {
+fn backup_input(source: &Path) -> Result<(ZipArchive<BufReader<File>>, BackupManifest)> {
     let source = File::open(source).map_err(file_error)?;
     if !source.metadata().map_err(file_error)?.is_file() {
         return Err(invalid("请选择普通备份文件。"));
     }
     let mut zip = open_archive(source)?;
     let manifest = read_manifest(&mut zip)?;
+    Ok((zip, manifest))
+}
+
+pub fn preflight_backup_space(source: &Path, directory: &Path) -> Result<()> {
+    let (_, manifest) = backup_input(source)?;
+    ensure_space(directory, manifest.total_bytes.saturating_add(16 * 1024 * 1024))
+}
+
+pub fn unpack_backup(
+    source: &Path,
+    directory: &Path,
+    progress: &mut ProtectionProgress<'_>,
+) -> Result<BackupPreview> {
+    let (mut zip, manifest) = backup_input(source)?;
     ensure_space(
         directory,
         manifest.total_bytes.saturating_add(16 * 1024 * 1024),

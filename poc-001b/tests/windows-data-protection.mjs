@@ -5,6 +5,7 @@ import { basename, join, resolve } from 'node:path'
 import { once } from 'node:events'
 import { setTimeout as delay } from 'node:timers/promises'
 import { promisify } from 'node:util'
+import { libraryRootSafety } from './windows-library-root-safety.mjs'
 
 const exec = promisify(execFile)
 const exe = resolve(process.argv[2] ?? '.test-output/dev010-native/shandong-poc-001b.exe')
@@ -13,7 +14,8 @@ assert.match(identifier, /^org\.shandong-study\.dev010-[a-f0-9]{8}$/)
 const source = process.env.KNOWPAPER_DEV010_SCHEMA8_SOURCE ?? 'org.shandong-study.dev009-c1a003a9'
 const root = join(process.env.APPDATA, identifier)
 const marker = join(root, 'dev010-test-ready')
-const out = resolve('output/dev010')
+const rootSafety = process.argv.includes('--root-safety')
+const out = resolve(rootSafety ? 'output/dev0101' : 'output/dev010')
 const shots = join(out, 'screenshots')
 const work = resolve('.test-output', identifier)
 mkdirSync(shots, { recursive: true })
@@ -322,7 +324,10 @@ async function runExtended() {
 }
 
 try {
-  if (extended) {
+  if (rootSafety) {
+    await libraryRootSafety({ root, work, source, identifier, backup, state, python, snap, start, stop, phase,
+      click, clickElement, text, shot, invoke, nativePick, pickBackup, queueRestore })
+  } else if (extended) {
     await runExtended()
   } else if (migrationCrash) {
     await runMigrationCrash()

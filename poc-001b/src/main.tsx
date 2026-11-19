@@ -66,7 +66,7 @@ function App() {
   useEffect(() => {
     void protection.drafts().then((records) => setRecoveryNotice(records.length > 0)).catch(() => {})
     void protection.status().then((status) => {
-      setStartupWarning(status.error ?? status.pack_warning ?? (status.previous && status.phase === 'complete'
+      setStartupWarning(status.error ?? status.layout_warning ?? status.pack_warning ?? (status.previous && status.phase === 'complete'
         ? '已打开切换后的资源库。可在数据管理中回退。' : ''))
     }).catch(() => {})
   }, [])

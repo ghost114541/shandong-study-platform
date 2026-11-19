@@ -138,6 +138,20 @@ def editor_image(path):
               fill="#18536b", font=ImageFont.truetype("arial.ttf", 42))
     image.save(path)
 
+def copy_sqlite(source, destination):
+    assert not destination.exists()
+    with read_database(source) as original, sqlite3.connect(destination) as copy:
+        original.backup(copy)
+
+def oversized_manifest(source, destination):
+    with zipfile.ZipFile(source) as archive:
+        manifest = json.loads(archive.read("manifest.json"))
+    database = next(member for member in manifest["files"] if member["kind"] == "database")
+    database["bytes"] = 1 << 60
+    manifest["total_bytes"] = sum(member["bytes"] for member in manifest["files"])
+    with zipfile.ZipFile(destination, "x") as archive:
+        archive.writestr("manifest.json", json.dumps(manifest))
+
 def hold_database_lock(root, ready, release):
     import time
     with sqlite3.connect(root / DB, timeout=5) as db:
@@ -158,4 +172,6 @@ if __name__ == "__main__":
         case "perf-assets": perf_assets(Path(args[0]))
         case "editor-image": editor_image(Path(args[0]))
         case "hold-lock": hold_database_lock(*map(Path, args))
+        case "copy-sqlite": copy_sqlite(*map(Path, args))
+        case "oversized-manifest": oversized_manifest(*map(Path, args))
         case other: raise ValueError(other)

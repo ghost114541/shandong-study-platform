@@ -4,8 +4,8 @@ use crate::{
 };
 use serde::Serialize;
 use shandong_poc_001b::db::{
-    ensure_space, unpack_backup, validate_staged_library, BackupManifest, BackupPreview,
-    BackupRecord, Database, DbError, ErrorKind, LibraryDiagnostics, Result,
+    ensure_space, preflight_backup_space, unpack_backup, validate_staged_library, BackupManifest,
+    BackupPreview, BackupRecord, Database, DbError, ErrorKind, LibraryDiagnostics, Result,
 };
 use std::{
     path::{Path, PathBuf},
@@ -17,14 +17,13 @@ use std::{
 };
 use tauri::{Emitter, Manager, WebviewWindow};
 use tauri_plugin_dialog::{DialogExt, FilePath};
-use tempfile::TempDir;
 
 #[derive(Default)]
 pub struct ProtectionSession {
     busy: AtomicBool,
     cancel: AtomicBool,
     frozen: AtomicBool,
-    preview: Mutex<Option<TempDir>>,
+    preview: Mutex<Option<PathBuf>>,
 }
 
 impl ProtectionSession {
@@ -56,6 +55,8 @@ pub struct ProtectionStatus {
     phase: Phase,
     error: Option<String>,
     pack_warning: Option<String>,
+    layout_warning: Option<String>,
+    previous_protection: Option<String>,
 }
 
 pub struct PackStartupWarning(pub Option<String>);
@@ -72,6 +73,13 @@ pub fn protection_status(window: WebviewWindow) -> Result<ProtectionStatus> {
         phase: root.phase(),
         error: root.error().map(str::to_owned),
         pack_warning: window.state::<PackStartupWarning>().0.clone(),
+        layout_warning: root
+            .needs_layout_repair()
+            .map_err(message)?
+            .then(|| "检测到旧版嵌套资源库。请保留原目录，并执行安全布局修复。".to_owned()),
+        previous_protection: root
+            .previous()
+            .and_then(|previous| root.check_cleanup(previous).err()),
     })
 }
 
@@ -123,17 +131,17 @@ pub async fn preview_restore(window: WebviewWindow) -> Result<Option<BackupPrevi
             .try_state::<Mutex<LibraryRoot>>()
             .ok_or_else(|| message("找不到资源库切换记录。"))?;
         let mut root = state.lock().map_err(lock_error)?;
+        let parent = root.managed_parent().map_err(message)?;
+        preflight_backup_space(&path, &parent)?;
+        let stage = root.create_stage(&parent).map_err(message)?;
         session.preview.lock().map_err(lock_error)?.take();
-        let stage = tempfile::Builder::new()
-            .prefix("restored-library-")
-            .tempdir_in(root.control())
-            .map_err(lock_error)?;
-        root.begin(Some(stage.path().to_owned())).map_err(message)?;
+        checkpoint(work.app_handle(), "candidate-created");
         root.update(Phase::Staging, None).map_err(message)?;
-        let preview = unpack_backup(&path, stage.path(), &mut progress(&work));
+        let preview = unpack_backup(&path, &stage, &mut progress(&work));
         match preview {
             Ok(preview) => {
                 root.update(Phase::Verified, None).map_err(message)?;
+                checkpoint(work.app_handle(), "candidate-verified");
                 *session.preview.lock().map_err(lock_error)? = Some(stage);
                 Ok(Some(preview))
             }
@@ -178,8 +186,7 @@ pub async fn confirm_restore(window: WebviewWindow) -> Result<()> {
             return Err(message("请重新选择并预检备份。"));
         }
         queue_switch(&work, &mut root)?;
-        // The journal owns the candidate after Pending is published.
-        let _ = preview.take().unwrap().keep();
+        preview.take();
         Ok(())
     })
     .await
@@ -200,36 +207,45 @@ pub async fn migrate_storage(window: WebviewWindow) -> Result<bool> {
     let Some(path) = pick(&window, Picker::Folder).await? else {
         return Ok(false);
     };
+    copy_library(window.clone(), Some(path)).await?;
+    Ok(true)
+}
+
+#[tauri::command]
+pub async fn repair_library_layout(window: WebviewWindow) -> Result<()> {
+    let session = window.state::<ProtectionSession>();
+    let _busy = session.begin(&window)?;
+    copy_library(window.clone(), None).await
+}
+
+async fn copy_library(window: WebviewWindow, selected: Option<PathBuf>) -> Result<()> {
     let work = window.clone();
     database(window.app_handle().clone(), move |db| {
         let state = work
             .try_state::<Mutex<LibraryRoot>>()
             .ok_or_else(|| message("找不到资源库切换记录。"))?;
         let mut root = state.lock().map_err(lock_error)?;
-        let parent = path.canonicalize().map_err(lock_error)?;
-        if parent.starts_with(root.active())
-            || parent.starts_with(root.control())
-            || root
-                .previous()
-                .is_some_and(|previous| parent.starts_with(previous))
-        {
-            return Err(message("请选择当前及回退资源库之外的文件夹。"));
-        }
+        let parent = match selected {
+            Some(path) => root.migration_parent(&path).map_err(message)?,
+            None => {
+                if !root.needs_layout_repair().map_err(message)? {
+                    return Err(message("当前资源库无需布局修复。"));
+                }
+                root.managed_parent().map_err(message)?
+            }
+        };
         ensure_space(
             &parent,
             db.estimated_library_bytes()?
                 .saturating_add(16 * 1024 * 1024),
         )?;
-        let stage = tempfile::Builder::new()
-            .prefix("KnowPaper-library-")
-            .tempdir_in(parent)
-            .map_err(lock_error)?;
-        root.begin(Some(stage.path().to_owned())).map_err(message)?;
+        let stage = root.create_stage(&parent).map_err(message)?;
+        checkpoint(work.app_handle(), "candidate-created");
         root.update(Phase::Staging, None).map_err(message)?;
         let result = (|| {
             let mut report = progress(&work);
-            let manifest = db.stage_library(stage.path(), &mut report)?;
-            validate_staged_library(stage.path(), manifest, &mut report)?;
+            let manifest = db.stage_library(&stage, &mut report)?;
+            validate_staged_library(&stage, manifest, &mut report)?;
             root.update(Phase::Verified, None).map_err(message)?;
             report("verified", 1, 1)?;
             queue_switch(&work, &mut root)
@@ -239,8 +255,7 @@ pub async fn migrate_storage(window: WebviewWindow) -> Result<bool> {
                 .map_err(message)?;
             return Err(error);
         }
-        let _ = stage.keep();
-        Ok(true)
+        Ok(())
     })
     .await
 }
@@ -255,11 +270,7 @@ pub async fn rollback_library(window: WebviewWindow) -> Result<()> {
             .try_state::<Mutex<LibraryRoot>>()
             .ok_or_else(|| message("找不到资源库切换记录。"))?;
         let mut root = state.lock().map_err(lock_error)?;
-        let candidate = root
-            .previous()
-            .ok_or_else(|| message("当前没有可回退的资源库。"))?
-            .to_owned();
-        root.begin(Some(candidate)).map_err(message)?;
+        root.prepare_rollback().map_err(message)?;
         queue_switch(&work, &mut root)
     })
     .await
@@ -307,7 +318,7 @@ fn display_path(path: &Path) -> String {
 }
 
 fn queue_switch(window: &WebviewWindow, root: &mut LibraryRoot) -> Result<()> {
-    root.update(Phase::Pending, None).map_err(message)?;
+    root.queue_switch().map_err(message)?;
     window
         .state::<ProtectionSession>()
         .frozen

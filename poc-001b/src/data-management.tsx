@@ -115,6 +115,9 @@ export function DataManagement({ panel: initial, reportGuard, prepare, onPending
       <section className="panel">
         <h2>资源库存储位置</h2>
         <p className="protection-path">{status?.directory ?? '正在读取资源库目录…'}</p>
+        {status?.layout_warning && <p role="alert">{status.layout_warning}</p>}
+        {status?.previous && <p className="protection-path">保留的回退库 {status.previous}</p>}
+        {status?.previous_protection && <p role="status">旧库清理检查已拒绝。{status.previous_protection}</p>}
         <div className="actions">
           <button disabled={locked || !status || Boolean(preview)} onClick={() => void run('估算磁盘空间…', async () => {
             const required = await protection.estimate()
@@ -124,6 +127,14 @@ export function DataManagement({ panel: initial, reportGuard, prepare, onPending
                 if (await protection.migrate()) finishSwitch()
               }, true))
           })}>更改存储位置</button>
+          {status?.layout_warning && <button disabled={locked || Boolean(preview)} onClick={() => request(
+            '将当前资源库完整复制到独立位置，验证后等待重启切换。原目录、旧库与控制日志会保留。',
+            () => void run('正在修复资源库布局…', async () => {
+              await prepare()
+              await protection.repairLayout()
+              finishSwitch()
+            }, true),
+          )}>安全修复资源库布局</button>}
           {status?.previous && <button disabled={locked || Boolean(preview)} onClick={() => request(
             '重启后切回上一次的资源库，当前库会保留为回退点。', () => void run('准备回退…', async () => {
               await prepare()

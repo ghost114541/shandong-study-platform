@@ -37,7 +37,8 @@ def main():
         return
     profile = Path(path).parent.name
     dev009 = re.fullmatch(r"org\.shandong-study\.dev009-[a-f0-9]{8}", profile) is not None
-    assert dev009 or profile.startswith(tuple(f"org.shandong-study.dev{number:03d}-" for number in range(2, 9))), profile
+    dev010 = re.fullmatch(r"org\.shandong-study\.dev010-[a-f0-9]{8}", profile) is not None
+    assert dev009 or dev010 or profile.startswith(tuple(f"org.shandong-study.dev{number:03d}-" for number in range(2, 9))), profile
     assert Path(path).name == "study.sqlite3"
     if command in ("copy-schema-one", "copy-schema-two", "copy-schema-three", "copy-schema-four"):
         source = Path(path)
