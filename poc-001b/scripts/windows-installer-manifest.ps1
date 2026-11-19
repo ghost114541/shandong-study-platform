@@ -1,16 +1,19 @@
 param(
     [Parameter(Mandatory)][string]$BundleDirectory,
-    [Parameter(Mandatory)][string]$Destination
+    [Parameter(Mandatory)][string]$Destination,
+    [string]$BundleVersion,
+    [string]$ApplicationSource
 )
 $ErrorActionPreference = 'Stop'
 $project = Split-Path -Parent $PSScriptRoot
 $config = Get-Content (Join-Path $project 'src-tauri/tauri.conf.json') -Raw -Encoding utf8 | ConvertFrom-Json
 $package = Get-Content (Join-Path $project 'package.json') -Raw | ConvertFrom-Json
 if ($package.version -ne $config.version) { throw 'NSIS and package versions differ' }
-$setup = @(Get-ChildItem -LiteralPath $BundleDirectory -Filter "*_$($config.version)_x64-setup.exe")
-if ($setup.Count -ne 1) { throw "Expected one x64 setup with version $($config.version)" }
+if (!$BundleVersion) { $BundleVersion = $config.version }
+$setup = @(Get-ChildItem -LiteralPath $BundleDirectory -Filter "*_$($BundleVersion)_x64-setup.exe")
+if ($setup.Count -ne 1) { throw "Expected one x64 setup with version $BundleVersion" }
 New-Item -ItemType Directory -Path $Destination -Force | Out-Null
-$path = Join-Path $Destination "KnowPaper-Preview-$($config.version)-windows-x64-setup.exe"
+$path = Join-Path $Destination "KnowPaper-Preview-$BundleVersion-windows-x64-setup.exe"
 if (Test-Path -LiteralPath $path) { throw "Preserve existing build evidence at $path" }
 Copy-Item -LiteralPath $setup[0].FullName -Destination $path
 $signature = Get-AuthenticodeSignature -LiteralPath $path
@@ -22,10 +25,11 @@ if ($LASTEXITCODE) { throw 'Cannot identify the source commit' }
     file = Split-Path -Leaf $path
     sha256 = (Get-FileHash -LiteralPath $path).Hash.ToLowerInvariant()
     bytes = (Get-Item -LiteralPath $path).Length
-    version = $config.version
+    version = $BundleVersion
     product = $config.productName
     identifier = $config.identifier
     gitHead = $head
+    appBuildGitHead = if ($ApplicationSource) { $ApplicationSource } else { $head }
     architecture = 'x64 (x86_64-pc-windows-msvc)'
     windows = (Get-CimInstance Win32_OperatingSystem).Version
     tauri = $tauri
