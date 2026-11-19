@@ -1,0 +1,102 @@
+Started Windows Tauri PID=30004 phase=normal origin=http://tauri.localhost/ offline=false
+default-schema9 {"files":129,"questions":2507,"schema":9}
+Selected file through native Win32 controls in 保存知卷完整备份 original-fixture.knowbackup
+Selected file through native Win32 controls in 选择知卷备份 beyond-volume.knowbackup
+Available-space precheck refused the oversized manifest before any candidate was allocated.
+Stopped Windows Tauri PID=30004 forced=false result=[0,null]
+Started Windows Tauri PID=17012 phase=candidate-created origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 选择知卷备份 original-fixture.knowbackup
+Reached checkpoint=candidate-created, forcing Windows PID=17012 to stop
+Stopped Windows Tauri PID=17012 forced=true result=[null,"SIGTERM"]
+Started Windows Tauri PID=34832 phase=normal origin=http://tauri.localhost/ offline=false
+after-candidate-created {"files":129,"questions":2507,"schema":9}
+Stopped Windows Tauri PID=34832 forced=false result=[0,null]
+Started Windows Tauri PID=22552 phase=unpack-mid origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 选择知卷备份 original-fixture.knowbackup
+Reached checkpoint=unpack-mid, forcing Windows PID=22552 to stop
+Stopped Windows Tauri PID=22552 forced=true result=[null,"SIGTERM"]
+Started Windows Tauri PID=23648 phase=normal origin=http://tauri.localhost/ offline=false
+after-unpack-mid {"files":129,"questions":2507,"schema":9}
+Stopped Windows Tauri PID=23648 forced=false result=[0,null]
+Started Windows Tauri PID=10884 phase=candidate-verified origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 选择知卷备份 original-fixture.knowbackup
+Reached checkpoint=candidate-verified, forcing Windows PID=10884 to stop
+Stopped Windows Tauri PID=10884 forced=true result=[null,"SIGTERM"]
+Started Windows Tauri PID=10840 phase=normal origin=http://tauri.localhost/ offline=false
+after-candidate-verified {"files":129,"questions":2507,"schema":9}
+Stopped Windows Tauri PID=10840 forced=false result=[0,null]
+Started Windows Tauri PID=32308 phase=normal origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 选择知卷备份 original-fixture.knowbackup
+Stopped Windows Tauri PID=32308 forced=false result=[0,null]
+Reached checkpoint=before-open, forcing Windows PID=26932 to stop
+Stopped Windows Tauri PID=26932 forced=true result=[null,"SIGTERM"]
+Reached checkpoint=first-open, forcing Windows PID=1976 to stop
+Stopped Windows Tauri PID=1976 forced=true result=[null,"SIGTERM"]
+Reached checkpoint=startup-verified, forcing Windows PID=30824 to stop
+Stopped Windows Tauri PID=30824 forced=true result=[null,"SIGTERM"]
+Reached checkpoint=before-pointer, forcing Windows PID=24024 to stop
+Stopped Windows Tauri PID=24024 forced=true result=[null,"SIGTERM"]
+Reached checkpoint=after-pointer, forcing Windows PID=26044 to stop
+Stopped Windows Tauri PID=26044 forced=true result=[null,"SIGTERM"]
+Started Windows Tauri PID=8872 phase=normal origin=http://tauri.localhost/ offline=false
+restored-independent {"active":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b.knowpaper-libraries\\KnowPaper-library-uUWNXQ","previous":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b","candidate":null,"control":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b\\data-protection"}
+restored-tables {"files":129,"questions":2507,"schema":9}
+old-default-tables {"files":129,"questions":2507,"schema":9}
+Stopped Windows Tauri PID=8872 forced=false result=[0,null]
+Started Windows Tauri PID=10668 phase=normal origin=http://tauri.localhost/ offline=false
+rollback-default {"active":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b","previous":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b.knowpaper-libraries\\KnowPaper-library-uUWNXQ","candidate":null,"control":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b\\data-protection"}
+rollback-default-tables {"files":129,"questions":2507,"schema":9}
+Stopped Windows Tauri PID=10668 forced=false result=[0,null]
+Started Windows Tauri PID=23460 phase=normal origin=http://tauri.localhost/ offline=false
+Stopped Windows Tauri PID=23460 forced=false result=[0,null]
+Started Windows Tauri PID=27840 phase=normal origin=http://tauri.localhost/ offline=false
+reopen-managed {"active":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b.knowpaper-libraries\\KnowPaper-library-uUWNXQ","previous":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b","candidate":null,"control":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b\\data-protection"}
+Stopped Windows Tauri PID=27840 forced=false result=[0,null]
+Started Windows Tauri PID=31772 phase=normal origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 选择知卷备份 original-fixture.knowbackup
+Stopped Windows Tauri PID=31772 forced=false result=[0,null]
+candidate-database {"files":129,"questions":2507,"schema":9}
+Started Windows Tauri PID=36128 phase=normal origin=http://tauri.localhost/ offline=false
+refused-database {"active":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b.knowpaper-libraries\\KnowPaper-library-uUWNXQ","previous":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b","candidate":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b.knowpaper-libraries\\KnowPaper-library-XHqfIZ","control":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b\\data-protection"}
+original-after-database {"files":129,"questions":2507,"schema":9}
+Stopped Windows Tauri PID=36128 forced=false result=[0,null]
+Started Windows Tauri PID=34024 phase=normal origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 选择知卷备份 original-fixture.knowbackup
+Stopped Windows Tauri PID=34024 forced=false result=[0,null]
+candidate-image {"files":129,"questions":2507,"schema":9}
+Started Windows Tauri PID=24788 phase=normal origin=http://tauri.localhost/ offline=false
+refused-image {"active":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b.knowpaper-libraries\\KnowPaper-library-uUWNXQ","previous":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b","candidate":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b.knowpaper-libraries\\KnowPaper-library-Pw8KDB","control":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b\\data-protection"}
+original-after-image {"files":129,"questions":2507,"schema":9}
+Stopped Windows Tauri PID=24788 forced=false result=[0,null]
+Started Windows Tauri PID=11468 phase=normal origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 选择知卷备份 original-fixture.knowbackup
+Stopped Windows Tauri PID=11468 forced=false result=[0,null]
+candidate-pdf {"files":129,"questions":2507,"schema":9}
+Started Windows Tauri PID=1132 phase=normal origin=http://tauri.localhost/ offline=false
+refused-pdf {"active":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b.knowpaper-libraries\\KnowPaper-library-uUWNXQ","previous":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b","candidate":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b.knowpaper-libraries\\KnowPaper-library-mIpW73","control":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b\\data-protection"}
+original-after-pdf {"files":129,"questions":2507,"schema":9}
+Selected file through native Win32 controls in 选择资源库的新存储位置 KnowPaper-DEV0101-1d0f1b6b
+Stopped Windows Tauri PID=1132 forced=false result=[0,null]
+Started Windows Tauri PID=17224 phase=normal origin=http://tauri.localhost/ offline=false
+cross-volume {"active":"D:\\KnowPaper-DEV0101-1d0f1b6b\\KnowPaper-library-p6ZCjL","previous":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b.knowpaper-libraries\\KnowPaper-library-uUWNXQ","candidate":null,"control":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b\\data-protection"}
+cross-volume-fingerprints {"files":129,"questions":2507,"schema":9}
+Stopped Windows Tauri PID=17224 forced=false result=[0,null]
+Started Windows Tauri PID=21004 phase=normal origin=http://tauri.localhost/ offline=false
+Stopped Windows Tauri PID=21004 forced=false result=[0,null]
+Started Windows Tauri PID=30624 phase=normal origin=http://tauri.localhost/ offline=false
+legacy-pending-refused {"files":129,"questions":2507,"schema":9}
+Stopped Windows Tauri PID=30624 forced=false result=[0,null]
+Started Windows Tauri PID=24980 phase=normal origin=http://tauri.localhost/ offline=false
+legacy-nested-detected {"active":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b\\data-protection\\restored-library-legacy","previous":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b","candidate":null,"control":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b\\data-protection"}
+legacy-original {"files":129,"questions":2507,"schema":9}
+Stopped Windows Tauri PID=24980 forced=false result=[0,null]
+Started Windows Tauri PID=13536 phase=normal origin=http://tauri.localhost/ offline=false
+legacy-repaired {"active":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b.knowpaper-libraries\\KnowPaper-library-bDJv0L","previous":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b\\data-protection\\restored-library-legacy","candidate":null,"control":"C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.dev010-1d0f1b6b\\data-protection"}
+legacy-repaired-tables {"files":129,"questions":2507,"schema":9}
+legacy-preserved-tables {"files":129,"questions":2507,"schema":9}
+Stopped Windows Tauri PID=13536 forced=false result=[0,null]
+Started Windows Tauri PID=14296 phase=normal origin=http://tauri.localhost/ offline=false
+Stopped Windows Tauri PID=14296 forced=false result=[0,null]
+Started Windows Tauri PID=25956 phase=normal origin=http://tauri.localhost/ offline=false
+Stopped Windows Tauri PID=25956 forced=false result=[0,null]
+Native root safety acceptance completed.

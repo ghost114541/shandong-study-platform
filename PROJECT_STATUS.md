@@ -1,3 +1,14 @@
+# DEV-010.1 资源库目录安全交接（2026-11-19）
+
+**DEV-010.1 Windows 安全修复开发验收完成，待网页端 ChatGPT 独立源码审查。**
+
+- 分支 `dev/dev-010-1-library-root-safety` 基于 `34bd1e67399e44487c032f9e65eb7eba2e10fd4d`。恢复与布局修复将候选建立在独立目录。配置、旧默认库及历史内层库受清理保护。
+- Windows 已复核真实 NTFS junction、旧版嵌套库启动与安全迁移、八个真实 Tauri 强制终止点、C: 至 D: 迁移及双向回退。历史活动库缺图时按预期阻断，原库保留。目录符号链接和其余未测项见验收矩阵。
+
+[专项报告](DEV-010-1_REPORT.md) · [目录安全](DEV-010-1_PATH_SAFETY_DESIGN.md) · [16 项验收与证据](DEV-010-1_TEST_RESULTS.md) · [已知问题](DEV-010-1_KNOWN_ISSUES.md)
+
+---
+
 # DEV-010 数据保护交接（2026-11-19）
 
 **DEV-010 Windows 开发验收完成，待网页端 ChatGPT 独立源码审查。**

@@ -1,0 +1,127 @@
+[
+  {
+    "phase": "startup",
+    "ms": 1073.6471000000001,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 952.1652999999997,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 815.8121999999994,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 872.2537999999995,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 999.2392,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 1090.1067000000003,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 825.3243999999995,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 750.7866000000013,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 791.0159999999996,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 880.2419999999984,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 767.9709999999977,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 851.5853999999999,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 796.9434000000001,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 725.2001999999993,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 749.4261000000006,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 800.302300000003,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 765.3032000000021,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 816.1111999999994,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 864.3870000000024,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 860.2678999999989,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 756.1798999999955,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 764.8004999999976,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 854.8159999999989,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 855.5639999999985,
+    "offline": false
+  },
+  {
+    "phase": "startup",
+    "ms": 855.9199000000008,
+    "offline": false
+  }
+]

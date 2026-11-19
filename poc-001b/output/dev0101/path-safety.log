@@ -1,0 +1,16 @@
+   Compiling shandong-poc-001b v0.1.0 (C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9.18s
+     Running unittests src\main.rs (target\debug\build\shandong-poc-001b/3a1fabfede9d123e\out\shandong_poc_001b-3a1fabfede9d123e.exe)
+
+running 4 tests
+Directory symlink NOT TESTED: Windows privilege not held (1314).
+NTFS denied candidate creation. Original database validated.
+test library_root::safety_tests::dev0101_candidate_creation_denied_by_ntfs_acl ... ok
+Real junction and case aliases rejected, including a pending candidate replaced by a junction.
+test library_root::safety_tests::dev0101_t04_case_and_real_ntfs_junction ... ok
+Win32 sharing denied pointer replacement. Original opened, then retry switched after releasing the lock.
+test library_root::safety_tests::dev0101_control_write_failure_preserves_committed_root ... ok
+Retired managed fixture removed after approval; active, rollback and control verified.
+test library_root::safety_tests::dev0101_t01_t02_t03_t09_t10_root_relations_and_cleanup ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.55s
