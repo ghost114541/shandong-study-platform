@@ -202,15 +202,18 @@ Var AppStartMenuFolder
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 ; Use show readme button in the finish page as a button create a desktop shortcut
 !define MUI_FINISHPAGE_SHOWREADME
+!define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
 !define MUI_FINISHPAGE_SHOWREADME_TEXT "$(createDesktop)"
 !define MUI_FINISHPAGE_SHOWREADME_FUNCTION CreateOrUpdateDesktopShortcut
 ; Show run app after installation.
 !define MUI_FINISHPAGE_RUN
+!define MUI_FINISHPAGE_RUN_NOTCHECKED
 !define MUI_FINISHPAGE_RUN_FUNCTION RunMainBinary
 !define MUI_PAGE_CUSTOMFUNCTION_PRE SkipIfPassive
 !insertmacro MUI_PAGE_FINISH
 
 Function RunMainBinary
+  !insertmacro PreviewReleaseGuard
   nsis_tauri_utils::RunAsUser "$INSTDIR\${MAINBINARYNAME}.exe" ""
 FunctionEnd
 
@@ -223,13 +226,6 @@ FunctionEnd
 ; 2. Uninstalling Page
 !insertmacro MUI_UNPAGE_INSTFILES
 
-;Languages
-; PageReinstall reads the misspelled `choowHowToInstall` as a fallback, and makensis warns
-; about a language string that is read but never set, so default it to an empty string for
-; every language. This runs before the language files are included, so a custom language
-; file that only defines the old spelling overrides the default and the fallback shows its
-; text. `0` as the language id means the language inserted right above.
-; TODO: remove the `choowHowToInstall` fallback in a future major version
 {{#each languages}}
 !insertmacro MUI_LANGUAGE "{{this}}"
 LangString choowHowToInstall 0 ""
@@ -304,7 +300,7 @@ Section WebView2
           DetailPrint "$(webview2DownloadSuccess)"
         ${Else}
           DetailPrint "$(webview2DownloadError)"
-          Abort "$(webview2AbortError)"
+          !insertmacro PreviewAbort 15 "$(webview2AbortError)"
         ${EndIf}
         StrCpy $6 "$TEMP\MicrosoftEdgeWebview2Setup.exe"
         Goto install_webview2
@@ -320,7 +316,11 @@ Section WebView2
 
       !if "${INSTALLWEBVIEW2MODE}" == "offlineInstaller"
         Delete "$TEMP\MicrosoftEdgeWebView2RuntimeInstaller.exe"
+        ClearErrors
         File "/oname=$TEMP\MicrosoftEdgeWebView2RuntimeInstaller.exe" "${WEBVIEW2INSTALLERPATH}"
+        ${If} ${Errors}
+          !insertmacro PreviewAbort 15 "$(webview2AbortError)"
+        ${EndIf}
         DetailPrint "$(installingWebview2)"
         StrCpy $6 "$TEMP\MicrosoftEdgeWebView2RuntimeInstaller.exe"
         Goto install_webview2
@@ -336,7 +336,7 @@ Section WebView2
           DetailPrint "$(webview2InstallSuccess)"
         ${Else}
           DetailPrint "$(webview2InstallError)"
-          Abort "$(webview2AbortError)"
+          !insertmacro PreviewAbort 15 "$(webview2AbortError)"
         ${EndIf}
       webview2_done:
     ${EndIf}
@@ -386,6 +386,13 @@ Section Install
 
   ; Copy main executable
   SetOverwrite on
+  ; Delete stale staging links/files without opening their targets.
+  Delete "$INSTDIR\knowpaper-preview.next"
+  Delete "$INSTDIR\uninstall.next"
+  ${If} ${FileExists} "$INSTDIR\knowpaper-preview.next"
+  ${OrIf} ${FileExists} "$INSTDIR\uninstall.next"
+    !insertmacro PreviewAbort 13 "$(PreviewFileFailure)"
+  ${EndIf}
   ClearErrors
   File "/oname=knowpaper-preview.next" "${MAINBINARYSRCPATH}"
   ${If} ${Errors}
@@ -422,8 +429,21 @@ Section Install
 
   ; Create uninstaller
   ClearErrors
-  WriteUninstaller "$INSTDIR\uninstall.exe"
+  WriteUninstaller "$INSTDIR\uninstall.next"
   ${If} ${Errors}
+    !insertmacro PreviewAbort 13 "$(PreviewFileFailure)"
+  ${EndIf}
+
+  ; Write the required shortcut before publishing a new application version.
+  ClearErrors
+  CreateShortcut "$SMPROGRAMS\${PRODUCTNAME}.lnk" "$INSTDIR\${MAINBINARYNAME}.exe"
+  ${If} ${Errors}
+    !insertmacro PreviewAbort 14 "$(PreviewShortcutFailure)"
+  ${EndIf}
+  !insertmacro SetLnkAppUserModelId "$SMPROGRAMS\${PRODUCTNAME}.lnk"
+
+  System::Call 'kernel32::MoveFileExW(w "$INSTDIR\uninstall.next", w "$INSTDIR\uninstall.exe", i 9)i.r0'
+  ${If} $0 == 0
     !insertmacro PreviewAbort 13 "$(PreviewFileFailure)"
   ${EndIf}
 
@@ -473,11 +493,6 @@ Section Install
     WriteRegStr SHCTX "${UNINSTKEY}" "HelpLink" "${HOMEPAGE}"
   !endif
 
-  ; Create start menu shortcut
-  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-    Call CreateOrUpdateStartMenuShortcut
-  !insertmacro MUI_STARTMENU_WRITE_END
-
   ; Create desktop shortcut for silent and passive installers
   ; because finish page will be skipped
   ${If} $PassiveMode = 1
@@ -503,6 +518,7 @@ Function .onInstSuccess
     ${GetOptions} $CMDLINE "/R" $R0
     ${IfNot} ${Errors}
       ${GetOptions} $CMDLINE "/ARGS" $R0
+      !insertmacro PreviewReleaseGuard
       nsis_tauri_utils::RunAsUser "$INSTDIR\${MAINBINARYNAME}.exe" "$R0"
     ${EndIf}
   ${EndIf}
@@ -578,6 +594,7 @@ Section Uninstall
 
   ; Delete uninstaller
   Delete "$INSTDIR\knowpaper-preview.next"
+  Delete "$INSTDIR\uninstall.next"
   Delete "$INSTDIR\uninstall.exe"
 
   {{#each resources_ancestors}}
@@ -651,48 +668,6 @@ Function SkipIfPassive
 FunctionEnd
 Function un.SkipIfPassive
   ${IfThen} $PassiveMode = 1  ${|} Abort ${|}
-FunctionEnd
-
-Function CreateOrUpdateStartMenuShortcut
-  ; We used to use product name as MAINBINARYNAME
-  ; migrate old shortcuts to target the new MAINBINARYNAME
-  StrCpy $R0 0
-
-  !insertmacro IsShortcutTarget "$SMPROGRAMS\$AppStartMenuFolder\${PRODUCTNAME}.lnk" "$INSTDIR\$OldMainBinaryName"
-  Pop $0
-  ${If} $0 = 1
-    !insertmacro SetShortcutTarget "$SMPROGRAMS\$AppStartMenuFolder\${PRODUCTNAME}.lnk" "$INSTDIR\${MAINBINARYNAME}.exe"
-    StrCpy $R0 1
-  ${EndIf}
-
-  !insertmacro IsShortcutTarget "$SMPROGRAMS\${PRODUCTNAME}.lnk" "$INSTDIR\$OldMainBinaryName"
-  Pop $0
-  ${If} $0 = 1
-    !insertmacro SetShortcutTarget "$SMPROGRAMS\${PRODUCTNAME}.lnk" "$INSTDIR\${MAINBINARYNAME}.exe"
-    StrCpy $R0 1
-  ${EndIf}
-
-  ${If} $R0 = 1
-    Return
-  ${EndIf}
-
-  ; Skip creating shortcut if in update mode or no shortcut mode
-  ; but always create if migrating from wix
-  ${If} $WixMode = 0
-    ${If} $UpdateMode = 1
-    ${OrIf} $NoShortcutMode = 1
-      Return
-    ${EndIf}
-  ${EndIf}
-
-  !if "${STARTMENUFOLDER}" != ""
-    CreateDirectory "$SMPROGRAMS\$AppStartMenuFolder"
-    CreateShortcut "$SMPROGRAMS\$AppStartMenuFolder\${PRODUCTNAME}.lnk" "$INSTDIR\${MAINBINARYNAME}.exe"
-    !insertmacro SetLnkAppUserModelId "$SMPROGRAMS\$AppStartMenuFolder\${PRODUCTNAME}.lnk"
-  !else
-    CreateShortcut "$SMPROGRAMS\${PRODUCTNAME}.lnk" "$INSTDIR\${MAINBINARYNAME}.exe"
-    !insertmacro SetLnkAppUserModelId "$SMPROGRAMS\${PRODUCTNAME}.lnk"
-  !endif
 FunctionEnd
 
 Function CreateOrUpdateDesktopShortcut

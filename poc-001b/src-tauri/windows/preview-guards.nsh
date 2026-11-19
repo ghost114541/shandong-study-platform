@@ -1,3 +1,5 @@
+Var PreviewGuard
+
 !macro PreviewAbort code message
   DetailPrint "${message}"
   MessageBox MB_OK|MB_ICONSTOP "${message}" /SD IDOK
@@ -14,6 +16,11 @@
   ${OrIf} $1 == 183
     !insertmacro PreviewAbort 10 "$(PreviewBusy)"
   ${EndIf}
+  StrCpy $PreviewGuard $0
+!macroend
+
+!macro PreviewReleaseGuard
+  System::Call 'kernel32::CloseHandle(p $PreviewGuard)'
 !macroend
 
 !macro PreviewCheckDirectory
@@ -42,7 +49,9 @@
   LangString PreviewInvalidDirectory ${LANG_ENGLISH} "The dedicated installation directory is inaccessible or invalid."
   LangString PreviewFileFailure ${LANG_SIMPCHINESE} "无法更新程序文件。请检查磁盘空间、权限和文件占用后重试。"
   LangString PreviewFileFailure ${LANG_ENGLISH} "Could not update program files. Check available space, permissions, and file locks before retrying."
+  LangString PreviewShortcutFailure ${LANG_SIMPCHINESE} "无法创建开始菜单快捷方式。请检查权限后重试。"
+  LangString PreviewShortcutFailure ${LANG_ENGLISH} "Could not create the Start menu shortcut. Check permissions and try again."
   LangString KeepPreviewData ${LANG_SIMPCHINESE} "卸载将移除知卷程序和快捷方式。学习资料、资源库和备份将保留。"
   LangString KeepPreviewData ${LANG_ENGLISH} "Uninstalling removes KnowPaper and its shortcuts. Your study data, libraries, and backups are kept."
-  
+
 !macroend

@@ -50,4 +50,3 @@ pub fn show_busy(error: &io::Error) {
 fn wide(text: &str) -> Vec<u16> {
     text.encode_utf16().chain([0]).collect()
 }
-

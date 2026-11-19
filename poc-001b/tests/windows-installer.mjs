@@ -356,7 +356,7 @@ try {
   await shot('offline-composition')
   await click('导出双 PDF')
   await click('确认并导出')
-  await text('答案解析卷：')
+  await text('双 PDF 导出成功')
   await shot('offline-pdf-export')
   await stop()
   assert.deepEqual(snapshot('after-reinstall-start-and-export', roots), pristine)
