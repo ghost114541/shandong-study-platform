@@ -1,0 +1,15 @@
+{"label":"install-A","exitCode":0,"seconds":3.6842467,"pages":3,"system":{"shortcut":"C:\\Users\\whmmsm\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\知卷 KnowPaper（测试版）.lnk","publisher":"KnowPaper","uninstallString":"\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\uninstall.exe\"","linkTarget":"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe","desktop":false,"version":"0.2.0","directory":true,"displayName":"知卷 KnowPaper（测试版）","executable":true,"installLocation":"\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\"","icon":"\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe\"","fileVersion":"0.2.0"}}
+{"label":"A-first-start","pid":26880,"ms":1430,"offlineEmulation":false,"memory":{"mainBytes":45297664,"webViewBytes":413908992,"mainTitle":"知卷 KnowPaper（测试版） 0.2.0"}}
+Selected file through native Win32 controls in 选择知卷备份
+{"label":"A-after-restoring-synthetic-history","pid":30532,"ms":1289,"offlineEmulation":false,"memory":{"mainTitle":"知卷 KnowPaper（测试版） 0.2.0","mainBytes":48406528,"webViewBytes":426061824}}
+Selected file through native Win32 controls in 导入试卷 PDF
+file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-installer.mjs:111
+    throw new Error(result.exceptionDetails.exception?.description ??
+          ^
+
+Error: Object
+    at evaluate (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-installer.mjs:111:11)
+    at async createLearningData (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-installer.mjs:222:22)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-installer.mjs:289:3
+
+Node.js v24.13.0

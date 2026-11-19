@@ -1,0 +1,24 @@
+{
+  "paper.pdf": {
+    "sha256": "26d93299f9e1929c83c0f0ee70cdf7f361c657322b7e18034873931292b32917",
+    "bytes": 55150,
+    "pages": 1,
+    "pagePoints": [
+      594.9599609375,
+      841.9199829101562
+    ],
+    "embeddedImages": 1,
+    "containsSampleTitle": true
+  },
+  "answers.pdf": {
+    "sha256": "13bfb9bcd8cd22d1c5faf553020a563e402fd312b5316b324796d8a4d2c51a2c",
+    "bytes": 42749,
+    "pages": 1,
+    "pagePoints": [
+      594.9599609375,
+      841.9199829101562
+    ],
+    "embeddedImages": 0,
+    "containsSampleTitle": true
+  }
+}

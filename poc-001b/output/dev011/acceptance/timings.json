@@ -1,0 +1,312 @@
+[
+  {
+    "label": "install-A",
+    "ms": 5305,
+    "exitCode": 0,
+    "seconds": 3.719396,
+    "pages": 3,
+    "system": {
+      "installLocation": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\"",
+      "fileVersion": "0.2.0",
+      "executable": true,
+      "linkTarget": "C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe",
+      "desktop": false,
+      "shortcut": "C:\\Users\\whmmsm\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\知卷 KnowPaper（测试版）.lnk",
+      "directory": true,
+      "icon": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe\"",
+      "version": "0.2.0",
+      "uninstallString": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\uninstall.exe\"",
+      "publisher": "KnowPaper",
+      "displayName": "知卷 KnowPaper（测试版）"
+    }
+  },
+  {
+    "label": "A-first-start",
+    "pid": 25136,
+    "ms": 1201,
+    "offlineEmulation": false,
+    "memory": {
+      "mainBytes": 44965888,
+      "mainTitle": "知卷 KnowPaper（测试版） 0.2.0",
+      "webViewBytes": 372506624
+    }
+  },
+  {
+    "label": "A-after-restoring-synthetic-history",
+    "pid": 36832,
+    "ms": 1127,
+    "offlineEmulation": false,
+    "memory": {
+      "webViewBytes": 412930048,
+      "mainBytes": 48480256,
+      "mainTitle": "知卷 KnowPaper（测试版） 0.2.0"
+    }
+  },
+  {
+    "label": "upgrade-blocked-by-pending-switch",
+    "exitCode": 10,
+    "ms": 1325,
+    "system": {
+      "fileVersion": "0.2.0",
+      "installLocation": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\"",
+      "directory": true,
+      "linkTarget": "C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe",
+      "version": "0.2.0",
+      "executable": true,
+      "desktop": false,
+      "publisher": "KnowPaper",
+      "uninstallString": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\uninstall.exe\"",
+      "shortcut": "C:\\Users\\whmmsm\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\知卷 KnowPaper（测试版）.lnk",
+      "displayName": "知卷 KnowPaper（测试版）",
+      "icon": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe\""
+    }
+  },
+  {
+    "label": "A-cross-volume",
+    "pid": 3260,
+    "ms": 1249,
+    "offlineEmulation": false,
+    "memory": {
+      "mainBytes": 48238592,
+      "mainTitle": "知卷 KnowPaper（测试版） 0.2.0",
+      "webViewBytes": 402833408
+    }
+  },
+  {
+    "label": "upgrade-blocked-at-backup-dialog",
+    "exitCode": 10,
+    "ms": 1360,
+    "system": {
+      "linkTarget": "C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe",
+      "version": "0.2.0",
+      "directory": true,
+      "installLocation": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\"",
+      "executable": true,
+      "icon": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe\"",
+      "uninstallString": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\uninstall.exe\"",
+      "shortcut": "C:\\Users\\whmmsm\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\知卷 KnowPaper（测试版）.lnk",
+      "displayName": "知卷 KnowPaper（测试版）",
+      "desktop": false,
+      "publisher": "KnowPaper",
+      "fileVersion": "0.2.0"
+    }
+  },
+  {
+    "label": "upgrade-blocked-by-running-A",
+    "ms": 64319,
+    "exitCode": 10,
+    "seconds": 63.0322057,
+    "pages": 0,
+    "system": {
+      "displayName": "知卷 KnowPaper（测试版）",
+      "shortcut": "C:\\Users\\whmmsm\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\知卷 KnowPaper（测试版）.lnk",
+      "executable": true,
+      "directory": true,
+      "icon": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe\"",
+      "linkTarget": "C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe",
+      "publisher": "KnowPaper",
+      "version": "0.2.0",
+      "uninstallString": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\uninstall.exe\"",
+      "desktop": false,
+      "fileVersion": "0.2.0",
+      "installLocation": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\""
+    }
+  },
+  {
+    "label": "resume-synthetic-lifecycle",
+    "pid": 7016,
+    "ms": 1259,
+    "offlineEmulation": false,
+    "memory": {
+      "mainTitle": "知卷 KnowPaper（测试版） 0.2.0",
+      "mainBytes": 48566272,
+      "webViewBytes": 414953472
+    }
+  },
+  {
+    "label": "truncated-bundle",
+    "ms": 2490,
+    "exitCode": 2,
+    "seconds": 1.0948119,
+    "pages": 1,
+    "system": {
+      "executable": true,
+      "installLocation": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\"",
+      "publisher": "KnowPaper",
+      "version": "0.2.0",
+      "desktop": false,
+      "uninstallString": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\uninstall.exe\"",
+      "directory": true,
+      "displayName": "知卷 KnowPaper（测试版）",
+      "shortcut": "C:\\Users\\whmmsm\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\知卷 KnowPaper（测试版）.lnk",
+      "icon": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe\"",
+      "linkTarget": "C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe",
+      "fileVersion": "0.2.0"
+    }
+  },
+  {
+    "label": "upgrade-A-to-B",
+    "ms": 14563,
+    "exitCode": 0,
+    "seconds": 12.9567527,
+    "pages": 3,
+    "system": {
+      "displayName": "知卷 KnowPaper（测试版）",
+      "fileVersion": "0.2.1",
+      "shortcut": "C:\\Users\\whmmsm\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\知卷 KnowPaper（测试版）.lnk",
+      "linkTarget": "C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe",
+      "desktop": false,
+      "publisher": "KnowPaper",
+      "directory": true,
+      "icon": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe\"",
+      "executable": true,
+      "installLocation": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\"",
+      "version": "0.2.1",
+      "uninstallString": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\uninstall.exe\""
+    }
+  },
+  {
+    "label": "B-first-start",
+    "pid": 32668,
+    "ms": 1181,
+    "offlineEmulation": false,
+    "memory": {
+      "mainBytes": 48558080,
+      "webViewBytes": 415600640,
+      "mainTitle": "知卷 KnowPaper（测试版） 0.2.1"
+    }
+  },
+  {
+    "label": "B-to-A-refused",
+    "exitCode": 11,
+    "ms": 1393,
+    "system": {
+      "directory": true,
+      "icon": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe\"",
+      "installLocation": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\"",
+      "linkTarget": "C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe",
+      "uninstallString": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\uninstall.exe\"",
+      "fileVersion": "0.2.1",
+      "publisher": "KnowPaper",
+      "displayName": "知卷 KnowPaper（测试版）",
+      "shortcut": "C:\\Users\\whmmsm\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\知卷 KnowPaper（测试版）.lnk",
+      "version": "0.2.1",
+      "executable": true,
+      "desktop": false
+    }
+  },
+  {
+    "label": "B-repeat-install",
+    "exitCode": 0,
+    "ms": 2505,
+    "system": {
+      "publisher": "KnowPaper",
+      "directory": true,
+      "linkTarget": "C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe",
+      "displayName": "知卷 KnowPaper（测试版）",
+      "executable": true,
+      "shortcut": "C:\\Users\\whmmsm\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\知卷 KnowPaper（测试版）.lnk",
+      "icon": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe\"",
+      "desktop": true,
+      "fileVersion": "0.2.1",
+      "installLocation": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\"",
+      "version": "0.2.1",
+      "uninstallString": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\uninstall.exe\""
+    }
+  },
+  {
+    "label": "uninstall-B",
+    "ms": 3667,
+    "exitCode": 0,
+    "seconds": 2.0911036,
+    "pages": 2,
+    "system": {
+      "version": null,
+      "desktop": false,
+      "uninstallString": null,
+      "installLocation": null,
+      "displayName": null,
+      "shortcut": "C:\\Users\\whmmsm\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\知卷 KnowPaper（测试版）.lnk",
+      "linkTarget": null,
+      "directory": false,
+      "executable": false,
+      "icon": null,
+      "publisher": null,
+      "fileVersion": null
+    }
+  },
+  {
+    "label": "reinstall-B",
+    "exitCode": 0,
+    "ms": 2465,
+    "system": {
+      "executable": true,
+      "fileVersion": "0.2.1",
+      "version": "0.2.1",
+      "uninstallString": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\uninstall.exe\"",
+      "icon": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe\"",
+      "linkTarget": "C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe",
+      "directory": true,
+      "displayName": "知卷 KnowPaper（测试版）",
+      "installLocation": "\"C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\"",
+      "shortcut": "C:\\Users\\whmmsm\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\知卷 KnowPaper（测试版）.lnk",
+      "publisher": "KnowPaper",
+      "desktop": true
+    }
+  },
+  {
+    "label": "B-reinstalled-offline",
+    "pid": 6112,
+    "ms": 1416,
+    "offlineEmulation": true,
+    "memory": {
+      "mainTitle": "知卷 KnowPaper（测试版） 0.2.1",
+      "webViewBytes": 425799680,
+      "mainBytes": 49139712
+    }
+  },
+  {
+    "label": "B-future-schema-refused",
+    "pid": 20572,
+    "ms": 1170,
+    "offlineEmulation": false,
+    "memory": {
+      "mainBytes": 43159552,
+      "mainTitle": "知卷 KnowPaper（测试版） 0.2.1",
+      "webViewBytes": 371879936
+    }
+  },
+  {
+    "label": "B-offline-with-Windows-only-PATH",
+    "pid": 11708,
+    "ms": 1339,
+    "offlineEmulation": true,
+    "memory": {
+      "mainBytes": 48271360,
+      "webViewBytes": 425480192,
+      "mainTitle": "知卷 KnowPaper（测试版） 0.2.1"
+    }
+  },
+  {
+    "label": "B-profile-lock-access-denied",
+    "pid": 12404,
+    "ms": 1047,
+    "offlineEmulation": false,
+    "memory": {
+      "mainBytes": 42258432,
+      "mainTitle": "知卷 KnowPaper（测试版） 0.2.1",
+      "webViewBytes": 374550528
+    }
+  },
+  {
+    "label": "B-profile-lock-recovered",
+    "pid": 2364,
+    "ms": 945,
+    "offlineEmulation": false,
+    "memory": {
+      "webViewBytes": 410091520,
+      "mainTitle": "知卷 KnowPaper（测试版） 0.2.1",
+      "mainBytes": 48500736
+    }
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "label": "install-A",
+    "ms": 18972,
+    "exitCode": 12,
+    "seconds": 17.2119803,
+    "pages": 1,
+    "system": {
+      "shortcut": "C:\\Users\\whmmsm\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\知卷 KnowPaper（测试版）.lnk",
+      "icon": null,
+      "publisher": null,
+      "version": null,
+      "fileVersion": null,
+      "linkTarget": null,
+      "displayName": null,
+      "directory": true,
+      "uninstallString": null,
+      "executable": false,
+      "installLocation": null,
+      "desktop": false
+    }
+  }
+]

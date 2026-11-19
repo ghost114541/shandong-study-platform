@@ -1,0 +1,10 @@
+{
+  "run": 44577470728,
+  "artifact": 14558850936,
+  "name": "knowpaper-preview-windows-x64-28871529cb7f77402fb504f118011ea54fd60dda",
+  "expiresAt": "2026-12-03T17:38:26Z",
+  "computedZipSha256": "0458de1e2d413cdf9a3c0f0853716507a2ed40e21d8bfca4c626095909056d0f",
+  "computedSetupSha256": "ba738a49eec3ada56251e200fb06d559cf69df3affc5ba155c1c4bfd89b8b5cf",
+  "zipBytes": 224483073,
+  "buildHead": "28871529cb7f77402fb504f118011ea54fd60dda"
+}

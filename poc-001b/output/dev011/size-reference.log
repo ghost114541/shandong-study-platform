@@ -1,0 +1,9 @@
+
+> knowpaper-preview@0.2.1 tauri
+> tauri bundle --bundles nsis --config .test-output/dev011-size-skip.json
+
+        Info Patching C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\.test-output\dev011-size-reference\release\knowpaper-preview.exe with bundle type information: nsis
+        Info Target: x64
+     Running makensis to produce C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\.test-output\dev011-size-reference\release\bundle\nsis\知卷 KnowPaper（测试版）_0.2.1_x64-setup.exe
+    Finished 1 bundle at:
+        C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\.test-output\dev011-size-reference\release\bundle\nsis\知卷 KnowPaper（测试版）_0.2.1_x64-setup.exe (9.00 MiB)

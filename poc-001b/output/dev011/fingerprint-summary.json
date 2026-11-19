@@ -1,0 +1,34 @@
+{
+  "equalSnapshots": [
+    "A-before-upgrade",
+    "resumed-synthetic-lifecycle",
+    "A-after-truncation",
+    "B-before-start",
+    "B-after-first-start",
+    "B-after-repeat-and-downgrade",
+    "B-with-program-file-locked",
+    "after-uninstall",
+    "after-reinstall-start-and-export",
+    "B-after-future-schema-test",
+    "B-offline-reader",
+    "B-after-profile-access-denial"
+  ],
+  "journalSha256": "eb7d8067e82f5b1b0fa9e25677ff107c0e82261b19abdad4f27c3cba84fee9dc",
+  "backupSha256": "fe69360c5f878bdb61647edf2196c47948355dbbf730ad9fa97d31c432628e22",
+  "library": [
+    {
+      "databaseTables": 43,
+      "syntheticQuestions": 2508,
+      "externalFiles": 130,
+      "externalBytes": 51889,
+      "backupRecords": 3
+    },
+    {
+      "databaseTables": 43,
+      "syntheticQuestions": 2507,
+      "externalFiles": 129,
+      "externalBytes": 51502,
+      "backupRecords": 2
+    }
+  ]
+}

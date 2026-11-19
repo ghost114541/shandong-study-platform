@@ -1,0 +1,27 @@
+{
+  "file": "KnowPaper-Preview-0.2.0-windows-x64-setup.exe",
+  "sha256": "01c5043a3c558f7dbc18b013bc55e69f862e451a633ca897ee43e064fea3942a",
+  "bytes": 224480909,
+  "version": "0.2.0",
+  "product": "知卷 KnowPaper（测试版）",
+  "identifier": "org.shandong-study.knowpaper-preview",
+  "gitHead": "baf30a5146a780fbf5efc30c32f088d65e6fca58",
+  "architecture": "x64 (x86_64-pc-windows-msvc)",
+  "windows": "10.0.26200",
+  "tauri": "tauri-cli 2.12.5",
+  "rust": [
+    "rustc 1.100.0 (0ef1bc386 2026-11-09)",
+    "binary: rustc",
+    "commit-hash: 0ef1bc386059596dada8fb65b50425aab2ea637a",
+    "commit-date: 2026-11-09",
+    "host: x86_64-pc-windows-msvc",
+    "release: 1.100.0",
+    "LLVM version: 23.1.5"
+  ],
+  "node": "v24.13.0",
+  "signatureStatus": "NotSigned",
+  "signer": null,
+  "recordedAtUtc": "2026-11-19T17:26:12.6417110Z",
+  "bundleWriteAtUtc": "2026-11-19T17:26:04.0244041Z",
+  "status": "Superseded. Native installation returned 12 before program registration."
+}

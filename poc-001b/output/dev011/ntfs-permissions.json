@@ -1,0 +1,126 @@
+[
+  {
+    "path": "C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview",
+    "protectedAcl": false,
+    "owner": "LAPTOP-DJI28PFG\\whmmsm",
+    "access": [
+      {
+        "Principal": "LAPTOP-DJI28PFG\\CodexSandboxUsers",
+        "Rights": "ReadAndExecute, Synchronize",
+        "Type": "Allow",
+        "IsInherited": true
+      },
+      {
+        "Principal": "NT AUTHORITY\\SYSTEM",
+        "Rights": "FullControl",
+        "Type": "Allow",
+        "IsInherited": true
+      },
+      {
+        "Principal": "BUILTIN\\Administrators",
+        "Rights": "FullControl",
+        "Type": "Allow",
+        "IsInherited": true
+      },
+      {
+        "Principal": "LAPTOP-DJI28PFG\\whmmsm",
+        "Rights": "FullControl",
+        "Type": "Allow",
+        "IsInherited": true
+      }
+    ]
+  },
+  {
+    "path": "C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.knowpaper-preview",
+    "protectedAcl": false,
+    "owner": "LAPTOP-DJI28PFG\\whmmsm",
+    "access": [
+      {
+        "Principal": "LAPTOP-DJI28PFG\\CodexSandboxUsers",
+        "Rights": "ReadAndExecute, Synchronize",
+        "Type": "Allow",
+        "IsInherited": true
+      },
+      {
+        "Principal": "NT AUTHORITY\\SYSTEM",
+        "Rights": "FullControl",
+        "Type": "Allow",
+        "IsInherited": true
+      },
+      {
+        "Principal": "BUILTIN\\Administrators",
+        "Rights": "FullControl",
+        "Type": "Allow",
+        "IsInherited": true
+      },
+      {
+        "Principal": "LAPTOP-DJI28PFG\\whmmsm",
+        "Rights": "FullControl",
+        "Type": "Allow",
+        "IsInherited": true
+      }
+    ]
+  },
+  {
+    "path": "C:\\Users\\whmmsm\\AppData\\Roaming\\org.shandong-study.knowpaper-preview\\data-protection",
+    "protectedAcl": false,
+    "owner": "LAPTOP-DJI28PFG\\whmmsm",
+    "access": [
+      {
+        "Principal": "LAPTOP-DJI28PFG\\CodexSandboxUsers",
+        "Rights": "ReadAndExecute, Synchronize",
+        "Type": "Allow",
+        "IsInherited": true
+      },
+      {
+        "Principal": "NT AUTHORITY\\SYSTEM",
+        "Rights": "FullControl",
+        "Type": "Allow",
+        "IsInherited": true
+      },
+      {
+        "Principal": "BUILTIN\\Administrators",
+        "Rights": "FullControl",
+        "Type": "Allow",
+        "IsInherited": true
+      },
+      {
+        "Principal": "LAPTOP-DJI28PFG\\whmmsm",
+        "Rights": "FullControl",
+        "Type": "Allow",
+        "IsInherited": true
+      }
+    ]
+  },
+  {
+    "path": "C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\knowpaper-preview.exe",
+    "protectedAcl": false,
+    "owner": "LAPTOP-DJI28PFG\\whmmsm",
+    "access": [
+      {
+        "Principal": "LAPTOP-DJI28PFG\\CodexSandboxUsers",
+        "Rights": "ReadAndExecute, Synchronize",
+        "Type": "Allow",
+        "IsInherited": true
+      },
+      {
+        "Principal": "NT AUTHORITY\\SYSTEM",
+        "Rights": "FullControl",
+        "Type": "Allow",
+        "IsInherited": true
+      },
+      {
+        "Principal": "BUILTIN\\Administrators",
+        "Rights": "FullControl",
+        "Type": "Allow",
+        "IsInherited": true
+      },
+      {
+        "Principal": "LAPTOP-DJI28PFG\\whmmsm",
+        "Rights": "FullControl",
+        "Type": "Allow",
+        "IsInherited": true
+      }
+    ]
+  }
+]

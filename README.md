@@ -9,6 +9,14 @@
 
 技术基线：**Tauri 2 + React + TypeScript + Rust + SQLite**；Windows 原生开发、Git 管理、macOS 自动化构建，发布前必须进行 Mac 实际运行验证。
 
+## Windows 功能测试版
+
+知卷 KnowPaper（测试版）提供当前用户 Windows x64 NSIS 安装。0.2.0 和 0.2.1 使用独立的 Preview 数据配置。升级前保存工作并正常退出知卷。默认卸载保留学习资料，重装后继续读取原库。已有 POC 资料可用完整备份恢复显式迁移。
+
+0.2.1 的 GitHub Actions 下载含安装器、校验 Manifest 和构建日志。安装包未签名，使用前可按 Manifest 校验 SHA-256。验收使用的 A 和 B 对应不同本机构建，具体哈希与路径见 DEV-011 交接。
+
+[下载 0.2.1 CI 构建](https://github.com/ghost114541/shandong-study-platform/actions/runs/44577470728/artifacts/14558850936) · [本机实测版本与哈希](DEV-011_REPORT.md) · [验收矩阵](DEV-011_TEST_RESULTS.md)
+
 ## 文档导航
 
 | 文件 | 作用 | 状态 |

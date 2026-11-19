@@ -1,3 +1,15 @@
+# DEV-011 Windows 安装与数据安全交接（2026-11-19）
+
+**DEV-011 Windows 安装、升级与卸载核心开发验收完成，待网页端 ChatGPT 独立源码审查。整体结论 CONDITIONAL PASS。**
+
+- 分支为 `dev/dev-011-windows-installer`，基准为 `198f81c5c59281a5a32f28d1ea3bbeaa4dde2aad`。真实未签名 Windows x64 NSIS 支持当前用户安装。0.2.0 → 0.2.1 原位升级、卸载、重装和旧资料回读已实测。
+- 活动库在 D: 的 Unicode 目录，回退库在 C:。SQLite 表、外部图片与原卷、草稿、固定组卷、控制日志和独立备份的指纹在各关键阶段一致。正常 Windows 注册卸载器再验收时，263 个数据文件逐字节一致。
+- 已安装应用通过离线模拟渲染原卷并生成 A4 双 PDF。GitHub Actions Windows 构建及下载校验完成。无 Runtime 的完全离线部署 BLOCKED，干净 VM、中文用户和少数故障项状态见验收矩阵。
+
+[报告](DEV-011_REPORT.md) · [24 项验收](DEV-011_TEST_RESULTS.md) · [已知事项](DEV-011_KNOWN_ISSUES.md) · [源码与证据](https://github.com/ghost114541/shandong-study-platform/tree/dev/dev-011-windows-installer) · [CI B 下载](https://github.com/ghost114541/shandong-study-platform/actions/runs/44577470728/artifacts/14558850936)
+
+---
+
 # DEV-010.1 资源库目录安全交接（2026-11-19）
 
 **DEV-010.1 Windows 安全修复开发验收完成，待网页端 ChatGPT 独立源码审查。**

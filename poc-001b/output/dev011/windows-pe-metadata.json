@@ -1,0 +1,18 @@
+[
+  {
+    "path": "binaries/0.2.0-verified/KnowPaper-Preview-0.2.0-windows-x64-setup.exe",
+    "product": "知卷 KnowPaper（测试版）",
+    "productVersion": "0.2.0",
+    "fileVersion": "0.2.0",
+    "signature": "NotSigned",
+    "sha256": "fb4d959944bb8f30ba233d7f1a706f4a0927a50ff8b53b50570835046afd6255"
+  },
+  {
+    "path": "binaries/0.2.1/KnowPaper-Preview-0.2.1-windows-x64-setup.exe",
+    "product": "知卷 KnowPaper（测试版）",
+    "productVersion": "0.2.1",
+    "fileVersion": "0.2.1",
+    "signature": "NotSigned",
+    "sha256": "0fbd28ff66306c8888bf8fd4211da11dacff6bb3ac057a0c1f3d622d487b7187"
+  }
+]

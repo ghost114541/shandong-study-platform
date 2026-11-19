@@ -1,0 +1,50 @@
+{
+  "uninstallRegisteredBinary": "C:\\Users\\whmmsm\\AppData\\Local\\KnowPaper Preview\\uninstall.exe",
+  "nativeUninstallExitCode": 0,
+  "nativeUninstallMs": 433,
+  "reinstallExitCode": 0,
+  "reinstallMs": 1451,
+  "comparedFileCount": 263,
+  "dataByteForByteEqual": true,
+  "removedHKCUKeyAndLinks": true,
+  "databaseFiles": [
+    {
+      "Name": "study.sqlite3",
+      "Length": 4546560
+    },
+    {
+      "Name": "study.sqlite3",
+      "Length": 4542464
+    }
+  ],
+  "disksBefore": [
+    {
+      "Name": "C",
+      "Free": 545915445248
+    },
+    {
+      "Name": "D",
+      "Free": 328186834944
+    }
+  ],
+  "disksAfterUninstall": [
+    {
+      "Name": "C",
+      "Free": 545937178624
+    },
+    {
+      "Name": "D",
+      "Free": 328186834944
+    }
+  ],
+  "disksAfterReinstall": [
+    {
+      "Name": "C",
+      "Free": 545914912768
+    },
+    {
+      "Name": "D",
+      "Free": 328186834944
+    }
+  ]
+}

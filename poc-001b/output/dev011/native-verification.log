@@ -1,0 +1,35 @@
+node:internal/errors:985
+  const err = new Error(message);
+              ^
+
+Error: Command failed: pwsh.exe -NoProfile -NonInteractive -File tests/windows-installer-dialog.ps1 -Mode Install -Executable C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\output\dev011\binaries\0.2.0-verified\KnowPaper-Preview-0.2.0-windows-x64-setup.exe -Output C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\output\dev011\verification\screenshots -Label install-A
+Exception: C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\tests\windows-installer-dialog.ps1:80
+
+Line |
+
+  80 |  … asExited) { throw "Setup window timed out after $steps button clicks  …
+
+     |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+     | Setup window timed out after 74 button clicks (PID 7044)
+
+
+    at genericNodeError (node:internal/errors:985:15)
+    at wrappedFn (node:internal/errors:539:14)
+    at ChildProcess.exithandler (node:child_process:417:12)
+    at ChildProcess.emit (node:events:508:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:305:5) {
+  code: 1,
+  killed: false,
+  signal: null,
+  cmd: 'pwsh.exe -NoProfile -NonInteractive -File tests/windows-installer-dialog.ps1 -Mode Install -Executable C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\output\\dev011\\binaries\\0.2.0-verified\\KnowPaper-Preview-0.2.0-windows-x64-setup.exe -Output C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\output\\dev011\\verification\\screenshots -Label install-A',
+  stdout: '',
+  stderr: 'Exception: C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\tests\\windows-installer-dialog.ps1:80\r\n' +
+    'Line |\r\n' +
+    '  80 |  … asExited) { throw "Setup window timed out after $steps button clicks  …\r\n' +
+    '     |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n' +
+    '     | Setup window timed out after 74 button clicks (PID 7044)\r\n'
+}
+
+Node.js v24.13.0
