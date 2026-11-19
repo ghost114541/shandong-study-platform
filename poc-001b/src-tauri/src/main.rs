@@ -8,6 +8,8 @@ mod favorites_ipc;
 mod library_paths;
 mod library_root;
 mod paper_reader_ipc;
+#[cfg(windows)]
+mod preview_lifecycle;
 mod protection_ipc;
 mod resource_pack_ipc;
 #[cfg(windows)]
@@ -87,6 +89,19 @@ async fn export_pdf(
 }
 
 fn main() {
+    let context = tauri::generate_context!();
+    #[cfg(windows)]
+    let _preview_guard = if context.config().identifier == preview_lifecycle::IDENTIFIER {
+        match preview_lifecycle::LifecycleGuard::acquire() {
+            Ok(guard) => Some(guard),
+            Err(error) => {
+                preview_lifecycle::show_busy(&error);
+                std::process::exit(10);
+            }
+        }
+    } else {
+        None
+    };
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .manage(paper_reader_ipc::PdfSessions::default())
@@ -212,6 +227,6 @@ fn main() {
             draft_trash_ipc::restore_trash,
             draft_trash_ipc::clear_trash,
         ])
-        .run(tauri::generate_context!())
-        .expect("could not start POC-001B");
+        .run(context)
+        .expect("could not start KnowPaper");
 }

@@ -109,7 +109,7 @@ async function start(offline = false) {
   }
   if (editorMode) await waitFor(() => evaluate(buttons('新建试题') + '?.disabled === false'), 'SQLite 工作区可用')
   else {
-    await click('POC-001B JSON 演示')
+    await click('旧版 JSON 演示')
     await waitFor(() => evaluate("document.querySelector('.tiptap')?.isContentEditable"), '编辑器可用')
   }
   const state = execFileSync('powershell.exe', ['-NoProfile', '-Command',

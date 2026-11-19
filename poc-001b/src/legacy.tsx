@@ -89,7 +89,7 @@ export function LegacyWorkspace({ reportGuard }: { reportGuard: ReportGuard }) {
 
   return <>
     <header className="app-header">
-      <div><h1>山东高中学习资源平台</h1><p>POC-001B · 本地试题编辑与 PDF</p></div>
+      <div><h1>山东高中学习资源平台</h1><p>旧版 JSON · 本地试题编辑与 PDF</p></div>
       <div className="actions">
         <button className="primary" disabled={busy || loadBlocked || showOriginal} onClick={() => void perform(save)}>保存本地 JSON</button>
       </div>

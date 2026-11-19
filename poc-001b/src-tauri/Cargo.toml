@@ -1,7 +1,7 @@
 [package]
 name = "shandong-poc-001b"
-version = "0.1.0"
-description = "Windows WebView2 editor and PDF proof of concept"
+version = "0.2.0"
+description = "KnowPaper Preview desktop application"
 edition = "2021"
 
 [features]

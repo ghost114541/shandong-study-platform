@@ -57,7 +57,7 @@ const questionSet = z.strictObject({
       ctx.addIssue({ code: 'custom', message: '小问分值与整题分值不一致 ' + q.id })
     }
     if (pictures([q.stem, ...q.parts.flatMap((p) => [p.prompt, p.answer])]).some((src) => src.startsWith('attachment:'))) {
-      ctx.addIssue({ code: 'custom', message: 'POC-001B 文件不包含附件登记表' })
+      ctx.addIssue({ code: 'custom', message: '旧版 JSON 文件不包含附件登记表' })
     }
   }
 })

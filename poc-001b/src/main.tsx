@@ -182,7 +182,7 @@ function App() {
         onClick={() => navigate({ name: 'resources' })}>资源管理</button>
       <button aria-pressed={workspace.name === 'data'} disabled={guard.busy || composition.busy || storagePending}
         onClick={() => navigate({ name: 'data' })}>数据管理</button>
-      <button aria-pressed={workspace.name === 'legacy'} disabled={guard.busy || composition.busy || storagePending} onClick={() => navigate({ name: 'legacy' })}>POC-001B JSON 演示</button>
+      <button aria-pressed={workspace.name === 'legacy'} disabled={guard.busy || composition.busy || storagePending} onClick={() => navigate({ name: 'legacy' })}>旧版 JSON 演示</button>
       {composition.dirty && <span className="draft-indicator">未保存组卷 · {composition.draft.items.length} 题 · {totalScore(composition.draft.items)} 分</span>}
     </nav>
     {windowError && <p role="alert" className="window-error">{windowError}</p>}
