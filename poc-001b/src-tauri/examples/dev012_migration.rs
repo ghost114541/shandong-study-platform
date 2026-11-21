@@ -55,8 +55,15 @@ fn create_compositions(db: &mut Database) {
             stem.push(json!({"type":"image","attrs":{"src":format!("attachment:{}", illustration.id),"alt":"原创图示"}}));
         }
         if number == 1 {
+            stem.push(paragraph("CJK-CHECK 简体中文检索：试卷、选择、观察、复习。兼容字：神。全角：ＡＢＣ１２３。"));
             for index in 1..=55 {
                 stem.push(paragraph(&format!("READ-{index:03} 阅读材料：山间的云雾随气温变化，观测者沿溪记录各处的风向和水位。")));
+                if index % 17 == 0 {
+                    stem.push(paragraph(&format!("MATH-{index:03} 分页公式")));
+                    stem.push(json!({"type":"blockMath","attrs":{"latex":
+                        r"int_{0}^{1} sqrt{1+x^2},dx = rac{sqrt{2}+ln(1+sqrt{2})}{2}"}}));
+                    stem.push(paragraph(&format!("END-MATH-{index:03} 公式后的正文")));
+                }
             }
         }
         let attachments = if number % 3 == 0 { vec![&illustration] } else { Vec::new() };
@@ -66,8 +73,8 @@ fn create_compositions(db: &mut Database) {
             "answer":{"type":"doc","content":[paragraph(&format!("ANSWER-{number:03} 原创答案"))]},
             "analysis":{"type":"doc","content":[paragraph("由记录推导结论，并说明适用条件。")]},
             "parts":[
-                {"id":"a","score":2,"prompt":{"type":"doc","content":[paragraph("列出已知量。")]}},
-                {"id":"b","score":2,"prompt":{"type":"doc","content":[paragraph("解释结果。")]}}
+                {"id":"a","score":2,"prompt":{"type":"doc","content":[paragraph(&format!("PART-{number:03}-A 列出已知量。"))]}},
+                {"id":"b","score":2,"prompt":{"type":"doc","content":[paragraph(&format!("PART-{number:03}-B 解释结果。"))]}}
             ],
             "attachments":attachments
         }).to_string()).unwrap();

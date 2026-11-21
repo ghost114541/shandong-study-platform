@@ -19,6 +19,10 @@
   const enabled = (name) => [...document.querySelectorAll('button:enabled')].find(b => b.textContent.trim() === name)
   const click = async name => (await wait(name, () => enabled(name))).click()
   const elapsed = begin => Math.round(performance.now() - begin)
+  const reject = (name, params) => invoke(name, params).then(
+    () => { throw new Error(name + ' unexpectedly succeeded') },
+    error => String(error),
+  )
 
   async function run() {
     check(await invoke('database_status') === 9, 'Schema 9')
@@ -32,6 +36,34 @@
     const single = status[1]
     timings.singleMs = elapsed(begin)
 
+    const faults = {}
+    const singleRequest = { kind: 'paper', longSample: false, revisionId: null }
+    faults.start = await reject('export_pdf', singleRequest)
+    check(faults.start.includes('无法开始打印'), faults.start)
+    begin = performance.now()
+    const late = reject('export_pdf', singleRequest)
+    await new Promise(resolve => setTimeout(resolve, 200))
+    faults.concurrent = await reject('export_pdf', singleRequest)
+    check(faults.concurrent.includes('另一项打印任务'), faults.concurrent)
+    faults.timeout = await late
+    check(faults.timeout.includes('打印超时'), faults.timeout)
+    timings.timeoutMs = elapsed(begin)
+    faults.quarantined = await reject('export_pdf', singleRequest)
+    check(faults.quarantined.includes('重新打开知卷'), faults.quarantined)
+    begin = performance.now()
+    for (;;) {
+      const result = await invoke('export_pdf', singleRequest).then(
+        path => ({ path }), error => ({ error: String(error) }),
+      )
+      if (result.path) {
+        check(result.path === single, 'retry wrote an unexpected file')
+        break
+      }
+      check(result.error.includes('重新打开知卷') && elapsed(begin) < 15_000, result.error)
+      await new Promise(resolve => setTimeout(resolve, 100))
+    }
+    timings.recoveryMs = elapsed(begin)
+
     const papers = await invoke('list_compositions')
     const pairs = {}
     for (const count of [20, 30, 50]) {
@@ -43,6 +75,8 @@
         const rejected = await invoke('export_composition', { id, identity: 'wrong-identity', confirmed: true })
           .then(() => false, () => true)
         check(rejected, 'snapshot mismatch accepted')
+        faults.closedAnswer = await reject('export_composition', { id, identity: preview.identity, confirmed: true })
+        check(faults.closedAnswer.includes('打印窗口已关闭'), faults.closedAnswer)
       }
       begin = performance.now()
       const result = await invoke('export_composition', { id, identity: preview.identity, confirmed: true })
@@ -68,7 +102,7 @@
     await wait('jump and draw second page', () => page()?.value === '2' &&
       Boolean(canvas()?.getContext('2d').getImageData(4, 4, 1, 1).data[3]))
     timings.pdfNextPageMs = elapsed(begin)
-    return { ok: true, single, pairs, timings, originalPages: Number(page().max) }
+    return { ok: true, single, pairs, timings, faults, originalPages: Number(page().max) }
   }
   run().then(result => { window.__knowpaperSmokeResult = result }, error => {
     window.__knowpaperSmokeResult = { ok: false, error: error?.message ?? String(error), timings }

@@ -143,6 +143,9 @@ textarea { display: block; width: 100%; min-height: 90px; margin: 6px 0 12px; }
 @media print {
   .controlled-print .paper { width: auto; }
   .composition-paper .paper-group { margin-top: 4mm; }
+  .composition-paper .paper-part:has(> h4 + p:last-child) {
+    break-inside: avoid;
+  }
 }
 @media (max-width: 720px) {
   .composition-layout { grid-template-columns: minmax(0, 1fr); }

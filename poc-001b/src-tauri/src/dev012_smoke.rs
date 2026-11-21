@@ -1,10 +1,42 @@
 use serde_json::Value;
-use std::{fs, path::PathBuf, time::Duration};
-use tauri::{webview::PageLoadEvent, Manager, Wry};
+use std::{
+    fs,
+    path::PathBuf,
+    sync::atomic::{AtomicBool, AtomicUsize, Ordering},
+    time::Duration,
+};
+use tauri::{webview::PageLoadEvent, Manager, WebviewWindow, Wry};
 use tokio::sync::oneshot;
 
+const IDENTIFIER: &str = "org.shandong-study.dev012-74d09001";
+
+pub fn print_fault(window: &WebviewWindow) -> i32 {
+    if window.app_handle().config().identifier != IDENTIFIER
+        || std::env::var_os("KNOWPAPER_DEV012_SMOKE_REPORT").is_none()
+    {
+        return 0;
+    }
+    static SINGLE: AtomicUsize = AtomicUsize::new(0);
+    static CLOSE_ANSWERS: AtomicBool = AtomicBool::new(true);
+    let label = window.label();
+    if label == "main" {
+        return match SINGLE.fetch_add(1, Ordering::Relaxed) {
+            1 => 1, // Reject before handing the operation to AppKit.
+            2 => 2, // Delay completion past the Rust deadline.
+            _ => 0,
+        };
+    }
+    if label.starts_with("composition-print-")
+        && label.ends_with("-answers")
+        && CLOSE_ANSWERS.swap(false, Ordering::Relaxed)
+    {
+        return 3; // Close the first answer window before delivering completion.
+    }
+    0
+}
+
 pub fn attach(builder: tauri::Builder<Wry>, identifier: &str) -> tauri::Builder<Wry> {
-    if identifier != "org.shandong-study.dev012-74d09001" {
+    if identifier != IDENTIFIER {
         return builder;
     }
     let Some(output) = std::env::var_os("KNOWPAPER_DEV012_SMOKE_REPORT").map(PathBuf::from) else {
@@ -30,15 +62,13 @@ pub fn attach(builder: tauri::Builder<Wry>, identifier: &str) -> tauri::Builder<
                 loop {
                     let (sender, receiver) = oneshot::channel();
                     let sender = std::sync::Mutex::new(Some(sender));
-                    window.eval_with_callback(
-                        "window.__knowpaperSmokeResult ?? null",
-                        move |value| {
+                    window
+                        .eval_with_callback("window.__knowpaperSmokeResult ?? null", move |value| {
                             if let Some(sender) = sender.lock().unwrap().take() {
                                 let _ = sender.send(value);
                             }
-                        },
-                    )
-                    .ok()?;
+                        })
+                        .ok()?;
                     let value = serde_json::from_str::<Value>(&receiver.await.ok()?).ok()?;
                     if !value.is_null() {
                         return Some(value);
