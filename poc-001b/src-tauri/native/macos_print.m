@@ -76,6 +76,10 @@ int knowpaper_webview_pdf(void *view, const char *path, KPPrintCallback callback
 int knowpaper_source_print(const unsigned char *bytes, size_t length,
                            unsigned int first, unsigned int last) {
     @autoreleasepool {
+        if (printing) {
+            return -1;
+        }
+        printing = YES;
         @try {
             PDFDocument *document = [[PDFDocument alloc] initWithData:[NSData dataWithBytes:bytes length:length]];
             if (first == 0 || first > last || last > document.pageCount || !document.allowsPrinting) {
@@ -97,6 +101,8 @@ int knowpaper_source_print(const unsigned char *bytes, size_t length,
         } @catch (NSException *exception) {
             NSLog(@"KnowPaper PDFKit print error: %@", exception.name);
             return -1;
+        } @finally {
+            printing = NO;
         }
     }
 }

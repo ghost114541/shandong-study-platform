@@ -3,6 +3,7 @@ use std::{
     io,
     path::{Component, Path, PathBuf},
 };
+pub use shandong_poc_001b::system_path::{contains, same};
 
 pub const OWNER_MARKER: &str = ".knowpaper-library-owner";
 
@@ -90,26 +91,6 @@ pub fn regular_if_present(path: &Path) -> io::Result<()> {
         Err(error) if error.kind() == io::ErrorKind::NotFound => Ok(()),
         Err(error) => Err(error),
     }
-}
-
-pub fn same(a: &Path, b: &Path) -> io::Result<bool> {
-    if a == b {
-        return Ok(true);
-    }
-    match same_file::is_same_file(a, b) {
-        Ok(value) => Ok(value),
-        Err(error) if error.kind() == io::ErrorKind::NotFound => Ok(false),
-        Err(error) => Err(error),
-    }
-}
-
-pub fn contains(parent: &Path, child: &Path) -> io::Result<bool> {
-    for ancestor in child.ancestors() {
-        if same(parent, ancestor)? {
-            return Ok(true);
-        }
-    }
-    Ok(false)
 }
 
 pub fn overlaps(a: &Path, b: &Path) -> io::Result<bool> {

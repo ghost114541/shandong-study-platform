@@ -170,8 +170,15 @@ fn seed(legacy: &Path, destination: &Path) {
     db.create_knowledge_point(KNOWLEDGE, "math", None, "DEV-012 原创自定义知识点")
         .unwrap();
     db.add_knowledge_alias(KNOWLEDGE, "跨平台别名").unwrap();
+    let favorite = json!({"kind": "knowledge", "id": KNOWLEDGE});
+    let collection = db.favorite_collections().unwrap().remove(0).id;
+    db.change_favorites(FavoriteCommand::Add {
+        collection,
+        targets: vec![serde_json::from_value(favorite.clone()).unwrap()],
+    })
+    .unwrap();
     db.change_favorites(FavoriteCommand::Mark {
-        target: serde_json::from_value(json!({"kind": "knowledge", "id": KNOWLEDGE})).unwrap(),
+        target: serde_json::from_value(favorite).unwrap(),
         important: true,
     })
     .unwrap();

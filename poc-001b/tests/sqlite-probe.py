@@ -91,7 +91,9 @@ def main():
                             assert row.pop(column, None) is None
             print(json.dumps(data, sort_keys=True))
         elif command == "compose-alias":
-            assert dev009 or profile.startswith(("org.shandong-study.dev006-", "org.shandong-study.dev007-", "org.shandong-study.dev008-"))
+            assert dev009 or profile == "org.shandong-study.dev010-1200ab72" or profile.startswith((
+                "org.shandong-study.dev006-", "org.shandong-study.dev007-", "org.shandong-study.dev008-",
+            ))
             db.execute(
                 """INSERT INTO question_duplicate(duplicate_id, canonical_id, reviewer, confirmed_on, evidence)
                    VALUES (?, ?, '验收复核员', date('now'), '原始测试题已逐项核对')""", args,
@@ -117,7 +119,10 @@ def main():
             db.execute("INSERT INTO question_revision(question_id,scope,content_version,content_json) VALUES (?,'user',1,?)",
                        [key, json.dumps(payload, ensure_ascii=False)])
         elif command == "seed-ui":
-            assert dev009 or profile.startswith(("org.shandong-study.dev004-", "org.shandong-study.dev005-", "org.shandong-study.dev006-", "org.shandong-study.dev007-", "org.shandong-study.dev008-"))
+            assert dev009 or profile == "org.shandong-study.dev010-1200ab72" or profile.startswith((
+                "org.shandong-study.dev004-", "org.shandong-study.dev005-", "org.shandong-study.dev006-",
+                "org.shandong-study.dev007-", "org.shandong-study.dev008-",
+            ))
             db.execute("PRAGMA recursive_triggers=ON")
             def doc(text):
                 return {"type": "doc", "content": [{"type": "paragraph", "content": [{"type": "text", "text": text}]}]}

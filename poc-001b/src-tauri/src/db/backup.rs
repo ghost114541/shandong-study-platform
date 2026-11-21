@@ -122,7 +122,7 @@ impl Database {
             .file_name()
             .ok_or_else(|| invalid("请选择备份文件名。"))?;
         let destination = parent.join(name);
-        if parent.starts_with(root)
+        if crate::system_path::contains(root, &parent).map_err(file_error)?
             || destination.exists()
             || destination.extension().and_then(|ext| ext.to_str()) != Some("knowbackup")
         {
