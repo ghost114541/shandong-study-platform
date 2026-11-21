@@ -66,22 +66,21 @@ void knowpaper_print_probe_inject(int fault) {
 }
 
 - (void)operation:(NSPrintOperation *)operation didRun:(BOOL)success contextInfo:(void *)unused {
+    // WebKit can ask AppKit to print on a worker thread. Keep WebKit's
+    // scheduling and return all job and window operations to the UI thread.
+    dispatch_async(dispatch_get_main_queue(), ^{
 #ifdef KNOWPAPER_PRINT_PROBE
-    if (self.fault == 2) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC),
-                       dispatch_get_main_queue(), ^{ [self complete:success]; });
-        return;
-    }
-    if (self.fault == 3) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.fault == 2) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC),
+                           dispatch_get_main_queue(), ^{ [self complete:success]; });
+            return;
+        }
+        if (self.fault == 3) {
             [self.window close];
-            [self complete:success];
-        });
-        return;
-    }
+        }
 #endif
-    // Leave AppKit's delegate stack before admitting another operation.
-    dispatch_async(dispatch_get_main_queue(), ^{ [self complete:success]; });
+        [self complete:success];
+    });
 }
 @end
 
@@ -118,7 +117,6 @@ static int startPrinting(NSPrintOperation *operation, NSWindow *window,
     delegate.context = context;
     delegate.operation = operation;
     delegate.window = window;
-    operation.canSpawnSeparateThread = NO;
     [[NSNotificationCenter defaultCenter] addObserver:delegate selector:@selector(windowWillClose:)
                                                  name:NSWindowWillCloseNotification object:window];
     activePrint = delegate;

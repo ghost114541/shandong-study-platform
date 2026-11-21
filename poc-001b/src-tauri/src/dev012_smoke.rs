@@ -51,7 +51,10 @@ pub fn attach(builder: tauri::Builder<Wry>, identifier: &str) -> tauri::Builder<
             app.exit(2);
             return;
         };
-        if let Err(error) = window.eval(include_str!("../../tests/macos-app-smoke.js")) {
+        if let Err(error) = window.eval(concat!(
+            "window.__knowpaperPrintFaults = true;\n",
+            include_str!("../../tests/macos-app-smoke.js")
+        )) {
             eprintln!("Cannot start application smoke test: {error}");
             app.exit(2);
             return;

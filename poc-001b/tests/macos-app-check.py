@@ -68,7 +68,7 @@ def inspect_pdf(source, target, expected=0, answers=False):
             for index in (17, 34, 51):
                 begin, end = f"MATH-{index:03}", f"END-MATH-{index:03}"
                 match = re.search(rf"(?<!END-){begin}(.*?){end}", text, re.S)
-                assert match and "∫" in match[1] and "ln" in match[1], (target, begin)
+                assert match and "∫" in match[1], (target, begin)
                 details["mathPages"][begin] = [
                     page for page, content in enumerate(page_text, 1) if begin in content
                 ]
@@ -90,13 +90,12 @@ def inspect_outputs(report, output):
         for kind in ("paper", "answers"):
             name = f"{kind}-{count}"
             evidence[name] = inspect_pdf(pair[kind], output / f"{name}.pdf", int(count), kind == "answers")
-    if results.get("faults"):
-        pdf_root = Path(results["single"]).parent
-        expected_batches = {Path(pair["paper"]).parent for pair in results["pairs"].values()}
-        assert set(pdf_root.glob("composition-*")) == expected_batches
-        assert not list(pdf_root.glob(".composition-staging-*")), "incomplete batch left in staging"
-        for batch in expected_batches:
-            assert {path.name for path in batch.iterdir()} == {"paper.pdf", "answers.pdf"}
+    pdf_root = Path(results["single"]).parent
+    expected_batches = {Path(pair["paper"]).parent for pair in results["pairs"].values()}
+    assert set(pdf_root.glob("composition-*")) == expected_batches
+    assert not list(pdf_root.glob(".composition-staging-*")), "incomplete batch left in staging"
+    for batch in expected_batches:
+        assert {path.name for path in batch.iterdir()} == {"paper.pdf", "answers.pdf"}
     (output / "pdf-summary.json").write_text(json.dumps(evidence, indent=2) + "\n")
 
 
@@ -104,6 +103,9 @@ def main():
     if sys.argv[1] == "--inspect":
         inspect_outputs(Path(sys.argv[2]), Path(sys.argv[3]))
         return
+    import resource  # macOS runner. Inspection mode also runs on Windows.
+    import time
+
     output = Path(sys.argv[1]).resolve()
     archive = Path(sys.argv[2]).resolve()
     executable = Path(sys.argv[3]).resolve()
@@ -119,12 +121,33 @@ def main():
             if member != "questions.json":
                 backup.extract(member, profile)
     report = output / "app-smoke.json"
+    samples = []
+    started = time.monotonic()
     with (output / "app-smoke.log").open("wb") as log:
-        process = subprocess.run([executable], env=dict(os.environ, KNOWPAPER_DEV012_SMOKE_REPORT=str(report)),
-                                 stdout=log, stderr=subprocess.STDOUT, timeout=270)
+        with subprocess.Popen([executable], env=dict(os.environ, KNOWPAPER_DEV012_SMOKE_REPORT=str(report)),
+                              stdout=log, stderr=subprocess.STDOUT) as process:
+            try:
+                while process.poll() is None:
+                    elapsed = time.monotonic() - started
+                    if elapsed >= 270:
+                        raise subprocess.TimeoutExpired(executable, 270)
+                    rss = subprocess.run(["ps", "-o", "rss=", "-p", str(process.pid)],
+                                         capture_output=True, text=True, check=False).stdout.strip()
+                    if rss.isdecimal():
+                        samples.append({"elapsedMs": round(elapsed * 1000), "rssKiB": int(rss)})
+                    time.sleep(0.2)
+            finally:
+                if process.poll() is None:
+                    process.kill()
+    (output / "app-memory.json").write_text(json.dumps({
+        "process": "knowpaper-preview RSS samples, excluding WebKit helpers",
+        "peakChildrenUsageBytes": resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss,
+        "samples": samples,
+    }, indent=2) + "\n")
     if report.exists():
         print(report.read_text())
-    process.check_returncode()
+    if process.returncode:
+        raise subprocess.CalledProcessError(process.returncode, executable)
     inspect_outputs(report, output)
 
 

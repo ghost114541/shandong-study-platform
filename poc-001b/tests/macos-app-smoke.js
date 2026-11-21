@@ -37,32 +37,35 @@
     timings.singleMs = elapsed(begin)
 
     const faults = {}
-    const singleRequest = { kind: 'paper', longSample: false, revisionId: null }
-    faults.start = await reject('export_pdf', singleRequest)
-    check(faults.start.includes('无法开始打印'), faults.start)
-    begin = performance.now()
-    const late = reject('export_pdf', singleRequest)
-    await new Promise(resolve => setTimeout(resolve, 200))
-    faults.concurrent = await reject('export_pdf', singleRequest)
-    check(faults.concurrent.includes('另一项打印任务'), faults.concurrent)
-    faults.timeout = await late
-    check(faults.timeout.includes('打印超时'), faults.timeout)
-    timings.timeoutMs = elapsed(begin)
-    faults.quarantined = await reject('export_pdf', singleRequest)
-    check(faults.quarantined.includes('重新打开知卷'), faults.quarantined)
-    begin = performance.now()
-    for (;;) {
-      const result = await invoke('export_pdf', singleRequest).then(
-        path => ({ path }), error => ({ error: String(error) }),
-      )
-      if (result.path) {
-        check(result.path === single, 'retry wrote an unexpected file')
-        break
+    const exerciseFaults = window.__knowpaperPrintFaults === true
+    if (exerciseFaults) {
+      const singleRequest = { kind: 'paper', longSample: false, revisionId: null }
+      faults.start = await reject('export_pdf', singleRequest)
+      check(faults.start.includes('无法开始打印'), faults.start)
+      begin = performance.now()
+      const late = reject('export_pdf', singleRequest)
+      await new Promise(resolve => setTimeout(resolve, 200))
+      faults.concurrent = await reject('export_pdf', singleRequest)
+      check(faults.concurrent.includes('另一项打印任务'), faults.concurrent)
+      faults.timeout = await late
+      check(faults.timeout.includes('打印超时'), faults.timeout)
+      timings.timeoutMs = elapsed(begin)
+      faults.quarantined = await reject('export_pdf', singleRequest)
+      check(faults.quarantined.includes('重新打开知卷'), faults.quarantined)
+      begin = performance.now()
+      for (;;) {
+        const result = await invoke('export_pdf', singleRequest).then(
+          path => ({ path }), error => ({ error: String(error) }),
+        )
+        if (result.path) {
+          check(result.path === single, 'retry wrote an unexpected file')
+          break
+        }
+        check(result.error.includes('重新打开知卷') && elapsed(begin) < 15_000, result.error)
+        await new Promise(resolve => setTimeout(resolve, 100))
       }
-      check(result.error.includes('重新打开知卷') && elapsed(begin) < 15_000, result.error)
-      await new Promise(resolve => setTimeout(resolve, 100))
+      timings.recoveryMs = elapsed(begin)
     }
-    timings.recoveryMs = elapsed(begin)
 
     const papers = await invoke('list_compositions')
     const pairs = {}
@@ -75,8 +78,10 @@
         const rejected = await invoke('export_composition', { id, identity: 'wrong-identity', confirmed: true })
           .then(() => false, () => true)
         check(rejected, 'snapshot mismatch accepted')
-        faults.closedAnswer = await reject('export_composition', { id, identity: preview.identity, confirmed: true })
-        check(faults.closedAnswer.includes('打印窗口已关闭'), faults.closedAnswer)
+        if (exerciseFaults) {
+          faults.closedAnswer = await reject('export_composition', { id, identity: preview.identity, confirmed: true })
+          check(faults.closedAnswer.includes('打印窗口已关闭'), faults.closedAnswer)
+        }
       }
       begin = performance.now()
       const result = await invoke('export_composition', { id, identity: preview.identity, confirmed: true })

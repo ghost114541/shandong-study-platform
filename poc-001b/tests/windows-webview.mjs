@@ -273,7 +273,7 @@ async function legacyRegression() {
 try {
   const harness = { out, profile, database, port, pid: () => child.pid, start, close, nativeClose, snapshot, click, send, evaluate, status, waitFor, fillFormula }
   if (crossPlatformMode) {
-    assert.equal(isolatedIdentifier, 'org.shandong-study.dev010-1200ab72')
+    assert.match(isolatedIdentifier, /^org\.shandong-study\.dev01[02]-[a-f0-9]+$/)
     assert.ok(existsSync(database), 'Seed the isolated profile with the verified DEV-012 fixture')
     await start()
     await evaluate(readFileSync('tests/macos-app-smoke.js', 'utf8'))

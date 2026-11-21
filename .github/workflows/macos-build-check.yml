@@ -93,10 +93,49 @@ jobs:
             preview-artifacts/backup/windows.knowbackup \
             src-tauri/target/aarch64-apple-darwin/release/knowpaper-preview \
             2>&1 | tee preview-artifacts/app-smoke-check.log
+          swift tests/macos-pdf-search.swift preview-artifacts/app-smoke/paper-{20,30,50}.pdf \
+            | tee preview-artifacts/app-smoke/pdfkit-search.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: knowpaper-preview-macos-arm64-${{ github.sha }}
+          path: poc-001b/preview-artifacts/
+          if-no-files-found: error
+          retention-days: 14
+
+  windows-roundtrip:
+    runs-on: windows-2025
+    needs: build
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: poc-001b
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: knowpaper-preview-macos-arm64-${{ github.sha }}
+          path: poc-001b/mac-artifacts
+      - name: Restore the Mac archive on Windows and compare all three fingerprints
+        run: |
+          New-Item -ItemType Directory -Path preview-artifacts -Force | Out-Null
+          git rev-parse HEAD > preview-artifacts/test-sha.txt
+          cargo run --locked --manifest-path src-tauri/Cargo.toml --example dev012_migration -- `
+            restore mac-artifacts/backup/macos.knowbackup preview-artifacts/windows-return.knowbackup `
+            > preview-artifacts/restore.json 2> preview-artifacts/restore.log
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/dev012-backup-fingerprint.py mac-artifacts/backup/windows.knowbackup `
+            mac-artifacts/backup/macos.knowbackup preview-artifacts/windows-return.knowbackup `
+            > preview-artifacts/roundtrip-fingerprints.json
+          exit $LASTEXITCODE
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knowpaper-dev012-windows-roundtrip-${{ github.sha }}
           path: poc-001b/preview-artifacts/
           if-no-files-found: error
           retention-days: 14
