@@ -61,7 +61,7 @@ fn create_compositions(db: &mut Database) {
                 if index % 17 == 0 {
                     stem.push(paragraph(&format!("MATH-{index:03} 分页公式")));
                     stem.push(json!({"type":"blockMath","attrs":{"latex":
-                        r"int_{0}^{1} sqrt{1+x^2},dx = rac{sqrt{2}+ln(1+sqrt{2})}{2}"}}));
+                        r"\int_{0}^{1} \sqrt{1+x^2}\,dx = \frac{\sqrt{2}+\ln(1+\sqrt{2})}{2}"}}));
                     stem.push(paragraph(&format!("END-MATH-{index:03} 公式后的正文")));
                 }
             }
