@@ -2,12 +2,14 @@
 mod library_paths;
 #[path = "../src/library_root.rs"]
 mod library_root;
+#[path = "../src/storage.rs"]
+mod storage;
 
 use library_root::{LibraryRoot, Phase};
 use serde_json::json;
 use shandong_poc_001b::db::{
     preflight_backup_space, unpack_backup, Database, DraftToken, DraftWrite, FavoriteCommand,
-    FavoriteKind, FavoriteRef, TrashKind, DATABASE_FILENAME,
+    TrashKind, DATABASE_FILENAME,
 };
 use std::{
     fs,
@@ -36,10 +38,7 @@ fn seed(legacy: &Path, destination: &Path) {
         .unwrap();
     db.add_knowledge_alias(KNOWLEDGE, "跨平台别名").unwrap();
     db.change_favorites(FavoriteCommand::Mark {
-        target: FavoriteRef {
-            kind: FavoriteKind::Knowledge,
-            id: KNOWLEDGE.into(),
-        },
+        target: serde_json::from_value(json!({"kind": "knowledge", "id": KNOWLEDGE})).unwrap(),
         important: true,
     })
     .unwrap();
