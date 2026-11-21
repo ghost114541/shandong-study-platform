@@ -60,7 +60,9 @@ def inspect_pdf(source, target, expected=0, answers=False):
             compact = re.sub(r"\s+", "", text)
             normalized = unicodedata.normalize("NFKC", compact)
             assert "简体中文检索:试卷、选择、观察、复习。" in normalized, target
-            assert "兼容字:神。全角:ABC123。" in normalized, target
+            # Quartz may extract the simplified horn radical used by the CJK
+            # font. Unicode NFKC has no mapping for U+2EC6 (⻆).
+            assert re.search(r"兼容字:神。全[角⻆]:ABC123。", normalized), target
             assert re.findall(r"PART-(\d+)-([AB])", text) == [
                 (f"{number:03}", part) for number in range(1, expected + 1) for part in "AB"
             ], target
@@ -72,7 +74,9 @@ def inspect_pdf(source, target, expected=0, answers=False):
                 details["mathPages"][begin] = [
                     page for page, content in enumerate(page_text, 1) if begin in content
                 ]
-            details["literalCopy"] = {query: query in compact for query in ("试卷", "神", "神", "ＡＢＣ１２３", "ABC123")}
+            details["literalCopy"] = {query: query in compact for query in (
+                "试卷", "中文", "中⽂", "全角", "全⻆", "神", "神", "ＡＢＣ１２３", "ABC123",
+            )}
             details["orphanPartHeadingPages"] = [
                 number for number, page in enumerate(page_text, 1)
                 if re.search(r"[（(][12][）)]\s*2\s*分\s*$", page)
@@ -85,18 +89,25 @@ def inspect_outputs(report, output):
     output.mkdir(parents=True, exist_ok=True)
     results = json.loads(report.read_text(encoding="utf-8"))
     assert results["ok"] and results["originalPages"] == 100
-    evidence = {"single": inspect_pdf(results["single"], output / "single.pdf")}
+    evidence = {}
+    failures = {}
+    files = [("single", results["single"], 0, False)]
     for count, pair in results["pairs"].items():
         for kind in ("paper", "answers"):
-            name = f"{kind}-{count}"
-            evidence[name] = inspect_pdf(pair[kind], output / f"{name}.pdf", int(count), kind == "answers")
+            files.append((f"{kind}-{count}", pair[kind], int(count), kind == "answers"))
+    for name, source, count, answers in files:
+        try:
+            evidence[name] = inspect_pdf(source, output / f"{name}.pdf", count, answers)
+        except (AssertionError, OSError, subprocess.CalledProcessError) as error:
+            failures[name] = str(error)
+    (output / "pdf-summary.json").write_text(json.dumps(evidence, indent=2) + "\n")
     pdf_root = Path(results["single"]).parent
     expected_batches = {Path(pair["paper"]).parent for pair in results["pairs"].values()}
     assert set(pdf_root.glob("composition-*")) == expected_batches
     assert not list(pdf_root.glob(".composition-staging-*")), "incomplete batch left in staging"
     for batch in expected_batches:
         assert {path.name for path in batch.iterdir()} == {"paper.pdf", "answers.pdf"}
-    (output / "pdf-summary.json").write_text(json.dumps(evidence, indent=2) + "\n")
+    assert not failures, failures
 
 
 def main():

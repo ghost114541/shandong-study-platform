@@ -2,7 +2,7 @@ import Foundation
 import PDFKit
 
 let simplified = "试卷、选择、观察、复习"
-let queries = [simplified, "神", "神", "ＡＢＣ１２３", "ABC123"]
+let queries = [simplified, "中文", "中⽂", "全角", "全⻆", "神", "神", "ＡＢＣ１２３", "ABC123"]
 var evidence: [String: [String: Int]] = [:]
 
 for path in CommandLine.arguments.dropFirst() {

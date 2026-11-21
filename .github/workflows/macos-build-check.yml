@@ -106,6 +106,7 @@ jobs:
   windows-roundtrip:
     runs-on: windows-2025
     needs: build
+    if: ${{ !cancelled() }}
     timeout-minutes: 25
     defaults:
       run:
