@@ -1,7 +1,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, PointerEvent } from 'react'
-import { TextLayer } from 'pdfjs-dist'
+import { TextLayer } from 'pdfjs-dist/legacy/build/pdf.mjs'
 import type { PDFDocumentProxy, PDFPageProxy, RenderTask } from 'pdfjs-dist'
 import { describeError } from './sqlite-api'
 import { findText, pageWords, paintPage } from './pdf-document'

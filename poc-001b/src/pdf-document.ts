@@ -1,7 +1,8 @@
 
-import { AnnotationMode, getDocument, GlobalWorkerOptions, PDFDataRangeTransport } from 'pdfjs-dist'
+// The compatibility build supplies PDF.js APIs missing from system WebKit.
+import { AnnotationMode, getDocument, GlobalWorkerOptions, PDFDataRangeTransport } from 'pdfjs-dist/legacy/build/pdf.mjs'
 import type { PDFPageProxy, RenderTask } from 'pdfjs-dist'
-import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
+import workerUrl from 'pdfjs-dist/legacy/build/pdf.worker.min.mjs?url'
 import { paperReader } from './paper-reader-api'
 import type { Rect } from './paper-reader-api'
 
