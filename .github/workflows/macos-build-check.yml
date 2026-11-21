@@ -77,3 +77,32 @@ jobs:
           path: poc-001b/preview-artifacts/
           if-no-files-found: error
           retention-days: 14
+
+  pdf-probe:
+    runs-on: macos-15
+    timeout-minutes: 12
+    defaults:
+      run:
+        shell: bash
+        working-directory: poc-001b
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.13.0'
+          cache: npm
+          cache-dependency-path: poc-001b/package-lock.json
+      - run: npm ci
+      - run: command -v pdfinfo || brew install poppler
+      - run: |
+          mkdir -p preview-artifacts
+          bash tests/macos-pdf-check.sh 2>&1 | tee preview-artifacts/pdf-probe.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: knowpaper-macos-pdf-probe-${{ github.sha }}
+          path: poc-001b/preview-artifacts/
+          retention-days: 14
