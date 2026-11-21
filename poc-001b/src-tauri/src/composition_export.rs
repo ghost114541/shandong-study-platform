@@ -102,7 +102,7 @@ pub async fn export_composition(
     if window.label() != "main" {
         return Err("请从主窗口的已保存组卷预览发起导出。".into());
     }
-    #[cfg(windows)]
+    #[cfg(any(windows, target_os = "macos"))]
     {
         let app = window.app_handle().clone();
         let prepared = database(app.clone(), move |db| {
@@ -160,7 +160,7 @@ pub async fn export_composition(
         if destination.exists() {
             return Err("PDF 批次目录已存在，请重新导出。".into());
         }
-        // Both files already passed WebView2 and PDF checks. Publish via one same-volume rename.
+        // Both files already passed native rendering and PDF checks. Publish via one same-volume rename.
         std::fs::rename(staging.path(), &destination)
             .map_err(|error| format!("无法发布双 PDF：{error}"))?;
         Ok(ExportResult {
@@ -169,14 +169,14 @@ pub async fn export_composition(
             answers: Some(destination.join("answers.pdf")),
         })
     }
-    #[cfg(not(windows))]
+    #[cfg(not(any(windows, target_os = "macos")))]
     {
         let _ = (id, identity, confirmed);
-        Err("当前双 PDF 导出需要 Windows WebView2。".into())
+        Err("此平台尚未提供双 PDF 导出。".into())
     }
 }
 
-#[cfg(windows)]
+#[cfg(any(windows, target_os = "macos"))]
 fn safe_directory_id(id: &str) -> String {
     use sha2::{Digest, Sha256};
     Sha256::digest(id.as_bytes())[..6]
@@ -185,7 +185,7 @@ fn safe_directory_id(id: &str) -> String {
         .collect()
 }
 
-#[cfg(windows)]
+#[cfg(any(windows, target_os = "macos"))]
 async fn render(
     main: &WebviewWindow,
     token: &str,
@@ -260,7 +260,7 @@ async fn render(
     result
 }
 
-#[cfg(windows)]
+#[cfg(any(windows, target_os = "macos"))]
 async fn verify_dom(
     window: &WebviewWindow,
     snapshot: &CompositionPrintSnapshot,
@@ -298,7 +298,7 @@ async fn verify_dom(
                 }
             }
         })
-        .map_err(|error| format!("无法核对 WebView2 打印内容：{error}"))?;
+        .map_err(|error| format!("无法核对 打印视图内容：{error}"))?;
     if tokio::time::timeout(Duration::from_secs(10), reply)
         .await
         .ok()
@@ -306,7 +306,7 @@ async fn verify_dom(
         .as_deref()
         != Some("true")
     {
-        return Err("WebView2 打印内容与固定快照不一致，或字体、公式及图片尚未就绪。".into());
+        return Err("打印视图内容与固定快照不一致，或字体、公式及图片尚未就绪。".into());
     }
     Ok(())
 }

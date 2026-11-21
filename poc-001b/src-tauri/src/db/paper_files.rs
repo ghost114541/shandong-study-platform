@@ -143,6 +143,10 @@ fn read_bounded(file: impl Read) -> Result<Vec<u8>> {
 }
 
 fn read_selected(path: &Path) -> Result<Vec<u8>> {
+    #[cfg(target_os = "macos")]
+    let resolved = crate::system_path::macos_system_alias(path).map_err(access)?;
+    #[cfg(target_os = "macos")]
+    let path = resolved.as_ref();
     // Walk from the local volume root using directory handles so a selected path
     // cannot traverse reparse points or symlinks on the way to the file.
     let mut root = std::path::PathBuf::new();

@@ -335,7 +335,7 @@ function ReaderView({ pdf, file, subjectId, subjects, target, reportGuard, openQ
       subjectId={subjectId} subjects={subjects} error={error}
       capture={(key, subject) => void perform(() => capture(key, subject))}
       link={(question, key) => void perform(() => attach(question, key))} />}
-    {printing && <PaperPrintDialog pdf={pdf} close={() => setPrinting(false)} />}
+    {printing && <PaperPrintDialog pdf={pdf} fileId={file.id} close={() => setPrinting(false)} />}
   </section>
 }
 

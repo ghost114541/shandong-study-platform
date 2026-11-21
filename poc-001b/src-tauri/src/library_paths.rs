@@ -30,6 +30,10 @@ pub fn check_components(path: &Path) -> io::Result<()> {
             "需要无相对片段的绝对路径。",
         ));
     }
+    #[cfg(target_os = "macos")]
+    let resolved = shandong_poc_001b::system_path::macos_system_alias(path)?;
+    #[cfg(target_os = "macos")]
+    let path = resolved.as_ref();
     for ancestor in path.ancestors() {
         match fs::symlink_metadata(ancestor) {
             Ok(meta) if is_alias(&meta) => {
@@ -110,4 +114,25 @@ pub fn contains(parent: &Path, child: &Path) -> io::Result<bool> {
 
 pub fn overlaps(a: &Path, b: &Path) -> io::Result<bool> {
     Ok(contains(a, b)? || contains(b, a)?)
+}
+
+#[cfg(target_os = "macos")]
+#[cfg(test)]
+mod macos_tests {
+    use super::*;
+    use std::os::unix::fs::symlink;
+
+    #[test]
+    fn system_var_alias_is_accepted_but_descendant_links_are_rejected() {
+        let dir = tempfile::tempdir_in("/private/var/tmp").unwrap();
+        let unicode = dir.path().join("知卷 合成库");
+        fs::create_dir(&unicode).unwrap();
+        let through_var = Path::new("/var").join(unicode.strip_prefix("/private/var").unwrap());
+        assert!(same(&directory(&through_var).unwrap(), &unicode).unwrap());
+        let link = dir.path().join("library-link");
+        symlink(&unicode, &link).unwrap();
+        let through_var = Path::new("/var").join(link.strip_prefix("/private/var").unwrap());
+        assert!(directory(&through_var).is_err());
+        assert!(check_tree(dir.path()).is_err());
+    }
 }

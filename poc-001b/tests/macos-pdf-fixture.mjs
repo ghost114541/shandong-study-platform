@@ -22,7 +22,7 @@ td { border: 1px solid; padding: 8px; }
 </style>
 <nav>EXCLUDE-NAVIGATION</nav><article>
 <h1>知卷 · 原创打印试卷</h1>
-<p>BEGIN-FIXTURE 行内公式 ${math('x^2+y^2=z^2')}，化学式 ${math('2\\mathrm{H_2}+\\mathrm{O_2}\\to2\\mathrm{H_2O')}</p>
+<p>BEGIN-FIXTURE 行内公式 ${math('x^2+y^2=z^2')}，化学式 ${math('2\\mathrm{H_2}+\\mathrm{O_2}\\to2\\mathrm{H_2O}')}</p>
 ${math('\\int_0^1 x^2\\,dx=\\frac13', true)}
 <figure><img src="figure.png" alt="原创图示"><figcaption>物理示意图</figcaption></figure>
 <table><tr><td>记录</td><td>温度</td></tr><tr><td>上午</td><td>15 ℃</td></tr></table>

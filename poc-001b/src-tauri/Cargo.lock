@@ -3467,6 +3467,7 @@ dependencies = [
  "base64 0.22.1",
  "cap-fs-ext",
  "cap-std",
+ "cc",
  "fs2",
  "image",
  "lopdf",

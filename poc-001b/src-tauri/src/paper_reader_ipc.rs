@@ -170,7 +170,9 @@ pub async fn save_original_pdf(window: WebviewWindow, file_id: String) -> Result
         let parent = parent
             .canonicalize()
             .map_err(|err| error(err.to_string()))?;
-        if parent.starts_with(&managed) {
+        if crate::library_paths::contains(&managed, &parent)
+            .map_err(|err| error(err.to_string()))?
+        {
             return Err(error("请选择应用资源目录以外的保存位置。"));
         }
         let name = path.file_name().ok_or_else(|| error("保存文件名无效。"))?;
@@ -226,10 +228,16 @@ pub async fn open_region_question(
 }
 
 #[tauri::command]
-pub async fn show_source_print_dialog(window: WebviewWindow) -> Result<()> {
+pub async fn show_source_print_dialog(
+    window: WebviewWindow,
+    file_id: Option<String>,
+    first: Option<u32>,
+    last: Option<u32>,
+) -> Result<()> {
     main_window(&window)?;
     #[cfg(windows)]
     {
+        let _ = (file_id, first, last);
         use webview2_com::Microsoft::Web::WebView2::Win32::{
             ICoreWebView2_16, COREWEBVIEW2_PRINT_DIALOG_KIND_SYSTEM,
         };
@@ -250,8 +258,20 @@ pub async fn show_source_print_dialog(window: WebviewWindow) -> Result<()> {
             .map_err(|err| error(err.to_string()))?;
         reply.await.map_err(|_| error("系统打印窗口已关闭。"))?
     }
-    #[cfg(not(windows))]
+    #[cfg(target_os = "macos")]
     {
-        Err(error("此版本的原卷打印需要 Windows WebView2。"))
+        let (Some(file_id), Some(first), Some(last)) = (file_id, first, last) else {
+            return Err(error("请选择原卷和打印页范围。"));
+        };
+        if first == 0 || last < first || last - first >= 100 {
+            return Err(error("请选择有效的打印范围，每批最多 100 页。"));
+        }
+        let (_, bytes) = database(window.app_handle().clone(), move |db| db.paper_pdf(&file_id)).await?;
+        crate::pdf::macos::source_print(window, bytes, first, last).await.map_err(error)
+    }
+    #[cfg(not(any(windows, target_os = "macos")))]
+    {
+        let _ = (file_id, first, last);
+        Err(error("此平台尚未提供原卷系统打印。"))
     }
 }

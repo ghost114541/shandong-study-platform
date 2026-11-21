@@ -3,7 +3,7 @@ name: Windows Preview installer
 on:
   workflow_dispatch:
   push:
-    branches: [dev/dev-011-windows-installer]
+    branches: [dev/dev-011-windows-installer, dev/dev-012-macos]
     paths:
       - '.github/workflows/windows-installer-check.yml'
       - 'poc-001b/src/**'

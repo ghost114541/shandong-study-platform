@@ -12,7 +12,7 @@ mod paper_reader_ipc;
 mod preview_lifecycle;
 mod protection_ipc;
 mod resource_pack_ipc;
-#[cfg(windows)]
+#[cfg(any(windows, target_os = "macos"))]
 mod pdf;
 mod storage;
 
@@ -76,15 +76,15 @@ async fn export_pdf(
     let destination = data_directory(window.app_handle())?
         .join("pdf")
         .join(filename);
-    #[cfg(windows)]
+    #[cfg(any(windows, target_os = "macos"))]
     {
         pdf::print(window, &destination).await?;
         Ok(destination)
     }
-    #[cfg(not(windows))]
+    #[cfg(not(any(windows, target_os = "macos")))]
     {
         let _ = destination;
-        Err("本原型的 PDF 导出需要 Windows WebView2。".into())
+        Err("此平台尚未提供 PDF 导出。".into())
     }
 }
 

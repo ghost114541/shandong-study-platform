@@ -8,7 +8,7 @@ import { describeError } from './sqlite-api'
 const MAX_PRINT_BYTES = 48 * 1024 * 1024
 const MAX_PRINT_PIXELS = 72_000_000
 
-export function PaperPrintDialog({ pdf, close }: { pdf: PDFDocumentProxy; close: () => void }) {
+export function PaperPrintDialog({ pdf, fileId, close }: { pdf: PDFDocumentProxy; fileId: string; close: () => void }) {
   const dialog = useRef<HTMLDialogElement>(null)
   const [start, setStart] = useState('1')
   const [end, setEnd] = useState(String(pdf.numPages))
@@ -19,6 +19,7 @@ export function PaperPrintDialog({ pdf, close }: { pdf: PDFDocumentProxy; close:
   const active = useRef(true)
   const urls = useRef<string[]>([])
   const task = useRef<RenderTask | null>(null)
+  const nativePdf = navigator.platform.startsWith('Mac')
 
   useEffect(() => {
     dialog.current?.showModal()
@@ -30,15 +31,22 @@ export function PaperPrintDialog({ pdf, close }: { pdf: PDFDocumentProxy; close:
     }
   }, [])
 
-  async function prepare() {
-    setError('')
+  function pageRange() {
     const first = Number(start)
     const last = Number(end)
     if (!Number.isInteger(first) || !Number.isInteger(last) || first < 1 || last < first ||
         last > pdf.numPages || last - first >= 100) {
       setError('请选择有效的打印范围，每批最多 100 页。')
-      return
+      return null
     }
+    return { first, last }
+  }
+
+  async function prepare() {
+    setError('')
+    const range = pageRange()
+    if (!range) return
+    const { first, last } = range
     setBusy(true)
     setPages([])
     urls.current.forEach((url) => URL.revokeObjectURL(url))
@@ -85,6 +93,15 @@ export function PaperPrintDialog({ pdf, close }: { pdf: PDFDocumentProxy; close:
 
   async function systemPrint() {
     setError('')
+    if (nativePdf) {
+      const range = pageRange()
+      if (!range) return
+      setBusy(true)
+      try { await invoke('show_source_print_dialog', { fileId, ...range }) }
+      catch (reason) { if (active.current) setError(describeError(reason)) }
+      finally { if (active.current) setBusy(false) }
+      return
+    }
     document.body.classList.add('printing-source-pdf')
     try { await invoke('show_source_print_dialog') }
     catch (reason) { if (active.current) setError(describeError(reason)) }
@@ -103,8 +120,8 @@ export function PaperPrintDialog({ pdf, close }: { pdf: PDFDocumentProxy; close:
         {status && <p role="status">{status}</p>}
         {error && <p role="alert">{error}</p>}
         <div className="actions">
-          <button type="submit" disabled={busy}>准备打印页面</button>
-          <button type="button" onClick={() => void systemPrint()} disabled={!pages.length || busy}>打开系统打印</button>
+          {!nativePdf && <button type="submit" disabled={busy}>准备打印页面</button>}
+          <button type="button" onClick={() => void systemPrint()} disabled={busy || (!nativePdf && !pages.length)}>打开系统打印</button>
           <button type="button" onClick={close}>关闭打印</button>
         </div>
       </form>

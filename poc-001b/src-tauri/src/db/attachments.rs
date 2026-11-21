@@ -493,7 +493,7 @@ pub(super) mod tests {
 
     #[test]
     fn dev005_t03_animated_gif_is_decoded_beyond_the_first_frame() {
-        let (_, mut db) = setup();
+        let (_directory, mut db) = setup();
         let mut bytes = Vec::new();
         let frame =
             |color| image::Frame::new(image::RgbaImage::from_pixel(16, 16, image::Rgba(color)));

@@ -11,6 +11,9 @@ dev010-test-hooks = []
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
 
+[target.'cfg(target_os = "macos")'.build-dependencies]
+cc = "1"
+
 [dependencies]
 base64 = "0.22"
 cap-fs-ext = "4"
