@@ -15,8 +15,8 @@ int knowpaper_webview_pdf(void *view, const char *path) {
             info.topMargin = info.bottomMargin = info.leftMargin = info.rightMargin = 15 * 72.0 / 25.4;
             info.horizontallyCentered = NO;
             info.verticallyCentered = NO;
-            info.horizontalPagination = NSFitPagination;
-            info.verticalPagination = NSAutoPagination;
+            info.horizontalPagination = NSPrintingPaginationModeFit;
+            info.verticalPagination = NSPrintingPaginationModeAutomatic;
             info.jobDisposition = NSPrintSaveJob;
             info.dictionary[NSPrintJobSavingURL] = destination;
             info.dictionary[NSPrintHeaderAndFooter] = @NO;
