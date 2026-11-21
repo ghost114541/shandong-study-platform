@@ -80,13 +80,15 @@ async function start(offline = false) {
   child = spawn(executable, [], {
     env: {
       ...process.env,
+      ...(crossPlatformMode ? { WEBVIEW2_USER_DATA_FOLDER: join(out, 'webview2-profile') } : {}),
       WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS:
         '--remote-debugging-port=' + port + ' --remote-debugging-address=127.0.0.1',
     },
-    stdio: 'ignore',
+    stdio: crossPlatformMode ? 'inherit' : 'ignore',
   })
   child.on('error', (err) => console.error(err.message))
   const target = await waitFor(async () => {
+    if (child.exitCode !== null) throw new Error('KnowPaper exited before WebView2 start: ' + child.exitCode)
     const targets = await (await fetch('http://127.0.0.1:' + port + '/json/list')).json()
     return targets.find((target) => target.type === 'page' && target.webSocketDebuggerUrl)
   }, 'Windows WebView2 页面')
