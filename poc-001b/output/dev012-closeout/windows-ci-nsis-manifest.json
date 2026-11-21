@@ -1,0 +1,27 @@
+{
+  "file": "KnowPaper-Preview-0.2.1-windows-x64-setup.exe",
+  "sha256": "187cc6f8798d3667b36ae70dd64eb8de31e864d4c228ef9b3c6eb49b0677e430",
+  "bytes": 303515539,
+  "version": "0.2.1",
+  "product": "知卷 KnowPaper（测试版）",
+  "identifier": "org.shandong-study.knowpaper-preview",
+  "gitHead": "b229d6d6b2a833e40c2ca88b5de5f49b2cb94cc0",
+  "appBuildGitHead": "b229d6d6b2a833e40c2ca88b5de5f49b2cb94cc0",
+  "architecture": "x64 (x86_64-pc-windows-msvc)",
+  "windows": "10.0.26100",
+  "tauri": "tauri-cli 2.12.5",
+  "rust": [
+    "rustc 1.100.0 (0ef1bc386 2026-11-09)",
+    "binary: rustc",
+    "commit-hash: 0ef1bc386059596dada8fb65b50425aab2ea637a",
+    "commit-date: 2026-11-09",
+    "host: x86_64-pc-windows-msvc",
+    "release: 1.100.0",
+    "LLVM version: 23.1.5"
+  ],
+  "node": "v24.13.0",
+  "signatureStatus": "NotSigned",
+  "signer": null,
+  "recordedAtUtc": "2026-11-21T21:51:38.1105722Z",
+  "bundleWriteAtUtc": "2026-11-21T21:51:35.4323530Z"
+}

@@ -1,12 +1,12 @@
-# DEV-012 macOS 跨平台开发交接（2026-11-21）
+# DEV-012 独立审查后收尾（2026-11-22）
 
-- 基准 `dev/dev-011-windows-installer` / `9446c0c764412566f2467effaacc37c00e7d321f`。开发分支 `dev/dev-012-macos`。Preview 0.2.1 和 SQLite Schema 9 延用，DEC-039～041 延用。
-- 正式实现包括 arm64 `.app`／`.dmg`、WebKit 异步 A4 单题及双 PDF、PDFKit 原卷系统打印，以及 macOS 系统路径别名支持。Windows WebView2、NSIS 继续保留。
-- 官方 macOS arm64 CI 全部 Job 通过，覆盖原生构建及打包、A4 多页探针、应用单份与 20／30／50 题双卷、100 页扫描原卷，以及 Windows 合成备份的 Mac 原生数据层恢复。Windows 原生回归和反向恢复已重跑。
-- DEV-012 macOS 跨平台开发与可用环境验收完成，待网页端 ChatGPT 独立源码审查。
-- macOS Apple Silicon 实机验收尚未完成，不能宣称正式跨平台兼容通过。完整 GUI E2E-007、原生打印预览、安装重装和 OID-005 实机范围待核验。待网页端 ChatGPT 独立源码审查。
+- 开发分支为 `dev/dev-012-macos`，首次收尾基线为 `094b6acfd119901a2acdf7943a905b90d1ce886d`。历史 DEV-011 基线为 `9446c0c764412566f2467effaacc37c00e7d321f`。Preview 0.2.1、SQLite Schema 9、备份协议 v1、`.studyzip` 及 DEC-039～041 延用。
+- 收尾实现覆盖 macOS PDF 超时、关窗、迟到完成、并发拒绝及安全恢复提示。增加跨平台 PDF 实际输出和中文检索、公式、分页验证，以及同提交的 Windows→Mac→Windows 数据探针。实际测试 SHA、测试环境和逐项状态见收尾矩阵。
+- 两套官方 CI 均通过，实际测试提交为 `b229d6d6b2a833e40c2ca88b5de5f49b2cb94cc0`。Mac VM 故障注入和两端 PDF 样本已核对。全 CI 与本机返程的 43 张表、102 条固定修订及 131 项外部或兼容文件指纹一致。 [macOS CI](https://github.com/ghost114541/shandong-study-platform/actions/runs/44952652985) · [Windows CI](https://github.com/ghost114541/shandong-study-platform/actions/runs/44952653055)
+- Windows x64 原生工具链、WebView2 文字与版面回归、PDF.js 原卷导入与截图、固定修订安全、收藏、审核、资源库故障恢复和 NSIS 已重跑。
+- 独立审查基线仍为 **CONDITIONAL PASS**。Apple Silicon 实机、完整 Mac GUI E2E-007、原生 PDFKit 打印面板、外置卷、安装重装、正式签名公证及 OID-005 仍开放。下一步由网页端 ChatGPT 独立源码复审，再使用授权实机按步骤补证。
 
-[DEV-012 交接报告](DEV-012_REPORT.md) · [32 项验收矩阵](DEV-012_TEST_RESULTS.md) · [PDF 实验](DEV-012_PDF_POC.md) · [实机步骤](DEV-012_MACOS_INSTALL_DESIGN.md)
+[收尾报告](DEV-012_CLOSEOUT_REPORT.md) · [收尾测试矩阵](DEV-012_CLOSEOUT_TEST_RESULTS.md) · [生命周期设计](DEV-012_PRINT_LIFECYCLE.md) · [已知问题](DEV-012_KNOWN_ISSUES.md) · [实机步骤](DEV-012_MACOS_INSTALL_DESIGN.md) · [历史 32 项验收](DEV-012_TEST_RESULTS.md)
 
 # DEV-011 Windows 安装与数据安全交接（2026-11-19）
 

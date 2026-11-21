@@ -1,0 +1,118 @@
+   Compiling vswhom-sys v0.1.3
+   Compiling libsqlite3-sys v0.40.0
+error: failed to run custom build command for `libsqlite3-sys v0.40.0`
+
+Caused by:
+  process didn't exit successfully: `C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri\target\debug\build\libsqlite3-sys/a63fa6289a9039e3\out\build_script_build` (exit code: 1)
+  --- stdout
+  cargo:rerun-if-env-changed=LIBSQLITE3_SYS_USE_PKG_CONFIG
+  cargo:include=C:\Users\[local-account]\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\libsqlite3-sys-0.40.0/sqlite3
+  cargo:rerun-if-changed=sqlite3/sqlite3.c
+  cargo:rerun-if-changed=sqlite3/wasm32-wasi-vfs.c
+  cargo:rerun-if-env-changed=SQLITE_MAX_VARIABLE_NUMBER
+  cargo:rerun-if-env-changed=SQLITE_MAX_EXPR_DEPTH
+  cargo:rerun-if-env-changed=SQLITE_MAX_COLUMN
+  cargo:rerun-if-env-changed=LIBSQLITE3_FLAGS
+  cargo:rerun-if-env-changed=CC_FORCE_DISABLE
+  CC_FORCE_DISABLE = None
+  cargo:rerun-if-env-changed=CC_PREFER_CLANG_CL_OVER_MSVC
+  CC_PREFER_CLANG_CL_OVER_MSVC = None
+  cargo:rerun-if-env-changed=VCINSTALLDIR
+  VCINSTALLDIR = Some(C:\Program Files\Microsoft Visual Studio\18\Community\VC\)
+  cargo:rerun-if-env-changed=VSCMD_ARG_TGT_ARCH
+  VSCMD_ARG_TGT_ARCH = Some(x64)
+  PATH = Some(C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri\target\debug;C:\Users\[local-account]\.rustup\toolchains\stable-x86_64-pc-windows-msvc\lib\rustlib\x86_64-pc-windows-msvc\lib;C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\bin\HostX64\x64;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\VC\VCPackages;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64\;C:\Program Files\Microsoft Visual Studio\18\Community\Team Tools\DiagnosticsHub\Collector;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\Microsoft\CodeCoverage.Console;C:\Program Files\Microsoft Visual Studio\18\Community\\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\Tools\;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\powershell;C:\Users\[local-account]\.codex\tmp\arg0-windows\codex-arg0bAJUMw;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\powershell;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\libheif\libheif\bin;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\jxrlib\jxrlib\bin;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\poppler\Library\bin;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\tectonic;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\bin\override;C:\Windows\System32;C:\Program Files\Java\jdk-21.0.10\bin;C:\Program Files\Java\jdk-21.0.10\jre\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files\HP\OMEN-Broadcast\Common;C:\Program Files\nodejs\;C:\Program Files\nodejs\node_global\node_modules;C:\Program Files\Docker\Docker\resources\bin;C:\download\MySQL\mysql-9.6.0-winx64\bin;C:\download\Apache\apache-maven-3.9.12\bin;C:\Users\[local-account]\AppData\Local\Programs\Python\Python312;C:\Users\[local-account]\AppData\Local\Programs\Python\Python312\Scripts;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\Users\[local-account]\.cargo\bin;C:\Users\[local-account]\.local\bin;C:\Users\[local-account]\AppData\Local\hermes\bin;C:\Users\[local-account]\npm-global;C:\Program Files\Google\Chrome\Application;C:\download\Microsoft VS Code\bin;C:\download\Kiro\bin;C:\Users\[local-account]\AppData\Local\Programs\MiKTeX\miktex\bin\x64\;C:\Users\[local-account]\anaconda3;C:\Users\[local-account]\anaconda3\Library\usr\bin;C:\Users\[local-account]\anaconda3\Library\mingw-w64;C:\Users\[local-account]\anaconda3\Library\bin;C:\Users\[local-account]\anaconda3\Scripts;C:\Users\[local-account]\AppData\Local\Unity\bin;C:\Users\[local-account]\.dotnet\tools;C:\download\Microsoft VS Code\bin\copilot-shim;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\bin\fallback;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\node\bin;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\git\cmd;C:\Program Files\WindowsApps\OpenAI.Codex_26.1117.4957.0_x64__2p2nqsd0c76g0\app\resources;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\VC\Linux\bin\ConnectionManagerExe;C:\Users\[local-account]\.rustup\toolchains\stable-x86_64-pc-windows-msvc\bin)
+  cargo:rerun-if-env-changed=CC_x86_64-pc-windows-msvc
+  CC_x86_64-pc-windows-msvc = None
+  cargo:rerun-if-env-changed=CC_x86_64_pc_windows_msvc
+  CC_x86_64_pc_windows_msvc = None
+  cargo:rerun-if-env-changed=HOST_CC
+  HOST_CC = None
+  cargo:rerun-if-env-changed=CC
+  CC = None
+  cargo:rerun-if-env-changed=INCLUDE
+  cargo:rerun-if-env-changed=EXTERNAL_INCLUDE
+  cargo:rerun-if-env-changed=CL
+  cargo:rerun-if-env-changed=_CL_
+  cargo:rerun-if-env-changed=LIBPATH
+  cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+  CRATE_CC_NO_DEFAULTS = None
+  cargo:rerun-if-env-changed=CFLAGS
+  CFLAGS = None
+  cargo:rerun-if-env-changed=HOST_CFLAGS
+  HOST_CFLAGS = None
+  cargo:rerun-if-env-changed=CFLAGS_x86_64_pc_windows_msvc
+  CFLAGS_x86_64_pc_windows_msvc = None
+  cargo:rerun-if-env-changed=CFLAGS_x86_64-pc-windows-msvc
+  CFLAGS_x86_64-pc-windows-msvc = None
+  cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+  sqlite3.c
+  C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xmmintrin.h(79): fatal error C1083: 无法打开包括文件: “malloc.h”: No such file or directory
+
+  --- stderr
+
+
+  error occurred in cc-rs: command did not execute successfully (status code exit code: 2): "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\cl.exe" "-nologo" "-MD" "-Z7" "-Brepro" "-W0" "-DSQLITE_CORE" "-DSQLITE_DEFAULT_FOREIGN_KEYS=1" "-DSQLITE_ENABLE_API_ARMOR" "-DSQLITE_ENABLE_COLUMN_METADATA" "-DSQLITE_ENABLE_DBSTAT_VTAB" "-DSQLITE_ENABLE_FTS3" "-DSQLITE_ENABLE_FTS3_PARENTHESIS" "-DSQLITE_ENABLE_FTS5" "-DSQLITE_ENABLE_JSON1" "-DSQLITE_ENABLE_LOAD_EXTENSION=1" "-DSQLITE_ENABLE_RTREE" "-DSQLITE_ENABLE_STAT4" "-DSQLITE_SOUNDEX" "-DSQLITE_THREADSAFE=1" "-DSQLITE_USE_URI" "-DHAVE_USLEEP=1" "-DHAVE_ISNAN" "-D_POSIX_THREAD_SAFE_FUNCTIONS" "-FoC:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\src-tauri\\target\\debug\\build\\libsqlite3-sys/ad3617a9457fadcc\\out\\8017ddc1302f104c-sqlite3.o" "-c" "sqlite3/sqlite3.c"
+
+
+warning: build failed, waiting for other jobs to finish...
+error: failed to run custom build command for `vswhom-sys v0.1.3`
+
+Caused by:
+  process didn't exit successfully: `C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri\target\debug\build\vswhom-sys/1ca004010c06693f\out\build_script_build` (exit code: 1)
+  --- stdout
+  cargo:rerun-if-changed=build.rs
+  cargo:rerun-if-changed=ext/vswhom.cpp
+  cargo:rerun-if-env-changed=CC_PREFER_CLANG_CL_OVER_MSVC
+  CC_PREFER_CLANG_CL_OVER_MSVC = None
+  cargo:rerun-if-env-changed=VCINSTALLDIR
+  VCINSTALLDIR = Some(C:\Program Files\Microsoft Visual Studio\18\Community\VC\)
+  cargo:rerun-if-env-changed=VSCMD_ARG_TGT_ARCH
+  VSCMD_ARG_TGT_ARCH = Some(x64)
+  PATH = Some(C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri\target\debug;C:\Users\[local-account]\.rustup\toolchains\stable-x86_64-pc-windows-msvc\lib\rustlib\x86_64-pc-windows-msvc\lib;C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\bin\HostX64\x64;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\VC\VCPackages;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64\;C:\Program Files\Microsoft Visual Studio\18\Community\Team Tools\DiagnosticsHub\Collector;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\Microsoft\CodeCoverage.Console;C:\Program Files\Microsoft Visual Studio\18\Community\\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\Tools\;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\powershell;C:\Users\[local-account]\.codex\tmp\arg0-windows\codex-arg0bAJUMw;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\powershell;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\libheif\libheif\bin;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\jxrlib\jxrlib\bin;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\poppler\Library\bin;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\tectonic;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\bin\override;C:\Windows\System32;C:\Program Files\Java\jdk-21.0.10\bin;C:\Program Files\Java\jdk-21.0.10\jre\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files\HP\OMEN-Broadcast\Common;C:\Program Files\nodejs\;C:\Program Files\nodejs\node_global\node_modules;C:\Program Files\Docker\Docker\resources\bin;C:\download\MySQL\mysql-9.6.0-winx64\bin;C:\download\Apache\apache-maven-3.9.12\bin;C:\Users\[local-account]\AppData\Local\Programs\Python\Python312;C:\Users\[local-account]\AppData\Local\Programs\Python\Python312\Scripts;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\Users\[local-account]\.cargo\bin;C:\Users\[local-account]\.local\bin;C:\Users\[local-account]\AppData\Local\hermes\bin;C:\Users\[local-account]\npm-global;C:\Program Files\Google\Chrome\Application;C:\download\Microsoft VS Code\bin;C:\download\Kiro\bin;C:\Users\[local-account]\AppData\Local\Programs\MiKTeX\miktex\bin\x64\;C:\Users\[local-account]\anaconda3;C:\Users\[local-account]\anaconda3\Library\usr\bin;C:\Users\[local-account]\anaconda3\Library\mingw-w64;C:\Users\[local-account]\anaconda3\Library\bin;C:\Users\[local-account]\anaconda3\Scripts;C:\Users\[local-account]\AppData\Local\Unity\bin;C:\Users\[local-account]\.dotnet\tools;C:\download\Microsoft VS Code\bin\copilot-shim;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\bin\fallback;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\node\bin;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\git\cmd;C:\Program Files\WindowsApps\OpenAI.Codex_26.1117.4957.0_x64__2p2nqsd0c76g0\app\resources;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\VC\Linux\bin\ConnectionManagerExe;C:\Users\[local-account]\.rustup\toolchains\stable-x86_64-pc-windows-msvc\bin)
+  cargo:rerun-if-env-changed=CXX_x86_64-pc-windows-msvc
+  CXX_x86_64-pc-windows-msvc = None
+  cargo:rerun-if-env-changed=CXX_x86_64_pc_windows_msvc
+  CXX_x86_64_pc_windows_msvc = None
+  cargo:rerun-if-env-changed=HOST_CXX
+  HOST_CXX = None
+  cargo:rerun-if-env-changed=CXX
+  CXX = None
+  cargo:rerun-if-env-changed=INCLUDE
+  cargo:rerun-if-env-changed=EXTERNAL_INCLUDE
+  cargo:rerun-if-env-changed=CL
+  cargo:rerun-if-env-changed=_CL_
+  cargo:rerun-if-env-changed=LIBPATH
+  cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+  CRATE_CC_NO_DEFAULTS = None
+  cargo:rerun-if-env-changed=CXXFLAGS
+  CXXFLAGS = None
+  cargo:rerun-if-env-changed=HOST_CXXFLAGS
+  HOST_CXXFLAGS = None
+  cargo:rerun-if-env-changed=CXXFLAGS_x86_64_pc_windows_msvc
+  CXXFLAGS_x86_64_pc_windows_msvc = None
+  cargo:rerun-if-env-changed=CXXFLAGS_x86_64-pc-windows-msvc
+  CXXFLAGS_x86_64-pc-windows-msvc = None
+  cargo:rerun-if-env-changed=CC_FORCE_DISABLE
+  CC_FORCE_DISABLE = None
+  CC_PREFER_CLANG_CL_OVER_MSVC = None
+  VCINSTALLDIR = Some(C:\Program Files\Microsoft Visual Studio\18\Community\VC\)
+  VSCMD_ARG_TGT_ARCH = Some(x64)
+  PATH = Some(C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\src-tauri\target\debug;C:\Users\[local-account]\.rustup\toolchains\stable-x86_64-pc-windows-msvc\lib\rustlib\x86_64-pc-windows-msvc\lib;C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\bin\HostX64\x64;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\VC\VCPackages;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64\;C:\Program Files\Microsoft Visual Studio\18\Community\Team Tools\DiagnosticsHub\Collector;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\Microsoft\CodeCoverage.Console;C:\Program Files\Microsoft Visual Studio\18\Community\\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\Tools\;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\powershell;C:\Users\[local-account]\.codex\tmp\arg0-windows\codex-arg0bAJUMw;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\powershell;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\libheif\libheif\bin;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\jxrlib\jxrlib\bin;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\poppler\Library\bin;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\tectonic;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\bin\override;C:\Windows\System32;C:\Program Files\Java\jdk-21.0.10\bin;C:\Program Files\Java\jdk-21.0.10\jre\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files\HP\OMEN-Broadcast\Common;C:\Program Files\nodejs\;C:\Program Files\nodejs\node_global\node_modules;C:\Program Files\Docker\Docker\resources\bin;C:\download\MySQL\mysql-9.6.0-winx64\bin;C:\download\Apache\apache-maven-3.9.12\bin;C:\Users\[local-account]\AppData\Local\Programs\Python\Python312;C:\Users\[local-account]\AppData\Local\Programs\Python\Python312\Scripts;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\Users\[local-account]\.cargo\bin;C:\Users\[local-account]\.local\bin;C:\Users\[local-account]\AppData\Local\hermes\bin;C:\Users\[local-account]\npm-global;C:\Program Files\Google\Chrome\Application;C:\download\Microsoft VS Code\bin;C:\download\Kiro\bin;C:\Users\[local-account]\AppData\Local\Programs\MiKTeX\miktex\bin\x64\;C:\Users\[local-account]\anaconda3;C:\Users\[local-account]\anaconda3\Library\usr\bin;C:\Users\[local-account]\anaconda3\Library\mingw-w64;C:\Users\[local-account]\anaconda3\Library\bin;C:\Users\[local-account]\anaconda3\Scripts;C:\Users\[local-account]\AppData\Local\Unity\bin;C:\Users\[local-account]\.dotnet\tools;C:\download\Microsoft VS Code\bin\copilot-shim;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\bin\fallback;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\node\bin;C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1119-907-0_26.1119.907.0_x64__3k8sg7r9htsxt\dependencies\native\git\cmd;C:\Program Files\WindowsApps\OpenAI.Codex_26.1117.4957.0_x64__2p2nqsd0c76g0\app\resources;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\VC\Linux\bin\ConnectionManagerExe;C:\Users\[local-account]\.rustup\toolchains\stable-x86_64-pc-windows-msvc\bin)
+  CXX_x86_64-pc-windows-msvc = None
+  CXX_x86_64_pc_windows_msvc = None
+  HOST_CXX = None
+  CXX = None
+  CRATE_CC_NO_DEFAULTS = None
+  CXXFLAGS = None
+  HOST_CXXFLAGS = None
+  CXXFLAGS_x86_64_pc_windows_msvc = None
+  CXXFLAGS_x86_64-pc-windows-msvc = None
+  cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+  vswhom.cpp
+  ext/vswhom.cpp(16): fatal error C1083: 无法打开包括文件: “windows.h”: No such file or directory
+
+  --- stderr
+
+
+  error occurred in cc-rs: command did not execute successfully (status code exit code: 2): "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\cl.exe" "-nologo" "-MD" "-Brepro" "-W4" "/Zm2000" "-FoC:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\src-tauri\\target\\debug\\build\\vswhom-sys/ee7ba5a8c0b2c5c6\\out\\8040c35acd5ea599-vswhom.o" "-c" "ext/vswhom.cpp"

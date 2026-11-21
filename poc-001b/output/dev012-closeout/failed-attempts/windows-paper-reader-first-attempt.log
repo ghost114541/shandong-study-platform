@@ -1,0 +1,117 @@
+Native Win32 window hwnd present, process PID 26096, URL http://tauri.localhost/
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered original.pdf (6 pages, 7665 bytes, including native selection 915.2ms)
+T06/T07: paging, zoom, thumbnail, jump, actual search and inert external annotation PASS
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered answer.pdf (1 pages, 2002 bytes, including native selection 691.9ms)
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered analysis.pdf (2 pages, 3549 bytes, including native selection 708.8ms)
+T08: all three PDF roles read from the same paper PASS
+Native Save As: exact source bytes and SHA-256 PASS
+Capture + attachment save + editor load milliseconds: 171.6
+Screenshot 1 38469 bytes SHA-256 c737da4a62039dccb062596026545218d251696e438ba7b0e6c964c5f35fef3e
+Screenshot 2 39740 bytes SHA-256 12507ebc16b2959dfc0bcb86b88d2284adfdad9c1aa2c38a869950b6ab11ad8a
+T09/T10/T11/T13 and E2E-003: rotated and zoomed multi-page crop, stored attachments, atomic draft source, bidirectional navigation PASS
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered original.pdf (6 pages, 7665 bytes, including native selection 802.1ms)
+T03/T12: byte dedup without paper merge and existing question linked to a second source PASS
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered scan.pdf (6 pages, 112711 bytes, including native selection 813.0ms)
+Selected file through native Win32 controls in 导入试卷 PDF
+Selected file through native Win32 controls in 导入试卷 PDF
+Selected file through native Win32 controls in 导入试卷 PDF
+Selected file through native Win32 controls in 导入试卷 PDF
+Selected file through native Win32 controls in 导入试卷 PDF
+T02/T04: scan, malformed, disguised, encrypted, 64 MiB, 500-page and unregistered boundary PASS
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered perf20.pdf (20 pages, 20427 bytes, including native selection 1014.2ms)
+Traceback (most recent call last):
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\tests\paper-reader-fixtures.py", line 165, in <module>
+    memory(int(args[0]))
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\tests\paper-reader-fixtures.py", line 115, in memory
+    import psutil
+ModuleNotFoundError: No module named 'psutil'
+{
+  images: [],
+  reader: '返回试卷库\n' +
+    '性能20页\n' +
+    '收藏试卷\n' +
+    'PDF 版本 \n' +
+    '原卷 · perf20.pdf · 20 页 · 747906e3\n' +
+    '上一页\n' +
+    '下一页\n' +
+    '页码 \n' +
+    '/ 20\n' +
+    '跳转\n' +
+    '缩放 \n' +
+    '适合整页\n' +
+    '适合宽度\n' +
+    '50%\n' +
+    '75%\n' +
+    '100%\n' +
+    '125%\n' +
+    '150%\n' +
+    '200%\n' +
+    '300%\n' +
+    '旋转\n' +
+    '缩略图\n' +
+    '搜索 PDF\n' +
+    '保存原始 PDF\n' +
+    '打印原卷\n' +
+    '已关联试题（0）\n' +
+    '截取题目\n' +
+    '1\n' +
+    '2\n' +
+    '3\n' +
+    '4\n' +
+    '5'
+}
+node:internal/errors:985
+  const err = new Error(message);
+              ^
+
+Error: Command failed: python tests/paper-reader-fixtures.py memory 26096
+Traceback (most recent call last):
+
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\tests\paper-reader-fixtures.py", line 165, in <module>
+
+    memory(int(args[0]))
+
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\tests\paper-reader-fixtures.py", line 115, in memory
+
+    import psutil
+
+ModuleNotFoundError: No module named 'psutil'
+
+
+    at genericNodeError (node:internal/errors:985:15)
+    at wrappedFn (node:internal/errors:539:14)
+    at checkExecSyncError (node:child_process:925:11)
+    at execFileSync (node:child_process:961:15)
+    at sample (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-paper-reader.mjs:281:23)
+    at timed (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-paper-reader.mjs:286:86)
+    at async readerRegression (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-paper-reader.mjs:292:5)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:293:26 {
+  status: 1,
+  signal: null,
+  output: [
+    null,
+    '',
+    'Traceback (most recent call last):\r\n' +
+      '  File "C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\tests\\paper-reader-fixtures.py", line 165, in <module>\r\n' +
+      '    memory(int(args[0]))\r\n' +
+      '  File "C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\tests\\paper-reader-fixtures.py", line 115, in memory\r\n' +
+      '    import psutil\r\n' +
+      "ModuleNotFoundError: No module named 'psutil'\r\n"
+  ],
+  pid: 32620,
+  stdout: '',
+  stderr: 'Traceback (most recent call last):\r\n' +
+    '  File "C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\tests\\paper-reader-fixtures.py", line 165, in <module>\r\n' +
+    '    memory(int(args[0]))\r\n' +
+    '  File "C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\tests\\paper-reader-fixtures.py", line 115, in memory\r\n' +
+    '    import psutil\r\n' +
+    "ModuleNotFoundError: No module named 'psutil'\r\n"
+}
+
+Node.js v24.13.0

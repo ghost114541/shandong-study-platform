@@ -1,0 +1,2097 @@
+2026-11-21T21:16:28.1326110Z Current runner version: '2.338.2'
+2026-11-21T21:16:28.1342640Z ##[group]Runner Image Provisioner
+2026-11-21T21:16:28.1343220Z Hosted Compute Agent
+2026-11-21T21:16:28.1343700Z Version: 20261111.635
+2026-11-21T21:16:28.1344350Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-21T21:16:28.1344860Z Build Date: 2026-11-11T01:49:01Z
+2026-11-21T21:16:28.1345310Z Worker ID: {d0644eee-adaf-48fc-a2a3-3428bf830117}
+2026-11-21T21:16:28.1345790Z Region: westus
+2026-11-21T21:16:28.1346170Z Cloud: MacCloud
+2026-11-21T21:16:28.1346540Z ##[endgroup]
+2026-11-21T21:16:28.1347510Z ##[group]Operating System
+2026-11-21T21:16:28.1347910Z macOS
+2026-11-21T21:16:28.1348240Z 15.8.2
+2026-11-21T21:16:28.1348570Z 24H232
+2026-11-21T21:16:28.1348920Z ##[endgroup]
+2026-11-21T21:16:28.1349280Z ##[group]Runner Image
+2026-11-21T21:16:28.1349680Z Image: macos-15-arm64
+2026-11-21T21:16:28.1350060Z Version: 20261118.0550.1
+2026-11-21T21:16:28.1350950Z Included Software: https://github.com/actions/runner-images/blob/macos-15-arm64/20261118.0550/images/macos/macos-15-arm64-Readme.md
+2026-11-21T21:16:28.1352010Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-15-arm64%2F20261118.0550
+2026-11-21T21:16:28.1352690Z ##[endgroup]
+2026-11-21T21:16:28.1353460Z ##[group]GITHUB_TOKEN Permissions
+2026-11-21T21:16:28.1355040Z Contents: read
+2026-11-21T21:16:28.1355420Z Metadata: read
+2026-11-21T21:16:28.1355790Z ##[endgroup]
+2026-11-21T21:16:28.1357250Z Secret source: Actions
+2026-11-21T21:16:28.1357850Z Cache mode: write
+2026-11-21T21:16:28.1358300Z Prepare workflow directory
+2026-11-21T21:16:28.1641260Z Prepare all required actions
+2026-11-21T21:16:28.1678920Z Getting action download info
+2026-11-21T21:16:28.5631470Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-21T21:16:28.7650270Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-11-21T21:16:28.8528400Z Download action repository 'actions/download-artifact@v4' (SHA:d3f86a106a0bac45b974a628896c90dbdf5c8093)
+2026-11-21T21:16:29.2786040Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-21T21:16:29.4506480Z Complete job name: build
+2026-11-21T21:16:29.5071860Z ##[group]Run actions/checkout@v4
+2026-11-21T21:16:29.5073290Z with:
+2026-11-21T21:16:29.5073810Z   ref: 1f324beb131416762fe7e087352de2192e649c17
+2026-11-21T21:16:29.5074690Z   persist-credentials: false
+2026-11-21T21:16:29.5075280Z   repository: ghost114541/shandong-study-platform
+2026-11-21T21:16:29.5078230Z   token: ***
+2026-11-21T21:16:29.5078590Z   ssh-strict: true
+2026-11-21T21:16:29.5078920Z   ssh-user: git
+2026-11-21T21:16:29.5079250Z   clean: true
+2026-11-21T21:16:29.5079600Z   sparse-checkout-cone-mode: true
+2026-11-21T21:16:29.5080110Z   fetch-depth: 1
+2026-11-21T21:16:29.5080440Z   fetch-tags: false
+2026-11-21T21:16:29.5080760Z   show-progress: true
+2026-11-21T21:16:29.5081090Z   lfs: false
+2026-11-21T21:16:29.5081390Z   submodules: false
+2026-11-21T21:16:29.5081800Z   set-safe-directory: true
+2026-11-21T21:16:29.5082170Z   allow-unsafe-pr-checkout: false
+2026-11-21T21:16:29.5082750Z env:
+2026-11-21T21:16:29.5083090Z   CARGO_INCREMENTAL: 0
+2026-11-21T21:16:29.5083470Z   MACOSX_DEPLOYMENT_TARGET: 13.0
+2026-11-21T21:16:29.5083850Z   RUST_VERSION: 1.100.0
+2026-11-21T21:16:29.5084180Z ##[endgroup]
+2026-11-21T21:16:29.8362780Z Syncing repository: ghost114541/shandong-study-platform
+2026-11-21T21:16:29.8364370Z ##[group]Getting Git version info
+2026-11-21T21:16:29.8365100Z Working directory is '/Users/runner/work/shandong-study-platform/shandong-study-platform'
+2026-11-21T21:16:29.8366110Z [command]/opt/homebrew/bin/git version
+2026-11-21T21:16:29.8664270Z git version 2.56.1
+2026-11-21T21:16:29.8681890Z ##[endgroup]
+2026-11-21T21:16:29.8689060Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/6d8df90d-a4b0-4c2e-83d9-9b9740901d9b/.gitconfig'
+2026-11-21T21:16:29.8695370Z Temporarily overriding HOME='/Users/runner/work/_temp/6d8df90d-a4b0-4c2e-83d9-9b9740901d9b' before making global git config changes
+2026-11-21T21:16:29.8697390Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T21:16:29.8701710Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/shandong-study-platform/shandong-study-platform
+2026-11-21T21:16:29.8806010Z Deleting the contents of '/Users/runner/work/shandong-study-platform/shandong-study-platform'
+2026-11-21T21:16:29.8809100Z ##[group]Initializing the repository
+2026-11-21T21:16:29.8812090Z [command]/opt/homebrew/bin/git init /Users/runner/work/shandong-study-platform/shandong-study-platform
+2026-11-21T21:16:29.9007330Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-21T21:16:29.9008250Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-21T21:16:29.9008940Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-21T21:16:29.9009600Z hint: call:
+2026-11-21T21:16:29.9010010Z hint:
+2026-11-21T21:16:29.9010470Z hint: 	git config --global init.defaultBranch <name>
+2026-11-21T21:16:29.9010940Z hint:
+2026-11-21T21:16:29.9011390Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-21T21:16:29.9012190Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-21T21:16:29.9012850Z hint:
+2026-11-21T21:16:29.9013170Z hint: 	git branch -m <name>
+2026-11-21T21:16:29.9013540Z hint:
+2026-11-21T21:16:29.9014010Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-21T21:16:29.9017760Z Initialized empty Git repository in /Users/runner/work/shandong-study-platform/shandong-study-platform/.git/
+2026-11-21T21:16:29.9025450Z [command]/opt/homebrew/bin/git remote add origin https://github.com/ghost114541/shandong-study-platform
+2026-11-21T21:16:29.9096910Z ##[endgroup]
+2026-11-21T21:16:29.9097790Z ##[group]Disabling automatic garbage collection
+2026-11-21T21:16:29.9098570Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+2026-11-21T21:16:29.9166190Z ##[endgroup]
+2026-11-21T21:16:29.9166790Z ##[group]Setting up auth
+2026-11-21T21:16:29.9172890Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T21:16:29.9281400Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T21:16:30.0177820Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T21:16:30.0232580Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-21T21:16:30.0945230Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-21T21:16:30.0997530Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-21T21:16:30.1652530Z [command]/opt/homebrew/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-21T21:16:30.1716960Z ##[endgroup]
+2026-11-21T21:16:30.1717600Z ##[group]Fetching the repository
+2026-11-21T21:16:30.1725950Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 1f324beb131416762fe7e087352de2192e649c17
+2026-11-21T21:16:32.0585940Z From https://github.com/ghost114541/shandong-study-platform
+2026-11-21T21:16:32.0587020Z  * branch            1f324beb131416762fe7e087352de2192e649c17 -> FETCH_HEAD
+2026-11-21T21:16:32.0589090Z ##[endgroup]
+2026-11-21T21:16:32.0589830Z ##[group]Determining the checkout info
+2026-11-21T21:16:32.0590710Z ##[endgroup]
+2026-11-21T21:16:32.0592340Z [command]/opt/homebrew/bin/git sparse-checkout disable
+2026-11-21T21:16:32.0666750Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-21T21:16:32.0738480Z ##[group]Checking out the ref
+2026-11-21T21:16:32.0742400Z [command]/opt/homebrew/bin/git checkout --progress --force 1f324beb131416762fe7e087352de2192e649c17
+2026-11-21T21:16:32.2684220Z HEAD is now at 1f324be Correct the multilingual PDF fixture inputs
+2026-11-21T21:16:32.2693070Z ##[endgroup]
+2026-11-21T21:16:32.2775300Z [command]/opt/homebrew/bin/git log -1 --format=%H
+2026-11-21T21:16:32.2846270Z 1f324beb131416762fe7e087352de2192e649c17
+2026-11-21T21:16:32.2852850Z ##[group]Removing auth
+2026-11-21T21:16:32.2856540Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T21:16:32.2922020Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T21:16:32.3643570Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T21:16:32.3695640Z http.https://github.com/.extraheader
+2026-11-21T21:16:32.3698710Z [command]/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-21T21:16:32.3751880Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-21T21:16:32.4379950Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-21T21:16:32.4426570Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-21T21:16:32.5161950Z ##[endgroup]
+2026-11-21T21:16:32.5340870Z ##[group]Run actions/setup-node@v4
+2026-11-21T21:16:32.5341120Z with:
+2026-11-21T21:16:32.5341280Z   node-version: 24.13.0
+2026-11-21T21:16:32.5341480Z   cache: npm
+2026-11-21T21:16:32.5341690Z   cache-dependency-path: poc-001b/package-lock.json
+2026-11-21T21:16:32.5341960Z   always-auth: false
+2026-11-21T21:16:32.5342150Z   check-latest: false
+2026-11-21T21:16:32.5343950Z   token: ***
+2026-11-21T21:16:32.5344100Z env:
+2026-11-21T21:16:32.5344260Z   CARGO_INCREMENTAL: 0
+2026-11-21T21:16:32.5344510Z   MACOSX_DEPLOYMENT_TARGET: 13.0
+2026-11-21T21:16:32.5344720Z   RUST_VERSION: 1.100.0
+2026-11-21T21:16:32.5344900Z ##[endgroup]
+2026-11-21T21:16:32.6577120Z Attempting to download 24.13.0...
+2026-11-21T21:16:32.6733760Z (node:2791) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-21T21:16:32.6734840Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-21T21:16:33.3585190Z Acquiring 24.13.0 - arm64 from https://github.com/actions/node-versions/releases/download/24.13.0-20981653924/node-24.13.0-darwin-arm64.tar.gz
+2026-11-21T21:16:34.6503750Z Extracting ...
+2026-11-21T21:16:34.6561770Z [command]/usr/bin/tar xz --strip 1 -C /Users/runner/work/_temp/bde6979e-80bf-4507-8dba-571b87e006a2 -f /Users/runner/work/_temp/0976cec7-5cd0-4ded-89de-f40199fea40a
+2026-11-21T21:16:35.7000680Z Adding to the cache ...
+2026-11-21T21:16:37.6353800Z ##[group]Environment details
+2026-11-21T21:16:37.9921740Z node: v24.13.0
+2026-11-21T21:16:37.9952040Z npm: 11.6.2
+2026-11-21T21:16:37.9984040Z yarn: 1.22.22
+2026-11-21T21:16:37.9985410Z ##[endgroup]
+2026-11-21T21:16:37.9988430Z [command]/Users/runner/hostedtoolcache/node/24.13.0/arm64/bin/npm config get cache
+2026-11-21T21:16:38.1445980Z /Users/runner/.npm
+2026-11-21T21:16:38.4547410Z Cache hit for: node-cache-macOS-arm64-npm-e462cdbe6161d14441fc6b05731ecd2d45e57916cba5f7c746ef18c3e463c479
+2026-11-21T21:16:38.4632680Z (node:2791) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-21T21:16:39.7389680Z Received 0 of 49546331 (0.0%), 0.0 MBs/sec
+2026-11-21T21:16:40.2213270Z Received 49546331 of 49546331 (100.0%), 31.8 MBs/sec
+2026-11-21T21:16:40.2375610Z Cache Size: ~47 MB (49546331 B)
+2026-11-21T21:16:40.2496860Z [command]/opt/homebrew/bin/gtar -xf /Users/runner/work/_temp/c36cb824-9692-4c04-8b45-ec643ea4f9fe/cache.tzst -P -C /Users/runner/work/shandong-study-platform/shandong-study-platform --delay-directory-restore --use-compress-program unzstd
+2026-11-21T21:16:40.4802640Z Cache restored successfully
+2026-11-21T21:16:40.4864000Z Cache restored from key: node-cache-macOS-arm64-npm-e462cdbe6161d14441fc6b05731ecd2d45e57916cba5f7c746ef18c3e463c479
+2026-11-21T21:16:40.5188580Z ##[group]Run mkdir -p preview-artifacts
+2026-11-21T21:16:40.5189190Z [36;1mmkdir -p preview-artifacts[0m
+2026-11-21T21:16:40.5189550Z [36;1m{[0m
+2026-11-21T21:16:40.5189780Z [36;1m  git rev-parse HEAD[0m
+2026-11-21T21:16:40.5190220Z [36;1m  test "$(git rev-parse HEAD)" = "$GITHUB_SHA"[0m
+2026-11-21T21:16:40.5190690Z [36;1m  echo "Runner label: macos-15. Runner architecture: $RUNNER_ARCH"[0m
+2026-11-21T21:16:40.5191130Z [36;1m  uname -a[0m
+2026-11-21T21:16:40.5191490Z [36;1m  test "$(uname -m)" = arm64[0m
+2026-11-21T21:16:40.5191760Z [36;1m  sw_vers[0m
+2026-11-21T21:16:40.5192110Z [36;1m  xcodebuild -version[0m
+2026-11-21T21:16:40.5192440Z [36;1m  df -h .[0m
+2026-11-21T21:16:40.5192880Z [36;1m  rustup toolchain install "$RUST_VERSION-aarch64-apple-darwin" --profile minimal[0m
+2026-11-21T21:16:40.5193410Z [36;1m  rustup override set "$RUST_VERSION-aarch64-apple-darwin"[0m
+2026-11-21T21:16:40.5193730Z [36;1m  rustc -vV[0m
+2026-11-21T21:16:40.5194130Z [36;1m  cargo --version[0m
+2026-11-21T21:16:40.5194440Z [36;1m  node --version[0m
+2026-11-21T21:16:40.5194690Z [36;1m  npm --version[0m
+2026-11-21T21:16:40.5195050Z [36;1m} 2>&1 | tee preview-artifacts/environment.log[0m
+2026-11-21T21:16:40.5249780Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-21T21:16:40.5250190Z env:
+2026-11-21T21:16:40.5250480Z   CARGO_INCREMENTAL: 0
+2026-11-21T21:16:40.5250710Z   MACOSX_DEPLOYMENT_TARGET: 13.0
+2026-11-21T21:16:40.5251050Z   RUST_VERSION: 1.100.0
+2026-11-21T21:16:40.5251350Z ##[endgroup]
+2026-11-21T21:16:40.6018330Z 1f324beb131416762fe7e087352de2192e649c17
+2026-11-21T21:16:40.6081320Z Runner label: macos-15. Runner architecture: ARM64
+2026-11-21T21:16:40.6109850Z Darwin sjc22-bm204-09b406a7-f99c-4cea-9868-90a093dfa363-8A9E25118FD5.local 24.6.0 Darwin Kernel Version 24.6.0: Sun Oct 11 23:44:11 PDT 2026; root:xnu-11417.140.69.713.47~2/RELEASE_ARM64_VMAPPLE arm64
+2026-11-21T21:16:40.6235930Z ProductName:		macOS
+2026-11-21T21:16:40.6236430Z ProductVersion:		15.8.2
+2026-11-21T21:16:40.6236860Z BuildVersion:		24H232
+2026-11-21T21:16:40.7829740Z Xcode 16.4
+2026-11-21T21:16:40.7839110Z Build version 16F6
+2026-11-21T21:16:40.7892270Z Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+2026-11-21T21:16:40.7892970Z /dev/disk2s5   320Gi   258Gi    44Gi    86%    2.2M  457M    0%   /System/Volumes/Data
+2026-11-21T21:16:40.8337980Z info: syncing channel updates for 1.100.0-aarch64-apple-darwin
+2026-11-21T21:16:40.9972800Z info: latest update on 2026-11-12 for version 1.100.0 (0ef1bc386 2026-11-09)
+2026-11-21T21:16:40.9977000Z info: downloading 3 components
+2026-11-21T21:16:46.2536070Z
+2026-11-21T21:16:46.2905710Z   1.100.0-aarch64-apple-darwin installed - rustc 1.100.0 (0ef1bc386 2026-11-09)
+2026-11-21T21:16:46.2906230Z
+2026-11-21T21:16:46.2906540Z info: self-update is disabled for this build of rustup
+2026-11-21T21:16:46.2907140Z info: any updates to rustup will need to be fetched with your system package manager
+2026-11-21T21:16:46.3128640Z info: override toolchain for /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b set to 1.100.0-aarch64-apple-darwin
+2026-11-21T21:16:46.3432890Z rustc 1.100.0 (0ef1bc386 2026-11-09)
+2026-11-21T21:16:46.3433380Z binary: rustc
+2026-11-21T21:16:46.3433880Z commit-hash: 0ef1bc386059596dada8fb65b50425aab2ea637a
+2026-11-21T21:16:46.3441790Z commit-date: 2026-11-09
+2026-11-21T21:16:46.3442080Z host: aarch64-apple-darwin
+2026-11-21T21:16:46.3442390Z release: 1.100.0
+2026-11-21T21:16:46.3450890Z LLVM version: 23.1.5
+2026-11-21T21:16:46.3960350Z cargo 1.100.0 (3acc79c0c 2026-11-05)
+2026-11-21T21:16:46.4196700Z v24.13.0
+2026-11-21T21:16:46.5170520Z 11.6.2
+2026-11-21T21:16:46.5531180Z ##[group]Run npm ci 2>&1 | tee preview-artifacts/npm-ci.log
+2026-11-21T21:16:46.5531910Z [36;1mnpm ci 2>&1 | tee preview-artifacts/npm-ci.log[0m
+2026-11-21T21:16:46.5532450Z [36;1mnpm run tauri -- --version 2>&1 | tee -a preview-artifacts/environment.log[0m
+2026-11-21T21:16:46.5565440Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-21T21:16:46.5565710Z env:
+2026-11-21T21:16:46.5565860Z   CARGO_INCREMENTAL: 0
+2026-11-21T21:16:46.5566070Z   MACOSX_DEPLOYMENT_TARGET: 13.0
+2026-11-21T21:16:46.5566280Z   RUST_VERSION: 1.100.0
+2026-11-21T21:16:46.5566460Z ##[endgroup]
+2026-11-21T21:16:48.5824650Z
+2026-11-21T21:16:48.5825560Z added 85 packages, and audited 86 packages in 2s
+2026-11-21T21:16:48.5825800Z
+2026-11-21T21:16:48.5825950Z 41 packages are looking for funding
+2026-11-21T21:16:48.5826260Z   run `npm fund` for details
+2026-11-21T21:16:48.5835980Z
+2026-11-21T21:16:48.5836260Z 1 low severity vulnerability
+2026-11-21T21:16:48.5836440Z
+2026-11-21T21:16:48.5836820Z To address all issues (including breaking changes), run:
+2026-11-21T21:16:48.5837120Z   npm audit fix --force
+2026-11-21T21:16:48.5837250Z
+2026-11-21T21:16:48.5837460Z Run `npm audit` for details.
+2026-11-21T21:16:48.8385710Z
+2026-11-21T21:16:48.8386130Z > knowpaper-preview@0.2.1 tauri
+2026-11-21T21:16:48.8386510Z > tauri --version
+2026-11-21T21:16:48.8386630Z
+2026-11-21T21:16:48.8742500Z tauri-cli 2.12.5
+2026-11-21T21:16:48.9062280Z ##[group]Run npm run typecheck 2>&1 | tee preview-artifacts/typecheck.log
+2026-11-21T21:16:48.9062720Z [36;1mnpm run typecheck 2>&1 | tee preview-artifacts/typecheck.log[0m
+2026-11-21T21:16:48.9063090Z [36;1mnpm test 2>&1 | tee preview-artifacts/typescript-tests.log[0m
+2026-11-21T21:16:48.9092130Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-21T21:16:48.9092390Z env:
+2026-11-21T21:16:48.9092540Z   CARGO_INCREMENTAL: 0
+2026-11-21T21:16:48.9092710Z   MACOSX_DEPLOYMENT_TARGET: 13.0
+2026-11-21T21:16:48.9092910Z   RUST_VERSION: 1.100.0
+2026-11-21T21:16:48.9093090Z ##[endgroup]
+2026-11-21T21:16:49.0291070Z
+2026-11-21T21:16:49.0291470Z > knowpaper-preview@0.2.1 typecheck
+2026-11-21T21:16:49.0291760Z > tsc --noEmit
+2026-11-21T21:16:49.0291870Z
+2026-11-21T21:16:51.6550970Z
+2026-11-21T21:16:51.6552190Z > knowpaper-preview@0.2.1 test
+2026-11-21T21:16:51.6553000Z > node --disable-warning=ExperimentalWarning --experimental-strip-types --test tests/*.test.ts
+2026-11-21T21:16:51.6553760Z
+2026-11-21T21:16:51.7631830Z ✔ DEV008-T17 changed collection drops a late result and an unmounted read drops a late error (0.770959ms)
+2026-11-21T21:16:51.8412830Z ✔ converts POC-001 with the same question and part IDs, scores and source formulae (12.475417ms)
+2026-11-21T21:16:51.8449900Z ✔ round trip preserves edits, marks, formula sources and bundled/embedded attachments (1.420042ms)
+2026-11-21T21:16:51.8450740Z ✔ rejects unsupported versions, duplicate IDs, bad nodes, and remote images (1.770667ms)
+2026-11-21T21:16:51.8451490Z ✔ paper and answer projection use identical numbering and disjoint content (0.349584ms)
+2026-11-21T21:16:51.8452230Z ✔ DEV007-T09 crop coordinates round-trip through all right-angle viewport rotations (0.758875ms)
+2026-11-21T21:16:51.9454090Z ✔ DEV002-T01 中文和缺省可选字段 (3.340125ms)
+2026-11-21T21:16:51.9466370Z ✔ DEV002-T01 粗体、斜体、行内公式和换行 (0.687875ms)
+2026-11-21T21:16:51.9467150Z ✔ DEV002-T01 独立公式和化学方程式 (0.279666ms)
+2026-11-21T21:16:51.9467760Z ✔ DEV002-T01 本地内嵌图片与内置图片 (0.622583ms)
+2026-11-21T21:16:51.9468210Z ✔ DEV002-T01 有限正数尺寸和空尺寸 (0.216916ms)
+2026-11-21T21:16:51.9502590Z ✔ DEV002-T01 零宽度 (1.144041ms)
+2026-11-21T21:16:51.9503580Z ✔ DEV002-T01 字符串高度 (0.209542ms)
+2026-11-21T21:16:51.9542710Z ✔ DEV002-T01 负高度 (0.115916ms)
+2026-11-21T21:16:51.9543570Z ✔ DEV002-T01 绝对本地路径 (0.205791ms)
+2026-11-21T21:16:51.9544220Z ✔ DEV002-T01 远程路径 (0.154458ms)
+2026-11-21T21:16:51.9544770Z ✔ DEV002-T01 Base64 长度不整除四 (0.120083ms)
+2026-11-21T21:16:51.9558280Z ✔ DEV002-T01 Base64 末尾换行 (0.088958ms)
+2026-11-21T21:16:51.9558960Z ✔ DEV002-T01 已登记附件（文件未验证） (0.468917ms)
+2026-11-21T21:16:51.9559330Z ✔ DEV002-T01 未登记附件 (0.086458ms)
+2026-11-21T21:16:51.9559700Z ✔ DEV002-T01 附件大小超过安全整数 (0.138166ms)
+2026-11-21T21:16:51.9560100Z ✔ DEV002-T01 未知节点 (0.109417ms)
+2026-11-21T21:16:51.9560390Z ✔ DEV002-T01 未知段落属性 (0.118916ms)
+2026-11-21T21:16:51.9560670Z ✔ DEV002-T01 未知图片属性 (0.07525ms)
+2026-11-21T21:16:51.9561100Z ✔ DEV002-T01 未知公式属性 (0.061125ms)
+2026-11-21T21:16:51.9561400Z ✔ DEV002-T01 未知标记属性 (0.086333ms)
+2026-11-21T21:16:51.9561710Z ✔ DEV002-T01 未知根属性 (0.062208ms)
+2026-11-21T21:16:51.9561980Z ✔ DEV002-T01 版本不支持 (0.06925ms)
+2026-11-21T21:16:51.9562240Z ✔ DEV002-T01 多小问 (0.391417ms)
+2026-11-21T21:16:51.9562520Z ✔ DEV002-T01 小问重复 ID (0.070166ms)
+2026-11-21T21:16:51.9562810Z ✔ DEV002-T01 分值不一致 (0.065583ms)
+2026-11-21T21:16:51.9563100Z ✔ DEV002-T01 LaTeX 仅空白 (0.05625ms)
+2026-11-21T21:16:51.9563480Z ✔ DEV002-T01 答案和解析同样校验 (0.065666ms)
+2026-11-21T21:16:51.9563790Z ✔ DEV002-T01 POC 样本保持富文本和小问 ID (1.678917ms)
+2026-11-21T21:16:51.9582300Z ℹ tests 34
+2026-11-21T21:16:51.9583710Z ℹ suites 0
+2026-11-21T21:16:51.9586800Z ℹ pass 34
+2026-11-21T21:16:51.9587110Z ℹ fail 0
+2026-11-21T21:16:51.9587390Z ℹ cancelled 0
+2026-11-21T21:16:51.9587660Z ℹ skipped 0
+2026-11-21T21:16:51.9587940Z ℹ todo 0
+2026-11-21T21:16:51.9588240Z ℹ duration_ms 270.398375
+2026-11-21T21:16:51.9972920Z ##[group]Run cargo test --locked --manifest-path src-tauri/Cargo.toml 2>&1 | tee preview-artifacts/rust-tests.log
+2026-11-21T21:16:51.9973580Z [36;1mcargo test --locked --manifest-path src-tauri/Cargo.toml 2>&1 | tee preview-artifacts/rust-tests.log[0m
+2026-11-21T21:16:52.0008360Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-21T21:16:52.0008720Z env:
+2026-11-21T21:16:52.0008890Z   CARGO_INCREMENTAL: 0
+2026-11-21T21:16:52.0009120Z   MACOSX_DEPLOYMENT_TARGET: 13.0
+2026-11-21T21:16:52.0009320Z   RUST_VERSION: 1.100.0
+2026-11-21T21:16:52.0009580Z ##[endgroup]
+2026-11-21T21:16:52.2120570Z     Updating crates.io index
+2026-11-21T21:16:52.8362800Z  Downloading crates ...
+2026-11-21T21:16:52.8866240Z   Downloaded bs58 v0.5.1
+2026-11-21T21:16:52.8923090Z   Downloaded cargo_metadata v0.19.2
+2026-11-21T21:16:52.8955610Z   Downloaded anyhow v1.0.104
+2026-11-21T21:16:52.9079140Z   Downloaded serde_spanned v1.1.3
+2026-11-21T21:16:52.9148310Z   Downloaded serialize-to-javascript v0.1.2
+2026-11-21T21:16:52.9149100Z   Downloaded cap-fs-ext v4.0.3
+2026-11-21T21:16:52.9150390Z   Downloaded ambient-authority v0.0.2
+2026-11-21T21:16:52.9163600Z   Downloaded block-buffer v0.12.1
+2026-11-21T21:16:52.9545790Z   Downloaded block-padding v0.4.2
+2026-11-21T21:16:52.9655220Z   Downloaded cargo_toml v1.0.1
+2026-11-21T21:16:52.9764300Z   Downloaded serde_repr v0.1.21
+2026-11-21T21:16:52.9894250Z   Downloaded rustc_version v0.4.1
+2026-11-21T21:16:53.0021490Z   Downloaded byteorder v1.5.0
+2026-11-21T21:16:53.0114630Z   Downloaded cap-primitives v4.0.3
+2026-11-21T21:16:53.0151710Z   Downloaded cap-std v4.0.3
+2026-11-21T21:16:53.0554880Z   Downloaded cargo-platform v0.1.9
+2026-11-21T21:16:53.0671170Z   Downloaded static_vcruntime v3.0.0
+2026-11-21T21:16:53.0789470Z   Downloaded version_check v0.9.5
+2026-11-21T21:16:53.0891450Z   Downloaded autocfg v1.5.1
+2026-11-21T21:16:53.0994190Z   Downloaded block2 v0.6.2
+2026-11-21T21:16:53.1021060Z   Downloaded servo_arc v0.4.3
+2026-11-21T21:16:53.1067230Z   Downloaded yoke-derive v0.8.4
+2026-11-21T21:16:53.1107580Z   Downloaded bitflags v2.13.2
+2026-11-21T21:16:53.1121340Z   Downloaded const-oid v0.10.3
+2026-11-21T21:16:53.1121910Z   Downloaded cpufeatures v0.3.1
+2026-11-21T21:16:53.1122610Z   Downloaded dunce v1.0.5
+2026-11-21T21:16:53.1209380Z   Downloaded bytemuck v1.25.2
+2026-11-21T21:16:53.1377210Z   Downloaded cbc v0.2.1
+2026-11-21T21:16:53.1405330Z   Downloaded fallible-iterator v0.3.0
+2026-11-21T21:16:53.1420860Z   Downloaded fs2 v0.4.3
+2026-11-21T21:16:53.1435010Z   Downloaded sha2 v0.11.1
+2026-11-21T21:16:53.1491680Z   Downloaded byteorder-lite v0.1.0
+2026-11-21T21:16:53.1529670Z   Downloaded aes v0.9.4
+2026-11-21T21:16:53.1569170Z   Downloaded cfg-if v1.0.5
+2026-11-21T21:16:53.1587590Z   Downloaded gif v0.14.2
+2026-11-21T21:16:53.1613140Z   Downloaded glob v0.3.4
+2026-11-21T21:16:53.1635860Z   Downloaded schemars_derive v0.8.22
+2026-11-21T21:16:53.1977710Z   Downloaded semver v1.0.28
+2026-11-21T21:16:53.2023850Z   Downloaded serde-untagged v0.1.9
+2026-11-21T21:16:53.2055370Z   Downloaded constant_time_eq v0.6.1
+2026-11-21T21:16:53.2096400Z   Downloaded serde_with_macros v3.24.0
+2026-11-21T21:16:53.2119620Z   Downloaded siphasher v1.0.4
+2026-11-21T21:16:53.2142090Z   Downloaded zeroize v1.9.2
+2026-11-21T21:16:53.2166150Z   Downloaded shlex v2.0.1
+2026-11-21T21:16:53.2184060Z   Downloaded utf_types v1.0.0
+2026-11-21T21:16:53.2201530Z   Downloaded core-foundation v0.10.1
+2026-11-21T21:16:53.2236860Z   Downloaded crypto-common v0.2.2
+2026-11-21T21:16:53.2252640Z   Downloaded schemars v0.8.22
+2026-11-21T21:16:53.2816510Z   Downloaded serde_core v1.0.229
+2026-11-21T21:16:53.2855870Z   Downloaded serde_derive v1.0.229
+2026-11-21T21:16:53.2910800Z   Downloaded toml_datetime v1.1.3+spec-1.1.0
+2026-11-21T21:16:53.2924960Z   Downloaded unicode-ident v1.0.27
+2026-11-21T21:16:53.2969530Z   Downloaded core-graphics-types v0.2.0
+2026-11-21T21:16:53.2981580Z   Downloaded cssparser-macros v0.7.1
+2026-11-21T21:16:53.2991250Z   Downloaded socket2 v0.6.5
+2026-11-21T21:16:53.3016180Z   Downloaded tinyvec v1.13.3
+2026-11-21T21:16:53.3068460Z   Downloaded alloc-stdlib v0.3.0
+2026-11-21T21:16:53.3085500Z   Downloaded cfg_aliases v0.2.2
+2026-11-21T21:16:53.3098550Z   Downloaded foldhash v0.2.0
+2026-11-21T21:16:53.3115150Z   Downloaded foreign-types-macros v0.2.4
+2026-11-21T21:16:53.3126740Z   Downloaded foreign-types-shared v0.3.1
+2026-11-21T21:16:53.3135250Z   Downloaded form_urlencoded v1.2.2
+2026-11-21T21:16:53.3149450Z   Downloaded tauri-winres v0.3.7
+2026-11-21T21:16:53.3175940Z   Downloaded string_cache_codegen v0.6.1
+2026-11-21T21:16:53.3184820Z   Downloaded time-core v0.1.9
+2026-11-21T21:16:53.3203720Z   Downloaded zerofrom-derive v0.1.8
+2026-11-21T21:16:53.3217520Z   Downloaded bytes v1.12.1
+2026-11-21T21:16:53.3269620Z   Downloaded dirs-sys v0.5.0
+2026-11-21T21:16:53.3505690Z   Downloaded dom_query v0.28.0
+2026-11-21T21:16:53.3589080Z   Downloaded dtoa-short v0.3.5
+2026-11-21T21:16:53.3598970Z   Downloaded serialize-to-javascript-impl v0.1.2
+2026-11-21T21:16:53.3609300Z   Downloaded simd-adler32 v0.3.10
+2026-11-21T21:16:53.3644460Z   Downloaded simdutf8 v0.1.5
+2026-11-21T21:16:53.3683450Z   Downloaded stable_deref_trait v1.2.1
+2026-11-21T21:16:53.3699900Z   Downloaded thiserror-impl v2.0.21
+2026-11-21T21:16:53.3723290Z   Downloaded typeid v1.0.3
+2026-11-21T21:16:53.3741130Z   Downloaded url v2.5.8
+2026-11-21T21:16:53.3779350Z   Downloaded web_atoms v0.2.6
+2026-11-21T21:16:53.3795180Z   Downloaded adler2 v2.0.1
+2026-11-21T21:16:53.3813170Z   Downloaded alloc-no-stdlib v2.0.4
+2026-11-21T21:16:53.3855750Z   Downloaded alloc-no-stdlib v3.0.0
+2026-11-21T21:16:53.4171060Z   Downloaded alloc-stdlib v0.2.4
+2026-11-21T21:16:53.4198090Z   Downloaded bit-vec v0.8.0
+2026-11-21T21:16:53.4220450Z   Downloaded chacha20 v0.10.2
+2026-11-21T21:16:53.4256170Z   Downloaded color_quant v1.1.0
+2026-11-21T21:16:53.4272450Z   Downloaded core-graphics v0.25.0
+2026-11-21T21:16:53.4309080Z   Downloaded ctor v1.0.14
+2026-11-21T21:16:53.4345920Z   Downloaded deranged v0.5.9
+2026-11-21T21:16:53.4371720Z   Downloaded dirs v7.0.0
+2026-11-21T21:16:53.4394590Z   Downloaded dispatch2 v0.3.1
+2026-11-21T21:16:53.4436480Z   Downloaded dpi v0.1.2
+2026-11-21T21:16:53.4459980Z   Downloaded dtoa v1.0.11
+2026-11-21T21:16:53.4491660Z   Downloaded equivalent v1.0.3
+2026-11-21T21:16:53.4505840Z   Downloaded fdeflate v0.3.7
+2026-11-21T21:16:53.4843240Z   Downloaded fnv v1.0.7
+2026-11-21T21:16:53.4855630Z   Downloaded foreign-types v0.5.0
+2026-11-21T21:16:53.4869140Z   Downloaded fs-set-times v0.20.3
+2026-11-21T21:16:53.4890040Z   Downloaded getrandom v0.3.4
+2026-11-21T21:16:53.4946600Z   Downloaded schemars v1.2.3
+2026-11-21T21:16:53.5624460Z   Downloaded scopeguard v1.2.0
+2026-11-21T21:16:53.5640690Z   Downloaded serde v1.0.229
+2026-11-21T21:16:53.5704400Z   Downloaded string_cache v0.9.0
+2026-11-21T21:16:53.5726320Z   Downloaded strsim v0.11.1
+2026-11-21T21:16:53.5744630Z   Downloaded tauri-codegen v2.7.5
+2026-11-21T21:16:53.5766030Z   Downloaded tauri-runtime v2.12.3
+2026-11-21T21:16:53.5790780Z   Downloaded walkdir v2.5.0
+2026-11-21T21:16:53.5817910Z   Downloaded web-time v1.1.0
+2026-11-21T21:16:53.5844300Z   Downloaded itoa v1.0.19
+2026-11-21T21:16:53.5867820Z   Downloaded infer v0.22.0
+2026-11-21T21:16:53.6222440Z   Downloaded camino v1.2.6
+2026-11-21T21:16:53.6255020Z   Downloaded cipher v0.5.2
+2026-11-21T21:16:53.6290560Z   Downloaded cookie v0.18.2
+2026-11-21T21:16:53.6326920Z   Downloaded core-foundation-sys v0.8.7
+2026-11-21T21:16:53.6379020Z   Downloaded cssparser v0.37.0
+2026-11-21T21:16:53.6413780Z   Downloaded darling v0.24.1
+2026-11-21T21:16:53.6545940Z   Downloaded digest v0.11.3
+2026-11-21T21:16:53.6581380Z   Downloaded dyn-clone v1.0.20
+2026-11-21T21:16:53.6606960Z   Downloaded embed-resource v3.0.12
+2026-11-21T21:16:53.6634670Z   Downloaded fallible-streaming-iterator v0.1.9
+2026-11-21T21:16:53.6647780Z   Downloaded find-msvc-tools v0.1.15
+2026-11-21T21:16:53.6672130Z   Downloaded rustversion v1.0.23
+2026-11-21T21:16:53.6719270Z   Downloaded same-file v1.0.6
+2026-11-21T21:16:53.6755370Z   Downloaded serde_derive_internals v0.29.1
+2026-11-21T21:16:53.6776340Z   Downloaded serde_json v1.0.154
+2026-11-21T21:16:53.7149510Z   Downloaded tauri-plugin v2.7.3
+2026-11-21T21:16:53.7164590Z   Downloaded tauri-plugin-dialog v2.8.4
+2026-11-21T21:16:53.7223130Z   Downloaded tempfile v3.27.0
+2026-11-21T21:16:53.7268090Z   Downloaded tendril v0.5.1
+2026-11-21T21:16:53.7296370Z   Downloaded thiserror v2.0.21
+2026-11-21T21:16:53.7403390Z   Downloaded tinystr v0.8.5
+2026-11-21T21:16:53.7431560Z   Downloaded toml v1.2.1+spec-1.1.0
+2026-11-21T21:16:53.7762000Z   Downloaded unicode-bidi v0.3.18
+2026-11-21T21:16:53.7799640Z   Downloaded unicode-properties v0.1.5
+2026-11-21T21:16:53.7824560Z   Downloaded utf8_iter v1.1.0
+2026-11-21T21:16:53.7843470Z   Downloaded weezl v0.1.12
+2026-11-21T21:16:53.7880100Z   Downloaded writeable v0.6.4
+2026-11-21T21:16:53.7909950Z   Downloaded zerovec v0.11.9
+2026-11-21T21:16:53.8011150Z   Downloaded base64 v0.22.1
+2026-11-21T21:16:53.8076430Z   Downloaded crc32fast v1.5.5
+2026-11-21T21:16:53.8108310Z   Downloaded crossbeam-channel v0.5.17
+2026-11-21T21:16:53.8171160Z   Downloaded erased-serde v0.4.11
+2026-11-21T21:16:53.8212250Z   Downloaded errno v0.3.15
+2026-11-21T21:16:53.8241340Z   Downloaded cpubits v0.1.1
+2026-11-21T21:16:53.8250840Z   Downloaded tauri-plugin-fs v2.7.1
+2026-11-21T21:16:53.8391310Z   Downloaded base64 v0.23.1
+2026-11-21T21:16:53.8771140Z   Downloaded bit-set v0.8.0
+2026-11-21T21:16:53.8788070Z   Downloaded brotli-decompressor v5.0.3
+2026-11-21T21:16:53.8865210Z   Downloaded crossbeam-utils v0.8.23
+2026-11-21T21:16:53.8917330Z   Downloaded darling_core v0.24.1
+2026-11-21T21:16:53.9011890Z   Downloaded darling_macro v0.24.1
+2026-11-21T21:16:53.9020410Z   Downloaded derive_more v2.1.1
+2026-11-21T21:16:53.9549670Z   Downloaded displaydoc v0.2.7
+2026-11-21T21:16:53.9581710Z   Downloaded embed_plist v1.2.2
+2026-11-21T21:16:53.9598500Z   Downloaded schemars v0.9.0
+2026-11-21T21:16:53.9849730Z   Downloaded serde_with v3.24.0
+2026-11-21T21:16:54.0076230Z   Downloaded stringprep v0.1.5
+2026-11-21T21:16:54.0097590Z   Downloaded yoke v0.8.4
+2026-11-21T21:16:54.0122190Z   Downloaded zeroize_derive v1.5.0
+2026-11-21T21:16:54.0134480Z   Downloaded rustc-hash v2.1.3
+2026-11-21T21:16:54.0153770Z   Downloaded idna_adapter v1.2.2
+2026-11-21T21:16:54.0166530Z   Downloaded ref-cast v1.0.27
+2026-11-21T21:16:54.0236180Z   Downloaded percent-encoding v2.3.2
+2026-11-21T21:16:54.0239700Z   Downloaded icu_normalizer_data v2.4.0
+2026-11-21T21:16:54.0270050Z   Downloaded ref-cast-impl v1.0.27
+2026-11-21T21:16:54.0282290Z   Downloaded json-patch v4.2.0
+2026-11-21T21:16:54.0296890Z   Downloaded brotli v9.1.3
+2026-11-21T21:16:54.0482940Z   Downloaded cfb v0.14.0
+2026-11-21T21:16:54.0555440Z   Downloaded fastrand v2.5.0
+2026-11-21T21:16:54.0573880Z   Downloaded getrandom v0.4.3
+2026-11-21T21:16:54.0635760Z   Downloaded swift-rs v1.0.9
+2026-11-21T21:16:54.0668230Z   Downloaded zune-core v0.5.3
+2026-11-21T21:16:54.0702750Z   Downloaded raw-window-handle v0.6.2
+2026-11-21T21:16:54.0730890Z   Downloaded toml_parser v1.1.5+spec-1.1.0
+2026-11-21T21:16:54.0764710Z   Downloaded toml_writer v1.2.0+spec-1.1.0
+2026-11-21T21:16:54.0791800Z   Downloaded urlpattern v0.6.0
+2026-11-21T21:16:54.0825750Z   Downloaded wry v0.57.2
+2026-11-21T21:16:54.0943730Z   Downloaded zerofrom v0.1.8
+2026-11-21T21:16:54.0956890Z   Downloaded pkg-config v0.3.34
+2026-11-21T21:16:54.0979790Z   Downloaded base64 v0.21.7
+2026-11-21T21:16:54.1038920Z   Downloaded derive_more-impl v2.1.1
+2026-11-21T21:16:54.1131120Z   Downloaded tauri-build v2.7.5
+2026-11-21T21:16:54.1208160Z   Downloaded tauri-macros v2.7.5
+2026-11-21T21:16:54.1483960Z   Downloaded tauri-utils v2.10.3
+2026-11-21T21:16:54.1542000Z   Downloaded time-macros v0.2.32
+2026-11-21T21:16:54.1576310Z   Downloaded uuid v1.29.2
+2026-11-21T21:16:54.1620800Z   Downloaded vcpkg v0.2.15
+2026-11-21T21:16:54.3652390Z   Downloaded weezl v0.2.1
+2026-11-21T21:16:54.3699090Z   Downloaded miniz_oxide v0.9.1
+2026-11-21T21:16:54.3746200Z   Downloaded mio v1.2.5
+2026-11-21T21:16:54.4680660Z   Downloaded icu_locale_core v2.4.0
+2026-11-21T21:16:54.5513390Z   Downloaded ipnet v2.12.2
+2026-11-21T21:16:54.5539350Z   Downloaded hashbrown v0.17.1
+2026-11-21T21:16:54.5614940Z   Downloaded http v1.5.0
+2026-11-21T21:16:54.5674320Z   Downloaded cc v1.11.2
+2026-11-21T21:16:54.5736100Z   Downloaded ecb v0.2.1
+2026-11-21T21:16:54.5757430Z   Downloaded flate2 v1.1.11
+2026-11-21T21:16:54.6176580Z   Downloaded selectors v0.38.0
+2026-11-21T21:16:54.6210660Z   Downloaded syn v3.0.10
+2026-11-21T21:16:54.6649430Z   Downloaded synstructure v0.14.0
+2026-11-21T21:16:54.6662510Z   Downloaded tao v0.37.2
+2026-11-21T21:16:54.6842060Z   Downloaded tauri-runtime-wry v2.12.4
+2026-11-21T21:16:54.7205890Z   Downloaded time v0.3.55
+2026-11-21T21:16:54.7454690Z   Downloaded tray-icon v0.25.1
+2026-11-21T21:16:54.7495840Z   Downloaded typenum v1.20.1
+2026-11-21T21:16:54.7551770Z   Downloaded unicode-normalization v0.1.26
+2026-11-21T21:16:54.7913490Z   Downloaded regex v1.13.1
+2026-11-21T21:16:54.8003490Z   Downloaded heck v0.5.0
+2026-11-21T21:16:54.8022550Z   Downloaded litemap v0.8.3
+2026-11-21T21:16:54.8054860Z   Downloaded jsonptr v0.7.1
+2026-11-21T21:16:54.8093030Z   Downloaded keyboard-types v0.8.3
+2026-11-21T21:16:54.8138090Z   Downloaded aho-corasick v1.1.5
+2026-11-21T21:16:54.8226810Z   Downloaded brotli-decompressor v6.3.2
+2026-11-21T21:16:54.8646960Z   Downloaded chrono v0.4.45
+2026-11-21T21:16:54.8742480Z   Downloaded rustix v1.1.6
+2026-11-21T21:16:54.9493400Z   Downloaded smallvec v1.16.5
+2026-11-21T21:16:54.9511310Z   Downloaded syn v2.0.119
+2026-11-21T21:16:54.9974580Z   Downloaded typed-path v0.13.0
+2026-11-21T21:16:55.0106880Z   Downloaded winnow v1.0.5
+2026-11-21T21:16:55.0253000Z   Downloaded zerotrie v0.2.5
+2026-11-21T21:16:55.0654600Z   Downloaded iana-time-zone v0.1.65
+2026-11-21T21:16:55.0703710Z   Downloaded idna v1.1.0
+2026-11-21T21:16:55.0751890Z   Downloaded moxcms v0.8.1
+2026-11-21T21:16:55.0926990Z   Downloaded icu_properties v2.4.0
+2026-11-21T21:16:55.0975590Z   Downloaded icu_properties_data v2.4.0
+2026-11-21T21:16:55.1518660Z   Downloaded miniz_oxide v0.8.9
+2026-11-21T21:16:55.1568560Z   Downloaded jiff-core v0.1.8
+2026-11-21T21:16:55.1615720Z   Downloaded objc2-foundation v0.3.2
+2026-11-21T21:16:55.2285610Z   Downloaded powerfmt v0.2.1
+2026-11-21T21:16:55.2304220Z   Downloaded rand_core v0.10.1
+2026-11-21T21:16:55.2327940Z   Downloaded tauri v2.12.6
+2026-11-21T21:16:55.2875610Z   Downloaded muda v0.20.0
+2026-11-21T21:16:55.3128100Z   Downloaded io-lifetimes v2.0.4
+2026-11-21T21:16:55.3202830Z   Downloaded io-lifetimes v3.0.1
+2026-11-21T21:16:55.3231760Z   Downloaded objc2-quartz-core v0.3.2
+2026-11-21T21:16:55.3291980Z   Downloaded once_cell v1.21.4
+2026-11-21T21:16:55.3330470Z   Downloaded option-ext v0.2.0
+2026-11-21T21:16:55.3605670Z   Downloaded precomputed-hash v0.1.1
+2026-11-21T21:16:55.3673290Z   Downloaded hex v0.4.3
+2026-11-21T21:16:55.3694500Z   Downloaded lopdf v0.47.0
+2026-11-21T21:16:55.3890290Z   Downloaded phf v0.13.1
+2026-11-21T21:16:55.3911330Z   Downloaded objc2 v0.6.5
+2026-11-21T21:16:55.4659620Z   Downloaded potential_utf v0.1.6
+2026-11-21T21:16:55.4676110Z   Downloaded tokio v1.54.1
+2026-11-21T21:16:55.6382790Z   Downloaded rfd v0.17.2
+2026-11-21T21:16:55.6472120Z   Downloaded zlib-rs v0.6.8
+2026-11-21T21:16:55.6549970Z   Downloaded zmij v1.0.23
+2026-11-21T21:16:55.6574910Z   Downloaded memchr v2.8.3
+2026-11-21T21:16:55.6978320Z   Downloaded phf_macros v0.13.1
+2026-11-21T21:16:55.6991130Z   Downloaded html5ever v0.39.0
+2026-11-21T21:16:55.7052360Z   Downloaded ident_case v1.0.1
+2026-11-21T21:16:55.7065200Z   Downloaded window-vibrancy v0.8.1
+2026-11-21T21:16:55.7168780Z   Downloaded image v0.25.10
+2026-11-21T21:16:55.7316330Z   Downloaded new_debug_unreachable v1.0.6
+2026-11-21T21:16:55.7331180Z   Downloaded phf_codegen v0.13.1
+2026-11-21T21:16:55.7646120Z   Downloaded phf_generator v0.13.1
+2026-11-21T21:16:55.7664560Z   Downloaded phf_shared v0.13.1
+2026-11-21T21:16:55.7689720Z   Downloaded pin-project-lite v0.2.17
+2026-11-21T21:16:55.7787050Z   Downloaded lock_api v0.4.14
+2026-11-21T21:16:55.7806640Z   Downloaded markup5ever v0.39.0
+2026-11-21T21:16:55.7825600Z   Downloaded maybe-owned v0.3.4
+2026-11-21T21:16:55.7849430Z   Downloaded zip v9.6.0
+2026-11-21T21:16:55.7982800Z   Downloaded quick-error v2.0.1
+2026-11-21T21:16:55.8004540Z   Downloaded mime v0.3.18
+2026-11-21T21:16:55.8155270Z   Downloaded objc2-io-surface v0.3.2
+2026-11-21T21:16:55.8348170Z   Downloaded hashlink v0.12.2
+2026-11-21T21:16:55.8377800Z   Downloaded io-extras v0.19.0
+2026-11-21T21:16:55.8413140Z   Downloaded log v0.4.35
+2026-11-21T21:16:55.8449690Z   Downloaded md-5 v0.11.0
+2026-11-21T21:16:55.8475250Z   Downloaded zune-jpeg v0.5.15
+2026-11-21T21:16:55.8555090Z   Downloaded objc2-core-graphics v0.3.2
+2026-11-21T21:16:55.8640000Z   Downloaded objc2-encode v4.1.0
+2026-11-21T21:16:55.8658000Z   Downloaded objc2-web-kit v0.3.2
+2026-11-21T21:16:55.9225120Z   Downloaded png v0.18.1
+2026-11-21T21:16:55.9282690Z   Downloaded proc-macro2 v1.0.107
+2026-11-21T21:16:55.9328810Z   Downloaded indexmap v1.9.3
+2026-11-21T21:16:55.9662970Z   Downloaded inout v0.2.6
+2026-11-21T21:16:55.9696280Z   Downloaded regex-syntax v0.8.11
+2026-11-21T21:16:55.9795190Z   Downloaded icu_provider v2.4.0
+2026-11-21T21:16:55.9833020Z   Downloaded rusqlite v0.42.0
+2026-11-21T21:16:55.9940380Z   Downloaded indexmap v2.14.2
+2026-11-21T21:16:56.0022030Z   Downloaded nom v8.0.0
+2026-11-21T21:16:56.0667360Z   Downloaded num-traits v0.2.19
+2026-11-21T21:16:56.0705610Z   Downloaded icu_collections v2.4.0
+2026-11-21T21:16:56.0806410Z   Downloaded image-webp v0.2.4
+2026-11-21T21:16:56.0839680Z   Downloaded multiversion_no_op v1.0.0
+2026-11-21T21:16:56.0863600Z   Downloaded hashbrown v0.12.3
+2026-11-21T21:16:56.0917130Z   Downloaded quote v1.0.47
+2026-11-21T21:16:56.0990860Z   Downloaded ico v0.6.0
+2026-11-21T21:16:56.1288290Z   Downloaded parking_lot v0.12.5
+2026-11-21T21:16:56.1327740Z   Downloaded parking_lot_core v0.9.12
+2026-11-21T21:16:56.1360570Z   Downloaded rand v0.10.4
+2026-11-21T21:16:56.1431830Z   Downloaded jiff v0.2.46
+2026-11-21T21:16:56.1659430Z   Downloaded zerovec-derive v0.11.7
+2026-11-21T21:16:56.1687240Z   Downloaded quick-xml v0.42.0
+2026-11-21T21:16:56.2094650Z   Downloaded objc2-core-foundation v0.3.2
+2026-11-21T21:16:56.2220180Z   Downloaded rangemap v1.8.0
+2026-11-21T21:16:56.2252560Z   Downloaded hybrid-array v0.4.15
+2026-11-21T21:16:56.2284630Z   Downloaded icu_normalizer v2.4.0
+2026-11-21T21:16:56.2401930Z   Downloaded encoding_rs v0.8.44
+2026-11-21T21:16:56.2519370Z   Downloaded num-conv v0.2.2
+2026-11-21T21:16:56.2542580Z   Downloaded objc2-exception-helper v0.1.1
+2026-11-21T21:16:56.2555050Z   Downloaded nix v0.32.0
+2026-11-21T21:16:56.3032290Z   Downloaded regex-automata v0.4.18
+2026-11-21T21:16:56.3240720Z   Downloaded plist v1.10.3
+2026-11-21T21:16:56.3631090Z   Downloaded objc2-app-kit v0.3.2
+2026-11-21T21:16:56.4397980Z   Downloaded libc v0.2.191
+2026-11-21T21:16:56.5767120Z   Downloaded pxfm v0.1.30
+2026-11-21T21:16:56.6499520Z   Downloaded libsqlite3-sys v0.40.0
+2026-11-21T21:16:56.8774930Z    Compiling proc-macro2 v1.0.107
+2026-11-21T21:16:56.8777030Z    Compiling quote v1.0.47
+2026-11-21T21:16:56.8777460Z    Compiling unicode-ident v1.0.27
+2026-11-21T21:16:57.2602650Z    Compiling serde_core v1.0.229
+2026-11-21T21:16:59.5898440Z    Compiling cfg-if v1.0.5
+2026-11-21T21:17:00.3727610Z    Compiling syn v3.0.10
+2026-11-21T21:17:01.0546140Z    Compiling memchr v2.8.3
+2026-11-21T21:17:01.2922520Z    Compiling smallvec v1.16.5
+2026-11-21T21:17:01.6374720Z    Compiling syn v2.0.119
+2026-11-21T21:17:01.7745460Z    Compiling siphasher v1.0.4
+2026-11-21T21:17:01.9088360Z    Compiling writeable v0.6.4
+2026-11-21T21:17:02.0546880Z    Compiling litemap v0.8.3
+2026-11-21T21:17:02.1562650Z    Compiling utf_types v1.0.0
+2026-11-21T21:17:02.2831570Z    Compiling itoa v1.0.19
+2026-11-21T21:17:02.3771320Z    Compiling utf8_iter v1.1.0
+2026-11-21T21:17:02.4722250Z    Compiling phf_shared v0.13.1
+2026-11-21T21:17:02.6047800Z    Compiling synstructure v0.14.0
+2026-11-21T21:17:02.9119320Z    Compiling fastrand v2.5.0
+2026-11-21T21:17:03.0002830Z    Compiling phf_generator v0.13.1
+2026-11-21T21:17:03.0952100Z    Compiling libc v0.2.191
+2026-11-21T21:17:03.3757430Z    Compiling icu_normalizer_data v2.4.0
+2026-11-21T21:17:03.4887830Z    Compiling zerofrom-derive v0.1.8
+2026-11-21T21:17:03.5557940Z    Compiling yoke-derive v0.8.4
+2026-11-21T21:17:04.2211950Z    Compiling zerovec-derive v0.11.7
+2026-11-21T21:17:04.2295490Z    Compiling zerofrom v0.1.8
+2026-11-21T21:17:04.2892790Z    Compiling serde_derive v1.0.229
+2026-11-21T21:17:04.4782140Z    Compiling displaydoc v0.2.7
+2026-11-21T21:17:04.7707020Z    Compiling icu_properties_data v2.4.0
+2026-11-21T21:17:04.8350010Z    Compiling stable_deref_trait v1.2.1
+2026-11-21T21:17:04.8892490Z    Compiling zmij v1.0.23
+2026-11-21T21:17:05.2115750Z    Compiling find-msvc-tools v0.1.15
+2026-11-21T21:17:05.3530750Z    Compiling shlex v2.0.1
+2026-11-21T21:17:05.4447470Z    Compiling cc v1.11.2
+2026-11-21T21:17:05.8614790Z    Compiling bitflags v2.13.2
+2026-11-21T21:17:05.9443360Z    Compiling serde v1.0.229
+2026-11-21T21:17:06.1217120Z    Compiling yoke v0.8.4
+2026-11-21T21:17:06.4377890Z    Compiling zerovec v0.11.9
+2026-11-21T21:17:06.5155750Z    Compiling phf_macros v0.13.1
+2026-11-21T21:17:06.6743320Z    Compiling thiserror v2.0.21
+2026-11-21T21:17:06.7710320Z    Compiling thiserror-impl v2.0.21
+2026-11-21T21:17:06.8991990Z    Compiling log v0.4.35
+2026-11-21T21:17:06.9254070Z    Compiling num-conv v0.2.2
+2026-11-21T21:17:06.9884730Z    Compiling time-core v0.1.9
+2026-11-21T21:17:07.0026120Z    Compiling tinystr v0.8.5
+2026-11-21T21:17:07.0949220Z    Compiling phf_codegen v0.13.1
+2026-11-21T21:17:07.1067410Z    Compiling autocfg v1.5.1
+2026-11-21T21:17:07.1562770Z    Compiling strsim v0.11.1
+2026-11-21T21:17:07.3035040Z    Compiling ident_case v1.0.1
+2026-11-21T21:17:07.3137540Z    Compiling serde_json v1.0.154
+2026-11-21T21:17:07.3879330Z    Compiling winnow v1.0.5
+2026-11-21T21:17:07.4761630Z    Compiling typeid v1.0.3
+2026-11-21T21:17:07.4850270Z    Compiling equivalent v1.0.3
+2026-11-21T21:17:07.5473460Z    Compiling scopeguard v1.2.0
+2026-11-21T21:17:07.6067080Z    Compiling deranged v0.5.9
+2026-11-21T21:17:07.6180520Z    Compiling powerfmt v0.2.1
+2026-11-21T21:17:07.7385140Z    Compiling toml_parser v1.1.5+spec-1.1.0
+2026-11-21T21:17:07.7555150Z    Compiling darling_core v0.24.1
+2026-11-21T21:17:08.5077440Z    Compiling icu_locale_core v2.4.0
+2026-11-21T21:17:08.5187630Z    Compiling potential_utf v0.1.6
+2026-11-21T21:17:08.6973480Z    Compiling zerotrie v0.2.5
+2026-11-21T21:17:09.0650230Z    Compiling parking_lot_core v0.9.12
+2026-11-21T21:17:09.2551870Z    Compiling toml_writer v1.2.0+spec-1.1.0
+2026-11-21T21:17:09.4707390Z    Compiling erased-serde v0.4.11
+2026-11-21T21:17:09.7363970Z    Compiling icu_provider v2.4.0
+2026-11-21T21:17:09.8942750Z    Compiling icu_collections v2.4.0
+2026-11-21T21:17:10.3675720Z    Compiling aho-corasick v1.1.5
+2026-11-21T21:17:10.6069510Z    Compiling darling_macro v0.24.1
+2026-11-21T21:17:10.7268330Z    Compiling new_debug_unreachable v1.0.6
+2026-11-21T21:17:10.8219110Z    Compiling regex-syntax v0.8.11
+2026-11-21T21:17:10.8349060Z    Compiling fnv v1.0.7
+2026-11-21T21:17:10.8872560Z    Compiling web-time v1.1.0
+2026-11-21T21:17:10.9451040Z    Compiling darling v0.24.1
+2026-11-21T21:17:11.1559290Z    Compiling lock_api v0.4.14
+2026-11-21T21:17:11.3367380Z    Compiling phf v0.13.1
+2026-11-21T21:17:11.4246950Z    Compiling string_cache_codegen v0.6.1
+2026-11-21T21:17:11.6773150Z    Compiling getrandom v0.4.3
+2026-11-21T21:17:11.8034410Z    Compiling bytes v1.12.1
+2026-11-21T21:17:11.8164470Z    Compiling precomputed-hash v0.1.1
+2026-11-21T21:17:11.8606960Z    Compiling objc2-encode v4.1.0
+2026-11-21T21:17:12.0779610Z    Compiling regex-automata v0.4.18
+2026-11-21T21:17:12.1984700Z    Compiling alloc-no-stdlib v3.0.0
+2026-11-21T21:17:12.3953360Z    Compiling alloc-stdlib v0.3.0
+2026-11-21T21:17:12.4574550Z    Compiling web_atoms v0.2.6
+2026-11-21T21:17:12.7648700Z    Compiling parking_lot v0.12.5
+2026-11-21T21:17:12.8195550Z    Compiling serde_with_macros v3.24.0
+2026-11-21T21:17:12.9644570Z    Compiling icu_normalizer v2.4.0
+2026-11-21T21:17:13.3340890Z    Compiling icu_properties v2.4.0
+2026-11-21T21:17:13.3372600Z    Compiling objc2-exception-helper v0.1.1
+2026-11-21T21:17:13.4694870Z    Compiling regex v1.13.1
+2026-11-21T21:17:13.7258450Z    Compiling quick-xml v0.42.0
+2026-11-21T21:17:14.3917160Z    Compiling semver v1.0.28
+2026-11-21T21:17:14.6465550Z    Compiling anyhow v1.0.104
+2026-11-21T21:17:14.8416290Z    Compiling base64 v0.23.1
+2026-11-21T21:17:14.9242200Z    Compiling idna_adapter v1.2.2
+2026-11-21T21:17:15.0097040Z    Compiling string_cache v0.9.0
+2026-11-21T21:17:15.2716160Z    Compiling brotli-decompressor v6.3.2
+2026-11-21T21:17:15.4218480Z    Compiling http v1.5.0
+2026-11-21T21:17:16.2151140Z    Compiling serde_spanned v1.1.3
+2026-11-21T21:17:16.3294790Z    Compiling toml_datetime v1.1.3+spec-1.1.0
+2026-11-21T21:17:16.4634140Z    Compiling percent-encoding v2.3.2
+2026-11-21T21:17:16.5124990Z    Compiling same-file v1.0.6
+2026-11-21T21:17:16.5467730Z    Compiling dunce v1.0.5
+2026-11-21T21:17:16.5712240Z    Compiling dtoa v1.0.11
+2026-11-21T21:17:16.6015490Z    Compiling walkdir v2.5.0
+2026-11-21T21:17:16.6137170Z    Compiling form_urlencoded v1.2.2
+2026-11-21T21:17:16.6700780Z    Compiling dtoa-short v0.3.5
+2026-11-21T21:17:16.7221180Z    Compiling toml v1.2.1+spec-1.1.0
+2026-11-21T21:17:16.7442010Z    Compiling brotli v9.1.3
+2026-11-21T21:17:17.3312040Z    Compiling uuid v1.29.2
+2026-11-21T21:17:17.9274510Z    Compiling idna v1.1.0
+2026-11-21T21:17:18.3998880Z    Compiling tendril v0.5.1
+2026-11-21T21:17:18.4849300Z    Compiling indexmap v1.9.3
+2026-11-21T21:17:18.6196850Z    Compiling selectors v0.38.0
+2026-11-21T21:17:18.6227070Z    Compiling derive_more-impl v2.1.1
+2026-11-21T21:17:18.8139670Z    Compiling cssparser-macros v0.7.1
+2026-11-21T21:17:18.8383220Z    Compiling typenum v1.20.1
+2026-11-21T21:17:18.9928020Z    Compiling objc2 v0.6.5
+2026-11-21T21:17:19.1030570Z    Compiling glob v0.3.4
+2026-11-21T21:17:19.3183640Z    Compiling camino v1.2.6
+2026-11-21T21:17:19.3682200Z    Compiling ctor v1.0.14
+2026-11-21T21:17:19.4263010Z    Compiling hybrid-array v0.4.15
+2026-11-21T21:17:19.5153410Z    Compiling derive_more v2.1.1
+2026-11-21T21:17:19.5413300Z    Compiling cssparser v0.37.0
+2026-11-21T21:17:19.7122530Z    Compiling markup5ever v0.39.0
+2026-11-21T21:17:19.7798020Z    Compiling url v2.5.8
+2026-11-21T21:17:19.8763220Z    Compiling swift-rs v1.0.9
+2026-11-21T21:17:20.0469060Z    Compiling servo_arc v0.4.3
+2026-11-21T21:17:20.1258720Z    Compiling serde_derive_internals v0.29.1
+2026-11-21T21:17:20.3304280Z    Compiling rustc-hash v2.1.3
+2026-11-21T21:17:20.4009480Z    Compiling hashbrown v0.17.1
+2026-11-21T21:17:20.4192140Z    Compiling hashbrown v0.12.3
+2026-11-21T21:17:20.7332450Z    Compiling schemars v0.8.22
+2026-11-21T21:17:20.7434190Z    Compiling bit-vec v0.8.0
+2026-11-21T21:17:20.8087660Z    Compiling indexmap v2.14.2
+2026-11-21T21:17:20.8771480Z    Compiling schemars_derive v0.8.22
+2026-11-21T21:17:20.9390650Z    Compiling bit-set v0.8.0
+2026-11-21T21:17:21.5452810Z    Compiling html5ever v0.39.0
+2026-11-21T21:17:22.0813480Z    Compiling cfb v0.14.0
+2026-11-21T21:17:22.1509610Z    Compiling jsonptr v0.7.1
+2026-11-21T21:17:22.4909810Z    Compiling time v0.3.55
+2026-11-21T21:17:22.5585580Z    Compiling cargo-platform v0.1.9
+2026-11-21T21:17:22.6169580Z    Compiling dyn-clone v1.0.20
+2026-11-21T21:17:22.6761960Z    Compiling base64 v0.21.7
+2026-11-21T21:17:22.6762690Z    Compiling foldhash v0.2.0
+2026-11-21T21:17:22.7619920Z    Compiling tauri-utils v2.10.3
+2026-11-21T21:17:22.8709920Z    Compiling dom_query v0.28.0
+2026-11-21T21:17:23.6795470Z    Compiling plist v1.10.3
+2026-11-21T21:17:23.7401070Z    Compiling cargo_metadata v0.19.2
+2026-11-21T21:17:23.9191220Z    Compiling serde-untagged v0.1.9
+2026-11-21T21:17:24.0444030Z    Compiling infer v0.22.0
+2026-11-21T21:17:24.2576280Z    Compiling json-patch v4.2.0
+2026-11-21T21:17:24.3693210Z    Compiling urlpattern v0.6.0
+2026-11-21T21:17:24.5558520Z    Compiling serde_with v3.24.0
+2026-11-21T21:17:24.6566460Z    Compiling simd-adler32 v0.3.10
+2026-11-21T21:17:25.0395990Z    Compiling block2 v0.6.2
+2026-11-21T21:17:25.4102410Z    Compiling adler2 v2.0.1
+2026-11-21T21:17:25.4720700Z    Compiling crc32fast v1.5.5
+2026-11-21T21:17:25.7023850Z    Compiling objc2-core-foundation v0.3.2
+2026-11-21T21:17:25.9820270Z    Compiling crypto-common v0.2.2
+2026-11-21T21:17:26.3831830Z    Compiling objc2-foundation v0.3.2
+2026-11-21T21:17:27.2891880Z    Compiling miniz_oxide v0.9.1
+2026-11-21T21:17:28.3414200Z    Compiling flate2 v1.1.11
+2026-11-21T21:17:29.5612660Z    Compiling objc2-quartz-core v0.3.2
+2026-11-21T21:17:30.3304810Z    Compiling option-ext v0.2.0
+2026-11-21T21:17:30.4804590Z    Compiling objc2-app-kit v0.3.2
+2026-11-21T21:17:30.9355830Z    Compiling heck v0.5.0
+2026-11-21T21:17:32.0668610Z    Compiling miniz_oxide v0.8.9
+2026-11-21T21:17:32.5031540Z    Compiling fdeflate v0.3.7
+2026-11-21T21:17:32.7873250Z    Compiling block-buffer v0.12.1
+2026-11-21T21:17:32.8739820Z    Compiling time-macros v0.2.32
+2026-11-21T21:17:33.7271210Z    Compiling rustversion v1.0.23
+2026-11-21T21:17:33.8958420Z    Compiling const-oid v0.10.3
+2026-11-21T21:17:34.0307730Z    Compiling digest v0.11.3
+2026-11-21T21:17:35.7126410Z    Compiling crossbeam-utils v0.8.23
+2026-11-21T21:17:35.7566260Z    Compiling version_check v0.9.5
+2026-11-21T21:17:35.7839740Z    Compiling raw-window-handle v0.6.2
+2026-11-21T21:17:35.9288790Z    Compiling cookie v0.18.2
+2026-11-21T21:17:36.0252380Z    Compiling dpi v0.1.2
+2026-11-21T21:17:36.2196280Z    Compiling core-foundation-sys v0.8.7
+2026-11-21T21:17:36.3243120Z    Compiling core-foundation v0.10.1
+2026-11-21T21:17:36.9440090Z    Compiling tauri v2.12.6
+2026-11-21T21:17:36.9848950Z    Compiling tauri-plugin v2.7.3
+2026-11-21T21:17:37.2118630Z    Compiling foreign-types-macros v0.2.4
+2026-11-21T21:17:37.5861210Z    Compiling rustix v1.1.6
+2026-11-21T21:17:37.8101640Z    Compiling foreign-types-shared v0.3.1
+2026-11-21T21:17:37.8984800Z    Compiling foreign-types v0.5.0
+2026-11-21T21:17:38.0277010Z    Compiling crossbeam-channel v0.5.17
+2026-11-21T21:17:38.6552120Z    Compiling wry v0.57.2
+2026-11-21T21:17:38.9171260Z    Compiling core-graphics-types v0.2.0
+2026-11-21T21:17:39.0752820Z    Compiling objc2-web-kit v0.3.2
+2026-11-21T21:17:39.5564340Z    Compiling png v0.18.1
+2026-11-21T21:17:39.5832240Z    Compiling dirs-sys v0.5.0
+2026-11-21T21:17:39.6485800Z    Compiling dispatch2 v0.3.1
+2026-11-21T21:17:39.6752560Z    Compiling block-padding v0.4.2
+2026-11-21T21:17:39.8994370Z    Compiling errno v0.3.15
+2026-11-21T21:17:39.9640220Z    Compiling cpufeatures v0.3.1
+2026-11-21T21:17:40.1974700Z    Compiling tauri-runtime v2.12.3
+2026-11-21T21:17:40.3770760Z    Compiling rand_core v0.10.1
+2026-11-21T21:17:40.4674750Z    Compiling byteorder v1.5.0
+2026-11-21T21:17:40.4766030Z    Compiling io-lifetimes v2.0.4
+2026-11-21T21:17:40.6065090Z    Compiling io-lifetimes v3.0.1
+2026-11-21T21:17:40.6261940Z    Compiling ico v0.6.0
+2026-11-21T21:17:40.7903660Z    Compiling sha2 v0.11.1
+2026-11-21T21:17:41.2902840Z    Compiling inout v0.2.6
+2026-11-21T21:17:41.3583160Z    Compiling dirs v7.0.0
+2026-11-21T21:17:41.4176000Z    Compiling core-graphics v0.25.0
+2026-11-21T21:17:41.7930320Z    Compiling tauri-plugin-fs v2.7.1
+2026-11-21T21:17:42.3435890Z    Compiling rustc_version v0.4.1
+2026-11-21T21:17:42.5177110Z    Compiling tauri-runtime-wry v2.12.4
+2026-11-21T21:17:42.6485790Z    Compiling muda v0.20.0
+2026-11-21T21:17:42.8515610Z    Compiling once_cell v1.21.4
+2026-11-21T21:17:42.9733810Z    Compiling getrandom v0.3.4
+2026-11-21T21:17:43.1494690Z    Compiling io-extras v0.19.0
+2026-11-21T21:17:43.3295770Z    Compiling embed-resource v3.0.12
+2026-11-21T21:17:43.5079470Z    Compiling tao v0.37.2
+2026-11-21T21:17:45.2452010Z    Compiling cipher v0.5.2
+2026-11-21T21:17:45.2949040Z    Compiling tauri-codegen v2.7.5
+2026-11-21T21:17:45.8660730Z    Compiling keyboard-types v0.8.3
+2026-11-21T21:17:46.9876930Z    Compiling num-traits v0.2.19
+2026-11-21T21:17:47.2149700Z    Compiling serialize-to-javascript-impl v0.1.2
+2026-11-21T21:17:47.5126110Z    Compiling pin-project-lite v0.2.17
+2026-11-21T21:17:47.5368850Z    Compiling cap-primitives v4.0.3
+2026-11-21T21:17:47.5828470Z    Compiling pkg-config v0.3.34
+2026-11-21T21:17:47.7125180Z    Compiling vcpkg v0.2.15
+2026-11-21T21:17:47.9318830Z    Compiling cfg_aliases v0.2.2
+2026-11-21T21:17:47.9716610Z    Compiling nix v0.32.0
+2026-11-21T21:17:48.1134160Z    Compiling libsqlite3-sys v0.40.0
+2026-11-21T21:17:48.2379540Z    Compiling tokio v1.54.1
+2026-11-21T21:17:48.3885320Z    Compiling serialize-to-javascript v0.1.2
+2026-11-21T21:17:48.4495900Z    Compiling tauri-macros v2.7.5
+2026-11-21T21:17:49.4057200Z    Compiling fs-set-times v0.20.3
+2026-11-21T21:17:50.0797680Z    Compiling tauri-winres v0.3.7
+2026-11-21T21:17:50.2112120Z    Compiling tauri-plugin-dialog v2.8.4
+2026-11-21T21:17:50.2513420Z    Compiling constant_time_eq v0.6.1
+2026-11-21T21:17:50.3726370Z    Compiling encoding_rs v0.8.44
+2026-11-21T21:17:50.4907460Z    Compiling window-vibrancy v0.8.1
+2026-11-21T21:17:50.5052730Z    Compiling cargo_toml v1.0.1
+2026-11-21T21:17:50.7237210Z    Compiling serde_repr v0.1.21
+2026-11-21T21:17:50.9395620Z    Compiling ipnet v2.12.2
+2026-11-21T21:17:51.2431430Z    Compiling maybe-owned v0.3.4
+2026-11-21T21:17:51.3374980Z    Compiling rfd v0.17.2
+2026-11-21T21:17:51.4594190Z    Compiling mime v0.3.18
+2026-11-21T21:17:51.6092470Z    Compiling ambient-authority v0.0.2
+2026-11-21T21:17:51.6813580Z    Compiling cap-std v4.0.3
+2026-11-21T21:17:51.7952000Z    Compiling static_vcruntime v3.0.0
+2026-11-21T21:17:51.8666720Z    Compiling alloc-no-stdlib v2.0.4
+2026-11-21T21:17:51.8703690Z    Compiling embed_plist v1.2.2
+2026-11-21T21:17:51.9183800Z    Compiling tinyvec v1.13.3
+2026-11-21T21:17:51.9311680Z    Compiling alloc-stdlib v0.2.4
+2026-11-21T21:17:52.1299100Z    Compiling unicode-normalization v0.1.26
+2026-11-21T21:17:52.3231610Z    Compiling tauri-build v2.7.5
+2026-11-21T21:17:53.3408990Z    Compiling chacha20 v0.10.2
+2026-11-21T21:17:53.5284050Z    Compiling zeroize_derive v1.5.0
+2026-11-21T21:17:53.8216470Z    Compiling zune-core v0.5.3
+2026-11-21T21:17:53.9947510Z    Compiling unicode-properties v0.1.5
+2026-11-21T21:17:54.1097750Z    Compiling byteorder-lite v0.1.0
+2026-11-21T21:17:54.2511530Z    Compiling color_quant v1.1.0
+2026-11-21T21:17:54.3600210Z    Compiling pxfm v0.1.30
+2026-11-21T21:17:55.8960170Z    Compiling quick-error v2.0.1
+2026-11-21T21:17:55.9696400Z    Compiling multiversion_no_op v1.0.0
+2026-11-21T21:17:56.1166220Z    Compiling simdutf8 v0.1.5
+2026-11-21T21:17:56.2446030Z    Compiling cpubits v0.1.1
+2026-11-21T21:17:56.3108940Z    Compiling weezl v0.1.12
+2026-11-21T21:17:56.6811670Z    Compiling cap-fs-ext v4.0.3
+2026-11-21T21:17:56.7086830Z    Compiling unicode-bidi v0.3.18
+2026-11-21T21:17:56.8944860Z    Compiling gif v0.14.2
+2026-11-21T21:17:57.0804340Z    Compiling stringprep v0.1.5
+2026-11-21T21:17:57.3471060Z    Compiling aes v0.9.4
+2026-11-21T21:17:57.5928630Z    Compiling image-webp v0.2.4
+2026-11-21T21:17:58.4798030Z    Compiling moxcms v0.8.1
+2026-11-21T21:17:58.6586750Z    Compiling zune-jpeg v0.5.15
+2026-11-21T21:17:58.8065060Z    Compiling zeroize v1.9.2
+2026-11-21T21:17:58.9095490Z    Compiling rand v0.10.4
+2026-11-21T21:17:59.2603350Z    Compiling shandong-poc-001b v0.2.1 (/Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri)
+2026-11-21T21:18:00.0245610Z    Compiling brotli-decompressor v5.0.3
+2026-11-21T21:18:00.7264060Z    Compiling cbc v0.2.1
+2026-11-21T21:18:00.7366460Z    Compiling ecb v0.2.1
+2026-11-21T21:18:00.7950490Z    Compiling md-5 v0.11.0
+2026-11-21T21:18:00.7951740Z    Compiling hashlink v0.12.2
+2026-11-21T21:18:00.8924320Z    Compiling nom v8.0.0
+2026-11-21T21:18:00.9676890Z    Compiling fallible-iterator v0.3.0
+2026-11-21T21:18:01.1493040Z    Compiling fallible-streaming-iterator v0.1.9
+2026-11-21T21:18:01.2190020Z    Compiling rangemap v1.8.0
+2026-11-21T21:18:01.3769740Z    Compiling weezl v0.2.1
+2026-11-21T21:18:01.6638820Z    Compiling bytemuck v1.25.2
+2026-11-21T21:18:01.9169460Z    Compiling typed-path v0.13.0
+2026-11-21T21:18:02.4311920Z    Compiling zip v9.6.0
+2026-11-21T21:18:02.6396880Z    Compiling lopdf v0.47.0
+2026-11-21T21:18:02.8307400Z    Compiling tempfile v3.27.0
+2026-11-21T21:18:03.0541660Z    Compiling image v0.25.10
+2026-11-21T21:18:03.8002850Z    Compiling rusqlite v0.42.0
+2026-11-21T21:18:07.0328580Z warning: shandong-poc-001b@0.2.1: native/macos_print.m:102:92: warning: unused parameter 'fault' [-Wunused-parameter]
+2026-11-21T21:18:07.0427130Z warning: shandong-poc-001b@0.2.1:   102 |                          uint64_t identifier, KPPrintCallback callback, void *context, int fault) {
+2026-11-21T21:18:07.0529090Z warning: shandong-poc-001b@0.2.1:       |                                                                                            ^
+2026-11-21T21:18:07.0611440Z warning: shandong-poc-001b@0.2.1: 1 warning generated.
+2026-11-21T21:18:07.0612170Z    Compiling fs2 v0.4.3
+2026-11-21T21:18:07.1066250Z    Compiling base64 v0.22.1
+2026-11-21T21:18:11.5646680Z warning: function `check_tree` is never used
+2026-11-21T21:18:11.5729050Z   --> examples/../src/library_paths.rs:67:8
+2026-11-21T21:18:11.5729710Z    |
+2026-11-21T21:18:11.5730410Z 67 | pub fn check_tree(root: &Path) -> io::Result<()> {
+2026-11-21T21:18:11.5730990Z    |        ^^^^^^^^^^
+2026-11-21T21:18:11.5731330Z    |
+2026-11-21T21:18:11.5732480Z    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-21T21:18:11.5732870Z
+2026-11-21T21:18:11.5733770Z warning: methods `error`, `needs_layout_repair`, `migration_parent`, `prepare_rollback`, and `check_cleanup` are never used
+2026-11-21T21:18:11.5734440Z    --> examples/../src/library_root.rs:197:12
+2026-11-21T21:18:11.5735690Z     |
+2026-11-21T21:18:11.5736040Z  46 | impl LibraryRoot {
+2026-11-21T21:18:11.5736460Z     | ---------------- methods in this implementation
+2026-11-21T21:18:11.5736870Z ...
+2026-11-21T21:18:11.5737280Z 197 |     pub fn error(&self) -> Option<&str> {
+2026-11-21T21:18:11.5737680Z     |            ^^^^^
+2026-11-21T21:18:11.5738440Z ...
+2026-11-21T21:18:11.5739800Z 201 |     pub fn needs_layout_repair(&self) -> Result<bool, String> {
+2026-11-21T21:18:11.5846600Z     |            ^^^^^^^^^^^^^^^^^^^
+2026-11-21T21:18:11.5941150Z ...
+2026-11-21T21:18:11.5951360Z 234 |     pub fn migration_parent(&self, requested: &Path) -> Result<PathBuf, String> {
+2026-11-21T21:18:11.5952060Z     |            ^^^^^^^^^^^^^^^^
+2026-11-21T21:18:11.5952460Z ...
+2026-11-21T21:18:11.5952880Z 383 |     pub fn prepare_rollback(&mut self) -> Result<(), String> {
+2026-11-21T21:18:11.5958340Z     |            ^^^^^^^^^^^^^^^^
+2026-11-21T21:18:11.5958630Z ...
+2026-11-21T21:18:11.5967850Z 399 |     pub fn check_cleanup(&self, requested: &Path) -> Result<(), String> {
+2026-11-21T21:18:11.5968460Z     |            ^^^^^^^^^^^^^
+2026-11-21T21:18:11.5968590Z
+2026-11-21T21:18:11.5968820Z warning: constant `MAX_BYTES` is never used
+2026-11-21T21:18:11.5969180Z  --> examples/../src/storage.rs:8:7
+2026-11-21T21:18:11.5969550Z   |
+2026-11-21T21:18:11.5969890Z 8 | const MAX_BYTES: u64 = 32 * 1024 * 1024;
+2026-11-21T21:18:11.5970920Z   |       ^^^^^^^^^
+2026-11-21T21:18:11.5971090Z
+2026-11-21T21:18:11.5971250Z warning: function `check_envelope` is never used
+2026-11-21T21:18:11.5971700Z   --> examples/../src/storage.rs:10:4
+2026-11-21T21:18:11.5972030Z    |
+2026-11-21T21:18:11.5972350Z 10 | fn check_envelope(data: &Value) -> Result<(), String> {
+2026-11-21T21:18:11.5972780Z    |    ^^^^^^^^^^^^^^
+2026-11-21T21:18:11.5972940Z
+2026-11-21T21:18:11.5974850Z warning: function `load` is never used
+2026-11-21T21:18:11.5975170Z   --> examples/../src/storage.rs:24:8
+2026-11-21T21:18:11.5975480Z    |
+2026-11-21T21:18:11.5975870Z 24 | pub fn load(path: &Path) -> Result<Option<Value>, String> {
+2026-11-21T21:18:11.5976200Z    |        ^^^^
+2026-11-21T21:18:11.5976340Z
+2026-11-21T21:18:11.5976530Z warning: function `save` is never used
+2026-11-21T21:18:11.5976860Z   --> examples/../src/storage.rs:41:8
+2026-11-21T21:18:11.5977100Z    |
+2026-11-21T21:18:11.5977470Z 41 | pub fn save(path: &Path, data: &Value) -> Result<(), String> {
+2026-11-21T21:18:11.5977860Z    |        ^^^^
+2026-11-21T21:18:11.5978500Z
+2026-11-21T21:18:12.2266010Z warning: `shandong-poc-001b` (example "dev012_migration") generated 6 warnings
+2026-11-21T21:18:16.2922100Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 24s
+2026-11-21T21:18:16.4633420Z      Running unittests src/lib.rs (src-tauri/target/debug/build/shandong-poc-001b/fe9417e4e5051b86/out/shandong_poc_001b-fe9417e4e5051b86)
+2026-11-21T21:18:16.4718650Z
+2026-11-21T21:18:16.4719520Z running 68 tests
+2026-11-21T21:18:16.5849410Z test db::attachments::tests::dev005_t03_animated_gif_is_decoded_beyond_the_first_frame ... ok
+2026-11-21T21:18:16.5860090Z test db::attachments::tests::dev005_t05_invalid_formats_sizes_ids_permissions_and_path_escape ... ok
+2026-11-21T21:18:16.6181730Z test db::attachments::tests::dev005_t03_t04_imports_four_formats_and_reuses_physical_files ... ok
+2026-11-21T21:18:16.6430820Z test db::attachments::tests::dev005_t06_registration_failure_and_interrupted_stage_are_retryable ... ok
+2026-11-21T21:18:16.6728790Z test db::attachments::tests::dev005_t08_t10_fixed_revisions_and_missing_or_corrupt_files ... ok
+2026-11-21T21:18:16.6882580Z test db::favorites_tests::dev008_t01_t02_upgrade_retains_migrations_and_default_stays_unique ... ok
+2026-11-21T21:18:16.6945550Z test db::favorites_tests::dev008_t03_t04_create_rename_reorder_validate ... ok
+2026-11-21T21:18:16.7581770Z test db::favorites_tests::dev008_t05_t07_t09_t14_merge_keep_source_and_cross_folder_mark ... ok
+2026-11-21T21:18:16.7730800Z test db::favorites_tests::dev008_t08_collection_delete_and_add_are_serialized ... ok
+2026-11-21T21:18:16.8264870Z test db::favorites_tests::dev008_t08_t17_concurrent_idempotency_failed_batch_and_delete_roll_back ... ok
+2026-11-21T21:18:16.8541290Z test db::favorites_tests::dev008_t06_t10_t16_multi_type_pdf_versions_metadata_and_safe_folder_delete ... ok
+2026-11-21T21:18:16.8776230Z test db::favorites_tests::dev008_t13_t15_t18_latest_user_revision_review_and_fixed_selection_survive_reopen ... ok
+2026-11-21T21:18:16.9055700Z test db::migrations::tests::dev003_t10_schema_two_failure_rolls_back_subjects_and_ddl ... ok
+2026-11-21T21:18:16.9304670Z test db::migrations::tests::dev003_t02_t10_upgrade_preserves_schema_one_user_data_and_pins ... ok
+2026-11-21T21:18:16.9416040Z test db::migrations::tests::test_003_failed_upgrade_rolls_back_ddl_data_and_version ... ok
+2026-11-21T21:18:16.9893330Z test db::migrations::tests::dev004_t02_schema_two_preserves_records_and_pinned_revision ... ok
+2026-11-21T21:18:18.8405050Z test db::pack_tests::dev009_committed_cleanup_republishes_a_missing_link_from_valid_stage ... ok
+2026-11-21T21:18:18.9142020Z test db::pack_tests::dev009_t02_migrates_schema7_with_historical_revision_and_favorite ... ok
+2026-11-21T21:18:18.9665440Z test db::pack_tests::dev009_reuses_unchanged_revision_and_rejects_stale_confirmation ... ok
+2026-11-21T21:18:19.0072770Z test db::pack_tests::dev009_t08_preflight_rejects_bad_hierarchy_references_and_ownership ... ok
+2026-11-21T21:18:19.1334970Z test db::pack_tests::dev009_t03_to_t07_checks_container_manifest_and_decode_failures ... ok
+2026-11-21T21:18:19.2108660Z test db::pack_tests::dev009_t09_to_t17_import_upgrade_and_preserve_user_resources ... ok
+2026-11-21T21:18:19.3127380Z test db::pack_tests::dev009_t20_cross_connection_concurrency_and_t21_integrity_history ... ok
+2026-11-21T21:18:19.3130730Z test db::pack_zip::tests::poc003_crash_worker ... ok
+2026-11-21T21:18:19.3206860Z
+2026-11-21T21:18:19.3208720Z running 1 test
+2026-11-21T21:18:19.4217090Z
+2026-11-21T21:18:19.4218300Z running 1 test
+2026-11-21T21:18:19.4982020Z test db::pack_zip::tests::poc003_kills_child_before_and_after_commit ... ok
+2026-11-21T21:18:19.5059140Z test db::pack_zip::tests::poc003_output_budget_checks_actual_read ... ok
+2026-11-21T21:18:19.5185570Z test db::pack_zip::tests::poc003_reads_real_zip_and_hashes_stream ... ok
+2026-11-21T21:18:19.5423450Z test db::pack_zip::tests::poc003_refuses_high_ratio_before_decompressing ... ok
+2026-11-21T21:18:19.5534420Z test db::pack_zip::tests::poc003_refuses_nonportable_members ... ok
+2026-11-21T21:18:19.6262000Z test db::paper_files::tests::dev007_bad_pdf_copy_interrupted_directory_failure_and_sql_rollback ... ok
+2026-11-21T21:18:19.7247230Z test db::paper_files::tests::dev007_cross_page_alias_correction_and_failed_new_question_are_consistent ... ok
+2026-11-21T21:18:19.8405500Z test db::paper_files::tests::dev007_dedup_distinct_papers_same_name_versions_and_hash_failures ... ok
+2026-11-21T21:18:19.8738540Z test db::pack_tests::dev009_t18_faults_at_staging_publication_sqlite_and_result_registration ... ok
+2026-11-21T21:18:19.9317000Z test db::paper_tests::dev006_failed_duplicate_and_bad_points_roll_back_version ... ok
+2026-11-21T21:18:19.9722320Z test db::paper_tests::dev006_invalid_answer_analysis_image_blocks_pair_only_at_export ... ok
+2026-11-21T21:18:20.0224890Z test db::paper_tests::dev006_projection_is_disjoint_and_identity_stays_pinned ... ok
+2026-11-21T21:18:20.0602870Z test db::protection::tests::dev010_t01_upgrade_schema_eight_preserves_rows_and_migration_history ... ok
+2026-11-21T21:18:20.1446520Z test db::protection::tests::dev010_t02_snapshot_has_committed_wal_and_excludes_open_transaction ... ok
+2026-11-21T21:18:20.3221280Z test db::protection_tests::dev010_t06_restore_old_schema_in_isolation ... ok
+2026-11-21T21:18:20.3820990Z test db::protection_tests::dev010_t03_t04_t12_backup_cancel_missing_image_and_space_cleanup ... ok
+2026-11-21T21:18:20.3874430Z test db::protection_tests::dev010_t15_t19_trash_preserves_fixed_references_and_public_rules ... ok
+2026-11-21T21:18:20.4494810Z test db::protection_tests::dev010_t24_t25_draft_orders_writes_and_commits_formal_save_atomically ... ok
+2026-11-21T21:18:20.4671220Z test db::tests::dev002_editor_atomic_create_reopen_and_revision_conflicts ... ok
+2026-11-21T21:18:20.4673540Z test db::tests::dev002_shared_rich_text_contract ... ok
+2026-11-21T21:18:20.5024810Z test db::tests::dev002_editor_branches_from_public_without_changing_original ... ok
+2026-11-21T21:18:20.5317920Z test db::tests::dev003_t01_review_effective_by_utc_calendar_date ... ok
+2026-11-21T21:18:20.5560850Z test db::tests::explicit_duplicate_confirmation_preserves_existing_sources_and_revisions ... ok
+2026-11-21T21:18:20.6011160Z test db::tests::knowledge_tests::dev003_t02_nine_subjects_are_seeded_once ... ok
+2026-11-21T21:18:20.6161910Z test db::tests::knowledge_tests::dev003_t03_t04_t05_tree_sort_constraints_and_aliases ... ok
+2026-11-21T21:18:20.6755990Z test db::favorites_tests::dev008_t10_t19_mixed_1000_and_5000_query_benchmark ... ok
+2026-11-21T21:18:20.7017910Z test db::tests::knowledge_tests::dev003_t06_t07_t08_link_and_search_current_without_duplicates ... ok
+2026-11-21T21:18:20.8306050Z test db::tests::metadata_tests::dev004_t03_t04_t05_metadata_persists_and_origin_predicates_share_one_occurrence ... ok
+2026-11-21T21:18:20.9332060Z test db::tests::metadata_tests::dev004_t06_search_audit_matches_effective_current_revision_state ... ok
+2026-11-21T21:18:21.0711760Z test db::tests::knowledge_tests::dev004_t01_alias_knowledge_is_searchable_without_rewriting_sources ... ok
+2026-11-21T21:18:21.0889090Z test db::tests::metadata_tests::dev004_t07_year_and_difficulty_sort_stable_with_ties_and_missing_values ... ok
+2026-11-21T21:18:21.1670320Z test db::tests::metadata_tests::dev005_t01_shared_origin_rejects_stale_baseline_from_another_connection ... ok
+2026-11-21T21:18:21.2794090Z test db::tests::rich_text_round_trip_keeps_latex_attachment_and_part_id_and_rejects_bad_content ... ok
+2026-11-21T21:18:21.3597650Z test db::tests::test_001_initializes_schema_wal_foreign_keys_and_history ... ok
+2026-11-21T21:18:21.4401450Z test db::tests::test_002_reopens_same_database_without_reapplying_migration ... ok
+2026-11-21T21:18:21.5085870Z test db::tests::test_004_counts_unique_questions_separately_from_parts_and_occurrences ... ok
+2026-11-21T21:18:21.5708210Z test db::tests::test_005_verification_is_version_bound_and_honors_review_chain_and_expiry ... ok
+2026-11-21T21:18:21.6327950Z test db::tests::test_006_user_revision_is_selected_and_public_original_is_unchanged ... ok
+2026-11-21T21:18:21.7162340Z test db::tests::test_007_public_update_preserves_user_revision_and_first_public_content ... ok
+2026-11-21T21:18:21.7836460Z test db::tests::test_008_saved_composition_reopens_pinned_revision_and_rolls_back_missing_items ... ok
+2026-11-21T21:18:21.8479380Z test db::tests::test_009_blocks_revision_mutation_deletion_and_cross_question_references ... ok
+2026-11-21T21:18:21.9374870Z test db::tests::validates_knowledge_hierarchy_and_structured_database_errors ... ok
+2026-11-21T21:18:24.4513850Z test db::tests::knowledge_tests::dev003_t09_synthetic_ten_thousand_query_benchmark ... ok
+2026-11-21T21:18:31.4121640Z test db::tests::metadata_tests::dev004_t11_metadata_query_benchmark ... ok
+2026-11-21T21:18:31.4122050Z
+2026-11-21T21:18:31.4122450Z test result: ok. 68 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 14.94s
+2026-11-21T21:18:31.4122840Z
+2026-11-21T21:18:31.4130910Z      Running unittests src/main.rs (src-tauri/target/debug/build/shandong-poc-001b/ee7beb640186e12b/out/shandong_poc_001b-ee7beb640186e12b)
+2026-11-21T21:18:31.4304440Z
+2026-11-21T21:18:31.4305000Z running 7 tests
+2026-11-21T21:18:31.4312650Z test library_root::tests::dev010_switch_child ... ok
+2026-11-21T21:18:31.4314510Z test library_paths::macos_tests::system_var_alias_is_accepted_but_descendant_links_are_rejected ... ok
+2026-11-21T21:18:31.5504960Z test library_root::tests::dev010_t11_failed_candidate_keeps_current_database ... ok
+2026-11-21T21:18:31.5516340Z
+2026-11-21T21:18:31.5516720Z running 1 test
+2026-11-21T21:18:31.5517400Z test storage::tests::distinguishes_corruption_and_unsupported_versions ... ok
+2026-11-21T21:18:31.5545810Z test storage::tests::round_trip_replacement_preserves_content_and_ids ... ok
+2026-11-21T21:18:31.6903850Z test library_root::safety_tests::dev0101_t01_t02_t03_t09_t10_root_relations_and_cleanup ... ok
+2026-11-21T21:18:31.7129760Z
+2026-11-21T21:18:31.7130100Z running 1 test
+2026-11-21T21:18:31.8307830Z
+2026-11-21T21:18:31.8308210Z running 1 test
+2026-11-21T21:18:32.0339520Z test library_root::tests::dev010_t13_kill_process_before_and_after_atomic_root_switch ... ok
+2026-11-21T21:18:32.0340040Z
+2026-11-21T21:18:32.0340550Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.60s
+2026-11-21T21:18:32.0340920Z
+2026-11-21T21:18:32.0341740Z    Doc-tests shandong_poc_001b
+2026-11-21T21:18:32.2845820Z
+2026-11-21T21:18:32.2846240Z running 0 tests
+2026-11-21T21:18:32.2846430Z
+2026-11-21T21:18:32.2847160Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-11-21T21:18:32.2847530Z
+2026-11-21T21:18:32.3284250Z ##[group]Run actions/download-artifact@v4
+2026-11-21T21:18:32.3284550Z with:
+2026-11-21T21:18:32.3284920Z   name: knowpaper-dev012-windows-backup-1f324beb131416762fe7e087352de2192e649c17
+2026-11-21T21:18:32.3285340Z   path: poc-001b/preview-artifacts/backup
+2026-11-21T21:18:32.3285590Z   merge-multiple: false
+2026-11-21T21:18:32.3285870Z   repository: ghost114541/shandong-study-platform
+2026-11-21T21:18:32.3286140Z   run-id: 44950383835
+2026-11-21T21:18:32.3286360Z env:
+2026-11-21T21:18:32.3286580Z   CARGO_INCREMENTAL: 0
+2026-11-21T21:18:32.3286800Z   MACOSX_DEPLOYMENT_TARGET: 13.0
+2026-11-21T21:18:32.3287060Z   RUST_VERSION: 1.100.0
+2026-11-21T21:18:32.3287270Z ##[endgroup]
+2026-11-21T21:18:32.6856190Z Downloading single artifact
+2026-11-21T21:18:32.7022610Z (node:6551) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-21T21:18:32.7023900Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-21T21:18:32.9636670Z Preparing to download the following artifacts:
+2026-11-21T21:18:32.9637710Z - knowpaper-dev012-windows-backup-1f324beb131416762fe7e087352de2192e649c17 (ID: 14725760536, Size: 581805, Expected Digest: sha256:97a3129cbf7a894993af411b649e6990e2d66cb4483341a558ef0bf9133d7139)
+2026-11-21T21:18:33.2035140Z Redirecting to blob download url: https://productionresultssa11.blob.core.windows.net/actions-results/3b95e597-0353-85e0-8c30-366b98fed361/workflow-job-run-a8ae741d-da89-5208-bcaa-7637bdc371a5/artifacts/459fd38e84b8824bc428b8af77b790ef3916787098e794a74b59cd6f188ffb1a.zip
+2026-11-21T21:18:33.2039000Z Starting download of artifact to: /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/preview-artifacts/backup
+2026-11-21T21:18:33.5212520Z (node:6551) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-11-21T21:18:33.9141040Z SHA256 digest of downloaded artifact is 97a3129cbf7a894993af411b649e6990e2d66cb4483341a558ef0bf9133d7139
+2026-11-21T21:18:33.9144640Z Artifact download completed successfully.
+2026-11-21T21:18:33.9145940Z Total of 1 artifact(s) downloaded
+2026-11-21T21:18:33.9146940Z Download artifact has finished successfully
+2026-11-21T21:18:33.9211880Z ##[group]Run evidence=preview-artifacts/backup
+2026-11-21T21:18:33.9212250Z [36;1mevidence=preview-artifacts/backup[0m
+2026-11-21T21:18:33.9212650Z [36;1mcargo run --locked --manifest-path src-tauri/Cargo.toml --example dev012_migration -- \[0m
+2026-11-21T21:18:33.9213150Z [36;1m  restore "$evidence/windows.knowbackup" "$evidence/macos.knowbackup" \[0m
+2026-11-21T21:18:33.9213570Z [36;1m  > "$evidence/restore.json" 2> >(tee "$evidence/restore.log" >&2)[0m
+2026-11-21T21:18:33.9214020Z [36;1mpython3 tests/dev012-backup-fingerprint.py "$evidence/windows.knowbackup" \[0m
+2026-11-21T21:18:33.9214530Z [36;1m  "$evidence/macos.knowbackup" > "$evidence/cross-platform-fingerprints.json"[0m
+2026-11-21T21:18:33.9399430Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-21T21:18:33.9399780Z env:
+2026-11-21T21:18:33.9399950Z   CARGO_INCREMENTAL: 0
+2026-11-21T21:18:33.9400150Z   MACOSX_DEPLOYMENT_TARGET: 13.0
+2026-11-21T21:18:33.9400430Z   RUST_VERSION: 1.100.0
+2026-11-21T21:18:33.9400720Z ##[endgroup]
+2026-11-21T21:18:34.6771750Z warning: shandong-poc-001b@0.2.1: native/macos_print.m:102:92: warning: unused parameter 'fault' [-Wunused-parameter]
+2026-11-21T21:18:34.6774380Z warning: shandong-poc-001b@0.2.1:   102 |                          uint64_t identifier, KPPrintCallback callback, void *context, int fault) {
+2026-11-21T21:18:34.6775270Z warning: shandong-poc-001b@0.2.1:       |                                                                                            ^
+2026-11-21T21:18:34.6780760Z warning: shandong-poc-001b@0.2.1: 1 warning generated.
+2026-11-21T21:18:34.6787010Z warning: function `check_tree` is never used
+2026-11-21T21:18:34.6788350Z   --> examples/../src/library_paths.rs:67:8
+2026-11-21T21:18:34.6789010Z    |
+2026-11-21T21:18:34.6789470Z 67 | pub fn check_tree(root: &Path) -> io::Result<()> {
+2026-11-21T21:18:34.6806270Z    |        ^^^^^^^^^^
+2026-11-21T21:18:34.6806570Z    |
+2026-11-21T21:18:34.6806960Z    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-11-21T21:18:34.6807210Z
+2026-11-21T21:18:34.6807690Z warning: methods `error`, `needs_layout_repair`, `migration_parent`, `prepare_rollback`, and `check_cleanup` are never used
+2026-11-21T21:18:34.6808230Z    --> examples/../src/library_root.rs:197:12
+2026-11-21T21:18:34.6808480Z     |
+2026-11-21T21:18:34.6808640Z  46 | impl LibraryRoot {
+2026-11-21T21:18:34.6808920Z     | ---------------- methods in this implementation
+2026-11-21T21:18:34.6809180Z ...
+2026-11-21T21:18:34.6809470Z 197 |     pub fn error(&self) -> Option<&str> {
+2026-11-21T21:18:34.6809730Z     |            ^^^^^
+2026-11-21T21:18:34.6809910Z ...
+2026-11-21T21:18:34.6810240Z 201 |     pub fn needs_layout_repair(&self) -> Result<bool, String> {
+2026-11-21T21:18:34.6810570Z     |            ^^^^^^^^^^^^^^^^^^^
+2026-11-21T21:18:34.6810780Z ...
+2026-11-21T21:18:34.6811180Z 234 |     pub fn migration_parent(&self, requested: &Path) -> Result<PathBuf, String> {
+2026-11-21T21:18:34.6811580Z     |            ^^^^^^^^^^^^^^^^
+2026-11-21T21:18:34.6811790Z ...
+2026-11-21T21:18:34.6812120Z 383 |     pub fn prepare_rollback(&mut self) -> Result<(), String> {
+2026-11-21T21:18:34.6812450Z     |            ^^^^^^^^^^^^^^^^
+2026-11-21T21:18:34.6812660Z ...
+2026-11-21T21:18:34.6813010Z 399 |     pub fn check_cleanup(&self, requested: &Path) -> Result<(), String> {
+2026-11-21T21:18:34.6813370Z     |            ^^^^^^^^^^^^^
+2026-11-21T21:18:34.6813520Z
+2026-11-21T21:18:34.6813670Z warning: constant `MAX_BYTES` is never used
+2026-11-21T21:18:34.6813960Z  --> examples/../src/storage.rs:8:7
+2026-11-21T21:18:34.6814190Z   |
+2026-11-21T21:18:34.6814430Z 8 | const MAX_BYTES: u64 = 32 * 1024 * 1024;
+2026-11-21T21:18:34.6814690Z   |       ^^^^^^^^^
+2026-11-21T21:18:34.6814820Z
+2026-11-21T21:18:34.6814980Z warning: function `check_envelope` is never used
+2026-11-21T21:18:34.6815300Z   --> examples/../src/storage.rs:10:4
+2026-11-21T21:18:34.6815530Z    |
+2026-11-21T21:18:34.6816490Z 10 | fn check_envelope(data: &Value) -> Result<(), String> {
+2026-11-21T21:18:34.6816810Z    |    ^^^^^^^^^^^^^^
+2026-11-21T21:18:34.6816930Z
+2026-11-21T21:18:34.6817080Z warning: function `load` is never used
+2026-11-21T21:18:34.6817350Z   --> examples/../src/storage.rs:24:8
+2026-11-21T21:18:34.6817630Z    |
+2026-11-21T21:18:34.6817940Z 24 | pub fn load(path: &Path) -> Result<Option<Value>, String> {
+2026-11-21T21:18:34.6818230Z    |        ^^^^
+2026-11-21T21:18:34.6818340Z
+2026-11-21T21:18:34.6818490Z warning: function `save` is never used
+2026-11-21T21:18:34.6818780Z   --> examples/../src/storage.rs:41:8
+2026-11-21T21:18:34.6819070Z    |
+2026-11-21T21:18:34.6819420Z 41 | pub fn save(path: &Path, data: &Value) -> Result<(), String> {
+2026-11-21T21:18:34.6819710Z    |        ^^^^
+2026-11-21T21:18:34.6819820Z
+2026-11-21T21:18:34.6820140Z warning: `shandong-poc-001b` (example "dev012_migration") generated 6 warnings
+2026-11-21T21:18:34.6820630Z     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.66s
+2026-11-21T21:18:34.6888100Z      Running `src-tauri/target/debug/examples/dev012_migration restore preview-artifacts/backup/windows.knowbackup preview-artifacts/backup/macos.knowbackup`
+2026-11-21T21:18:35.0692110Z restore startup: before-open
+2026-11-21T21:18:35.1001020Z restore startup: first-open
+2026-11-21T21:18:35.1515650Z restore startup: startup-verified
+2026-11-21T21:18:35.1522940Z restore startup: before-pointer
+2026-11-21T21:18:35.1536080Z restore startup: after-pointer
+2026-11-21T21:18:36.2665340Z ##[group]Run npm run tauri -- build --target aarch64-apple-darwin -- --locked 2>&1 | tee preview-artifacts/build.log
+2026-11-21T21:18:36.2666230Z [36;1mnpm run tauri -- build --target aarch64-apple-darwin -- --locked 2>&1 | tee preview-artifacts/build.log[0m
+2026-11-21T21:18:36.2702390Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-21T21:18:36.2702670Z env:
+2026-11-21T21:18:36.2702850Z   CARGO_INCREMENTAL: 0
+2026-11-21T21:18:36.2703080Z   MACOSX_DEPLOYMENT_TARGET: 13.0
+2026-11-21T21:18:36.2703330Z   RUST_VERSION: 1.100.0
+2026-11-21T21:18:36.2703560Z ##[endgroup]
+2026-11-21T21:18:36.6832460Z
+2026-11-21T21:18:36.6833300Z > knowpaper-preview@0.2.1 tauri
+2026-11-21T21:18:36.6833830Z > tauri build --target aarch64-apple-darwin -- --locked
+2026-11-21T21:18:36.6834100Z
+2026-11-21T21:18:36.8326530Z         Info Looking up installed tauri packages to check mismatched versions...
+2026-11-21T21:18:37.2879860Z      Running beforeBuildCommand `npm run build`
+2026-11-21T21:18:37.4340370Z
+2026-11-21T21:18:37.4340720Z > knowpaper-preview@0.2.1 build
+2026-11-21T21:18:37.4341440Z > npm run typecheck && vite build
+2026-11-21T21:18:37.4341640Z
+2026-11-21T21:18:37.6285660Z
+2026-11-21T21:18:37.6287310Z > knowpaper-preview@0.2.1 typecheck
+2026-11-21T21:18:37.6289400Z > tsc --noEmit
+2026-11-21T21:18:37.6290110Z
+2026-11-21T21:18:41.2834460Z [36mvite v7.3.8 [32mbuilding client environment for production...[36m[39m
+2026-11-21T21:18:41.3290200Z transforming...
+2026-11-21T21:18:41.7536320Z [33mnode_modules/@tiptap/react/dist/index.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tiptap/react/dist/index.js" was ignored.[39m
+2026-11-21T21:18:42.0936290Z [33mnode_modules/zod/v4/core/util.js (400:0): A comment
+2026-11-21T21:18:42.0936740Z
+2026-11-21T21:18:42.0958370Z "// Wrapped in a `@__PURE__` IIFE: esbuild never tree-shakes a top-level initializer that contains a member access on `Number`, so the bare object literal survived into every bundle."
+2026-11-21T21:18:42.0959190Z
+2026-11-21T21:18:42.0960190Z in "node_modules/zod/v4/core/util.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.[39m
+2026-11-21T21:18:42.0961240Z [33mnode_modules/zod/v4/core/regexes.js (74:0): A comment
+2026-11-21T21:18:42.0961520Z
+2026-11-21T21:18:42.0961950Z "/** Anchors a pattern source. The interpolation lives here rather than at the call site because
+2026-11-21T21:18:42.0962530Z  * esbuild will not drop a `@__PURE__` call whose own argument interpolates a variable, but it
+2026-11-21T21:18:42.0963200Z  * will drop `anchor(dateSource)`. Keeping it inline pinned `date` into every bundle. */"
+2026-11-21T21:18:42.0963550Z
+2026-11-21T21:18:42.0964380Z in "node_modules/zod/v4/core/regexes.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.[39m
+2026-11-21T21:18:43.7134490Z [32m✓[39m 241 modules transformed.
+2026-11-21T21:18:44.0059910Z rendering chunks...
+2026-11-21T21:18:44.1441970Z computing gzip size...
+2026-11-21T21:18:44.1812960Z [2mdist/[22m[32mindex.html                                       [39m[1m[2m    0.38 kB[22m[1m[22m[2m │ gzip:   0.31 kB[22m
+2026-11-21T21:18:44.1814090Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size3-Regular-CTq5MqoE.woff         [39m[1m[2m    4.42 kB[22m[1m[22m
+2026-11-21T21:18:44.1815000Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size4-Regular-Dl5lxZxV.woff2        [39m[1m[2m    4.93 kB[22m[1m[22m
+2026-11-21T21:18:44.1815970Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size2-Regular-Dy4dx90m.woff2        [39m[1m[2m    5.21 kB[22m[1m[22m
+2026-11-21T21:18:44.1816950Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size1-Regular-mCD8mA8B.woff2        [39m[1m[2m    5.47 kB[22m[1m[22m
+2026-11-21T21:18:44.1817920Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size4-Regular-BF-4gkZK.woff         [39m[1m[2m    5.98 kB[22m[1m[22m
+2026-11-21T21:18:44.1819540Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size2-Regular-oD1tc_U0.woff         [39m[1m[2m    6.19 kB[22m[1m[22m
+2026-11-21T21:18:44.1820970Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size1-Regular-C195tn64.woff         [39m[1m[2m    6.50 kB[22m[1m[22m
+2026-11-21T21:18:44.1821940Z [2mdist/[22m[2massets/[22m[32mKaTeX_Caligraphic-Regular-Di6jR-x-.woff2  [39m[1m[2m    6.91 kB[22m[1m[22m
+2026-11-21T21:18:44.1823020Z [2mdist/[22m[2massets/[22m[32mKaTeX_Caligraphic-Bold-Dq_IR9rO.woff2     [39m[1m[2m    6.91 kB[22m[1m[22m
+2026-11-21T21:18:44.1824010Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size3-Regular-DgpXs0kz.ttf          [39m[1m[2m    7.59 kB[22m[1m[22m
+2026-11-21T21:18:44.1824880Z [2mdist/[22m[2massets/[22m[32mKaTeX_Caligraphic-Regular-CTRA-rTL.woff   [39m[1m[2m    7.66 kB[22m[1m[22m
+2026-11-21T21:18:44.1825740Z [2mdist/[22m[2massets/[22m[32mKaTeX_Caligraphic-Bold-BEiXGLvX.woff      [39m[1m[2m    7.72 kB[22m[1m[22m
+2026-11-21T21:18:44.1827130Z [2mdist/[22m[2massets/[22m[32mKaTeX_Script-Regular-D3wIWfF6.woff2       [39m[1m[2m    9.64 kB[22m[1m[22m
+2026-11-21T21:18:44.1828030Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Regular-DDBCnlJ7.woff2    [39m[1m[2m   10.34 kB[22m[1m[22m
+2026-11-21T21:18:44.1828890Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size4-Regular-DWFBv043.ttf          [39m[1m[2m   10.36 kB[22m[1m[22m
+2026-11-21T21:18:44.1829730Z [2mdist/[22m[2massets/[22m[32mKaTeX_Script-Regular-D5yQViql.woff        [39m[1m[2m   10.59 kB[22m[1m[22m
+2026-11-21T21:18:44.1830700Z [2mdist/[22m[2massets/[22m[32mKaTeX_Fraktur-Regular-CTYiF6lA.woff2      [39m[1m[2m   11.32 kB[22m[1m[22m
+2026-11-21T21:18:44.1831800Z [2mdist/[22m[2massets/[22m[32mKaTeX_Fraktur-Bold-CL6g_b3V.woff2         [39m[1m[2m   11.35 kB[22m[1m[22m
+2026-11-21T21:18:44.1832790Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size2-Regular-B7gKUWhC.ttf          [39m[1m[2m   11.51 kB[22m[1m[22m
+2026-11-21T21:18:44.1833760Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Italic-C3H0VqGB.woff2     [39m[1m[2m   12.03 kB[22m[1m[22m
+2026-11-21T21:18:44.1834690Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Bold-D1sUS0GD.woff2       [39m[1m[2m   12.22 kB[22m[1m[22m
+2026-11-21T21:18:44.1835630Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size1-Regular-Dbsnue_I.ttf          [39m[1m[2m   12.23 kB[22m[1m[22m
+2026-11-21T21:18:44.1836570Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Regular-CS6fqUqJ.woff     [39m[1m[2m   12.32 kB[22m[1m[22m
+2026-11-21T21:18:44.1837500Z [2mdist/[22m[2massets/[22m[32mKaTeX_Caligraphic-Regular-wX97UBjC.ttf    [39m[1m[2m   12.34 kB[22m[1m[22m
+2026-11-21T21:18:44.1838340Z [2mdist/[22m[2massets/[22m[32mKaTeX_Caligraphic-Bold-ATXxdsX0.ttf       [39m[1m[2m   12.37 kB[22m[1m[22m
+2026-11-21T21:18:44.1839230Z [2mdist/[22m[2massets/[22m[32mKaTeX_Fraktur-Regular-Dxdc4cR9.woff       [39m[1m[2m   13.21 kB[22m[1m[22m
+2026-11-21T21:18:44.1840120Z [2mdist/[22m[2massets/[22m[32mKaTeX_Fraktur-Bold-BsDP51OF.woff          [39m[1m[2m   13.30 kB[22m[1m[22m
+2026-11-21T21:18:44.1841010Z [2mdist/[22m[2massets/[22m[32mKaTeX_Typewriter-Regular-CO6r4hn1.woff2   [39m[1m[2m   13.57 kB[22m[1m[22m
+2026-11-21T21:18:44.1841920Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Italic-DN2j7dab.woff      [39m[1m[2m   14.11 kB[22m[1m[22m
+2026-11-21T21:18:44.1842730Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Bold-DbIhKOiC.woff        [39m[1m[2m   14.41 kB[22m[1m[22m
+2026-11-21T21:18:44.1843590Z [2mdist/[22m[2massets/[22m[32mKaTeX_Typewriter-Regular-C0xS9mPB.woff    [39m[1m[2m   16.03 kB[22m[1m[22m
+2026-11-21T21:18:44.1844450Z [2mdist/[22m[2massets/[22m[32mKaTeX_Math-BoldItalic-CZnvNsCZ.woff2      [39m[1m[2m   16.40 kB[22m[1m[22m
+2026-11-21T21:18:44.1845330Z [2mdist/[22m[2massets/[22m[32mKaTeX_Math-Italic-t53AETM-.woff2          [39m[1m[2m   16.44 kB[22m[1m[22m
+2026-11-21T21:18:44.1846540Z [2mdist/[22m[2massets/[22m[32mKaTeX_Script-Regular-C5JkGWo-.ttf         [39m[1m[2m   16.65 kB[22m[1m[22m
+2026-11-21T21:18:44.1847410Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-BoldItalic-DxDJ3AOS.woff2      [39m[1m[2m   16.78 kB[22m[1m[22m
+2026-11-21T21:18:44.1848350Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Italic-NWA7e6Wa.woff2          [39m[1m[2m   16.99 kB[22m[1m[22m
+2026-11-21T21:18:44.1849170Z [2mdist/[22m[2massets/[22m[32mKaTeX_Math-BoldItalic-iY-2wyZ7.woff       [39m[1m[2m   18.67 kB[22m[1m[22m
+2026-11-21T21:18:44.1850080Z [2mdist/[22m[2massets/[22m[32mKaTeX_Math-Italic-DA0__PXp.woff           [39m[1m[2m   18.75 kB[22m[1m[22m
+2026-11-21T21:18:44.1850920Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-BoldItalic-SpSLRI95.woff       [39m[1m[2m   19.41 kB[22m[1m[22m
+2026-11-21T21:18:44.1851910Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Regular-BNo7hRIc.ttf      [39m[1m[2m   19.44 kB[22m[1m[22m
+2026-11-21T21:18:44.1852850Z [2mdist/[22m[2massets/[22m[32mKaTeX_Fraktur-Regular-CB_wures.ttf        [39m[1m[2m   19.57 kB[22m[1m[22m
+2026-11-21T21:18:44.1853740Z [2mdist/[22m[2massets/[22m[32mKaTeX_Fraktur-Bold-BdnERNNW.ttf           [39m[1m[2m   19.58 kB[22m[1m[22m
+2026-11-21T21:18:44.1854700Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Italic-BMLOBm91.woff           [39m[1m[2m   19.68 kB[22m[1m[22m
+2026-11-21T21:18:44.1855620Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Italic-YYjJ1zSn.ttf       [39m[1m[2m   22.36 kB[22m[1m[22m
+2026-11-21T21:18:44.1856660Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Bold-CFMepnvq.ttf         [39m[1m[2m   24.50 kB[22m[1m[22m
+2026-11-21T21:18:44.1858150Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Bold-Cx986IdX.woff2            [39m[1m[2m   25.32 kB[22m[1m[22m
+2026-11-21T21:18:44.1859080Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Regular-B22Nviop.woff2         [39m[1m[2m   26.27 kB[22m[1m[22m
+2026-11-21T21:18:44.1860120Z [2mdist/[22m[2massets/[22m[32mKaTeX_Typewriter-Regular-D3Ib7_Hf.ttf     [39m[1m[2m   27.56 kB[22m[1m[22m
+2026-11-21T21:18:44.1861120Z [2mdist/[22m[2massets/[22m[32mKaTeX_AMS-Regular-BQhdFMY1.woff2          [39m[1m[2m   28.08 kB[22m[1m[22m
+2026-11-21T21:18:44.1862600Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Bold-Jm3AIy58.woff             [39m[1m[2m   29.91 kB[22m[1m[22m
+2026-11-21T21:18:44.1863690Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Regular-Dr94JaBh.woff          [39m[1m[2m   30.77 kB[22m[1m[22m
+2026-11-21T21:18:44.1864620Z [2mdist/[22m[2massets/[22m[32mKaTeX_Math-BoldItalic-B3XSjfu4.ttf        [39m[1m[2m   31.20 kB[22m[1m[22m
+2026-11-21T21:18:44.1865700Z [2mdist/[22m[2massets/[22m[32mKaTeX_Math-Italic-flOr_0UB.ttf            [39m[1m[2m   31.31 kB[22m[1m[22m
+2026-11-21T21:18:44.1866710Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-BoldItalic-DzxPMmG6.ttf        [39m[1m[2m   32.97 kB[22m[1m[22m
+2026-11-21T21:18:44.1867640Z [2mdist/[22m[2massets/[22m[32mKaTeX_AMS-Regular-DMm9YOAa.woff           [39m[1m[2m   33.52 kB[22m[1m[22m
+2026-11-21T21:18:44.1868680Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Italic-3WenGoN9.ttf            [39m[1m[2m   33.58 kB[22m[1m[22m
+2026-11-21T21:18:44.1869660Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Bold-waoOVXN0.ttf              [39m[1m[2m   51.34 kB[22m[1m[22m
+2026-11-21T21:18:44.1870600Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Regular-ypZvNtVU.ttf           [39m[1m[2m   53.58 kB[22m[1m[22m
+2026-11-21T21:18:44.1871460Z [2mdist/[22m[2massets/[22m[32mKaTeX_AMS-Regular-DRggAlZN.ttf            [39m[1m[2m   63.63 kB[22m[1m[22m
+2026-11-21T21:18:44.1872520Z [2mdist/[22m[2massets/[22m[32mpdf.worker.min-B5Yc7dP4.mjs               [39m[1m[2m1,327.59 kB[22m[1m[22m
+2026-11-21T21:18:44.1873640Z [2mdist/[22m[2massets/[22m[35mpaper-library-DmOzWjY5.css                [39m[1m[2m    4.49 kB[22m[1m[22m[2m │ gzip:   1.50 kB[22m
+2026-11-21T21:18:44.1874940Z [2mdist/[22m[2massets/[22m[35mindex-B3KSSczQ.css                        [39m[1m[2m   42.32 kB[22m[1m[22m[2m │ gzip:  11.80 kB[22m
+2026-11-21T21:18:44.1876210Z [2mdist/[22m[2massets/[22m[36mpaper-library-D4bDEZoN.js                 [39m[1m[33m  536.11 kB[39m[22m[2m │ gzip: 165.54 kB[22m
+2026-11-21T21:18:44.1877790Z [2mdist/[22m[2massets/[22m[36mindex-DeE1oMVg.js                         [39m[1m[33m1,187.73 kB[39m[22m[2m │ gzip: 364.91 kB[22m
+2026-11-21T21:18:44.1878370Z [33m
+2026-11-21T21:18:44.1878710Z (!) Some chunks are larger than 500 kB after minification. Consider:
+2026-11-21T21:18:44.1879200Z - Using dynamic import() to code-split the application
+2026-11-21T21:18:44.1880050Z - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+2026-11-21T21:18:44.1880920Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+2026-11-21T21:18:44.1881490Z [32m✓ built in 2.88s[39m
+2026-11-21T21:18:44.8961310Z    Compiling proc-macro2 v1.0.107
+2026-11-21T21:18:44.8964470Z    Compiling quote v1.0.47
+2026-11-21T21:18:44.8965140Z    Compiling unicode-ident v1.0.27
+2026-11-21T21:18:45.0601550Z    Compiling serde_core v1.0.229
+2026-11-21T21:18:46.0098200Z    Compiling syn v3.0.10
+2026-11-21T21:18:46.7477090Z    Compiling syn v2.0.119
+2026-11-21T21:18:46.8688180Z    Compiling siphasher v1.0.4
+2026-11-21T21:18:46.9951450Z    Compiling phf_shared v0.13.1
+2026-11-21T21:18:47.1836010Z    Compiling icu_properties_data v2.4.0
+2026-11-21T21:18:47.3452480Z    Compiling icu_normalizer_data v2.4.0
+2026-11-21T21:18:47.5472280Z    Compiling zmij v1.0.23
+2026-11-21T21:18:47.7143480Z    Compiling fastrand v2.5.0
+2026-11-21T21:18:47.7910070Z    Compiling phf_generator v0.13.1
+2026-11-21T21:18:47.8824410Z    Compiling stable_deref_trait v1.2.1
+2026-11-21T21:18:47.9255260Z    Compiling libc v0.2.191
+2026-11-21T21:18:48.1585200Z    Compiling synstructure v0.14.0
+2026-11-21T21:18:48.5217180Z    Compiling cfg-if v1.0.5
+2026-11-21T21:18:48.9754630Z    Compiling zerofrom-derive v0.1.8
+2026-11-21T21:18:49.2426380Z    Compiling yoke-derive v0.8.4
+2026-11-21T21:18:49.5048670Z    Compiling zerovec-derive v0.11.7
+2026-11-21T21:18:49.8026150Z    Compiling serde_derive v1.0.229
+2026-11-21T21:18:49.9305130Z    Compiling displaydoc v0.2.7
+2026-11-21T21:18:50.1092200Z    Compiling memchr v2.8.3
+2026-11-21T21:18:50.4049280Z    Compiling find-msvc-tools v0.1.15
+2026-11-21T21:18:50.5223780Z    Compiling shlex v2.0.1
+2026-11-21T21:18:50.6228640Z    Compiling cc v1.11.2
+2026-11-21T21:18:50.6241720Z    Compiling zerofrom v0.1.8
+2026-11-21T21:18:50.6931770Z    Compiling bitflags v2.13.2
+2026-11-21T21:18:50.9236050Z    Compiling smallvec v1.16.5
+2026-11-21T21:18:51.0277690Z    Compiling serde v1.0.229
+2026-11-21T21:18:51.2158830Z    Compiling yoke v0.8.4
+2026-11-21T21:18:51.5948060Z    Compiling thiserror v2.0.21
+2026-11-21T21:18:51.7533250Z    Compiling zerovec v0.11.9
+2026-11-21T21:18:51.8111790Z    Compiling itoa v1.0.19
+2026-11-21T21:18:51.8923130Z    Compiling phf_macros v0.13.1
+2026-11-21T21:18:52.0622550Z    Compiling thiserror-impl v2.0.21
+2026-11-21T21:18:52.0891300Z    Compiling typeid v1.0.3
+2026-11-21T21:18:52.2498000Z    Compiling num-conv v0.2.2
+2026-11-21T21:18:52.2905230Z    Compiling time-core v0.1.9
+2026-11-21T21:18:52.3278360Z    Compiling tinystr v0.8.5
+2026-11-21T21:18:52.3933710Z    Compiling phf_codegen v0.13.1
+2026-11-21T21:18:52.4589210Z    Compiling serde_json v1.0.154
+2026-11-21T21:18:52.4600690Z    Compiling ident_case v1.0.1
+2026-11-21T21:18:52.5086630Z    Compiling autocfg v1.5.1
+2026-11-21T21:18:52.5802150Z    Compiling strsim v0.11.1
+2026-11-21T21:18:52.7211410Z    Compiling erased-serde v0.4.11
+2026-11-21T21:18:52.7480680Z    Compiling writeable v0.6.4
+2026-11-21T21:18:52.7577420Z    Compiling utf_types v1.0.0
+2026-11-21T21:18:52.8812560Z    Compiling litemap v0.8.3
+2026-11-21T21:18:52.8933130Z    Compiling utf8_iter v1.1.0
+2026-11-21T21:18:52.9691900Z    Compiling darling_core v0.24.1
+2026-11-21T21:18:52.9705960Z    Compiling icu_locale_core v2.4.0
+2026-11-21T21:18:53.1409480Z    Compiling potential_utf v0.1.6
+2026-11-21T21:18:53.2119580Z    Compiling zerotrie v0.2.5
+2026-11-21T21:18:53.4058820Z    Compiling parking_lot_core v0.9.12
+2026-11-21T21:18:53.5583860Z    Compiling icu_provider v2.4.0
+2026-11-21T21:18:53.6011460Z    Compiling icu_collections v2.4.0
+2026-11-21T21:18:53.8776260Z    Compiling anyhow v1.0.104
+2026-11-21T21:18:54.0645450Z    Compiling new_debug_unreachable v1.0.6
+2026-11-21T21:18:54.1077340Z    Compiling scopeguard v1.2.0
+2026-11-21T21:18:54.1562330Z    Compiling lock_api v0.4.14
+2026-11-21T21:18:54.4021630Z    Compiling phf v0.13.1
+2026-11-21T21:18:54.5259560Z    Compiling string_cache_codegen v0.6.1
+2026-11-21T21:18:54.5424870Z    Compiling precomputed-hash v0.1.1
+2026-11-21T21:18:54.5814590Z    Compiling getrandom v0.4.3
+2026-11-21T21:18:54.6236880Z    Compiling darling_macro v0.24.1
+2026-11-21T21:18:54.7872930Z    Compiling web_atoms v0.2.6
+2026-11-21T21:18:54.8258110Z    Compiling darling v0.24.1
+2026-11-21T21:18:54.8695830Z    Compiling serde_with_macros v3.24.0
+2026-11-21T21:18:54.8882230Z    Compiling parking_lot v0.12.5
+2026-11-21T21:18:55.0721700Z    Compiling icu_normalizer v2.4.0
+2026-11-21T21:18:55.0722680Z    Compiling icu_properties v2.4.0
+2026-11-21T21:18:55.3674210Z    Compiling objc2-exception-helper v0.1.1
+2026-11-21T21:18:55.4024330Z    Compiling semver v1.0.28
+2026-11-21T21:18:55.5044510Z    Compiling winnow v1.0.5
+2026-11-21T21:18:55.7099960Z    Compiling toml_parser v1.1.5+spec-1.1.0
+2026-11-21T21:18:55.7955370Z    Compiling idna_adapter v1.2.2
+2026-11-21T21:18:55.8864770Z    Compiling string_cache v0.9.0
+2026-11-21T21:18:56.0356560Z    Compiling serde_spanned v1.1.3
+2026-11-21T21:18:56.0541630Z    Compiling toml_datetime v1.1.3+spec-1.1.0
+2026-11-21T21:18:56.0838410Z    Compiling toml_writer v1.2.0+spec-1.1.0
+2026-11-21T21:18:56.1020430Z    Compiling percent-encoding v2.3.2
+2026-11-21T21:18:56.1790190Z    Compiling dtoa v1.0.11
+2026-11-21T21:18:56.1912370Z    Compiling log v0.4.35
+2026-11-21T21:18:56.1965670Z    Compiling toml v1.2.1+spec-1.1.0
+2026-11-21T21:18:56.2523420Z    Compiling dtoa-short v0.3.5
+2026-11-21T21:18:56.2839000Z    Compiling form_urlencoded v1.2.2
+2026-11-21T21:18:56.3559190Z    Compiling uuid v1.29.2
+2026-11-21T21:18:56.5702110Z    Compiling idna v1.1.0
+2026-11-21T21:18:56.8816760Z    Compiling tendril v0.5.1
+2026-11-21T21:18:56.9106170Z    Compiling indexmap v1.9.3
+2026-11-21T21:18:57.0229420Z    Compiling selectors v0.38.0
+2026-11-21T21:18:57.0848590Z    Compiling aho-corasick v1.1.5
+2026-11-21T21:18:57.1276730Z    Compiling derive_more-impl v2.1.1
+2026-11-21T21:18:57.2279640Z    Compiling cssparser-macros v0.7.1
+2026-11-21T21:18:57.4648750Z    Compiling camino v1.2.6
+2026-11-21T21:18:57.6777240Z    Compiling regex-syntax v0.8.11
+2026-11-21T21:18:57.9477070Z    Compiling objc2 v0.6.5
+2026-11-21T21:18:58.0963800Z    Compiling alloc-no-stdlib v3.0.0
+2026-11-21T21:18:58.2619550Z    Compiling alloc-stdlib v0.3.0
+2026-11-21T21:18:58.3875100Z    Compiling derive_more v2.1.1
+2026-11-21T21:18:58.5005020Z    Compiling cssparser v0.37.0
+2026-11-21T21:18:58.7674190Z    Compiling markup5ever v0.39.0
+2026-11-21T21:18:58.8893070Z    Compiling regex-automata v0.4.18
+2026-11-21T21:18:59.0268660Z    Compiling url v2.5.8
+2026-11-21T21:18:59.2682640Z    Compiling swift-rs v1.0.9
+2026-11-21T21:18:59.5011860Z    Compiling serde_derive_internals v0.29.1
+2026-11-21T21:18:59.6763590Z    Compiling servo_arc v0.4.3
+2026-11-21T21:18:59.7799490Z    Compiling bit-vec v0.8.0
+2026-11-21T21:18:59.9117990Z    Compiling hashbrown v0.12.3
+2026-11-21T21:19:00.1628630Z    Compiling schemars v0.8.22
+2026-11-21T21:19:00.3148880Z    Compiling equivalent v1.0.3
+2026-11-21T21:19:00.3151010Z    Compiling hashbrown v0.17.1
+2026-11-21T21:19:00.3568070Z    Compiling rustc-hash v2.1.3
+2026-11-21T21:19:00.4158610Z    Compiling fnv v1.0.7
+2026-11-21T21:19:00.4683990Z    Compiling web-time v1.1.0
+2026-11-21T21:19:00.5051830Z    Compiling deranged v0.5.9
+2026-11-21T21:19:00.6448140Z    Compiling powerfmt v0.2.1
+2026-11-21T21:19:00.7303550Z    Compiling objc2-encode v4.1.0
+2026-11-21T21:19:01.0382620Z    Compiling crc32fast v1.5.5
+2026-11-21T21:19:01.0702430Z    Compiling time v0.3.55
+2026-11-21T21:19:01.1884420Z    Compiling indexmap v2.14.2
+2026-11-21T21:19:01.5535280Z    Compiling cfb v0.14.0
+2026-11-21T21:19:01.9256340Z    Compiling regex v1.13.1
+2026-11-21T21:19:02.2819110Z    Compiling schemars_derive v0.8.22
+2026-11-21T21:19:02.4229110Z    Compiling bit-set v0.8.0
+2026-11-21T21:19:02.7115890Z    Compiling html5ever v0.39.0
+2026-11-21T21:19:02.9937580Z    Compiling brotli-decompressor v6.3.2
+2026-11-21T21:19:03.2201330Z    Compiling jsonptr v0.7.1
+2026-11-21T21:19:03.3938900Z    Compiling cargo-platform v0.1.9
+2026-11-21T21:19:03.4988240Z    Compiling quick-xml v0.42.0
+2026-11-21T21:19:03.5056820Z    Compiling bytes v1.12.1
+2026-11-21T21:19:03.7551750Z    Compiling foldhash v0.2.0
+2026-11-21T21:19:03.8185530Z    Compiling dunce v1.0.5
+2026-11-21T21:19:03.8405350Z    Compiling tauri-utils v2.10.3
+2026-11-21T21:19:03.8640730Z    Compiling base64 v0.23.1
+2026-11-21T21:19:03.9545810Z    Compiling dyn-clone v1.0.20
+2026-11-21T21:19:04.0067070Z    Compiling same-file v1.0.6
+2026-11-21T21:19:04.0338030Z    Compiling base64 v0.21.7
+2026-11-21T21:19:04.0711840Z    Compiling walkdir v2.5.0
+2026-11-21T21:19:04.0971080Z    Compiling plist v1.10.3
+2026-11-21T21:19:04.4635780Z    Compiling dom_query v0.28.0
+2026-11-21T21:19:04.5512170Z    Compiling http v1.5.0
+2026-11-21T21:19:04.9364410Z    Compiling brotli v9.1.3
+2026-11-21T21:19:05.0672630Z    Compiling cargo_metadata v0.19.2
+2026-11-21T21:19:05.3835330Z    Compiling json-patch v4.2.0
+2026-11-21T21:19:05.8123400Z    Compiling serde-untagged v0.1.9
+2026-11-21T21:19:05.9564850Z    Compiling urlpattern v0.6.0
+2026-11-21T21:19:06.0378500Z    Compiling infer v0.22.0
+2026-11-21T21:19:06.3975600Z    Compiling serde_with v3.24.0
+2026-11-21T21:19:06.4011510Z    Compiling ctor v1.0.14
+2026-11-21T21:19:06.7826930Z    Compiling glob v0.3.4
+2026-11-21T21:19:07.0406010Z    Compiling block2 v0.6.2
+2026-11-21T21:19:08.3595740Z    Compiling objc2-core-foundation v0.3.2
+2026-11-21T21:19:09.0463080Z    Compiling typenum v1.20.1
+2026-11-21T21:19:09.1916320Z    Compiling objc2-foundation v0.3.2
+2026-11-21T21:19:10.2997210Z    Compiling hybrid-array v0.4.15
+2026-11-21T21:19:12.8622890Z    Compiling objc2-quartz-core v0.3.2
+2026-11-21T21:19:13.2858220Z    Compiling simd-adler32 v0.3.10
+2026-11-21T21:19:13.4166640Z    Compiling objc2-app-kit v0.3.2
+2026-11-21T21:19:15.5078710Z    Compiling adler2 v2.0.1
+2026-11-21T21:19:15.6185880Z    Compiling heck v0.5.0
+2026-11-21T21:19:15.9964690Z    Compiling time-macros v0.2.32
+2026-11-21T21:19:17.6503960Z    Compiling rustversion v1.0.23
+2026-11-21T21:19:20.3187880Z    Compiling miniz_oxide v0.9.1
+2026-11-21T21:19:21.6607780Z    Compiling version_check v0.9.5
+2026-11-21T21:19:22.6426660Z    Compiling crossbeam-utils v0.8.23
+2026-11-21T21:19:22.8559200Z    Compiling raw-window-handle v0.6.2
+2026-11-21T21:19:23.7731110Z    Compiling cookie v0.18.2
+2026-11-21T21:19:23.9628850Z    Compiling flate2 v1.1.11
+2026-11-21T21:19:25.5001330Z    Compiling crypto-common v0.2.2
+2026-11-21T21:19:26.2550960Z    Compiling dpi v0.1.2
+2026-11-21T21:19:27.1863830Z    Compiling core-foundation-sys v0.8.7
+2026-11-21T21:19:27.4160470Z    Compiling core-foundation v0.10.1
+2026-11-21T21:19:33.1203110Z    Compiling block-buffer v0.12.1
+2026-11-21T21:19:33.6727580Z    Compiling miniz_oxide v0.8.9
+2026-11-21T21:19:34.0951840Z    Compiling tauri v2.12.6
+2026-11-21T21:19:34.4223790Z    Compiling fdeflate v0.3.7
+2026-11-21T21:19:34.7597300Z    Compiling tauri-plugin v2.7.3
+2026-11-21T21:19:35.2937950Z    Compiling foreign-types-macros v0.2.4
+2026-11-21T21:19:35.7997620Z    Compiling rustix v1.1.6
+2026-11-21T21:19:36.0814060Z    Compiling option-ext v0.2.0
+2026-11-21T21:19:36.1493460Z    Compiling foreign-types-shared v0.3.1
+2026-11-21T21:19:36.2172180Z    Compiling const-oid v0.10.3
+2026-11-21T21:19:36.3520300Z    Compiling digest v0.11.3
+2026-11-21T21:19:36.4954480Z    Compiling foreign-types v0.5.0
+2026-11-21T21:19:36.7675490Z    Compiling dirs-sys v0.5.0
+2026-11-21T21:19:38.0451050Z    Compiling png v0.18.1
+2026-11-21T21:19:38.7367630Z    Compiling crossbeam-channel v0.5.17
+2026-11-21T21:19:39.2184730Z    Compiling wry v0.57.2
+2026-11-21T21:19:42.0807210Z    Compiling core-graphics-types v0.2.0
+2026-11-21T21:19:42.2703700Z    Compiling objc2-web-kit v0.3.2
+2026-11-21T21:19:43.2651390Z    Compiling block-padding v0.4.2
+2026-11-21T21:19:43.3327170Z    Compiling dispatch2 v0.3.1
+2026-11-21T21:19:43.6152880Z    Compiling errno v0.3.15
+2026-11-21T21:19:43.7038170Z    Compiling cpufeatures v0.3.1
+2026-11-21T21:19:44.2419590Z    Compiling tauri-runtime v2.12.3
+2026-11-21T21:19:44.3791200Z    Compiling io-lifetimes v2.0.4
+2026-11-21T21:19:44.5356260Z    Compiling byteorder v1.5.0
+2026-11-21T21:19:44.6687790Z    Compiling io-lifetimes v3.0.1
+2026-11-21T21:19:44.7334750Z    Compiling rand_core v0.10.1
+2026-11-21T21:19:44.8392390Z    Compiling ico v0.6.0
+2026-11-21T21:19:44.9453980Z    Compiling sha2 v0.11.1
+2026-11-21T21:19:45.3554830Z    Compiling inout v0.2.6
+2026-11-21T21:19:47.1193230Z    Compiling core-graphics v0.25.0
+2026-11-21T21:19:47.2776900Z    Compiling dirs v7.0.0
+2026-11-21T21:19:47.3657200Z    Compiling tauri-plugin-fs v2.7.1
+2026-11-21T21:19:47.7536140Z    Compiling rustc_version v0.4.1
+2026-11-21T21:19:47.9275960Z    Compiling getrandom v0.3.4
+2026-11-21T21:19:47.9530460Z    Compiling muda v0.20.0
+2026-11-21T21:19:48.0694470Z    Compiling once_cell v1.21.4
+2026-11-21T21:19:48.1255790Z    Compiling io-extras v0.19.0
+2026-11-21T21:19:48.2593730Z    Compiling tauri-runtime-wry v2.12.4
+2026-11-21T21:19:48.4743320Z    Compiling embed-resource v3.0.12
+2026-11-21T21:19:48.4872360Z    Compiling tao v0.37.2
+2026-11-21T21:19:52.0893900Z    Compiling cipher v0.5.2
+2026-11-21T21:19:52.2431410Z    Compiling tauri-codegen v2.7.5
+2026-11-21T21:19:53.0552070Z    Compiling keyboard-types v0.8.3
+2026-11-21T21:19:53.3058880Z    Compiling num-traits v0.2.19
+2026-11-21T21:19:53.5379670Z    Compiling serialize-to-javascript-impl v0.1.2
+2026-11-21T21:19:53.8057490Z    Compiling pkg-config v0.3.34
+2026-11-21T21:19:54.0567290Z    Compiling pin-project-lite v0.2.17
+2026-11-21T21:19:54.1015580Z    Compiling vcpkg v0.2.15
+2026-11-21T21:19:54.1863400Z    Compiling cap-primitives v4.0.3
+2026-11-21T21:19:54.3348100Z    Compiling cfg_aliases v0.2.2
+2026-11-21T21:19:54.4493400Z    Compiling libsqlite3-sys v0.40.0
+2026-11-21T21:19:54.6384480Z    Compiling nix v0.32.0
+2026-11-21T21:19:54.8350010Z    Compiling tokio v1.54.1
+2026-11-21T21:19:54.8411040Z    Compiling serialize-to-javascript v0.1.2
+2026-11-21T21:19:59.0390470Z    Compiling tauri-macros v2.7.5
+2026-11-21T21:19:59.9799790Z    Compiling fs-set-times v0.20.3
+2026-11-21T21:20:00.9974940Z    Compiling tauri-winres v0.3.7
+2026-11-21T21:20:01.1742420Z    Compiling tauri-plugin-dialog v2.8.4
+2026-11-21T21:20:01.1975620Z    Compiling constant_time_eq v0.6.1
+2026-11-21T21:20:01.3789040Z    Compiling encoding_rs v0.8.44
+2026-11-21T21:20:01.5235750Z    Compiling window-vibrancy v0.8.1
+2026-11-21T21:20:01.5351660Z    Compiling cargo_toml v1.0.1
+2026-11-21T21:20:01.7652760Z    Compiling serde_repr v0.1.21
+2026-11-21T21:20:02.0147640Z    Compiling ipnet v2.12.2
+2026-11-21T21:20:02.9920820Z    Compiling maybe-owned v0.3.4
+2026-11-21T21:20:03.1162450Z    Compiling rfd v0.17.2
+2026-11-21T21:20:03.1350020Z    Compiling cap-std v4.0.3
+2026-11-21T21:20:03.3096720Z    Compiling ambient-authority v0.0.2
+2026-11-21T21:20:03.3408940Z    Compiling static_vcruntime v3.0.0
+2026-11-21T21:20:03.3816750Z    Compiling alloc-no-stdlib v2.0.4
+2026-11-21T21:20:03.3999910Z    Compiling embed_plist v1.2.2
+2026-11-21T21:20:03.4811880Z    Compiling mime v0.3.18
+2026-11-21T21:20:03.4816640Z    Compiling tinyvec v1.13.3
+2026-11-21T21:20:03.8013120Z    Compiling unicode-normalization v0.1.26
+2026-11-21T21:20:04.2351580Z    Compiling alloc-stdlib v0.2.4
+2026-11-21T21:20:04.3109860Z    Compiling tauri-build v2.7.5
+2026-11-21T21:20:05.6866100Z    Compiling chacha20 v0.10.2
+2026-11-21T21:20:05.8242640Z    Compiling zeroize_derive v1.5.0
+2026-11-21T21:20:06.1437580Z    Compiling byteorder-lite v0.1.0
+2026-11-21T21:20:06.2964380Z    Compiling color_quant v1.1.0
+2026-11-21T21:20:06.4942590Z    Compiling pxfm v0.1.30
+2026-11-21T21:20:13.6752540Z    Compiling quick-error v2.0.1
+2026-11-21T21:20:13.7470810Z    Compiling cap-fs-ext v4.0.3
+2026-11-21T21:20:13.9218810Z    Compiling multiversion_no_op v1.0.0
+2026-11-21T21:20:14.1308700Z    Compiling simdutf8 v0.1.5
+2026-11-21T21:20:14.3280230Z    Compiling cpubits v0.1.1
+2026-11-21T21:20:14.4117970Z    Compiling weezl v0.1.12
+2026-11-21T21:20:15.3252220Z    Compiling unicode-bidi v0.3.18
+2026-11-21T21:20:16.1641980Z    Compiling unicode-properties v0.1.5
+2026-11-21T21:20:16.3317230Z    Compiling zune-core v0.5.3
+2026-11-21T21:20:16.5915790Z    Compiling zune-jpeg v0.5.15
+2026-11-21T21:20:16.8982890Z    Compiling stringprep v0.1.5
+2026-11-21T21:20:17.8524870Z    Compiling gif v0.14.2
+2026-11-21T21:20:18.6032370Z    Compiling aes v0.9.4
+2026-11-21T21:20:19.1986550Z    Compiling image-webp v0.2.4
+2026-11-21T21:20:21.7587560Z    Compiling moxcms v0.8.1
+2026-11-21T21:20:24.5269870Z    Compiling zeroize v1.9.2
+2026-11-21T21:20:24.6601440Z    Compiling rand v0.10.4
+2026-11-21T21:20:26.7568460Z    Compiling shandong-poc-001b v0.2.1 (/Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri)
+2026-11-21T21:20:27.6589740Z    Compiling brotli-decompressor v5.0.3
+2026-11-21T21:20:28.4733160Z    Compiling md-5 v0.11.0
+2026-11-21T21:20:28.6420260Z    Compiling cbc v0.2.1
+2026-11-21T21:20:28.7263760Z    Compiling ecb v0.2.1
+2026-11-21T21:20:28.7943690Z    Compiling hashlink v0.12.2
+2026-11-21T21:20:29.0083310Z    Compiling nom v8.0.0
+2026-11-21T21:20:30.5858160Z    Compiling bytemuck v1.25.2
+2026-11-21T21:20:30.8579540Z    Compiling typed-path v0.13.0
+2026-11-21T21:20:30.8939030Z    Compiling fallible-iterator v0.3.0
+2026-11-21T21:20:31.0957320Z    Compiling fallible-streaming-iterator v0.1.9
+2026-11-21T21:20:31.1795540Z    Compiling weezl v0.2.1
+2026-11-21T21:20:31.9657120Z    Compiling rangemap v1.8.0
+2026-11-21T21:20:32.1540690Z    Compiling lopdf v0.47.0
+2026-11-21T21:20:32.5406100Z    Compiling zip v9.6.0
+2026-11-21T21:20:33.6822150Z    Compiling rusqlite v0.42.0
+2026-11-21T21:20:35.4380580Z    Compiling tempfile v3.27.0
+2026-11-21T21:20:35.8874280Z    Compiling image v0.25.10
+2026-11-21T21:20:37.3231030Z warning: shandong-poc-001b@0.2.1: native/macos_print.m:102:92: warning: unused parameter 'fault' [-Wunused-parameter]
+2026-11-21T21:20:37.3250330Z warning: shandong-poc-001b@0.2.1:   102 |                          uint64_t identifier, KPPrintCallback callback, void *context, int fault) {
+2026-11-21T21:20:37.3252020Z warning: shandong-poc-001b@0.2.1:       |                                                                                            ^
+2026-11-21T21:20:37.3253150Z warning: shandong-poc-001b@0.2.1: 1 warning generated.
+2026-11-21T21:20:38.0812000Z    Compiling fs2 v0.4.3
+2026-11-21T21:20:38.1994580Z    Compiling base64 v0.22.1
+2026-11-21T21:21:38.8370180Z     Finished `release` profile [optimized] target(s) in 2m 54s
+2026-11-21T21:21:38.8972310Z        Built application at: /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/knowpaper-preview
+2026-11-21T21:21:38.9257150Z     Bundling 知卷 KnowPaper（测试版）.app (/Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app)
+2026-11-21T21:21:38.9402770Z      Signing with identity "-"
+2026-11-21T21:21:38.9403370Z Signing with identity "-"
+2026-11-21T21:21:38.9404780Z Signing /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/MacOS/knowpaper-preview
+2026-11-21T21:21:38.9555620Z /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/MacOS/knowpaper-preview: replacing existing signature
+2026-11-21T21:21:39.0108660Z Signing with identity "-"
+2026-11-21T21:21:39.0110850Z Signing /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app
+2026-11-21T21:21:39.0203860Z /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app: replacing existing signature
+2026-11-21T21:21:39.0604080Z         Warn skipping app notarization, no APPLE_ID & APPLE_PASSWORD & APPLE_TEAM_ID or APPLE_API_KEY & APPLE_API_ISSUER & APPLE_API_KEY_PATH environment variables found
+2026-11-21T21:21:39.0810590Z     Bundling 知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg (/Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg)
+2026-11-21T21:21:39.0906350Z      Running bundle_dmg.sh
+2026-11-21T21:21:49.0648540Z     Finished 2 bundles at:
+2026-11-21T21:21:49.0662410Z         /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app (23.81 MiB)
+2026-11-21T21:21:49.0666620Z         /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg (9.03 MiB)
+2026-11-21T21:21:49.0668250Z
+2026-11-21T21:21:49.1448520Z ##[group]Run bash scripts/macos-package-check.sh 2>&1 | tee preview-artifacts/package-check.log
+2026-11-21T21:21:49.1449190Z [36;1mbash scripts/macos-package-check.sh 2>&1 | tee preview-artifacts/package-check.log[0m
+2026-11-21T21:21:49.1574790Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-21T21:21:49.1575100Z env:
+2026-11-21T21:21:49.1575340Z   CARGO_INCREMENTAL: 0
+2026-11-21T21:21:49.1575620Z   MACOSX_DEPLOYMENT_TARGET: 13.0
+2026-11-21T21:21:49.1575860Z   RUST_VERSION: 1.100.0
+2026-11-21T21:21:49.1576120Z ##[endgroup]
+2026-11-21T21:21:49.2223520Z src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/Info.plist: OK
+2026-11-21T21:21:49.2266640Z {
+2026-11-21T21:21:49.2316510Z   "CFBundleDevelopmentRegion" => "English"
+2026-11-21T21:21:49.2317440Z   "CFBundleDisplayName" => "知卷 KnowPaper（测试版）"
+2026-11-21T21:21:49.2318130Z   "CFBundleExecutable" => "knowpaper-preview"
+2026-11-21T21:21:49.2318760Z   "CFBundleIconFile" => "icon.icns"
+2026-11-21T21:21:49.2319240Z   "CFBundleIdentifier" => "org.shandong-study.knowpaper-preview"
+2026-11-21T21:21:49.2319820Z   "CFBundleInfoDictionaryVersion" => "6.0"
+2026-11-21T21:21:49.2320330Z   "CFBundleName" => "知卷 KnowPaper（测试版）"
+2026-11-21T21:21:49.2320840Z   "CFBundlePackageType" => "APPL"
+2026-11-21T21:21:49.2321210Z   "CFBundleShortVersionString" => "0.2.1"
+2026-11-21T21:21:49.2321680Z   "CFBundleVersion" => "0.2.1"
+2026-11-21T21:21:49.2322090Z   "CSResourcesFileMapped" => 1
+2026-11-21T21:21:49.2322380Z   "LSMinimumSystemVersion" => "13.0"
+2026-11-21T21:21:49.2322810Z   "LSRequiresCarbon" => 1
+2026-11-21T21:21:49.2323210Z   "NSHighResolutionCapable" => 1
+2026-11-21T21:21:49.2323660Z }
+2026-11-21T21:21:49.7520620Z src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/MacOS/knowpaper-preview: Mach-O 64-bit executable arm64
+2026-11-21T21:21:50.2339050Z src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/MacOS/knowpaper-preview:
+2026-11-21T21:21:50.2340110Z 	/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit (compatibility version 45.0.0, current version 2575.60.5)
+2026-11-21T21:21:50.2341020Z 	/System/Library/Frameworks/WebKit.framework/Versions/A/WebKit (compatibility version 1.0.0, current version 621.2.5)
+2026-11-21T21:21:50.2342080Z 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/ApplicationServices (compatibility version 1.0.0, current version 65.0.0)
+2026-11-21T21:21:50.2343100Z 	/System/Library/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)
+2026-11-21T21:21:50.2344070Z 	/System/Library/Frameworks/Carbon.framework/Versions/A/Carbon (compatibility version 2.0.0, current version 170.0.0)
+2026-11-21T21:21:50.2345570Z 	/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo (compatibility version 1.2.0, current version 1.5.0)
+2026-11-21T21:21:50.2346620Z 	/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 3502.1.255)
+2026-11-21T21:21:50.2347370Z 	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)
+2026-11-21T21:21:50.2348190Z 	/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore (compatibility version 1.2.0, current version 1.11.0)
+2026-11-21T21:21:50.2349150Z 	/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 3502.1.255)
+2026-11-21T21:21:50.2349950Z 	/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
+2026-11-21T21:21:50.2350730Z 	/System/Library/Frameworks/PDFKit.framework/Versions/A/PDFKit (compatibility version 1.0.0, current version 1332.5.2)
+2026-11-21T21:21:50.2351440Z 	/usr/lib/libiconv.2.dylib (compatibility version 7.0.0, current version 7.0.0)
+2026-11-21T21:21:50.2352250Z 	/System/Library/Frameworks/ColorSync.framework/Versions/A/ColorSync (compatibility version 1.0.0, current version 3777.4.1)
+2026-11-21T21:21:50.2353740Z 	/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices (compatibility version 1.0.0, current version 1226.0.0)
+2026-11-21T21:21:50.2381980Z src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/_CodeSignature/CodeResources
+2026-11-21T21:21:50.2382990Z src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/MacOS/knowpaper-preview
+2026-11-21T21:21:50.2398560Z src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/Resources/icon.icns
+2026-11-21T21:21:50.2399640Z src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/Info.plist
+2026-11-21T21:21:50.2752950Z src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app: valid on disk
+2026-11-21T21:21:50.2754610Z src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app: satisfies its Designated Requirement
+2026-11-21T21:21:50.2820930Z Executable=/Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/MacOS/knowpaper-preview
+2026-11-21T21:21:50.2821840Z Identifier=org.shandong-study.knowpaper-preview
+2026-11-21T21:21:50.2822360Z Format=app bundle with Mach-O thin (arm64)
+2026-11-21T21:21:50.2823010Z CodeDirectory v=20500 size=193509 flags=0x10002(adhoc,runtime) hashes=6040+3 location=embedded
+2026-11-21T21:21:50.2823520Z VersionPlatform=1
+2026-11-21T21:21:50.2823800Z VersionMin=851968
+2026-11-21T21:21:50.2824190Z VersionSDK=984320
+2026-11-21T21:21:50.2824510Z Hash type=sha256 size=32
+2026-11-21T21:21:50.2824980Z CandidateCDHash sha256=5c245f073cb88685f326cf1fced562c2dae1df4b
+2026-11-21T21:21:50.2825670Z CandidateCDHashFull sha256=5c245f073cb88685f326cf1fced562c2dae1df4b8e12ef52266f55c4ca11d371
+2026-11-21T21:21:50.2826550Z Hash choices=sha256
+2026-11-21T21:21:50.2827200Z CMSDigest=5c245f073cb88685f326cf1fced562c2dae1df4b8e12ef52266f55c4ca11d371
+2026-11-21T21:21:50.2827610Z CMSDigestType=2
+2026-11-21T21:21:50.2828060Z Executable Segment base=0
+2026-11-21T21:21:50.2828500Z Executable Segment limit=17973248
+2026-11-21T21:21:50.2828980Z Executable Segment flags=0x1
+2026-11-21T21:21:50.2829290Z Page size=4096
+2026-11-21T21:21:50.2829760Z CDHash=5c245f073cb88685f326cf1fced562c2dae1df4b
+2026-11-21T21:21:50.2830240Z Signature=adhoc
+2026-11-21T21:21:50.2830520Z Info.plist entries=14
+2026-11-21T21:21:50.2830900Z TeamIdentifier=not set
+2026-11-21T21:21:50.2831420Z Runtime Version=15.5.0
+2026-11-21T21:21:50.2831810Z Sealed Resources version=2 rules=13 files=1
+2026-11-21T21:21:50.2832180Z Internal requirements count=0 size=12
+2026-11-21T21:21:50.5325550Z src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app: rejected
+2026-11-21T21:21:50.5326420Z Gatekeeper assessment exit: 3
+2026-11-21T21:21:50.5714800Z Format Description: UDIF read-only compressed (zlib)
+2026-11-21T21:21:50.5715580Z Class Name: CUDIFDiskImage
+2026-11-21T21:21:50.5716040Z Checksum Type: CRC32
+2026-11-21T21:21:50.5716410Z Size Information:
+2026-11-21T21:21:50.5716800Z 	CUDIFEncoding-bytes-total: 9457449
+2026-11-21T21:21:50.5717150Z 	Total Empty Bytes: 25330176
+2026-11-21T21:21:50.5717410Z 	Sector Count: 100429
+2026-11-21T21:21:50.5717700Z 	Total Bytes: 51419648
+2026-11-21T21:21:50.5718150Z 	CUDIFEncoding-bytes-wasted: 0
+2026-11-21T21:21:50.5718460Z 	Total Non-Empty Bytes: 26089472
+2026-11-21T21:21:50.5718790Z 	Compressed Ratio: 0.36248920637412668
+2026-11-21T21:21:50.5719190Z 	CUDIFEncoding-bytes-in-use: 9457449
+2026-11-21T21:21:50.5719560Z 	Compressed Bytes: 9457449
+2026-11-21T21:21:50.5719980Z Checksum Value: $003396F6
+2026-11-21T21:21:50.5720230Z Segments:
+2026-11-21T21:21:50.5721260Z 	0: /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg
+2026-11-21T21:21:50.5722000Z Partition Information:
+2026-11-21T21:21:50.5722330Z 	3:
+2026-11-21T21:21:50.5722880Z 		Name: disk image (Apple_HFS : 4)
+2026-11-21T21:21:50.5723240Z 		Partition Number: 3
+2026-11-21T21:21:50.5723510Z 		Checksum Type: CRC32
+2026-11-21T21:21:50.5723770Z 		Checksum Value: $C55F4557
+2026-11-21T21:21:50.5724020Z 	4:
+2026-11-21T21:21:50.5724240Z 		Name:  (Apple_Free : 5)
+2026-11-21T21:21:50.5724570Z 		Partition Number: 4
+2026-11-21T21:21:50.5724830Z 		Checksum Type: CRC32
+2026-11-21T21:21:50.5725060Z 		Checksum Value: $00000000
+2026-11-21T21:21:50.5725360Z 	0:
+2026-11-21T21:21:50.5725720Z 		Name: GPT Header (Primary GPT Header : 1)
+2026-11-21T21:21:50.5726040Z 		Partition Number: 0
+2026-11-21T21:21:50.5726350Z 		Checksum Type: CRC32
+2026-11-21T21:21:50.5726690Z 		Checksum Value: $C9225938
+2026-11-21T21:21:50.5726880Z 	5:
+2026-11-21T21:21:50.5727170Z 		Name: GPT Partition Data (Backup GPT Table : 6)
+2026-11-21T21:21:50.5727540Z 		Partition Number: 5
+2026-11-21T21:21:50.5727830Z 		Checksum Type: CRC32
+2026-11-21T21:21:50.5728130Z 		Checksum Value: $3DCE54AD
+2026-11-21T21:21:50.5728410Z 	1:
+2026-11-21T21:21:50.5728710Z 		Name: GPT Partition Data (Primary GPT Table : 2)
+2026-11-21T21:21:50.5729020Z 		Partition Number: 1
+2026-11-21T21:21:50.5729250Z 		Checksum Type: CRC32
+2026-11-21T21:21:50.5729460Z 		Checksum Value: $3DCE54AD
+2026-11-21T21:21:50.5729690Z 	6:
+2026-11-21T21:21:50.5729900Z 		Name: GPT Header (Backup GPT Header : 7)
+2026-11-21T21:21:50.5730140Z 		Partition Number: 6
+2026-11-21T21:21:50.5730330Z 		Checksum Type: CRC32
+2026-11-21T21:21:50.5730600Z 		Checksum Value: $987928EF
+2026-11-21T21:21:50.5730770Z 	-1:
+2026-11-21T21:21:50.5730990Z 		Name: Protective Master Boot Record (MBR : 0)
+2026-11-21T21:21:50.5731220Z 		Partition Number: -1
+2026-11-21T21:21:50.5731420Z 		Checksum Type: CRC32
+2026-11-21T21:21:50.5731610Z 		Checksum Value: $2C807DF0
+2026-11-21T21:21:50.5731800Z 	2:
+2026-11-21T21:21:50.5731940Z 		Name:  (Apple_Free : 3)
+2026-11-21T21:21:50.5732120Z 		Partition Number: 2
+2026-11-21T21:21:50.5732300Z 		Checksum Type: CRC32
+2026-11-21T21:21:50.5732490Z 		Checksum Value: $00000000
+2026-11-21T21:21:50.5732720Z Format: UDZO
+2026-11-21T21:21:50.5732920Z Backing Store Information:
+2026-11-21T21:21:50.5733880Z 	URL: file:///Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/%E7%9F%A5%E5%8D%B7%20KnowPaper%EF%BC%88%E6%B5%8B%E8%AF%95%E7%89%88%EF%BC%89_0.2.1_aarch64.dmg
+2026-11-21T21:21:50.5734800Z 	Name: 知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg
+2026-11-21T21:21:50.5735060Z 	Class Name: CUDIFEncoding
+2026-11-21T21:21:50.5735260Z 	Backing Store Information:
+2026-11-21T21:21:50.5736150Z 		URL: file:///Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/%E7%9F%A5%E5%8D%B7%20KnowPaper%EF%BC%88%E6%B5%8B%E8%AF%95%E7%89%88%EF%BC%89_0.2.1_aarch64.dmg
+2026-11-21T21:21:50.5737270Z 		Name: 知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg
+2026-11-21T21:21:50.5737600Z 		Class Name: CBSDBackingStore
+2026-11-21T21:21:50.5737850Z partitions:
+2026-11-21T21:21:50.5738050Z 	partition-scheme: GUID
+2026-11-21T21:21:50.5738250Z 	block-size: 512
+2026-11-21T21:21:50.5738410Z 	partitions:
+2026-11-21T21:21:50.5738580Z 		0:
+2026-11-21T21:21:50.5738800Z 			partition-name: Protective Master Boot Record
+2026-11-21T21:21:50.5739040Z 			partition-start: 0
+2026-11-21T21:21:50.5739240Z 			partition-synthesized: true
+2026-11-21T21:21:50.5739460Z 			partition-length: 1
+2026-11-21T21:21:50.5739640Z 			partition-hint: MBR
+2026-11-21T21:21:50.5739790Z 		1:
+2026-11-21T21:21:50.5740050Z 			partition-name: GPT Header
+2026-11-21T21:21:50.5740350Z 			partition-start: 1
+2026-11-21T21:21:50.5740600Z 			partition-synthesized: true
+2026-11-21T21:21:50.5740860Z 			partition-length: 1
+2026-11-21T21:21:50.5741120Z 			partition-hint: Primary GPT Header
+2026-11-21T21:21:50.5741350Z 		2:
+2026-11-21T21:21:50.5741560Z 			partition-name: GPT Partition Data
+2026-11-21T21:21:50.5741820Z 			partition-start: 2
+2026-11-21T21:21:50.5742040Z 			partition-synthesized: true
+2026-11-21T21:21:50.5742260Z 			partition-length: 32
+2026-11-21T21:21:50.5742720Z 			partition-hint: Primary GPT Table
+2026-11-21T21:21:50.5742960Z 		3:
+2026-11-21T21:21:50.5743120Z 			partition-name:
+2026-11-21T21:21:50.5743310Z 			partition-start: 34
+2026-11-21T21:21:50.5743540Z 			partition-synthesized: true
+2026-11-21T21:21:50.5743760Z 			partition-length: 6
+2026-11-21T21:21:50.5743970Z 			partition-hint: Apple_Free
+2026-11-21T21:21:50.5744200Z 		4:
+2026-11-21T21:21:50.5744500Z 			partition-UUID: 7D13F45E-1ACB-45EE-AB7A-2FBABBAFDFFB
+2026-11-21T21:21:50.5744790Z 			partition-name: disk image
+2026-11-21T21:21:50.5745130Z 			partition-hint-UUID: 48465300-0000-11AA-AA11-00306543ECAC
+2026-11-21T21:21:50.5745500Z 			partition-start: 40
+2026-11-21T21:21:50.5745690Z 			partition-number: 1
+2026-11-21T21:21:50.5745930Z 			partition-length: 100352
+2026-11-21T21:21:50.5746200Z 			partition-hint: Apple_HFS
+2026-11-21T21:21:50.5746410Z 			partition-filesystems:
+2026-11-21T21:21:50.5746680Z 				HFS+:
+2026-11-21T21:21:50.5746920Z 		5:
+2026-11-21T21:21:50.5747100Z 			partition-name:
+2026-11-21T21:21:50.5747360Z 			partition-start: 100392
+2026-11-21T21:21:50.5747650Z 			partition-synthesized: true
+2026-11-21T21:21:50.5748010Z 			partition-length: 4
+2026-11-21T21:21:50.5748280Z 			partition-hint: Apple_Free
+2026-11-21T21:21:50.5748880Z 		6:
+2026-11-21T21:21:50.5749150Z 			partition-name: GPT Partition Data
+2026-11-21T21:21:50.5749400Z 			partition-start: 100396
+2026-11-21T21:21:50.5749700Z 			partition-synthesized: true
+2026-11-21T21:21:50.5749920Z 			partition-length: 32
+2026-11-21T21:21:50.5750190Z 			partition-hint: Backup GPT Table
+2026-11-21T21:21:50.5750440Z 		7:
+2026-11-21T21:21:50.5750620Z 			partition-name: GPT Header
+2026-11-21T21:21:50.5750890Z 			partition-start: 100428
+2026-11-21T21:21:50.5751140Z 			partition-synthesized: true
+2026-11-21T21:21:50.5751370Z 			partition-length: 1
+2026-11-21T21:21:50.5751620Z 			partition-hint: Backup GPT Header
+2026-11-21T21:21:50.5751890Z 	burnable: false
+2026-11-21T21:21:50.5752110Z udif-ordered-chunks: true
+2026-11-21T21:21:50.5752310Z Properties:
+2026-11-21T21:21:50.5752520Z 	Encrypted: false
+2026-11-21T21:21:50.5752690Z 	Kernel Compatible: true
+2026-11-21T21:21:50.5752930Z 	Checksummed: true
+2026-11-21T21:21:50.5753170Z 	Software License Agreement: false
+2026-11-21T21:21:50.5753420Z 	Partitioned: false
+2026-11-21T21:21:50.5753640Z 	Compressed: true
+2026-11-21T21:21:50.5753930Z Resize limits (per hdiutil resize -limits):
+2026-11-21T21:21:50.5754270Z 56016	100352	100352
+2026-11-21T21:21:50.5848220Z Checksumming Protective Master Boot Record (MBR : 0)…
+2026-11-21T21:21:50.5855200Z Protective Master Boot Record (MBR :: verified   CRC32 $2C807DF0
+2026-11-21T21:21:50.5855680Z Checksumming GPT Header (Primary GPT Header : 1)…
+2026-11-21T21:21:51.0781380Z  GPT Header (Primary GPT Header : 1): verified   CRC32 $C9225938
+2026-11-21T21:21:51.0782180Z Checksumming GPT Partition Data (Primary GPT Table : 2)…
+2026-11-21T21:21:51.0782620Z GPT Partition Data (Primary GPT Tabl: verified   CRC32 $3DCE54AD
+2026-11-21T21:21:51.0783030Z Checksumming  (Apple_Free : 3)…
+2026-11-21T21:21:52.0917590Z                     (Apple_Free : 3): verified   CRC32 $00000000
+2026-11-21T21:21:52.0918540Z Checksumming disk image (Apple_HFS : 4)…
+2026-11-21T21:21:52.1235620Z           disk image (Apple_HFS : 4): verified   CRC32 $C55F4557
+2026-11-21T21:21:52.1236500Z Checksumming  (Apple_Free : 5)…
+2026-11-21T21:21:53.0162770Z                     (Apple_Free : 5): verified   CRC32 $00000000
+2026-11-21T21:21:53.0164260Z Checksumming GPT Partition Data (Backup GPT Table : 6)…
+2026-11-21T21:21:53.0165410Z GPT Partition Data (Backup GPT Table: verified   CRC32 $3DCE54AD
+2026-11-21T21:21:53.0165970Z Checksumming GPT Header (Backup GPT Header : 7)…
+2026-11-21T21:21:54.0295740Z   GPT Header (Backup GPT Header : 7): verified   CRC32 $987928EF
+2026-11-21T21:21:54.0302170Z verified   CRC32 $003396F6
+2026-11-21T21:21:54.0303110Z hdiutil: verify: checksum of "src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg" is VALID
+2026-11-21T21:21:54.0761260Z expected   CRC32 $003396F6
+2026-11-21T21:21:54.2317440Z /dev/disk5          	GUID_partition_scheme
+2026-11-21T21:21:54.2420490Z /dev/disk5s1        	Apple_HFS                      	/private/var/folders/9d/l02zfgrs7c16twd3wbpdmhkc0000gn/T/tmp.nQRN8mfkTf
+2026-11-21T21:21:54.2816380Z total 40
+2026-11-21T21:21:54.2817080Z drwxr-xr-x    3 runner  staff    102 Nov 21 21:21 知卷 KnowPaper（测试版）.app
+2026-11-21T21:21:54.2817600Z drwxr-xr-x@   5 runner  staff    238 Nov 21 21:21 .
+2026-11-21T21:21:54.2818040Z drwx------@ 115 runner  staff   3680 Nov 21 21:21 ..
+2026-11-21T21:21:54.2818500Z -rw-r--r--@   1 runner  staff  15893 Nov 21 21:21 .VolumeIcon.icns
+2026-11-21T21:21:54.2819150Z lrwxr-xr-x    1 runner  staff     13 Nov 21 21:21 Applications -> /Applications
+2026-11-21T21:21:54.3764440Z "disk5" ejected.
+2026-11-21T21:21:55.2053590Z 4cbc7cbb4e5a7e98285bf3c98dec6a4d49928da798767e550d9c669bdee35e2b  知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg
+2026-11-21T21:21:55.2054440Z 9faf4fe356e9b2f004cfaece252742f363003981d42509e8894d44eecaf54ef6  KnowPaper-Preview-arm64.app.zip
+2026-11-21T21:21:55.2960320Z ##[group]Run command -v pdfinfo || brew install poppler
+2026-11-21T21:21:55.2960750Z [36;1mcommand -v pdfinfo || brew install poppler[0m
+2026-11-21T21:21:55.2961140Z [36;1mnpm run tauri -- build --no-bundle --target aarch64-apple-darwin \[0m
+2026-11-21T21:21:55.2961550Z [36;1m  --config '{"identifier":"org.shandong-study.dev012-74d09001"}' \[0m
+2026-11-21T21:21:55.2962020Z [36;1m  --features dev012-test-hooks -- --locked 2>&1 | tee preview-artifacts/smoke-build.log[0m
+2026-11-21T21:21:55.2962570Z [36;1mpython3 tests/macos-app-check.py preview-artifacts/app-smoke \[0m
+2026-11-21T21:21:55.2962940Z [36;1m  preview-artifacts/backup/windows.knowbackup \[0m
+2026-11-21T21:21:55.2963330Z [36;1m  src-tauri/target/aarch64-apple-darwin/release/knowpaper-preview \[0m
+2026-11-21T21:21:55.2964140Z [36;1m  2>&1 | tee preview-artifacts/app-smoke-check.log[0m
+2026-11-21T21:21:55.2964600Z [36;1mswift tests/macos-pdf-search.swift preview-artifacts/app-smoke/paper-{20,30,50}.pdf \[0m
+2026-11-21T21:21:55.2965040Z [36;1m  | tee preview-artifacts/app-smoke/pdfkit-search.json[0m
+2026-11-21T21:21:55.3004880Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-21T21:21:55.3005180Z env:
+2026-11-21T21:21:55.3005350Z   CARGO_INCREMENTAL: 0
+2026-11-21T21:21:55.3005530Z   MACOSX_DEPLOYMENT_TARGET: 13.0
+2026-11-21T21:21:55.3005740Z   RUST_VERSION: 1.100.0
+2026-11-21T21:21:55.3005900Z ##[endgroup]
+2026-11-21T21:21:56.9043230Z [32m==>[0m [1mDownloading bottle manifests[0m
+2026-11-21T21:21:56.9104030Z ✔︎ Bottle Manifest poppler (26.11.0)
+2026-11-21T21:21:57.1552560Z [34m==>[0m [1mWould install 1 formula:[0m
+2026-11-21T21:21:57.1554930Z poppler 26.11.0
+2026-11-21T21:21:57.1559070Z [34m==>[0m [1mWould install 5 dependencies for poppler:[0m
+2026-11-21T21:21:57.1559980Z gpgme     2.2.0
+2026-11-21T21:21:57.1560450Z gpgmepp   2.2.0
+2026-11-21T21:21:57.1560950Z nspr      4.40
+2026-11-21T21:21:57.1561420Z nss       3.133
+2026-11-21T21:21:57.1562000Z openjpeg  2.5.4_1
+2026-11-21T21:21:57.4783980Z [32m==>[0m [1mFetching downloads for: [32mpoppler[39m[0m
+2026-11-21T21:21:57.8080960Z ✔︎ Bottle Manifest gpgme (2.2.0)
+2026-11-21T21:21:57.8181050Z ✔︎ Bottle Manifest gpgmepp (2.2.0)
+2026-11-21T21:21:57.8283700Z ✔︎ Bottle Manifest nspr (4.40)
+2026-11-21T21:21:57.8383620Z ✔︎ Bottle Manifest nss (3.133)
+2026-11-21T21:21:57.9885360Z ✔︎ Bottle Manifest openjpeg (2.5.4_1)
+2026-11-21T21:22:00.2205480Z ✔︎ Bottle gpgme (2.2.0)
+2026-11-21T21:22:00.7414650Z ✔︎ Bottle gpgmepp (2.2.0)
+2026-11-21T21:22:00.7617270Z ✔︎ Bottle nspr (4.40)
+2026-11-21T21:22:00.7883230Z ✔︎ Bottle poppler (26.11.0)
+2026-11-21T21:22:00.9079730Z ✔︎ Bottle nss (3.133)
+2026-11-21T21:22:00.9174660Z ✔︎ Bottle openjpeg (2.5.4_1)
+2026-11-21T21:22:01.0531160Z [32m==>[0m [1mInstalling dependencies for poppler:[0m [32mgpgme[39m, [32mgpgmepp[39m, [32mnspr[39m, [32mnss[39m and [32mopenjpeg[39m[0m
+2026-11-21T21:22:01.0532160Z [32m==>[0m [1mInstalling poppler dependency: [32mgpgme[39m (2.2.0)[0m
+2026-11-21T21:22:01.1410750Z [34m==>[0m [1mPouring gpgme--2.2.0.arm64_sequoia.bottle.tar.gz[0m
+2026-11-21T21:22:02.1760010Z 🍺  /opt/homebrew/Cellar/gpgme/2.2.0: 29 files, 2.7MB
+2026-11-21T21:22:02.1761440Z [32m==>[0m [1mInstalling poppler dependency: [32mgpgmepp[39m (2.2.0)[0m
+2026-11-21T21:22:02.2846180Z [34m==>[0m [1mPouring gpgmepp--2.2.0.arm64_sequoia.bottle.tar.gz[0m
+2026-11-21T21:22:03.3008620Z 🍺  /opt/homebrew/Cellar/gpgmepp/2.2.0: 73 files, 847KB
+2026-11-21T21:22:03.3010380Z [32m==>[0m [1mInstalling poppler dependency: [32mnspr[39m (4.40)[0m
+2026-11-21T21:22:03.3033840Z [34m==>[0m [1mPouring nspr--4.40.arm64_sequoia.bottle.tar.gz[0m
+2026-11-21T21:22:04.3242830Z 🍺  /opt/homebrew/Cellar/nspr/4.40: 79 files, 1.2MB
+2026-11-21T21:22:04.3245010Z [32m==>[0m [1mInstalling poppler dependency: [32mnss[39m (3.133)[0m
+2026-11-21T21:22:04.3322660Z [34m==>[0m [1mPouring nss--3.133.arm64_sequoia.bottle.tar.gz[0m
+2026-11-21T21:22:05.5876240Z 🍺  /opt/homebrew/Cellar/nss/3.133: 210 files, 19.1MB
+2026-11-21T21:22:05.5879240Z [32m==>[0m [1mInstalling poppler dependency: [32mopenjpeg[39m (2.5.4_1)[0m
+2026-11-21T21:22:05.6463270Z [34m==>[0m [1mPouring openjpeg--2.5.4_1.arm64_sequoia.bottle.tar.gz[0m
+2026-11-21T21:22:06.6960790Z 🍺  /opt/homebrew/Cellar/openjpeg/2.5.4_1: 518 files, 14.9MB
+2026-11-21T21:22:06.6963230Z [32m==>[0m [1mInstalling [32mpoppler[39m[0m
+2026-11-21T21:22:06.6965630Z [34m==>[0m [1mPouring poppler--26.11.0.arm64_sequoia.bottle.tar.gz[0m
+2026-11-21T21:22:07.8173980Z 🍺  /opt/homebrew/Cellar/poppler/26.11.0: 447 files, 34.5MB
+2026-11-21T21:22:07.9869870Z
+2026-11-21T21:22:07.9870250Z > knowpaper-preview@0.2.1 tauri
+2026-11-21T21:22:07.9871240Z > tauri build --no-bundle --target aarch64-apple-darwin --config {"identifier":"org.shandong-study.dev012-74d09001"} --features dev012-test-hooks -- --locked
+2026-11-21T21:22:07.9871810Z
+2026-11-21T21:22:08.0947750Z         Info Looking up installed tauri packages to check mismatched versions...
+2026-11-21T21:22:08.5280010Z      Running beforeBuildCommand `npm run build`
+2026-11-21T21:22:08.6434090Z
+2026-11-21T21:22:08.6434520Z > knowpaper-preview@0.2.1 build
+2026-11-21T21:22:08.6435050Z > npm run typecheck && vite build
+2026-11-21T21:22:08.6435270Z
+2026-11-21T21:22:08.7424650Z
+2026-11-21T21:22:08.7425090Z > knowpaper-preview@0.2.1 typecheck
+2026-11-21T21:22:08.7425430Z > tsc --noEmit
+2026-11-21T21:22:08.7425600Z
+2026-11-21T21:22:11.6240470Z [36mvite v7.3.8 [32mbuilding client environment for production...[36m[39m
+2026-11-21T21:22:11.6560270Z transforming...
+2026-11-21T21:22:11.8982850Z [33mnode_modules/@tiptap/react/dist/index.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tiptap/react/dist/index.js" was ignored.[39m
+2026-11-21T21:22:12.4203600Z [33mnode_modules/zod/v4/core/util.js (400:0): A comment
+2026-11-21T21:22:12.4203920Z
+2026-11-21T21:22:12.4204840Z "// Wrapped in a `@__PURE__` IIFE: esbuild never tree-shakes a top-level initializer that contains a member access on `Number`, so the bare object literal survived into every bundle."
+2026-11-21T21:22:12.4205470Z
+2026-11-21T21:22:12.4206400Z in "node_modules/zod/v4/core/util.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.[39m
+2026-11-21T21:22:12.4209110Z [33mnode_modules/zod/v4/core/regexes.js (74:0): A comment
+2026-11-21T21:22:12.4209500Z
+2026-11-21T21:22:12.4209950Z "/** Anchors a pattern source. The interpolation lives here rather than at the call site because
+2026-11-21T21:22:12.4210690Z  * esbuild will not drop a `@__PURE__` call whose own argument interpolates a variable, but it
+2026-11-21T21:22:12.4211390Z  * will drop `anchor(dateSource)`. Keeping it inline pinned `date` into every bundle. */"
+2026-11-21T21:22:12.4211750Z
+2026-11-21T21:22:12.4212600Z in "node_modules/zod/v4/core/regexes.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.[39m
+2026-11-21T21:22:13.6635760Z [32m✓[39m 241 modules transformed.
+2026-11-21T21:22:13.9634460Z rendering chunks...
+2026-11-21T21:22:14.1136120Z computing gzip size...
+2026-11-21T21:22:14.1452770Z [2mdist/[22m[32mindex.html                                       [39m[1m[2m    0.38 kB[22m[1m[22m[2m │ gzip:   0.31 kB[22m
+2026-11-21T21:22:14.1454010Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size3-Regular-CTq5MqoE.woff         [39m[1m[2m    4.42 kB[22m[1m[22m
+2026-11-21T21:22:14.1455180Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size4-Regular-Dl5lxZxV.woff2        [39m[1m[2m    4.93 kB[22m[1m[22m
+2026-11-21T21:22:14.1456120Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size2-Regular-Dy4dx90m.woff2        [39m[1m[2m    5.21 kB[22m[1m[22m
+2026-11-21T21:22:14.1457160Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size1-Regular-mCD8mA8B.woff2        [39m[1m[2m    5.47 kB[22m[1m[22m
+2026-11-21T21:22:14.1458500Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size4-Regular-BF-4gkZK.woff         [39m[1m[2m    5.98 kB[22m[1m[22m
+2026-11-21T21:22:14.1459450Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size2-Regular-oD1tc_U0.woff         [39m[1m[2m    6.19 kB[22m[1m[22m
+2026-11-21T21:22:14.1460580Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size1-Regular-C195tn64.woff         [39m[1m[2m    6.50 kB[22m[1m[22m
+2026-11-21T21:22:14.1462220Z [2mdist/[22m[2massets/[22m[32mKaTeX_Caligraphic-Regular-Di6jR-x-.woff2  [39m[1m[2m    6.91 kB[22m[1m[22m
+2026-11-21T21:22:14.1463280Z [2mdist/[22m[2massets/[22m[32mKaTeX_Caligraphic-Bold-Dq_IR9rO.woff2     [39m[1m[2m    6.91 kB[22m[1m[22m
+2026-11-21T21:22:14.1464270Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size3-Regular-DgpXs0kz.ttf          [39m[1m[2m    7.59 kB[22m[1m[22m
+2026-11-21T21:22:14.1465210Z [2mdist/[22m[2massets/[22m[32mKaTeX_Caligraphic-Regular-CTRA-rTL.woff   [39m[1m[2m    7.66 kB[22m[1m[22m
+2026-11-21T21:22:14.1466230Z [2mdist/[22m[2massets/[22m[32mKaTeX_Caligraphic-Bold-BEiXGLvX.woff      [39m[1m[2m    7.72 kB[22m[1m[22m
+2026-11-21T21:22:14.1467220Z [2mdist/[22m[2massets/[22m[32mKaTeX_Script-Regular-D3wIWfF6.woff2       [39m[1m[2m    9.64 kB[22m[1m[22m
+2026-11-21T21:22:14.1468260Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Regular-DDBCnlJ7.woff2    [39m[1m[2m   10.34 kB[22m[1m[22m
+2026-11-21T21:22:14.1469160Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size4-Regular-DWFBv043.ttf          [39m[1m[2m   10.36 kB[22m[1m[22m
+2026-11-21T21:22:14.1470380Z [2mdist/[22m[2massets/[22m[32mKaTeX_Script-Regular-D5yQViql.woff        [39m[1m[2m   10.59 kB[22m[1m[22m
+2026-11-21T21:22:14.1471340Z [2mdist/[22m[2massets/[22m[32mKaTeX_Fraktur-Regular-CTYiF6lA.woff2      [39m[1m[2m   11.32 kB[22m[1m[22m
+2026-11-21T21:22:14.1474160Z [2mdist/[22m[2massets/[22m[32mKaTeX_Fraktur-Bold-CL6g_b3V.woff2         [39m[1m[2m   11.35 kB[22m[1m[22m
+2026-11-21T21:22:14.1475070Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size2-Regular-B7gKUWhC.ttf          [39m[1m[2m   11.51 kB[22m[1m[22m
+2026-11-21T21:22:14.1476040Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Italic-C3H0VqGB.woff2     [39m[1m[2m   12.03 kB[22m[1m[22m
+2026-11-21T21:22:14.1476970Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Bold-D1sUS0GD.woff2       [39m[1m[2m   12.22 kB[22m[1m[22m
+2026-11-21T21:22:14.1477930Z [2mdist/[22m[2massets/[22m[32mKaTeX_Size1-Regular-Dbsnue_I.ttf          [39m[1m[2m   12.23 kB[22m[1m[22m
+2026-11-21T21:22:14.1478800Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Regular-CS6fqUqJ.woff     [39m[1m[2m   12.32 kB[22m[1m[22m
+2026-11-21T21:22:14.1479830Z [2mdist/[22m[2massets/[22m[32mKaTeX_Caligraphic-Regular-wX97UBjC.ttf    [39m[1m[2m   12.34 kB[22m[1m[22m
+2026-11-21T21:22:14.1480780Z [2mdist/[22m[2massets/[22m[32mKaTeX_Caligraphic-Bold-ATXxdsX0.ttf       [39m[1m[2m   12.37 kB[22m[1m[22m
+2026-11-21T21:22:14.1481790Z [2mdist/[22m[2massets/[22m[32mKaTeX_Fraktur-Regular-Dxdc4cR9.woff       [39m[1m[2m   13.21 kB[22m[1m[22m
+2026-11-21T21:22:14.1482680Z [2mdist/[22m[2massets/[22m[32mKaTeX_Fraktur-Bold-BsDP51OF.woff          [39m[1m[2m   13.30 kB[22m[1m[22m
+2026-11-21T21:22:14.1483630Z [2mdist/[22m[2massets/[22m[32mKaTeX_Typewriter-Regular-CO6r4hn1.woff2   [39m[1m[2m   13.57 kB[22m[1m[22m
+2026-11-21T21:22:14.1484580Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Italic-DN2j7dab.woff      [39m[1m[2m   14.11 kB[22m[1m[22m
+2026-11-21T21:22:14.1485510Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Bold-DbIhKOiC.woff        [39m[1m[2m   14.41 kB[22m[1m[22m
+2026-11-21T21:22:14.1486400Z [2mdist/[22m[2massets/[22m[32mKaTeX_Typewriter-Regular-C0xS9mPB.woff    [39m[1m[2m   16.03 kB[22m[1m[22m
+2026-11-21T21:22:14.1487400Z [2mdist/[22m[2massets/[22m[32mKaTeX_Math-BoldItalic-CZnvNsCZ.woff2      [39m[1m[2m   16.40 kB[22m[1m[22m
+2026-11-21T21:22:14.1488390Z [2mdist/[22m[2massets/[22m[32mKaTeX_Math-Italic-t53AETM-.woff2          [39m[1m[2m   16.44 kB[22m[1m[22m
+2026-11-21T21:22:14.1489760Z [2mdist/[22m[2massets/[22m[32mKaTeX_Script-Regular-C5JkGWo-.ttf         [39m[1m[2m   16.65 kB[22m[1m[22m
+2026-11-21T21:22:14.1490760Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-BoldItalic-DxDJ3AOS.woff2      [39m[1m[2m   16.78 kB[22m[1m[22m
+2026-11-21T21:22:14.1491720Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Italic-NWA7e6Wa.woff2          [39m[1m[2m   16.99 kB[22m[1m[22m
+2026-11-21T21:22:14.1492740Z [2mdist/[22m[2massets/[22m[32mKaTeX_Math-BoldItalic-iY-2wyZ7.woff       [39m[1m[2m   18.67 kB[22m[1m[22m
+2026-11-21T21:22:14.1493740Z [2mdist/[22m[2massets/[22m[32mKaTeX_Math-Italic-DA0__PXp.woff           [39m[1m[2m   18.75 kB[22m[1m[22m
+2026-11-21T21:22:14.1494700Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-BoldItalic-SpSLRI95.woff       [39m[1m[2m   19.41 kB[22m[1m[22m
+2026-11-21T21:22:14.1495650Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Regular-BNo7hRIc.ttf      [39m[1m[2m   19.44 kB[22m[1m[22m
+2026-11-21T21:22:14.1496660Z [2mdist/[22m[2massets/[22m[32mKaTeX_Fraktur-Regular-CB_wures.ttf        [39m[1m[2m   19.57 kB[22m[1m[22m
+2026-11-21T21:22:14.1497650Z [2mdist/[22m[2massets/[22m[32mKaTeX_Fraktur-Bold-BdnERNNW.ttf           [39m[1m[2m   19.58 kB[22m[1m[22m
+2026-11-21T21:22:14.1498590Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Italic-BMLOBm91.woff           [39m[1m[2m   19.68 kB[22m[1m[22m
+2026-11-21T21:22:14.1499500Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Italic-YYjJ1zSn.ttf       [39m[1m[2m   22.36 kB[22m[1m[22m
+2026-11-21T21:22:14.1500460Z [2mdist/[22m[2massets/[22m[32mKaTeX_SansSerif-Bold-CFMepnvq.ttf         [39m[1m[2m   24.50 kB[22m[1m[22m
+2026-11-21T21:22:14.1501560Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Bold-Cx986IdX.woff2            [39m[1m[2m   25.32 kB[22m[1m[22m
+2026-11-21T21:22:14.1502600Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Regular-B22Nviop.woff2         [39m[1m[2m   26.27 kB[22m[1m[22m
+2026-11-21T21:22:14.1503510Z [2mdist/[22m[2massets/[22m[32mKaTeX_Typewriter-Regular-D3Ib7_Hf.ttf     [39m[1m[2m   27.56 kB[22m[1m[22m
+2026-11-21T21:22:14.1504480Z [2mdist/[22m[2massets/[22m[32mKaTeX_AMS-Regular-BQhdFMY1.woff2          [39m[1m[2m   28.08 kB[22m[1m[22m
+2026-11-21T21:22:14.1505460Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Bold-Jm3AIy58.woff             [39m[1m[2m   29.91 kB[22m[1m[22m
+2026-11-21T21:22:14.1506410Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Regular-Dr94JaBh.woff          [39m[1m[2m   30.77 kB[22m[1m[22m
+2026-11-21T21:22:14.1507400Z [2mdist/[22m[2massets/[22m[32mKaTeX_Math-BoldItalic-B3XSjfu4.ttf        [39m[1m[2m   31.20 kB[22m[1m[22m
+2026-11-21T21:22:14.1508290Z [2mdist/[22m[2massets/[22m[32mKaTeX_Math-Italic-flOr_0UB.ttf            [39m[1m[2m   31.31 kB[22m[1m[22m
+2026-11-21T21:22:14.1509220Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-BoldItalic-DzxPMmG6.ttf        [39m[1m[2m   32.97 kB[22m[1m[22m
+2026-11-21T21:22:14.1510090Z [2mdist/[22m[2massets/[22m[32mKaTeX_AMS-Regular-DMm9YOAa.woff           [39m[1m[2m   33.52 kB[22m[1m[22m
+2026-11-21T21:22:14.1510950Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Italic-3WenGoN9.ttf            [39m[1m[2m   33.58 kB[22m[1m[22m
+2026-11-21T21:22:14.1511820Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Bold-waoOVXN0.ttf              [39m[1m[2m   51.34 kB[22m[1m[22m
+2026-11-21T21:22:14.1512720Z [2mdist/[22m[2massets/[22m[32mKaTeX_Main-Regular-ypZvNtVU.ttf           [39m[1m[2m   53.58 kB[22m[1m[22m
+2026-11-21T21:22:14.1513660Z [2mdist/[22m[2massets/[22m[32mKaTeX_AMS-Regular-DRggAlZN.ttf            [39m[1m[2m   63.63 kB[22m[1m[22m
+2026-11-21T21:22:14.1514670Z [2mdist/[22m[2massets/[22m[32mpdf.worker.min-B5Yc7dP4.mjs               [39m[1m[2m1,327.59 kB[22m[1m[22m
+2026-11-21T21:22:14.1533480Z [2mdist/[22m[2massets/[22m[35mpaper-library-DmOzWjY5.css                [39m[1m[2m    4.49 kB[22m[1m[22m[2m │ gzip:   1.50 kB[22m
+2026-11-21T21:22:14.1534750Z [2mdist/[22m[2massets/[22m[35mindex-B3KSSczQ.css                        [39m[1m[2m   42.32 kB[22m[1m[22m[2m │ gzip:  11.80 kB[22m
+2026-11-21T21:22:14.1535800Z [2mdist/[22m[2massets/[22m[36mpaper-library-D4bDEZoN.js                 [39m[1m[33m  536.11 kB[39m[22m[2m │ gzip: 165.54 kB[22m
+2026-11-21T21:22:14.1536770Z [2mdist/[22m[2massets/[22m[36mindex-DeE1oMVg.js                         [39m[1m[33m1,187.73 kB[39m[22m[2m │ gzip: 364.91 kB[22m
+2026-11-21T21:22:14.1537200Z [33m
+2026-11-21T21:22:14.1537530Z (!) Some chunks are larger than 500 kB after minification. Consider:
+2026-11-21T21:22:14.1538070Z - Using dynamic import() to code-split the application
+2026-11-21T21:22:14.1538820Z - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+2026-11-21T21:22:14.1539670Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+2026-11-21T21:22:14.1540190Z [32m✓ built in 2.51s[39m
+2026-11-21T21:22:15.2547450Z    Compiling shandong-poc-001b v0.2.1 (/Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri)
+2026-11-21T21:23:07.1810380Z     Finished `release` profile [optimized] target(s) in 52.85s
+2026-11-21T21:23:07.2292390Z        Built application at: /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/knowpaper-preview
+2026-11-21T21:23:22.7184780Z {
+2026-11-21T21:23:22.7185340Z   "faults": {
+2026-11-21T21:23:22.7187440Z     "closedAnswer": "macOS PDF 打印窗口已关闭。",
+2026-11-21T21:23:22.7188260Z     "concurrent": "系统正处理另一项打印任务，请稍后重试。",
+2026-11-21T21:23:22.7190040Z     "quarantined": "上一项 macOS 打印尚未结束。请稍后重试；若仍无法打印，请保存工作并退出后重新打开知卷。",
+2026-11-21T21:23:22.7190590Z     "start": "macOS WebKit 无法开始打印。",
+2026-11-21T21:23:22.7191140Z     "timeout": "macOS PDF 打印超时。请稍后重试；若仍无法打印，请保存工作并退出后重新打开知卷。"
+2026-11-21T21:23:22.7191470Z   },
+2026-11-21T21:23:22.7191680Z   "ok": true,
+2026-11-21T21:23:22.7191930Z   "originalPages": 100,
+2026-11-21T21:23:22.7192320Z   "pairs": {
+2026-11-21T21:23:22.7192590Z     "20": {
+2026-11-21T21:23:22.7193340Z       "answers": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-d4c611cc8651-K9t9UB/answers.pdf",
+2026-11-21T21:23:22.7194400Z       "paper": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-d4c611cc8651-K9t9UB/paper.pdf",
+2026-11-21T21:23:22.7195030Z       "warnings": []
+2026-11-21T21:23:22.7195340Z     },
+2026-11-21T21:23:22.7195520Z     "30": {
+2026-11-21T21:23:22.7196180Z       "answers": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-028f6c1acf58-pNLKfL/answers.pdf",
+2026-11-21T21:23:22.7197210Z       "paper": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-028f6c1acf58-pNLKfL/paper.pdf",
+2026-11-21T21:23:22.7197830Z       "warnings": []
+2026-11-21T21:23:22.7198030Z     },
+2026-11-21T21:23:22.7198270Z     "50": {
+2026-11-21T21:23:22.7198930Z       "answers": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-6d8d1cc81982-Z76RZP/answers.pdf",
+2026-11-21T21:23:22.7199940Z       "paper": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-6d8d1cc81982-Z76RZP/paper.pdf",
+2026-11-21T21:23:22.7200510Z       "warnings": []
+2026-11-21T21:23:22.7200750Z     }
+2026-11-21T21:23:22.7200980Z   },
+2026-11-21T21:23:22.7201440Z   "single": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/paper.pdf",
+2026-11-21T21:23:22.7201920Z   "timings": {
+2026-11-21T21:23:22.7202150Z     "pair20Ms": 839,
+2026-11-21T21:23:22.7202460Z     "pair30Ms": 961,
+2026-11-21T21:23:22.7202700Z     "pair50Ms": 1126,
+2026-11-21T21:23:22.7203000Z     "pdfFirstPageMs": 330,
+2026-11-21T21:23:22.7203340Z     "pdfNextPageMs": 2,
+2026-11-21T21:23:22.7203580Z     "recoveryMs": 2012,
+2026-11-21T21:23:22.7204790Z     "schemaAndSubjectsMs": 208,
+2026-11-21T21:23:22.7205140Z     "singleMs": 500,
+2026-11-21T21:23:22.7205700Z     "timeoutMs": 1106
+2026-11-21T21:23:22.7206040Z   }
+2026-11-21T21:23:22.7206270Z }
+2026-11-21T21:23:22.7418800Z Traceback (most recent call last):
+2026-11-21T21:23:22.7422450Z   File "/Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/tests/macos-app-check.py", line 155, in <module>
+2026-11-21T21:23:22.7423090Z     main()
+2026-11-21T21:23:22.7423310Z     ~~~~^^
+2026-11-21T21:23:22.7424000Z   File "/Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/tests/macos-app-check.py", line 151, in main
+2026-11-21T21:23:22.7424970Z     inspect_outputs(report, output)
+2026-11-21T21:23:22.7425370Z     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+2026-11-21T21:23:22.7426020Z   File "/Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/tests/macos-app-check.py", line 92, in inspect_outputs
+2026-11-21T21:23:22.7426880Z     evidence[name] = inspect_pdf(pair[kind], output / f"{name}.pdf", int(count), kind == "answers")
+2026-11-21T21:23:22.7427470Z                      ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-21T21:23:22.7428220Z   File "/Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/tests/macos-app-check.py", line 63, in inspect_pdf
+2026-11-21T21:23:22.7429610Z     assert "兼容字:神。全角:ABC123。" in normalized, target
+2026-11-21T21:23:22.7430040Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-21T21:23:22.7430880Z AssertionError: /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/preview-artifacts/app-smoke/paper-20.pdf
+2026-11-21T21:23:22.7562030Z ##[error]Process completed with exit code 1.
+2026-11-21T21:23:22.7827420Z ##[group]Run actions/upload-artifact@v4
+2026-11-21T21:23:22.7827700Z with:
+2026-11-21T21:23:22.7828070Z   name: knowpaper-preview-macos-arm64-1f324beb131416762fe7e087352de2192e649c17
+2026-11-21T21:23:22.7828510Z   path: poc-001b/preview-artifacts/
+2026-11-21T21:23:22.7828770Z   if-no-files-found: error
+2026-11-21T21:23:22.7829040Z   retention-days: 14
+2026-11-21T21:23:22.7829290Z   compression-level: 6
+2026-11-21T21:23:22.7829500Z   overwrite: false
+2026-11-21T21:23:22.7829760Z   include-hidden-files: false
+2026-11-21T21:23:22.7830030Z env:
+2026-11-21T21:23:22.7830220Z   CARGO_INCREMENTAL: 0
+2026-11-21T21:23:22.7830470Z   MACOSX_DEPLOYMENT_TARGET: 13.0
+2026-11-21T21:23:22.7830750Z   RUST_VERSION: 1.100.0
+2026-11-21T21:23:22.7830950Z ##[endgroup]
+2026-11-21T21:23:23.1954190Z (node:15635) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-21T21:23:23.1956280Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-21T21:23:23.2027000Z With the provided path, there will be 49 files uploaded
+2026-11-21T21:23:23.2027500Z Artifact name is valid!
+2026-11-21T21:23:23.2027830Z Root directory input is valid!
+2026-11-21T21:23:23.6942340Z Beginning upload of artifact content to blob storage
+2026-11-21T21:23:23.9051480Z (node:15635) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-21T21:23:24.9625570Z Uploaded bytes 8388608
+2026-11-21T21:23:25.3081160Z Uploaded bytes 16777216
+2026-11-21T21:23:25.6756630Z Uploaded bytes 21390027
+2026-11-21T21:23:25.7565490Z Finished uploading artifact content to blob storage!
+2026-11-21T21:23:25.7577690Z SHA256 digest of uploaded artifact zip is a6819f379705a81111d6cb2c4b4aebd9d9beaeaeff315737744d25e8b6db8c46
+2026-11-21T21:23:25.7580450Z Finalizing artifact upload
+2026-11-21T21:23:26.1693200Z Artifact knowpaper-preview-macos-arm64-1f324beb131416762fe7e087352de2192e649c17.zip successfully finalized. Artifact ID 14725419190
+2026-11-21T21:23:26.1694560Z Artifact knowpaper-preview-macos-arm64-1f324beb131416762fe7e087352de2192e649c17 has been successfully uploaded! Final size is 21390027 bytes. Artifact ID is 14725419190
+2026-11-21T21:23:26.1695990Z Artifact download URL: https://github.com/ghost114541/shandong-study-platform/actions/runs/44950383835/artifacts/14725419190
+2026-11-21T21:23:26.1781280Z Post job cleanup.
+2026-11-21T21:23:26.2717970Z [command]/opt/homebrew/bin/git version
+2026-11-21T21:23:26.2890830Z git version 2.56.1
+2026-11-21T21:23:26.2909630Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/f2757ef7-b35a-4124-91a2-84be91935db7/.gitconfig'
+2026-11-21T21:23:26.2916500Z Temporarily overriding HOME='/Users/runner/work/_temp/f2757ef7-b35a-4124-91a2-84be91935db7' before making global git config changes
+2026-11-21T21:23:26.2917590Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T21:23:26.2919600Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/shandong-study-platform/shandong-study-platform
+2026-11-21T21:23:26.3019780Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T21:23:26.3090560Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T21:23:26.3840120Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T21:23:26.3894760Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-21T21:23:26.5267780Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-21T21:23:26.5578320Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-21T21:23:26.7568330Z Cleaning up orphan processes
+2026-11-21T21:23:28.5331760Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/download-artifact@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

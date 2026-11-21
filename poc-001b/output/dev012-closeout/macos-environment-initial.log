@@ -1,0 +1,34 @@
+1f324beb131416762fe7e087352de2192e649c17
+Runner label: macos-15. Runner architecture: ARM64
+Darwin sjc22-bm204-09b406a7-f99c-4cea-9868-90a093dfa363-8A9E25118FD5.local 24.6.0 Darwin Kernel Version 24.6.0: Sun Oct 11 23:44:11 PDT 2026; root:xnu-11417.140.69.713.47~2/RELEASE_ARM64_VMAPPLE arm64
+ProductName:		macOS
+ProductVersion:		15.8.2
+BuildVersion:		24H232
+Xcode 16.4
+Build version 16F6
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk2s5   320Gi   258Gi    44Gi    86%    2.2M  457M    0%   /System/Volumes/Data
+info: syncing channel updates for 1.100.0-aarch64-apple-darwin
+info: latest update on 2026-11-12 for version 1.100.0 (0ef1bc386 2026-11-09)
+info: downloading 3 components
+
+  1.100.0-aarch64-apple-darwin installed - rustc 1.100.0 (0ef1bc386 2026-11-09)
+
+info: self-update is disabled for this build of rustup
+info: any updates to rustup will need to be fetched with your system package manager
+info: override toolchain for /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b set to 1.100.0-aarch64-apple-darwin
+rustc 1.100.0 (0ef1bc386 2026-11-09)
+binary: rustc
+commit-hash: 0ef1bc386059596dada8fb65b50425aab2ea637a
+commit-date: 2026-11-09
+host: aarch64-apple-darwin
+release: 1.100.0
+LLVM version: 23.1.5
+cargo 1.100.0 (3acc79c0c 2026-11-05)
+v24.13.0
+11.6.2
+
+> knowpaper-preview@0.2.1 tauri
+> tauri --version
+
+tauri-cli 2.12.5

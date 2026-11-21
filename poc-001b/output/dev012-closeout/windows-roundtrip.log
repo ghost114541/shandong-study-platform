@@ -1,0 +1,61 @@
+warning: function `check_tree` is never used
+  --> examples\..\src\library_paths.rs:67:8
+   |
+67 | pub fn check_tree(root: &Path) -> io::Result<()> {
+   |        ^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `error`, `needs_layout_repair`, `migration_parent`, `prepare_rollback`, and `check_cleanup` are never used
+   --> examples\..\src\library_root.rs:197:12
+    |
+ 46 | impl LibraryRoot {
+    | ---------------- methods in this implementation
+...
+197 |     pub fn error(&self) -> Option<&str> {
+    |            ^^^^^
+...
+201 |     pub fn needs_layout_repair(&self) -> Result<bool, String> {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+234 |     pub fn migration_parent(&self, requested: &Path) -> Result<PathBuf, String> {
+    |            ^^^^^^^^^^^^^^^^
+...
+383 |     pub fn prepare_rollback(&mut self) -> Result<(), String> {
+    |            ^^^^^^^^^^^^^^^^
+...
+399 |     pub fn check_cleanup(&self, requested: &Path) -> Result<(), String> {
+    |            ^^^^^^^^^^^^^
+
+warning: constant `MAX_BYTES` is never used
+ --> examples\..\src\storage.rs:8:7
+  |
+8 | const MAX_BYTES: u64 = 32 * 1024 * 1024;
+  |       ^^^^^^^^^
+
+warning: function `check_envelope` is never used
+  --> examples\..\src\storage.rs:10:4
+   |
+10 | fn check_envelope(data: &Value) -> Result<(), String> {
+   |    ^^^^^^^^^^^^^^
+
+warning: function `load` is never used
+  --> examples\..\src\storage.rs:24:8
+   |
+24 | pub fn load(path: &Path) -> Result<Option<Value>, String> {
+   |        ^^^^
+
+warning: function `save` is never used
+  --> examples\..\src\storage.rs:41:8
+   |
+41 | pub fn save(path: &Path, data: &Value) -> Result<(), String> {
+   |        ^^^^
+
+warning: `shandong-poc-001b` (example "dev012_migration") generated 6 warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.65s
+     Running `src-tauri\target\debug\examples\dev012_migration.exe restore .test-output/dev012-closeout-ci/mac-first-application/backup/macos.knowbackup output/dev012-closeout/windows-return.knowbackup`
+restore startup: before-open
+restore startup: first-open
+restore startup: startup-verified
+restore startup: before-pointer
+restore startup: after-pointer

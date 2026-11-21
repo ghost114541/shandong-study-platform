@@ -1,0 +1,81 @@
+schema8 {"files":129,"questions":2507,"schema":8}
+Started Windows Tauri PID=28468 phase=normal origin=http://tauri.localhost/ offline=false
+schema9 {"files":129,"questions":2507,"schema":9}
+Schema 8 to 9 preserves all old table fingerprints and blobs in 1080 ms including startup
+Stopped Windows Tauri PID=28468 forced=false result=[0,null]
+Started Windows Tauri PID=6648 phase=archive-mid origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 保存知卷完整备份 interrupted.knowbackup
+Reached checkpoint=archive-mid, forcing Windows PID=6648 to stop
+Stopped Windows Tauri PID=6648 forced=true result=[null,"SIGTERM"]
+after-interrupted-backup {"files":129,"questions":2507,"schema":9}
+Started Windows Tauri PID=33848 phase=normal origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 保存知卷完整备份 original-fixture.knowbackup
+Selected file through native Win32 controls in 选择知卷备份 manifest.knowbackup
+Rejected manifest 无法读取或写入备份清单。EOF while parsing an object at line 1 column 1
+Selected file through native Win32 controls in 选择知卷备份 future-version.knowbackup
+Rejected future-version 不支持此备份格式或 Schema 版本。请使用兼容的知卷版本。
+Selected file through native Win32 controls in 选择知卷备份 future-schema.knowbackup
+Rejected future-schema 不支持此备份格式或 Schema 版本。请使用兼容的知卷版本。
+Selected file through native Win32 controls in 选择知卷备份 traversal.knowbackup
+Rejected traversal 备份清单含非法、重复或不一致的文件路径。
+Selected file through native Win32 controls in 选择知卷备份 missing-image.knowbackup
+Rejected missing-image ZIP 中存在遗漏或额外文件。
+Selected file through native Win32 controls in 选择知卷备份 bad-pdf.knowbackup
+Rejected bad-pdf paper-pdfs/05/059526d9f1e9e93991559ca8c7e9c9c4943b372e305ab0e6ec5c1cb1db3a1dce 大小或 SHA-256 不一致，请修复资源或更换备份。
+Selected file through native Win32 controls in 选择知卷备份 bad-db.knowbackup
+Rejected bad-db file is not a database
+after-invalid-restores {"files":129,"questions":2507,"schema":9}
+Stopped Windows Tauri PID=33848 forced=false result=[0,null]
+Started Windows Tauri PID=13976 phase=normal origin=http://tauri.localhost/ offline=false
+fresh-install {"files":0,"questions":0,"schema":9}
+Stopped Windows Tauri PID=13976 forced=false result=[0,null]
+Started Windows Tauri PID=10908 phase=unpack-mid origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 选择知卷备份 original-fixture.knowbackup
+Reached checkpoint=unpack-mid, forcing Windows PID=10908 to stop
+Stopped Windows Tauri PID=10908 forced=true result=[null,"SIGTERM"]
+Started Windows Tauri PID=9836 phase=normal origin=http://tauri.localhost/ offline=false
+after-unpack-mid {"files":0,"questions":0,"schema":9}
+Stopped Windows Tauri PID=9836 forced=false result=[0,null]
+Started Windows Tauri PID=34912 phase=unpacked origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 选择知卷备份 original-fixture.knowbackup
+Reached checkpoint=unpacked, forcing Windows PID=34912 to stop
+Stopped Windows Tauri PID=34912 forced=true result=[null,"SIGTERM"]
+Started Windows Tauri PID=32048 phase=normal origin=http://tauri.localhost/ offline=false
+after-unpacked {"files":0,"questions":0,"schema":9}
+Stopped Windows Tauri PID=32048 forced=false result=[0,null]
+Started Windows Tauri PID=24272 phase=validated origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 选择知卷备份 original-fixture.knowbackup
+Reached checkpoint=validated, forcing Windows PID=24272 to stop
+Stopped Windows Tauri PID=24272 forced=true result=[null,"SIGTERM"]
+Started Windows Tauri PID=34812 phase=normal origin=http://tauri.localhost/ offline=false
+after-validated {"files":0,"questions":0,"schema":9}
+Stopped Windows Tauri PID=34812 forced=false result=[0,null]
+Started Windows Tauri PID=35340 phase=normal origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 选择知卷备份 original-fixture.knowbackup
+Stopped Windows Tauri PID=35340 forced=false result=[0,null]
+Reached checkpoint=before-open, forcing Windows PID=29784 to stop
+Stopped Windows Tauri PID=29784 forced=true result=[null,"SIGTERM"]
+Reached checkpoint=first-open, forcing Windows PID=3256 to stop
+Stopped Windows Tauri PID=3256 forced=true result=[null,"SIGTERM"]
+Reached checkpoint=before-pointer, forcing Windows PID=18584 to stop
+Stopped Windows Tauri PID=18584 forced=true result=[null,"SIGTERM"]
+Reached checkpoint=after-pointer, forcing Windows PID=15920 to stop
+Stopped Windows Tauri PID=15920 forced=true result=[null,"SIGTERM"]
+Started Windows Tauri PID=4088 phase=normal origin=http://tauri.localhost/ offline=true
+restored {"files":129,"questions":2507,"schema":9}
+safety-copy {"files":0,"questions":0,"schema":9}
+Stopped Windows Tauri PID=4088 forced=false result=[0,null]
+Started Windows Tauri PID=18112 phase=normal origin=http://tauri.localhost/ offline=false
+after-trash-restore {"files":129,"questions":2507,"schema":9}
+Stopped Windows Tauri PID=18112 forced=true result=[null,"SIGTERM"]
+Started Windows Tauri PID=5380 phase=normal origin=http://tauri.localhost/ offline=false
+Stopped Windows Tauri PID=5380 forced=true result=[null,"SIGTERM"]
+Started Windows Tauri PID=32060 phase=normal origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 选择资源库的新存储位置 storage-target
+before-storage-migration {"files":130,"questions":2508,"schema":9}
+Stopped Windows Tauri PID=32060 forced=false result=[0,null]
+Started Windows Tauri PID=31180 phase=normal origin=http://tauri.localhost/ offline=false
+after-storage-migration {"files":130,"questions":2508,"schema":9}
+after-storage-migration-old {"files":130,"questions":2508,"schema":9}
+Stopped Windows Tauri PID=31180 forced=false result=[0,null]
+DEV-010 Windows round trip and process-level fault tests completed.

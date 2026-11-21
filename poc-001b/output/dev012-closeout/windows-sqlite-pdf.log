@@ -1,0 +1,6 @@
+C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\.test-output\dev012-pdf-tools\fitz\__init__.py:17: FutureWarning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+  warnings.warn(
+revision-2-paper.pdf: A4 594.96 x 841.92 pt, images=[(170, 100)], fonts=['AAAAAA+MicrosoftYaHeiUI-Bold', 'BAAAAA+MicrosoftYaHeiUI', 'CAAAAA+KaTeX_Math-Italic', 'DAAAAA+KaTeX_Main-Regular']
+revision-1-answers.pdf: A4 594.96 x 841.92 pt, images=[], fonts=['AAAAAA+MicrosoftYaHeiUI-Bold', 'BAAAAA+MicrosoftYaHeiUI']
+revision-2-answers.pdf: A4 594.96 x 841.92 pt, images=[], fonts=['AAAAAA+MicrosoftYaHeiUI-Bold', 'BAAAAA+MicrosoftYaHeiUI']
+DEV002-T08 PASS: database revision PDFs, A4, Chinese, KaTeX fonts, embedded image, numbering, points and answer separation

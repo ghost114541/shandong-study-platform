@@ -1,0 +1,34 @@
+Native Win32 window hwnd present, process PID 20332, URL http://tauri.localhost/
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered original.pdf (6 pages, 7665 bytes, including native selection 684.4ms)
+T06/T07: paging, zoom, thumbnail, jump, actual search and inert external annotation PASS
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered answer.pdf (1 pages, 2002 bytes, including native selection 596.9ms)
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered analysis.pdf (2 pages, 3549 bytes, including native selection 737.0ms)
+T08: all three PDF roles read from the same paper PASS
+Native Save As: exact source bytes and SHA-256 PASS
+Capture + attachment save + editor load milliseconds: 172.6
+Screenshot 1 38469 bytes SHA-256 c737da4a62039dccb062596026545218d251696e438ba7b0e6c964c5f35fef3e
+Screenshot 2 39740 bytes SHA-256 12507ebc16b2959dfc0bcb86b88d2284adfdad9c1aa2c38a869950b6ab11ad8a
+T09/T10/T11/T13 and E2E-003: rotated and zoomed multi-page crop, stored attachments, atomic draft source, bidirectional navigation PASS
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered original.pdf (6 pages, 7665 bytes, including native selection 795.0ms)
+T03/T12: byte dedup without paper merge and existing question linked to a second source PASS
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered scan.pdf (6 pages, 112711 bytes, including native selection 770.4ms)
+Selected file through native Win32 controls in 导入试卷 PDF
+Selected file through native Win32 controls in 导入试卷 PDF
+Selected file through native Win32 controls in 导入试卷 PDF
+Selected file through native Win32 controls in 导入试卷 PDF
+Selected file through native Win32 controls in 导入试卷 PDF
+T02/T04: scan, malformed, disguised, encrypted, 64 MiB, 500-page and unregistered boundary PASS
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered perf20.pdf (20 pages, 20427 bytes, including native selection 746.5ms)
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered perf100.pdf (100 pages, 97668 bytes, including native selection 867.5ms)
+T17 samples: [{"name":"two screenshot attachments and editor","ms":172.6},{"name":"perf20 first open after import","ms":99.8,"appWorkingSet":96890880,"appLifetimePeakWorkingSet":230453248,"webviewTreeWorkingSetSample":957353984,"webviewTreeProcessCount":6},{"name":"perf20 five thumbnails","ms":161.8,"appWorkingSet":96890880,"appLifetimePeakWorkingSet":230453248,"webviewTreeWorkingSetSample":958533632,"webviewTreeProcessCount":6},{"name":"perf20 jump 20","ms":15,"appWorkingSet":96890880,"appLifetimePeakWorkingSet":230453248,"webviewTreeWorkingSetSample":960724992,"webviewTreeProcessCount":6},{"name":"perf20 search","ms":164.9,"appWorkingSet":96890880,"appLifetimePeakWorkingSet":230453248,"webviewTreeWorkingSetSample":966791168,"webviewTreeProcessCount":6},{"name":"perf20 reopen","ms":93.9,"appWorkingSet":96890880,"appLifetimePeakWorkingSet":230453248,"webviewTreeWorkingSetSample":923340800,"webviewTreeProcessCount":6},{"name":"perf100 first open after import","ms":104.2,"appWorkingSet":97951744,"appLifetimePeakWorkingSet":230453248,"webviewTreeWorkingSetSample":926060544,"webviewTreeProcessCount":6},{"name":"perf100 five thumbnails","ms":154,"appWorkingSet":97951744,"appLifetimePeakWorkingSet":230453248,"webviewTreeWorkingSetSample":925962240,"webviewTreeProcessCount":6},{"name":"perf100 jump 50","ms":12.8,"appWorkingSet":97951744,"appLifetimePeakWorkingSet":230453248,"webviewTreeWorkingSetSample":929050624,"webviewTreeProcessCount":6},{"name":"perf100 jump 100","ms":13,"appWorkingSet":97951744,"appLifetimePeakWorkingSet":230453248,"webviewTreeWorkingSetSample":934555648,"webviewTreeProcessCount":6},{"name":"perf100 search","ms":167.2,"appWorkingSet":97951744,"appLifetimePeakWorkingSet":230453248,"webviewTreeWorkingSetSample":931880960,"webviewTreeProcessCount":6},{"name":"perf100 reopen","ms":105.5,"appWorkingSet":97951744,"appLifetimePeakWorkingSet":230453248,"webviewTreeWorkingSetSample":941735936,"webviewTreeProcessCount":6}]
+T16: late PDF open response discarded and native session closed PASS
+E2E-001: imported original → cropped and edited PNG → SQLite → search → pinned composition → two actual WebView2 PDFs PASS
+Native Win32 window hwnd present, process PID 4780, URL http://tauri.localhost/
+T01/T15: native close/restart with network disabled, PDF and persisted location replayed PASS

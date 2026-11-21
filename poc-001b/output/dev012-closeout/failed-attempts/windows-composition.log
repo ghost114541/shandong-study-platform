@@ -1,0 +1,56 @@
+Native Win32 window hwnd present, process PID 16880, URL http://tauri.localhost/
+Traceback (most recent call last):
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\.test-output\dev012-closeout-native\tests\sqlite-probe.py", line 171, in <module>
+    main()
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\.test-output\dev012-closeout-native\tests\sqlite-probe.py", line 94, in main
+    assert dev009 or profile == "org.shandong-study.dev010-1200ab72" or profile.startswith((
+AssertionError
+{ status: '已加入组卷篮 · 修订 #4', images: [] }
+node:internal/errors:985
+  const err = new Error(message);
+              ^
+
+Error: Command failed: python tests/sqlite-probe.py compose-alias C:\Users\[local-account]\AppData\Roaming\org.shandong-study.dev010-74d09004\study.sqlite3 dev006-alias dev006-math
+Traceback (most recent call last):
+
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\.test-output\dev012-closeout-native\tests\sqlite-probe.py", line 171, in <module>
+
+    main()
+
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\.test-output\dev012-closeout-native\tests\sqlite-probe.py", line 94, in main
+
+    assert dev009 or profile == "org.shandong-study.dev010-1200ab72" or profile.startswith((
+
+AssertionError
+
+
+    at genericNodeError (node:internal/errors:985:15)
+    at wrappedFn (node:internal/errors:539:14)
+    at checkExecSyncError (node:child_process:925:11)
+    at execFileSync (node:child_process:961:15)
+    at probe (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-composition.mjs:7:43)
+    at compositionRegression (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-composition.mjs:168:3)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-webview.mjs:294:29 {
+  status: 1,
+  signal: null,
+  output: [
+    null,
+    '',
+    'Traceback (most recent call last):\r\n' +
+      '  File "C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\.test-output\\dev012-closeout-native\\tests\\sqlite-probe.py", line 171, in <module>\r\n' +
+      '    main()\r\n' +
+      '  File "C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\.test-output\\dev012-closeout-native\\tests\\sqlite-probe.py", line 94, in main\r\n' +
+      '    assert dev009 or profile == "org.shandong-study.dev010-1200ab72" or profile.startswith((\r\n' +
+      'AssertionError\r\n'
+  ],
+  pid: 35612,
+  stdout: '',
+  stderr: 'Traceback (most recent call last):\r\n' +
+    '  File "C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\.test-output\\dev012-closeout-native\\tests\\sqlite-probe.py", line 171, in <module>\r\n' +
+    '    main()\r\n' +
+    '  File "C:\\download\\KnowPaper\\shandong_study_platform_v1\\poc-001b\\.test-output\\dev012-closeout-native\\tests\\sqlite-probe.py", line 94, in main\r\n' +
+    '    assert dev009 or profile == "org.shandong-study.dev010-1200ab72" or profile.startswith((\r\n' +
+    'AssertionError\r\n'
+}
+
+Node.js v24.13.0

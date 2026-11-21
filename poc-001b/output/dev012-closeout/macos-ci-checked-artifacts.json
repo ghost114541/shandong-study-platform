@@ -1,0 +1,26 @@
+[
+  {
+    "id": 14726725499,
+    "name": "knowpaper-dev012-windows-backup-b229d6d6b2a833e40c2ca88b5de5f49b2cb94cc0",
+    "digest": "sha256:f0a755d719056c818d8684e040ff295364af042d2459127e4e2ffebe0af6c0b3",
+    "size_in_bytes": 581815
+  },
+  {
+    "id": 14726272691,
+    "name": "knowpaper-preview-macos-arm64-b229d6d6b2a833e40c2ca88b5de5f49b2cb94cc0",
+    "digest": "sha256:b1a86d4e1dab70c3e6144211c0750feed1f141e4d3d187885f1d295cb9842c1f",
+    "size_in_bytes": 26878568
+  },
+  {
+    "id": 14726249725,
+    "name": "knowpaper-dev012-windows-roundtrip-b229d6d6b2a833e40c2ca88b5de5f49b2cb94cc0",
+    "digest": "sha256:0b9eff2c85cb3740bd5b93d0fcd015ac9ca1984afb3adf7f2289b11e62dee097",
+    "size_in_bytes": 612159
+  },
+  {
+    "id": 14725858879,
+    "name": "knowpaper-macos-pdf-probe-b229d6d6b2a833e40c2ca88b5de5f49b2cb94cc0",
+    "digest": "sha256:4d12a70f517bb06378519b89f5ccdf10542897d0145489b5173d789de9a280a7",
+    "size_in_bytes": 3277789
+  }
+]

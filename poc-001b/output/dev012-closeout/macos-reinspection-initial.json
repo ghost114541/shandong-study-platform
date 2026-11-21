@@ -1,0 +1,28 @@
+{
+  "pages": 12,
+  "bytes": 173378,
+  "mathPages": {
+    "MATH-017": [
+      1
+    ],
+    "MATH-034": [
+      2
+    ],
+    "MATH-051": [
+      3
+    ]
+  },
+  "literalCopy": {
+    "\u8bd5\u5377": true,
+    "\u4e2d\u6587": false,
+    "\u4e2d\u2f42": true,
+    "\u5168\u89d2": false,
+    "\u5168\u2ec6": true,
+    "\ufa19": true,
+    "\u795e": false,
+    "\uff21\uff22\uff23\uff11\uff12\uff13": true,
+    "ABC123": false
+  },
+  "orphanPartHeadingPages": [],
+  "sha256": "1864abb96cdac97f9ba81000df05f048af1e530e5aaf3f6e3e01534dfcc93c9b"
+}

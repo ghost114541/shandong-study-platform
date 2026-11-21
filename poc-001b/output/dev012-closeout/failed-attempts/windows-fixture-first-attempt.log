@@ -1,0 +1,24 @@
+{
+  status: '',
+  editor: 'STEM-050 原创跨平台试题行内公式与化学式：2H2+O2→2H2O2\\mathrm{H_2}+\\mathrm{O_2}\\to2\\mathrm{H_2O}2H2​+O2​→2H2​O∫01x2 dx=13\\int_0^1 x^2\\,dx=\\frac13∫01​x2dx=31​',
+  images: [ [ '', 0 ] ]
+}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+9 !== 1
+
+    at start (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:128:10)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:278:5 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 9,
+  expected: 1,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.13.0

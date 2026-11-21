@@ -1,0 +1,14 @@
+Native Win32 window hwnd present, process PID 34916, URL http://tauri.localhost/
+DEV008-T02/T03/T04: native folder form, keyboard focus, duplicate name error, reorder and rename
+DEV008-T05/T11: native search result, preview, checked rows and bulk favorite
+Selected file through native Win32 controls in 导入试卷 PDF
+DEV008-T06: standard knowledge and real Windows PDF import favorites use original resource IDs
+DEV008-T12/T13: native question editor, knowledge tree and selected PDF reopened; saved composition pins revision 1
+DEV008-T07/T09/T16: copy, move, scoped cancellation, cross-folder mark and safe folder deletion verified
+DEV008-T10/T17: keyword filtering worked; an actual older IPC result released out of order did not replace the selected folder
+Traceback (most recent call last):
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\tests\favorites-probe.py", line 145, in <module>
+    main()
+  File "C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\tests\favorites-probe.py", line 76, in main
+    assert dev009 or dev012 or path.parent.name.startswith(
+AssertionError

@@ -1,0 +1,106 @@
+{
+  "single": {
+    "pages": 1,
+    "bytes": 145052,
+    "sha256": "4f4dc2fc31cae48378118b57dac8e5a15db27bc352bab6f5b9fc36861f508bda"
+  },
+  "paper-20": {
+    "pages": 12,
+    "bytes": 173378,
+    "mathPages": {
+      "MATH-017": [
+        1
+      ],
+      "MATH-034": [
+        2
+      ],
+      "MATH-051": [
+        3
+      ]
+    },
+    "literalCopy": {
+      "\u8bd5\u5377": true,
+      "\u4e2d\u6587": false,
+      "\u4e2d\u2f42": true,
+      "\u5168\u89d2": false,
+      "\u5168\u2ec6": true,
+      "\ufa19": true,
+      "\u795e": false,
+      "\uff21\uff22\uff23\uff11\uff12\uff13": true,
+      "ABC123": false
+    },
+    "orphanPartHeadingPages": [],
+    "sha256": "0d3a38aa916e08fb695647eb92dcb07ce098ed9b1e726251c73bf838f9b711e6"
+  },
+  "answers-20": {
+    "pages": 7,
+    "bytes": 57141,
+    "sha256": "8f557efe5e5ce0b40e60b15f3502f848cfe02f7c0062805b9749d5284958f40b"
+  },
+  "paper-30": {
+    "pages": 18,
+    "bytes": 185990,
+    "mathPages": {
+      "MATH-017": [
+        1
+      ],
+      "MATH-034": [
+        2
+      ],
+      "MATH-051": [
+        3
+      ]
+    },
+    "literalCopy": {
+      "\u8bd5\u5377": true,
+      "\u4e2d\u6587": false,
+      "\u4e2d\u2f42": true,
+      "\u5168\u89d2": false,
+      "\u5168\u2ec6": true,
+      "\ufa19": true,
+      "\u795e": false,
+      "\uff21\uff22\uff23\uff11\uff12\uff13": true,
+      "ABC123": false
+    },
+    "orphanPartHeadingPages": [],
+    "sha256": "bbf4b819b9eac463391c86d4980c6b4aa6b44dce2ff6e5550a110303fe3a6eed"
+  },
+  "answers-30": {
+    "pages": 10,
+    "bytes": 64320,
+    "sha256": "5dec61eb345fd92e6456826811fae979d6682c50a542aba3a186ac69745c111e"
+  },
+  "paper-50": {
+    "pages": 27,
+    "bytes": 208669,
+    "mathPages": {
+      "MATH-017": [
+        1
+      ],
+      "MATH-034": [
+        2
+      ],
+      "MATH-051": [
+        3
+      ]
+    },
+    "literalCopy": {
+      "\u8bd5\u5377": true,
+      "\u4e2d\u6587": false,
+      "\u4e2d\u2f42": true,
+      "\u5168\u89d2": false,
+      "\u5168\u2ec6": true,
+      "\ufa19": true,
+      "\u795e": false,
+      "\uff21\uff22\uff23\uff11\uff12\uff13": true,
+      "ABC123": false
+    },
+    "orphanPartHeadingPages": [],
+    "sha256": "064575420905113fa9c5c4dd3876648cd266abb4a178a884e2085720f40c19fc"
+  },
+  "answers-50": {
+    "pages": 17,
+    "bytes": 78700,
+    "sha256": "c9779067009c923e44b8c68f2759c227e0b16badaf6d622d890ff7c0716897ee"
+  }
+}

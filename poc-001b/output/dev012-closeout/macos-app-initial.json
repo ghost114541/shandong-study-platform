@@ -1,0 +1,40 @@
+{
+  "faults": {
+    "closedAnswer": "macOS PDF 打印窗口已关闭。",
+    "concurrent": "系统正处理另一项打印任务，请稍后重试。",
+    "quarantined": "上一项 macOS 打印尚未结束。请稍后重试；若仍无法打印，请保存工作并退出后重新打开知卷。",
+    "start": "macOS WebKit 无法开始打印。",
+    "timeout": "macOS PDF 打印超时。请稍后重试；若仍无法打印，请保存工作并退出后重新打开知卷。"
+  },
+  "ok": true,
+  "originalPages": 100,
+  "pairs": {
+    "20": {
+      "answers": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-d4c611cc8651-K9t9UB/answers.pdf",
+      "paper": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-d4c611cc8651-K9t9UB/paper.pdf",
+      "warnings": []
+    },
+    "30": {
+      "answers": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-028f6c1acf58-pNLKfL/answers.pdf",
+      "paper": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-028f6c1acf58-pNLKfL/paper.pdf",
+      "warnings": []
+    },
+    "50": {
+      "answers": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-6d8d1cc81982-Z76RZP/answers.pdf",
+      "paper": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-6d8d1cc81982-Z76RZP/paper.pdf",
+      "warnings": []
+    }
+  },
+  "single": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/paper.pdf",
+  "timings": {
+    "pair20Ms": 839,
+    "pair30Ms": 961,
+    "pair50Ms": 1126,
+    "pdfFirstPageMs": 330,
+    "pdfNextPageMs": 2,
+    "recoveryMs": 2012,
+    "schemaAndSubjectsMs": 208,
+    "singleMs": 500,
+    "timeoutMs": 1106
+  }
+}

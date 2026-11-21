@@ -1,0 +1,60 @@
+Native Win32 window hwnd present, process PID 32128, URL http://tauri.localhost/
+Selected file through native Win32 controls in 导入试卷 PDF
+{
+  images: [],
+  reader: '试卷库\n' +
+    '导入 PDF\n' +
+    '导入新试卷\n' +
+    '试卷标题\n' +
+    '学科\n' +
+    '选择学科\n' +
+    '语文\n' +
+    '数学\n' +
+    '英语\n' +
+    '物理\n' +
+    '化学\n' +
+    '生物\n' +
+    '思想政治\n' +
+    '历史\n' +
+    '地理\n' +
+    '年份\n' +
+    '地区\n' +
+    '来源\n' +
+    '文件角色\n' +
+    '原卷\n' +
+    '答案\n' +
+    '解析\n' +
+    '选择本地 PDF\n' +
+    '取消导入\n' +
+    '\n' +
+    '无法安全访问 PDF 文件。创建操作在到达符号链接后停止。 (os error 681)\n' +
+    '\n' +
+    '学科 \n' +
+    '全部学科\n' +
+    '语文\n' +
+    '数学\n' +
+    '英语\n' +
+    '物理\n' +
+    '化学\n' +
+    '生物\n' +
+    '思想政治\n' +
+    '历史\n' +
+    '地理\n' +
+    '年份 \n' +
+    '全部年份\n' +
+    '地区 \n' +
+    '\n' +
+    '没有符合条件的试卷。'
+}
+file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-webview.mjs:75
+  if (result.exceptionDetails) throw new Error(result.exceptionDetails.exception?.description ?? result.exceptionDetails.text)
+                                     ^
+
+Error: Error: Page 1 unavailable: timeout
+    at <anonymous>:6:14
+    at evaluate (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-webview.mjs:75:38)
+    at async importFile (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-paper-reader.mjs:69:5)
+    at async readerRegression (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-paper-reader.mjs:140:20)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-webview.mjs:293:26
+
+Node.js v24.13.0

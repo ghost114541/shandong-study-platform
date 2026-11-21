@@ -1,0 +1,365 @@
+{
+  "paper-20.pdf" : [
+    {
+      "codePoints" : [
+        "U+8BD5",
+        "U+5377"
+      ],
+      "matches" : 1,
+      "query" : "试卷"
+    },
+    {
+      "codePoints" : [
+        "U+9009",
+        "U+62E9"
+      ],
+      "matches" : 1,
+      "query" : "选择"
+    },
+    {
+      "codePoints" : [
+        "U+89C2",
+        "U+5BDF"
+      ],
+      "matches" : 1,
+      "query" : "观察"
+    },
+    {
+      "codePoints" : [
+        "U+590D",
+        "U+4E60"
+      ],
+      "matches" : 1,
+      "query" : "复习"
+    },
+    {
+      "codePoints" : [
+        "U+8BD5",
+        "U+5377",
+        "U+3001",
+        "U+9009",
+        "U+62E9",
+        "U+3001",
+        "U+89C2",
+        "U+5BDF",
+        "U+3001",
+        "U+590D",
+        "U+4E60"
+      ],
+      "matches" : 1,
+      "query" : "试卷、选择、观察、复习"
+    },
+    {
+      "codePoints" : [
+        "U+4E2D",
+        "U+6587"
+      ],
+      "matches" : 0,
+      "query" : "中文"
+    },
+    {
+      "codePoints" : [
+        "U+4E2D",
+        "U+2F42"
+      ],
+      "matches" : 1,
+      "query" : "中⽂"
+    },
+    {
+      "codePoints" : [
+        "U+5168",
+        "U+89D2"
+      ],
+      "matches" : 0,
+      "query" : "全角"
+    },
+    {
+      "codePoints" : [
+        "U+5168",
+        "U+2EC6"
+      ],
+      "matches" : 1,
+      "query" : "全⻆"
+    },
+    {
+      "codePoints" : [
+        "U+FA19"
+      ],
+      "matches" : 1,
+      "query" : "神"
+    },
+    {
+      "codePoints" : [
+        "U+795E"
+      ],
+      "matches" : 0,
+      "query" : "神"
+    },
+    {
+      "codePoints" : [
+        "U+FF21",
+        "U+FF22",
+        "U+FF23",
+        "U+FF11",
+        "U+FF12",
+        "U+FF13"
+      ],
+      "matches" : 1,
+      "query" : "ＡＢＣ１２３"
+    },
+    {
+      "codePoints" : [
+        "U+0041",
+        "U+0042",
+        "U+0043",
+        "U+0031",
+        "U+0032",
+        "U+0033"
+      ],
+      "matches" : 0,
+      "query" : "ABC123"
+    }
+  ],
+  "paper-30.pdf" : [
+    {
+      "codePoints" : [
+        "U+8BD5",
+        "U+5377"
+      ],
+      "matches" : 1,
+      "query" : "试卷"
+    },
+    {
+      "codePoints" : [
+        "U+9009",
+        "U+62E9"
+      ],
+      "matches" : 1,
+      "query" : "选择"
+    },
+    {
+      "codePoints" : [
+        "U+89C2",
+        "U+5BDF"
+      ],
+      "matches" : 1,
+      "query" : "观察"
+    },
+    {
+      "codePoints" : [
+        "U+590D",
+        "U+4E60"
+      ],
+      "matches" : 1,
+      "query" : "复习"
+    },
+    {
+      "codePoints" : [
+        "U+8BD5",
+        "U+5377",
+        "U+3001",
+        "U+9009",
+        "U+62E9",
+        "U+3001",
+        "U+89C2",
+        "U+5BDF",
+        "U+3001",
+        "U+590D",
+        "U+4E60"
+      ],
+      "matches" : 1,
+      "query" : "试卷、选择、观察、复习"
+    },
+    {
+      "codePoints" : [
+        "U+4E2D",
+        "U+6587"
+      ],
+      "matches" : 0,
+      "query" : "中文"
+    },
+    {
+      "codePoints" : [
+        "U+4E2D",
+        "U+2F42"
+      ],
+      "matches" : 1,
+      "query" : "中⽂"
+    },
+    {
+      "codePoints" : [
+        "U+5168",
+        "U+89D2"
+      ],
+      "matches" : 0,
+      "query" : "全角"
+    },
+    {
+      "codePoints" : [
+        "U+5168",
+        "U+2EC6"
+      ],
+      "matches" : 1,
+      "query" : "全⻆"
+    },
+    {
+      "codePoints" : [
+        "U+FA19"
+      ],
+      "matches" : 1,
+      "query" : "神"
+    },
+    {
+      "codePoints" : [
+        "U+795E"
+      ],
+      "matches" : 0,
+      "query" : "神"
+    },
+    {
+      "codePoints" : [
+        "U+FF21",
+        "U+FF22",
+        "U+FF23",
+        "U+FF11",
+        "U+FF12",
+        "U+FF13"
+      ],
+      "matches" : 1,
+      "query" : "ＡＢＣ１２３"
+    },
+    {
+      "codePoints" : [
+        "U+0041",
+        "U+0042",
+        "U+0043",
+        "U+0031",
+        "U+0032",
+        "U+0033"
+      ],
+      "matches" : 0,
+      "query" : "ABC123"
+    }
+  ],
+  "paper-50.pdf" : [
+    {
+      "codePoints" : [
+        "U+8BD5",
+        "U+5377"
+      ],
+      "matches" : 1,
+      "query" : "试卷"
+    },
+    {
+      "codePoints" : [
+        "U+9009",
+        "U+62E9"
+      ],
+      "matches" : 1,
+      "query" : "选择"
+    },
+    {
+      "codePoints" : [
+        "U+89C2",
+        "U+5BDF"
+      ],
+      "matches" : 1,
+      "query" : "观察"
+    },
+    {
+      "codePoints" : [
+        "U+590D",
+        "U+4E60"
+      ],
+      "matches" : 1,
+      "query" : "复习"
+    },
+    {
+      "codePoints" : [
+        "U+8BD5",
+        "U+5377",
+        "U+3001",
+        "U+9009",
+        "U+62E9",
+        "U+3001",
+        "U+89C2",
+        "U+5BDF",
+        "U+3001",
+        "U+590D",
+        "U+4E60"
+      ],
+      "matches" : 1,
+      "query" : "试卷、选择、观察、复习"
+    },
+    {
+      "codePoints" : [
+        "U+4E2D",
+        "U+6587"
+      ],
+      "matches" : 0,
+      "query" : "中文"
+    },
+    {
+      "codePoints" : [
+        "U+4E2D",
+        "U+2F42"
+      ],
+      "matches" : 1,
+      "query" : "中⽂"
+    },
+    {
+      "codePoints" : [
+        "U+5168",
+        "U+89D2"
+      ],
+      "matches" : 0,
+      "query" : "全角"
+    },
+    {
+      "codePoints" : [
+        "U+5168",
+        "U+2EC6"
+      ],
+      "matches" : 1,
+      "query" : "全⻆"
+    },
+    {
+      "codePoints" : [
+        "U+FA19"
+      ],
+      "matches" : 1,
+      "query" : "神"
+    },
+    {
+      "codePoints" : [
+        "U+795E"
+      ],
+      "matches" : 0,
+      "query" : "神"
+    },
+    {
+      "codePoints" : [
+        "U+FF21",
+        "U+FF22",
+        "U+FF23",
+        "U+FF11",
+        "U+FF12",
+        "U+FF13"
+      ],
+      "matches" : 1,
+      "query" : "ＡＢＣ１２３"
+    },
+    {
+      "codePoints" : [
+        "U+0041",
+        "U+0042",
+        "U+0043",
+        "U+0031",
+        "U+0032",
+        "U+0033"
+      ],
+      "matches" : 0,
+      "query" : "ABC123"
+    }
+  ]
+}

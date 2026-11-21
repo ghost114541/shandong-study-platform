@@ -1,0 +1,20 @@
+schema8 {"files":129,"questions":2507,"schema":8}
+Started Windows Tauri PID=19000 phase=normal origin=http://tauri.localhost/ offline=false
+schema9 {"files":129,"questions":2507,"schema":9}
+Schema 8 to 9 preserves all old table fingerprints and blobs in 898 ms including startup
+Stopped Windows Tauri PID=19000 forced=false result=[0,null]
+Started Windows Tauri PID=28680 phase=archive-mid origin=http://tauri.localhost/ offline=false
+Selected file through native Win32 controls in 保存知卷完整备份 interrupted.knowbackup
+Stopped Windows Tauri PID=28680 forced=true result=[null,"SIGTERM"]
+file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-data-protection.mjs:40
+  throw new Error('Timeout: ' + label, { cause: last })
+        ^
+
+Error: Timeout: checkpoint archive-mid
+    at wait (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-data-protection.mjs:40:9)
+    at async phase (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-data-protection.mjs:161:3)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-data-protection.mjs:360:3 {
+  [cause]: undefined
+}
+
+Node.js v24.13.0

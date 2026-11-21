@@ -1,0 +1,25 @@
+Native Win32 window hwnd present, process PID 9012, URL http://tauri.localhost/
+Native Win32 window hwnd present, process PID 32256, URL http://tauri.localhost/
+DEV005-T07 PASS: Windows process completely exited, reopened SQLite and decoded the same attachment id
+DEV005-T10/T12 PASS: pending actual IPC, corrupted bytes after DOM decode, corrupted preview, and missing file all blocked final PDF
+DEV005-T11 native exports: WebView2 saved separate paper and answer PDFs
+{ status: '', images: [] }
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(following)
+
+    at attachmentRegression (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-attachments.mjs:223:10)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/.test-output/dev012-closeout-native/tests/windows-webview.mjs:296:29 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: undefined,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.13.0

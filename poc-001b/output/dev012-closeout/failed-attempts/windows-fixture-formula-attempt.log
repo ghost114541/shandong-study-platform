@@ -1,0 +1,23 @@
+Native Win32 window hwnd present, process PID 33956, URL http://tauri.localhost/
+{
+  status: 'PDF 已保存到 \\\\?\\C:\\Users\\[local-account]\\AppData\\Roaming\\org.shandong-study.dev012-74d09002\\pdf\\paper.pdf',
+  images: []
+}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: 打印视图准备失败：打印快照存在未验证的图片或无法排版的公式。
+
+false !== true
+
+    at file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:282:12 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.13.0
