@@ -1,0 +1,41 @@
+{
+  "schema": 9,
+  "matchedBusinessTables": 43,
+  "matchedResourceFiles": 131,
+  "matchedAttachmentFiles": 65,
+  "matchedPdfFiles": 65,
+  "matchedCompositionPins": 102,
+  "archiveSha256": {
+    "windows": "29c905e05a94c5fc6aaf92c47fbb77dd2976a6b99068fa46257530b025f25e1c",
+    "macos": "f2a6564534f65902d019edacd15fc14497019b373c69f4b7fc202c3bdaa4414f",
+    "windowsRoundtrip": "e227dc5e6dc5a2a89ca5c58431e2470c24e312d1a45b688491991f4d8a3f16f2"
+  },
+  "macCi": {
+    "restoreSeconds": 0.679035292,
+    "backupSeconds": 0.598208916
+  },
+  "windowsReturn": {
+    "restoreSeconds": 0.9170772,
+    "backupSeconds": 0.8593409
+  },
+  "windowsAppTimingsMs": {
+    "schemaAndSubjectsMs": 5,
+    "singleMs": 234,
+    "pair20Ms": 921,
+    "pair30Ms": 1022,
+    "pair50Ms": 1471,
+    "pdfFirstPageMs": 114,
+    "pdfNextPageMs": 7
+  },
+  "windowsScannedPdfPages": 100,
+  "macCiAppTimingsMs": {
+    "pair20Ms": 730,
+    "pair30Ms": 838,
+    "pair50Ms": 1050,
+    "pdfFirstPageMs": 286,
+    "pdfNextPageMs": 3,
+    "schemaAndSubjectsMs": 227,
+    "singleMs": 417
+  },
+  "macCiScannedPdfPages": 100
+}

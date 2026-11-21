@@ -1,0 +1,23 @@
+Title:           知卷 KnowPaper（测试版）
+Producer:        macOS Version 15.8.2 (Build 24H232) Quartz PDFContext
+CreationDate:    Sat Nov 21 12:59:14 2026 UTC
+ModDate:         Sat Nov 21 12:59:14 2026 UTC
+Custom Metadata: no
+Metadata Stream: no
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           1
+Encrypted:       no
+Page    1 size:  595 x 842 pts (A4)
+Page    1 rot:   0
+Page    1 MediaBox:      0.00     0.00   595.00   842.00
+Page    1 CropBox:       0.00     0.00   595.00   842.00
+Page    1 BleedBox:      0.00     0.00   595.00   842.00
+Page    1 TrimBox:       0.00     0.00   595.00   842.00
+Page    1 ArtBox:        0.00     0.00   595.00   842.00
+File size:       145052 bytes
+Optimized:       no
+PDF version:     1.3

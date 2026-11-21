@@ -1,0 +1,22 @@
+page   num  type   width height color comp bpc  enc interp  object ID x-ppi y-ppi size ratio
+--------------------------------------------------------------------------------------------
+   4     0 image     512   512  icc     3   8  image  yes       35  0    90    90 3991B 0.5%
+   4     1 smask     512   512  gray    1   8  image  yes       35  0    90    90 1167B 0.4%
+   5     2 image     512   512  icc     3   8  image  yes       35  0    90    90 3991B 0.5%
+   5     3 smask     512   512  gray    1   8  image  yes       35  0    90    90 1167B 0.4%
+   7     4 image     512   512  icc     3   8  image  yes       35  0    90    90 3991B 0.5%
+   7     5 smask     512   512  gray    1   8  image  yes       35  0    90    90 1167B 0.4%
+   8     6 image     512   512  icc     3   8  image  yes       35  0    90    90 3991B 0.5%
+   8     7 smask     512   512  gray    1   8  image  yes       35  0    90    90 1167B 0.4%
+  10     8 image     512   512  icc     3   8  image  yes       35  0    90    90 3991B 0.5%
+  10     9 smask     512   512  gray    1   8  image  yes       35  0    90    90 1167B 0.4%
+  11    10 image     512   512  icc     3   8  image  yes       35  0    90    90 3991B 0.5%
+  11    11 smask     512   512  gray    1   8  image  yes       35  0    90    90 1167B 0.4%
+  13    12 image     512   512  icc     3   8  image  yes       35  0    90    90 3991B 0.5%
+  13    13 smask     512   512  gray    1   8  image  yes       35  0    90    90 1167B 0.4%
+  14    14 image     512   512  icc     3   8  image  yes       35  0    90    90 3991B 0.5%
+  14    15 smask     512   512  gray    1   8  image  yes       35  0    90    90 1167B 0.4%
+  16    16 image     512   512  icc     3   8  image  yes       35  0    90    90 3991B 0.5%
+  16    17 smask     512   512  gray    1   8  image  yes       35  0    90    90 1167B 0.4%
+  17    18 image     512   512  icc     3   8  image  yes       35  0    90    90 3991B 0.5%
+  17    19 smask     512   512  gray    1   8  image  yes       35  0    90    90 1167B 0.4%

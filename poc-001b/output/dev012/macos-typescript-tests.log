@@ -1,0 +1,46 @@
+
+> knowpaper-preview@0.2.1 test
+> node --disable-warning=ExperimentalWarning --experimental-strip-types --test tests/*.test.ts
+
+✔ DEV008-T17 changed collection drops a late result and an unmounted read drops a late error (1.284959ms)
+✔ converts POC-001 with the same question and part IDs, scores and source formulae (15.425833ms)
+✔ round trip preserves edits, marks, formula sources and bundled/embedded attachments (1.272709ms)
+✔ rejects unsupported versions, duplicate IDs, bad nodes, and remote images (1.386875ms)
+✔ paper and answer projection use identical numbering and disjoint content (0.345958ms)
+✔ DEV007-T09 crop coordinates round-trip through all right-angle viewport rotations (0.780875ms)
+✔ DEV002-T01 中文和缺省可选字段 (3.674041ms)
+✔ DEV002-T01 粗体、斜体、行内公式和换行 (0.751875ms)
+✔ DEV002-T01 独立公式和化学方程式 (0.315167ms)
+✔ DEV002-T01 本地内嵌图片与内置图片 (1.49025ms)
+✔ DEV002-T01 有限正数尺寸和空尺寸 (0.188917ms)
+✔ DEV002-T01 零宽度 (0.520458ms)
+✔ DEV002-T01 字符串高度 (0.183125ms)
+✔ DEV002-T01 负高度 (0.132709ms)
+✔ DEV002-T01 绝对本地路径 (0.225959ms)
+✔ DEV002-T01 远程路径 (0.159ms)
+✔ DEV002-T01 Base64 长度不整除四 (0.159291ms)
+✔ DEV002-T01 Base64 末尾换行 (0.10175ms)
+✔ DEV002-T01 已登记附件（文件未验证） (0.483958ms)
+✔ DEV002-T01 未登记附件 (0.081417ms)
+✔ DEV002-T01 附件大小超过安全整数 (0.121833ms)
+✔ DEV002-T01 未知节点 (0.128125ms)
+✔ DEV002-T01 未知段落属性 (0.111334ms)
+✔ DEV002-T01 未知图片属性 (0.094ms)
+✔ DEV002-T01 未知公式属性 (0.070042ms)
+✔ DEV002-T01 未知标记属性 (0.094542ms)
+✔ DEV002-T01 未知根属性 (0.058875ms)
+✔ DEV002-T01 版本不支持 (0.137166ms)
+✔ DEV002-T01 多小问 (0.469292ms)
+✔ DEV002-T01 小问重复 ID (0.08225ms)
+✔ DEV002-T01 分值不一致 (0.076375ms)
+✔ DEV002-T01 LaTeX 仅空白 (0.061292ms)
+✔ DEV002-T01 答案和解析同样校验 (0.073458ms)
+✔ DEV002-T01 POC 样本保持富文本和小问 ID (1.789541ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 292.964042

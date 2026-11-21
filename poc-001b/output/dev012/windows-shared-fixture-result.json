@@ -1,0 +1,16 @@
+{
+  "sourceArchiveSha256": "29c905e05a94c5fc6aaf92c47fbb77dd2976a6b99068fa46257530b025f25e1c",
+  "ok": true,
+  "originalPages": 100,
+  "timingsMs": {
+    "schemaAndSubjectsMs": 5,
+    "singleMs": 234,
+    "pair20Ms": 921,
+    "pair30Ms": 1022,
+    "pair50Ms": 1471,
+    "pdfFirstPageMs": 114,
+    "pdfNextPageMs": 7
+  },
+  "pdfStructureCheck": "PASS",
+  "containsStartupNotice": false
+}

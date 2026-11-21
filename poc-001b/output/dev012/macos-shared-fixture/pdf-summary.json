@@ -1,0 +1,37 @@
+{
+  "single": {
+    "pages": 1,
+    "bytes": 145052,
+    "sha256": "4d270f50f6808faac9c3b86b803f57745b1cdb87a63c1b276daea1cbd85502a8"
+  },
+  "paper-20": {
+    "pages": 12,
+    "bytes": 156484,
+    "sha256": "22252c42127e9d7bd83d902d422a3ab9ae85095b1837537d4059255518961856"
+  },
+  "answers-20": {
+    "pages": 7,
+    "bytes": 57141,
+    "sha256": "fa13c63cd4d6e7a7b6feb9fd7ba4043079dec8ab650d47ca66e809b63506db5d"
+  },
+  "paper-30": {
+    "pages": 18,
+    "bytes": 168178,
+    "sha256": "b2d34fb01178ca39ce09cab7b4713fdc1c30448dce3944013dfea84a61095e82"
+  },
+  "answers-30": {
+    "pages": 10,
+    "bytes": 64320,
+    "sha256": "e8d12c2cead79475e0251de4d438d2674200f9741540c53ab08046f17c8f6160"
+  },
+  "paper-50": {
+    "pages": 27,
+    "bytes": 189421,
+    "sha256": "fb51a32469c27147661a38775311837f1ab89fd765038a3c7e9769d723187071"
+  },
+  "answers-50": {
+    "pages": 17,
+    "bytes": 78700,
+    "sha256": "cdff7e7b7ff5953aa9fcfe5c7a2a090bd8b8d6e116b9fdd2ba4f6cbb9a077b1e"
+  }
+}

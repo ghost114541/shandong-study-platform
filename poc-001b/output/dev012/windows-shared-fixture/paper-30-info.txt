@@ -1,0 +1,136 @@
+Title:           知卷 KnowPaper（测试版）
+Creator:         Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36 Edg/157.0.0.0
+Producer:        Skia/PDF m157
+CreationDate:    Sat Nov 21 15:39:52 2026 ����˹ TZ 2 ��׼ʱ��
+ModDate:         Sat Nov 21 15:39:52 2026 ����˹ TZ 2 ��׼ʱ��
+Custom Metadata: no
+Metadata Stream: no
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           17
+Encrypted:       no
+Page    1 size:  594.96 x 841.92 pts (A4)
+Page    1 rot:   0
+Page    2 size:  594.96 x 841.92 pts (A4)
+Page    2 rot:   0
+Page    3 size:  594.96 x 841.92 pts (A4)
+Page    3 rot:   0
+Page    4 size:  594.96 x 841.92 pts (A4)
+Page    4 rot:   0
+Page    5 size:  594.96 x 841.92 pts (A4)
+Page    5 rot:   0
+Page    6 size:  594.96 x 841.92 pts (A4)
+Page    6 rot:   0
+Page    7 size:  594.96 x 841.92 pts (A4)
+Page    7 rot:   0
+Page    8 size:  594.96 x 841.92 pts (A4)
+Page    8 rot:   0
+Page    9 size:  594.96 x 841.92 pts (A4)
+Page    9 rot:   0
+Page   10 size:  594.96 x 841.92 pts (A4)
+Page   10 rot:   0
+Page   11 size:  594.96 x 841.92 pts (A4)
+Page   11 rot:   0
+Page   12 size:  594.96 x 841.92 pts (A4)
+Page   12 rot:   0
+Page   13 size:  594.96 x 841.92 pts (A4)
+Page   13 rot:   0
+Page   14 size:  594.96 x 841.92 pts (A4)
+Page   14 rot:   0
+Page   15 size:  594.96 x 841.92 pts (A4)
+Page   15 rot:   0
+Page   16 size:  594.96 x 841.92 pts (A4)
+Page   16 rot:   0
+Page   17 size:  594.96 x 841.92 pts (A4)
+Page   17 rot:   0
+Page    1 MediaBox:      0.00     0.00   594.96   841.92
+Page    1 CropBox:       0.00     0.00   594.96   841.92
+Page    1 BleedBox:      0.00     0.00   594.96   841.92
+Page    1 TrimBox:       0.00     0.00   594.96   841.92
+Page    1 ArtBox:        0.00     0.00   594.96   841.92
+Page    2 MediaBox:      0.00     0.00   594.96   841.92
+Page    2 CropBox:       0.00     0.00   594.96   841.92
+Page    2 BleedBox:      0.00     0.00   594.96   841.92
+Page    2 TrimBox:       0.00     0.00   594.96   841.92
+Page    2 ArtBox:        0.00     0.00   594.96   841.92
+Page    3 MediaBox:      0.00     0.00   594.96   841.92
+Page    3 CropBox:       0.00     0.00   594.96   841.92
+Page    3 BleedBox:      0.00     0.00   594.96   841.92
+Page    3 TrimBox:       0.00     0.00   594.96   841.92
+Page    3 ArtBox:        0.00     0.00   594.96   841.92
+Page    4 MediaBox:      0.00     0.00   594.96   841.92
+Page    4 CropBox:       0.00     0.00   594.96   841.92
+Page    4 BleedBox:      0.00     0.00   594.96   841.92
+Page    4 TrimBox:       0.00     0.00   594.96   841.92
+Page    4 ArtBox:        0.00     0.00   594.96   841.92
+Page    5 MediaBox:      0.00     0.00   594.96   841.92
+Page    5 CropBox:       0.00     0.00   594.96   841.92
+Page    5 BleedBox:      0.00     0.00   594.96   841.92
+Page    5 TrimBox:       0.00     0.00   594.96   841.92
+Page    5 ArtBox:        0.00     0.00   594.96   841.92
+Page    6 MediaBox:      0.00     0.00   594.96   841.92
+Page    6 CropBox:       0.00     0.00   594.96   841.92
+Page    6 BleedBox:      0.00     0.00   594.96   841.92
+Page    6 TrimBox:       0.00     0.00   594.96   841.92
+Page    6 ArtBox:        0.00     0.00   594.96   841.92
+Page    7 MediaBox:      0.00     0.00   594.96   841.92
+Page    7 CropBox:       0.00     0.00   594.96   841.92
+Page    7 BleedBox:      0.00     0.00   594.96   841.92
+Page    7 TrimBox:       0.00     0.00   594.96   841.92
+Page    7 ArtBox:        0.00     0.00   594.96   841.92
+Page    8 MediaBox:      0.00     0.00   594.96   841.92
+Page    8 CropBox:       0.00     0.00   594.96   841.92
+Page    8 BleedBox:      0.00     0.00   594.96   841.92
+Page    8 TrimBox:       0.00     0.00   594.96   841.92
+Page    8 ArtBox:        0.00     0.00   594.96   841.92
+Page    9 MediaBox:      0.00     0.00   594.96   841.92
+Page    9 CropBox:       0.00     0.00   594.96   841.92
+Page    9 BleedBox:      0.00     0.00   594.96   841.92
+Page    9 TrimBox:       0.00     0.00   594.96   841.92
+Page    9 ArtBox:        0.00     0.00   594.96   841.92
+Page   10 MediaBox:      0.00     0.00   594.96   841.92
+Page   10 CropBox:       0.00     0.00   594.96   841.92
+Page   10 BleedBox:      0.00     0.00   594.96   841.92
+Page   10 TrimBox:       0.00     0.00   594.96   841.92
+Page   10 ArtBox:        0.00     0.00   594.96   841.92
+Page   11 MediaBox:      0.00     0.00   594.96   841.92
+Page   11 CropBox:       0.00     0.00   594.96   841.92
+Page   11 BleedBox:      0.00     0.00   594.96   841.92
+Page   11 TrimBox:       0.00     0.00   594.96   841.92
+Page   11 ArtBox:        0.00     0.00   594.96   841.92
+Page   12 MediaBox:      0.00     0.00   594.96   841.92
+Page   12 CropBox:       0.00     0.00   594.96   841.92
+Page   12 BleedBox:      0.00     0.00   594.96   841.92
+Page   12 TrimBox:       0.00     0.00   594.96   841.92
+Page   12 ArtBox:        0.00     0.00   594.96   841.92
+Page   13 MediaBox:      0.00     0.00   594.96   841.92
+Page   13 CropBox:       0.00     0.00   594.96   841.92
+Page   13 BleedBox:      0.00     0.00   594.96   841.92
+Page   13 TrimBox:       0.00     0.00   594.96   841.92
+Page   13 ArtBox:        0.00     0.00   594.96   841.92
+Page   14 MediaBox:      0.00     0.00   594.96   841.92
+Page   14 CropBox:       0.00     0.00   594.96   841.92
+Page   14 BleedBox:      0.00     0.00   594.96   841.92
+Page   14 TrimBox:       0.00     0.00   594.96   841.92
+Page   14 ArtBox:        0.00     0.00   594.96   841.92
+Page   15 MediaBox:      0.00     0.00   594.96   841.92
+Page   15 CropBox:       0.00     0.00   594.96   841.92
+Page   15 BleedBox:      0.00     0.00   594.96   841.92
+Page   15 TrimBox:       0.00     0.00   594.96   841.92
+Page   15 ArtBox:        0.00     0.00   594.96   841.92
+Page   16 MediaBox:      0.00     0.00   594.96   841.92
+Page   16 CropBox:       0.00     0.00   594.96   841.92
+Page   16 BleedBox:      0.00     0.00   594.96   841.92
+Page   16 TrimBox:       0.00     0.00   594.96   841.92
+Page   16 ArtBox:        0.00     0.00   594.96   841.92
+Page   17 MediaBox:      0.00     0.00   594.96   841.92
+Page   17 CropBox:       0.00     0.00   594.96   841.92
+Page   17 BleedBox:      0.00     0.00   594.96   841.92
+Page   17 TrimBox:       0.00     0.00   594.96   841.92
+Page   17 ArtBox:        0.00     0.00   594.96   841.92
+File size:       96954 bytes
+Optimized:       no
+PDF version:     1.4

@@ -1,0 +1,8 @@
+{
+  "result": "Saved via native dialog and verified",
+  "pages": 1,
+  "initialWait": "timed out before native Save As",
+  "driver": "Microsoft Print to PDF",
+  "bytes": 65483,
+  "sha256": "a6370a01e9dae9f82b04ef91d584b6a0d7a5055515d49ce649fd92f657c53031"
+}

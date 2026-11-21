@@ -1,0 +1,269 @@
+2026-11-21T12:09:37.2538470Z Current runner version: '2.338.2'
+2026-11-21T12:09:37.2581940Z ##[group]Runner Image Provisioner
+2026-11-21T12:09:37.2582630Z Hosted Compute Agent
+2026-11-21T12:09:37.2583000Z Version: 20261111.635
+2026-11-21T12:09:37.2583410Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-21T12:09:37.2583910Z Build Date: 2026-11-11T01:49:01Z
+2026-11-21T12:09:37.2584360Z Worker ID: {1a0fa146-df6d-42c2-ac4c-89ed5845751f}
+2026-11-21T12:09:37.2584810Z Region: westus
+2026-11-21T12:09:37.2585170Z Cloud: MacCloud
+2026-11-21T12:09:37.2585530Z ##[endgroup]
+2026-11-21T12:09:37.2586570Z ##[group]Operating System
+2026-11-21T12:09:37.2586980Z macOS
+2026-11-21T12:09:37.2587290Z 15.8.2
+2026-11-21T12:09:37.2587610Z 24H232
+2026-11-21T12:09:37.2587940Z ##[endgroup]
+2026-11-21T12:09:37.2588280Z ##[group]Runner Image
+2026-11-21T12:09:37.2588650Z Image: macos-15-arm64
+2026-11-21T12:09:37.2589010Z Version: 20261118.0550.1
+2026-11-21T12:09:37.2589910Z Included Software: https://github.com/actions/runner-images/blob/macos-15-arm64/20261118.0550/images/macos/macos-15-arm64-Readme.md
+2026-11-21T12:09:37.2591010Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-15-arm64%2F20261118.0550
+2026-11-21T12:09:37.2591720Z ##[endgroup]
+2026-11-21T12:09:37.2592530Z ##[group]GITHUB_TOKEN Permissions
+2026-11-21T12:09:37.2594600Z Contents: read
+2026-11-21T12:09:37.2595000Z Metadata: read
+2026-11-21T12:09:37.2595350Z ##[endgroup]
+2026-11-21T12:09:37.2597030Z Secret source: Actions
+2026-11-21T12:09:37.2597570Z Cache mode: write
+2026-11-21T12:09:37.2598010Z Prepare workflow directory
+2026-11-21T12:09:37.3022940Z Prepare all required actions
+2026-11-21T12:09:37.3130250Z Getting action download info
+2026-11-21T12:09:37.6834170Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-21T12:09:38.0823130Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-11-21T12:09:38.2315260Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-21T12:09:38.5194240Z Complete job name: pdf-probe
+2026-11-21T12:09:38.6236680Z ##[group]Run actions/checkout@v4
+2026-11-21T12:09:38.6239860Z with:
+2026-11-21T12:09:38.6240990Z   ref: d585da8f51e3ed09f9d6724b6f30d0e257ad8cdf
+2026-11-21T12:09:38.6242760Z   persist-credentials: false
+2026-11-21T12:09:38.6244220Z   repository: ghost114541/shandong-study-platform
+2026-11-21T12:09:38.6253980Z   token: ***
+2026-11-21T12:09:38.6254490Z   ssh-strict: true
+2026-11-21T12:09:38.6254850Z   ssh-user: git
+2026-11-21T12:09:38.6255180Z   clean: true
+2026-11-21T12:09:38.6255540Z   sparse-checkout-cone-mode: true
+2026-11-21T12:09:38.6255960Z   fetch-depth: 1
+2026-11-21T12:09:38.6256340Z   fetch-tags: false
+2026-11-21T12:09:38.6256700Z   show-progress: true
+2026-11-21T12:09:38.6257080Z   lfs: false
+2026-11-21T12:09:38.6257420Z   submodules: false
+2026-11-21T12:09:38.6257770Z   set-safe-directory: true
+2026-11-21T12:09:38.6258180Z   allow-unsafe-pr-checkout: false
+2026-11-21T12:09:38.6259850Z ##[endgroup]
+2026-11-21T12:09:39.1711670Z Syncing repository: ghost114541/shandong-study-platform
+2026-11-21T12:09:39.1713910Z ##[group]Getting Git version info
+2026-11-21T12:09:39.1715130Z Working directory is '/Users/runner/work/shandong-study-platform/shandong-study-platform'
+2026-11-21T12:09:39.1716810Z [command]/opt/homebrew/bin/git version
+2026-11-21T12:09:39.2276450Z git version 2.56.1
+2026-11-21T12:09:39.2305720Z ##[endgroup]
+2026-11-21T12:09:39.2507460Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/06977b95-cca9-4a01-a0e2-6e7b684e5caa/.gitconfig'
+2026-11-21T12:09:39.2515910Z Temporarily overriding HOME='/Users/runner/work/_temp/06977b95-cca9-4a01-a0e2-6e7b684e5caa' before making global git config changes
+2026-11-21T12:09:39.2523270Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T12:09:39.2530830Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/shandong-study-platform/shandong-study-platform
+2026-11-21T12:09:39.2565680Z Deleting the contents of '/Users/runner/work/shandong-study-platform/shandong-study-platform'
+2026-11-21T12:09:39.2568530Z ##[group]Initializing the repository
+2026-11-21T12:09:39.2572980Z [command]/opt/homebrew/bin/git init /Users/runner/work/shandong-study-platform/shandong-study-platform
+2026-11-21T12:09:39.2908110Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-21T12:09:39.2912980Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-21T12:09:39.2917480Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-21T12:09:39.2920870Z hint: call:
+2026-11-21T12:09:39.2922770Z hint:
+2026-11-21T12:09:39.2925090Z hint: 	git config --global init.defaultBranch <name>
+2026-11-21T12:09:39.2928190Z hint:
+2026-11-21T12:09:39.2930800Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-21T12:09:39.2935050Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-21T12:09:39.2938430Z hint:
+2026-11-21T12:09:39.2940570Z hint: 	git branch -m <name>
+2026-11-21T12:09:39.2942570Z hint:
+2026-11-21T12:09:39.2945560Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-21T12:09:39.2950850Z Initialized empty Git repository in /Users/runner/work/shandong-study-platform/shandong-study-platform/.git/
+2026-11-21T12:09:39.2956820Z [command]/opt/homebrew/bin/git remote add origin https://github.com/ghost114541/shandong-study-platform
+2026-11-21T12:09:39.3052790Z ##[endgroup]
+2026-11-21T12:09:39.3060490Z ##[group]Disabling automatic garbage collection
+2026-11-21T12:09:39.3069900Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+2026-11-21T12:09:39.3208400Z ##[endgroup]
+2026-11-21T12:09:39.3211710Z ##[group]Setting up auth
+2026-11-21T12:09:39.3214470Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T12:09:39.3279070Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T12:09:39.4903930Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T12:09:39.5006140Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-21T12:09:39.6777060Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-21T12:09:39.6913080Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-21T12:09:39.8755060Z [command]/opt/homebrew/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-21T12:09:39.9069730Z ##[endgroup]
+2026-11-21T12:09:39.9188750Z ##[group]Fetching the repository
+2026-11-21T12:09:39.9293740Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin d585da8f51e3ed09f9d6724b6f30d0e257ad8cdf
+2026-11-21T12:09:41.7674670Z From https://github.com/ghost114541/shandong-study-platform
+2026-11-21T12:09:41.7710100Z  * branch            d585da8f51e3ed09f9d6724b6f30d0e257ad8cdf -> FETCH_HEAD
+2026-11-21T12:09:41.7716620Z ##[endgroup]
+2026-11-21T12:09:41.7717260Z ##[group]Determining the checkout info
+2026-11-21T12:09:41.7717980Z ##[endgroup]
+2026-11-21T12:09:41.7718380Z [command]/opt/homebrew/bin/git sparse-checkout disable
+2026-11-21T12:09:41.7770040Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-21T12:09:41.7847990Z ##[group]Checking out the ref
+2026-11-21T12:09:41.7848790Z [command]/opt/homebrew/bin/git checkout --progress --force d585da8f51e3ed09f9d6724b6f30d0e257ad8cdf
+2026-11-21T12:09:42.0605850Z HEAD is now at d585da8 Use current AppKit pagination constants
+2026-11-21T12:09:42.0612850Z ##[endgroup]
+2026-11-21T12:09:42.0742410Z [command]/opt/homebrew/bin/git log -1 --format=%H
+2026-11-21T12:09:42.0923570Z d585da8f51e3ed09f9d6724b6f30d0e257ad8cdf
+2026-11-21T12:09:42.0935840Z ##[group]Removing auth
+2026-11-21T12:09:42.0937150Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T12:09:42.1093930Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T12:09:42.2573770Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T12:09:42.2645480Z http.https://github.com/.extraheader
+2026-11-21T12:09:42.2707140Z [command]/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-21T12:09:42.3010720Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-21T12:09:42.4207750Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-21T12:09:42.4511850Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-21T12:09:42.6033140Z ##[endgroup]
+2026-11-21T12:09:42.6784190Z ##[group]Run actions/setup-node@v4
+2026-11-21T12:09:42.6784570Z with:
+2026-11-21T12:09:42.6784770Z   node-version: 24.13.0
+2026-11-21T12:09:42.6784940Z   cache: npm
+2026-11-21T12:09:42.6785130Z   cache-dependency-path: poc-001b/package-lock.json
+2026-11-21T12:09:42.6785370Z   always-auth: false
+2026-11-21T12:09:42.6785560Z   check-latest: false
+2026-11-21T12:09:42.6787790Z   token: ***
+2026-11-21T12:09:42.6787950Z ##[endgroup]
+2026-11-21T12:09:42.9133650Z Attempting to download 24.13.0...
+2026-11-21T12:09:42.9351720Z (node:3475) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-21T12:09:42.9354330Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-21T12:09:43.7937770Z Acquiring 24.13.0 - arm64 from https://github.com/actions/node-versions/releases/download/24.13.0-20981653924/node-24.13.0-darwin-arm64.tar.gz
+2026-11-21T12:09:44.5965140Z Extracting ...
+2026-11-21T12:09:44.6273420Z [command]/usr/bin/tar xz --strip 1 -C /Users/runner/work/_temp/7b81bdeb-3297-412c-bb1e-7ba6e3042c8d -f /Users/runner/work/_temp/99b92269-2d38-43dd-9e11-dc57bba5010e
+2026-11-21T12:09:46.2516650Z Adding to the cache ...
+2026-11-21T12:09:49.5782600Z ##[group]Environment details
+2026-11-21T12:09:50.1578790Z node: v24.13.0
+2026-11-21T12:09:50.1579840Z npm: 11.6.2
+2026-11-21T12:09:50.1580500Z yarn: 1.22.22
+2026-11-21T12:09:50.1581770Z ##[endgroup]
+2026-11-21T12:09:50.1606620Z [command]/Users/runner/hostedtoolcache/node/24.13.0/arm64/bin/npm config get cache
+2026-11-21T12:09:50.3213530Z /Users/runner/.npm
+2026-11-21T12:09:50.6232390Z npm cache is not found
+2026-11-21T12:09:50.6688330Z ##[group]Run npm ci
+2026-11-21T12:09:50.6689000Z npm ci
+2026-11-21T12:09:50.6812750Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-21T12:09:50.6813840Z ##[endgroup]
+2026-11-21T12:09:55.0747590Z
+2026-11-21T12:09:55.0826770Z added 85 packages, and audited 86 packages in 4s
+2026-11-21T12:09:55.0831890Z
+2026-11-21T12:09:55.0832570Z 41 packages are looking for funding
+2026-11-21T12:09:55.0833670Z   run `npm fund` for details
+2026-11-21T12:09:55.0834170Z
+2026-11-21T12:09:55.0834450Z 1 low severity vulnerability
+2026-11-21T12:09:55.0835140Z
+2026-11-21T12:09:55.0835810Z To address all issues (including breaking changes), run:
+2026-11-21T12:09:55.0836700Z   npm audit fix --force
+2026-11-21T12:09:55.0837420Z
+2026-11-21T12:09:55.0923670Z Run `npm audit` for details.
+2026-11-21T12:09:55.3022930Z ##[group]Run command -v pdfinfo || brew install poppler
+2026-11-21T12:09:55.3049410Z command -v pdfinfo || brew install poppler
+2026-11-21T12:09:55.3137170Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-21T12:09:55.3138390Z ##[endgroup]
+2026-11-21T12:09:59.4394460Z ==> Downloading bottle manifests
+2026-11-21T12:09:59.4545150Z ✔︎ Bottle Manifest poppler (26.11.0)
+2026-11-21T12:09:59.7917540Z ==> Would install 1 formula:
+2026-11-21T12:09:59.7919840Z poppler 26.11.0
+2026-11-21T12:09:59.7935890Z ==> Would install 5 dependencies for poppler:
+2026-11-21T12:09:59.7937270Z gpgme     2.2.0
+2026-11-21T12:09:59.7937970Z gpgmepp   2.2.0
+2026-11-21T12:09:59.7938970Z nspr      4.40
+2026-11-21T12:09:59.7939520Z nss       3.133
+2026-11-21T12:09:59.7940410Z openjpeg  2.5.4_1
+2026-11-21T12:10:00.2713810Z ==> Fetching downloads for: poppler
+2026-11-21T12:10:00.4851600Z ✔︎ Bottle Manifest gpgme (2.2.0)
+2026-11-21T12:10:00.6049980Z ✔︎ Bottle Manifest gpgmepp (2.2.0)
+2026-11-21T12:10:00.6266270Z ✔︎ Bottle Manifest nspr (4.40)
+2026-11-21T12:10:00.9734060Z ✔︎ Bottle Manifest nss (3.133)
+2026-11-21T12:10:00.9838040Z ✔︎ Bottle Manifest openjpeg (2.5.4_1)
+2026-11-21T12:10:04.4156410Z ✔︎ Bottle poppler (26.11.0)
+2026-11-21T12:10:04.5597020Z ✔︎ Bottle gpgme (2.2.0)
+2026-11-21T12:10:04.5932450Z ✔︎ Bottle nspr (4.40)
+2026-11-21T12:10:04.6730710Z ✔︎ Bottle gpgmepp (2.2.0)
+2026-11-21T12:10:04.7517700Z ✔︎ Bottle nss (3.133)
+2026-11-21T12:10:04.7941430Z ✔︎ Bottle openjpeg (2.5.4_1)
+2026-11-21T12:10:05.0333990Z ==> Installing dependencies for poppler: gpgme, gpgmepp, nspr, nss and openjpeg
+2026-11-21T12:10:05.0335190Z ==> Installing poppler dependency: gpgme (2.2.0)
+2026-11-21T12:10:05.1959200Z ==> Pouring gpgme--2.2.0.arm64_sequoia.bottle.tar.gz
+2026-11-21T12:10:06.5648790Z 🍺  /opt/homebrew/Cellar/gpgme/2.2.0: 29 files, 2.7MB
+2026-11-21T12:10:06.5650730Z ==> Installing poppler dependency: gpgmepp (2.2.0)
+2026-11-21T12:10:06.7036950Z ==> Pouring gpgmepp--2.2.0.arm64_sequoia.bottle.tar.gz
+2026-11-21T12:10:07.8409680Z 🍺  /opt/homebrew/Cellar/gpgmepp/2.2.0: 73 files, 847KB
+2026-11-21T12:10:07.8413410Z ==> Installing poppler dependency: nspr (4.40)
+2026-11-21T12:10:07.8438170Z ==> Pouring nspr--4.40.arm64_sequoia.bottle.tar.gz
+2026-11-21T12:10:09.0732860Z 🍺  /opt/homebrew/Cellar/nspr/4.40: 79 files, 1.2MB
+2026-11-21T12:10:09.0791360Z ==> Installing poppler dependency: nss (3.133)
+2026-11-21T12:10:09.0848530Z ==> Pouring nss--3.133.arm64_sequoia.bottle.tar.gz
+2026-11-21T12:10:10.5669910Z 🍺  /opt/homebrew/Cellar/nss/3.133: 210 files, 19.1MB
+2026-11-21T12:10:10.5675280Z ==> Installing poppler dependency: openjpeg (2.5.4_1)
+2026-11-21T12:10:10.6342490Z ==> Pouring openjpeg--2.5.4_1.arm64_sequoia.bottle.tar.gz
+2026-11-21T12:10:11.8227190Z 🍺  /opt/homebrew/Cellar/openjpeg/2.5.4_1: 518 files, 14.9MB
+2026-11-21T12:10:11.8228950Z ==> Installing poppler
+2026-11-21T12:10:11.8232210Z ==> Pouring poppler--26.11.0.arm64_sequoia.bottle.tar.gz
+2026-11-21T12:10:13.2274290Z 🍺  /opt/homebrew/Cellar/poppler/26.11.0: 447 files, 34.5MB
+2026-11-21T12:10:13.2863560Z ##[group]Run mkdir -p preview-artifacts
+2026-11-21T12:10:13.2864100Z mkdir -p preview-artifacts
+2026-11-21T12:10:13.2864560Z bash tests/macos-pdf-check.sh 2>&1 | tee preview-artifacts/pdf-probe.log
+2026-11-21T12:10:13.2915810Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-21T12:10:13.2916230Z ##[endgroup]
+2026-11-21T12:11:48.0443290Z Traceback (most recent call last):
+2026-11-21T12:11:48.0448600Z   File "<stdin>", line 6, in <module>
+2026-11-21T12:11:48.0449300Z   File "/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 671, in run
+2026-11-21T12:11:48.0462070Z     stdout, stderr = process.communicate(input, timeout=timeout)
+2026-11-21T12:11:48.0462660Z                      ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-21T12:11:48.0465170Z   File "/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 1395, in communicate
+2026-11-21T12:11:48.0465910Z     stdout, stderr = self._communicate(input, endtime, timeout)
+2026-11-21T12:11:48.0466580Z                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-21T12:11:48.0469170Z   File "/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 2431, in _communicate
+2026-11-21T12:11:48.0469880Z     self.wait(timeout=_deadline_remaining(endtime))
+2026-11-21T12:11:48.0470300Z     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-21T12:11:48.0470970Z   File "/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 1445, in wait
+2026-11-21T12:11:48.0471600Z     return self._wait(timeout=timeout)
+2026-11-21T12:11:48.0472030Z            ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+2026-11-21T12:11:48.0472670Z   File "/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 2310, in _wait
+2026-11-21T12:11:48.0473520Z     if self._wait_pidfd(timeout) or self._wait_kqueue(timeout):
+2026-11-21T12:11:48.0473930Z                                     ~~~~~~~~~~~~~~~~~^^^^^^^^^
+2026-11-21T12:11:48.0474720Z   File "/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 2286, in _wait_kqueue
+2026-11-21T12:11:48.0476060Z     raise TimeoutExpired(self.args, timeout)
+2026-11-21T12:11:48.0477990Z subprocess.TimeoutExpired: Command '[PosixPath('/var/folders/9d/l02zfgrs7c16twd3wbpdmhkc0000gn/T/tmp.Q2S3wZtQWi/probe'), PosixPath('/var/folders/9d/l02zfgrs7c16twd3wbpdmhkc0000gn/T/tmp.Q2S3wZtQWi/fixture.html'), PosixPath('/Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/preview-artifacts/pdf/fixture.pdf')]' timed out after 90 seconds
+2026-11-21T12:11:48.1309000Z ##[error]Process completed with exit code 1.
+2026-11-21T12:11:48.1524920Z ##[group]Run actions/upload-artifact@v4
+2026-11-21T12:11:48.1526100Z with:
+2026-11-21T12:11:48.1527180Z   name: knowpaper-macos-pdf-probe-d585da8f51e3ed09f9d6724b6f30d0e257ad8cdf
+2026-11-21T12:11:48.1528340Z   path: poc-001b/preview-artifacts/
+2026-11-21T12:11:48.1529010Z   retention-days: 14
+2026-11-21T12:11:48.1529760Z   if-no-files-found: warn
+2026-11-21T12:11:48.1530340Z   compression-level: 6
+2026-11-21T12:11:48.1530950Z   overwrite: false
+2026-11-21T12:11:48.1531470Z   include-hidden-files: false
+2026-11-21T12:11:48.1532260Z ##[endgroup]
+2026-11-21T12:11:48.7850280Z (node:6381) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-21T12:11:48.7851540Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-21T12:11:48.7959630Z With the provided path, there will be 2 files uploaded
+2026-11-21T12:11:48.7967790Z Artifact name is valid!
+2026-11-21T12:11:48.7970090Z Root directory input is valid!
+2026-11-21T12:11:49.1125200Z Beginning upload of artifact content to blob storage
+2026-11-21T12:11:50.4348670Z (node:6381) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-21T12:11:50.9132060Z Uploaded bytes 8388608
+2026-11-21T12:11:51.4304350Z Uploaded bytes 14055388
+2026-11-21T12:11:51.4703720Z Finished uploading artifact content to blob storage!
+2026-11-21T12:11:51.4807080Z SHA256 digest of uploaded artifact zip is 0e8ae30f8250d0398d03d433ac538860fc66c12924bfff5282bb04833dfd5d6a
+2026-11-21T12:11:51.4855710Z Finalizing artifact upload
+2026-11-21T12:11:51.8519450Z Artifact knowpaper-macos-pdf-probe-d585da8f51e3ed09f9d6724b6f30d0e257ad8cdf.zip successfully finalized. Artifact ID 14706093523
+2026-11-21T12:11:51.8622810Z Artifact knowpaper-macos-pdf-probe-d585da8f51e3ed09f9d6724b6f30d0e257ad8cdf has been successfully uploaded! Final size is 14055388 bytes. Artifact ID is 14706093523
+2026-11-21T12:11:51.8698890Z Artifact download URL: https://github.com/ghost114541/shandong-study-platform/actions/runs/44902498455/artifacts/14706093523
+2026-11-21T12:11:51.8918840Z Post job cleanup.
+2026-11-21T12:11:52.0185000Z [command]/opt/homebrew/bin/git version
+2026-11-21T12:11:52.0462910Z git version 2.56.1
+2026-11-21T12:11:52.0546320Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/6419aed8-940a-4d6c-950a-daf59cd5a0ff/.gitconfig'
+2026-11-21T12:11:52.0549530Z Temporarily overriding HOME='/Users/runner/work/_temp/6419aed8-940a-4d6c-950a-daf59cd5a0ff' before making global git config changes
+2026-11-21T12:11:52.0551770Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T12:11:52.0554300Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/shandong-study-platform/shandong-study-platform
+2026-11-21T12:11:52.0694090Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T12:11:52.0820270Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T12:11:52.2168720Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T12:11:52.2238750Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-21T12:11:52.3704760Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-21T12:11:52.4008370Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-21T12:11:52.5729690Z Cleaning up orphan processes
+2026-11-21T12:11:53.7983600Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

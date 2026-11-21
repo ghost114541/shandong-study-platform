@@ -1,0 +1,16 @@
+{
+  "commit": "c6ed30ae2b2859f9bd9332fb8529acd63a64f311",
+  "run": "44905827205",
+  "runner": "macos-15",
+  "architecture": "arm64",
+  "identifier": "org.shandong-study.knowpaper-preview",
+  "name": "知卷 KnowPaper（测试版）",
+  "executable": "knowpaper-preview",
+  "version": "0.2.1",
+  "minimumSystemVersion": "13.0",
+  "signing": "ad-hoc",
+  "notarized": false,
+  "dmg": "知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg",
+  "dmgBytes": 9459855,
+  "sha256": "18c501a49987c0fd3958767af5e82bf3c41a12d244d6c643a594cce5718cb816"
+}

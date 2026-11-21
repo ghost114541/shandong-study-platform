@@ -1,0 +1,3 @@
+
+> knowpaper-preview@0.2.1 typecheck
+> tsc --noEmit

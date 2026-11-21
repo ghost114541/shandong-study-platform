@@ -1,0 +1,16 @@
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+AAAAAC+.PingFangUIDisplaySC-Bold     Type 1            Custom           yes yes yes      7  0
+AAAAAD+.SFNS-Regular_wdth_opsz150000_GRAD_wght2BC0000 TrueType          MacRoman         yes yes no       8  0
+AAAAAF+.SFNS-Regular_wdth_opsz150000_GRAD_wght2BC0000 TrueType          WinAnsi          yes yes yes     10  0
+AAAAAH+.PingFangUIDisplaySC-Regular  Type 1            Custom           yes yes yes     12  0
+AAAAAI+.SFNS-Regular_wdth_opsz110000_GRAD_wght TrueType          MacRoman         yes yes no      13  0
+AAAAAK+.SFNS-Regular_wdth_opsz110000_GRAD_wght TrueType          WinAnsi          yes yes yes     15  0
+AAAAAL+.SFNS-Regular_wdth_opsz110000_GRAD_wght2BC0000 TrueType          MacRoman         yes yes no      16  0
+AAAAAN+.SFNS-Regular_wdth_opsz110000_GRAD_wght2BC0000 TrueType          WinAnsi          yes yes yes     18  0
+AAAAAO+ArialMT                       TrueType          MacRoman         yes yes no      19  0
+AAAAAP+KaTeX_Math-Italic             TrueType          MacRoman         yes yes no      20  0
+AAAAAQ+KaTeX_Main-Regular            TrueType          MacRoman         yes yes no      21  0
+AAAAAS+KaTeX_Main-Regular            TrueType          WinAnsi          yes yes yes     23  0
+AAAAAU+STIXTwoMath-Regular           Type 1C           Custom           yes yes yes     25  0
+AAAAAW+KaTeX_Size1-Regular           TrueType          WinAnsi          yes yes yes     27  0

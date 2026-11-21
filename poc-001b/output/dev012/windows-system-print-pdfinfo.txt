@@ -1,0 +1,24 @@
+Title:           知卷 KnowPaper（测试版）
+Author:
+Producer:        Microsoft: Print To PDF
+CreationDate:    Sat Nov 21 15:46:49 2026 ����˹ TZ 2 ��׼ʱ��
+ModDate:         Sat Nov 21 15:46:49 2026 ����˹ TZ 2 ��׼ʱ��
+Custom Metadata: no
+Metadata Stream: no
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           1
+Encrypted:       no
+Page size:       595.32 x 841.92 pts (A4)
+Page rot:        0
+MediaBox:            0.00     0.00   595.32   841.92
+CropBox:             0.00     0.00   595.32   841.92
+BleedBox:            0.00     0.00   595.32   841.92
+TrimBox:             0.00     0.00   595.32   841.92
+ArtBox:              0.00     0.00   595.32   841.92
+File size:       65483 bytes
+Optimized:       no
+PDF version:     1.7

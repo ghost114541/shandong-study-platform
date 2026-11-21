@@ -1,0 +1,760 @@
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded alloc-stdlib v0.3.0
+  Downloaded ambient-authority v0.0.2
+  Downloaded alloc-stdlib v0.2.4
+  Downloaded cfg-if v1.0.5
+  Downloaded base64 v0.23.1
+  Downloaded cap-primitives v4.0.3
+  Downloaded cookie v0.18.2
+  Downloaded base64 v0.22.1
+  Downloaded bit-vec v0.8.0
+  Downloaded block-padding v0.4.2
+  Downloaded brotli-decompressor v6.3.2
+  Downloaded bytemuck v1.25.2
+  Downloaded byteorder-lite v0.1.0
+  Downloaded camino v1.2.6
+  Downloaded cargo-platform v0.1.9
+  Downloaded cbc v0.2.1
+  Downloaded cfg_aliases v0.2.2
+  Downloaded cipher v0.5.2
+  Downloaded const-oid v0.10.3
+  Downloaded core-graphics v0.25.0
+  Downloaded cssparser-macros v0.7.1
+  Downloaded dpi v0.1.2
+  Downloaded dtoa-short v0.3.5
+  Downloaded dunce v1.0.5
+  Downloaded equivalent v1.0.3
+  Downloaded erased-serde v0.4.11
+  Downloaded errno v0.3.15
+  Downloaded foreign-types v0.5.0
+  Downloaded foreign-types-shared v0.3.1
+  Downloaded fs2 v0.4.3
+  Downloaded same-file v1.0.6
+  Downloaded schemars v0.8.22
+  Downloaded schemars_derive v0.8.22
+  Downloaded tauri-codegen v2.7.5
+  Downloaded tauri-winres v0.3.7
+  Downloaded time-core v0.1.9
+  Downloaded url v2.5.8
+  Downloaded utf_types v1.0.0
+  Downloaded heck v0.5.0
+  Downloaded adler2 v2.0.1
+  Downloaded aho-corasick v1.1.5
+  Downloaded alloc-no-stdlib v2.0.4
+  Downloaded alloc-no-stdlib v3.0.0
+  Downloaded base64 v0.21.7
+  Downloaded bit-set v0.8.0
+  Downloaded bitflags v2.13.2
+  Downloaded block-buffer v0.12.1
+  Downloaded block2 v0.6.2
+  Downloaded byteorder v1.5.0
+  Downloaded cap-std v4.0.3
+  Downloaded cargo_metadata v0.19.2
+  Downloaded cargo_toml v1.0.1
+  Downloaded color_quant v1.1.0
+  Downloaded constant_time_eq v0.6.1
+  Downloaded core-graphics-types v0.2.0
+  Downloaded cpubits v0.1.1
+  Downloaded cpufeatures v0.3.1
+  Downloaded crypto-common v0.2.2
+  Downloaded darling_macro v0.24.1
+  Downloaded deranged v0.5.9
+  Downloaded dirs v7.0.0
+  Downloaded dirs-sys v0.5.0
+  Downloaded dtoa v1.0.11
+  Downloaded dyn-clone v1.0.20
+  Downloaded embed-resource v3.0.12
+  Downloaded embed_plist v1.2.2
+  Downloaded fallible-iterator v0.3.0
+  Downloaded fallible-streaming-iterator v0.1.9
+  Downloaded fastrand v2.5.0
+  Downloaded fdeflate v0.3.7
+  Downloaded fnv v1.0.7
+  Downloaded foldhash v0.2.0
+  Downloaded foreign-types-macros v0.2.4
+  Downloaded form_urlencoded v1.2.2
+  Downloaded fs-set-times v0.20.3
+  Downloaded glob v0.3.4
+  Downloaded rustversion v1.0.23
+  Downloaded schemars v1.2.3
+  Downloaded serialize-to-javascript-impl v0.1.2
+  Downloaded sha2 v0.11.1
+  Downloaded simdutf8 v0.1.5
+  Downloaded smallvec v1.16.5
+  Downloaded syn v3.0.10
+  Downloaded tao v0.37.2
+  Downloaded tauri-plugin-fs v2.7.1
+  Downloaded typenum v1.20.1
+  Downloaded web-time v1.1.0
+  Downloaded zeroize_derive v1.5.0
+  Downloaded zune-core v0.5.3
+  Downloaded aes v0.9.4
+  Downloaded anyhow v1.0.104
+  Downloaded autocfg v1.5.1
+  Downloaded bs58 v0.5.1
+  Downloaded bytes v1.12.1
+  Downloaded cap-fs-ext v4.0.3
+  Downloaded cfb v0.14.0
+  Downloaded chacha20 v0.10.2
+  Downloaded core-foundation v0.10.1
+  Downloaded core-foundation-sys v0.8.7
+  Downloaded crc32fast v1.5.5
+  Downloaded crossbeam-utils v0.8.23
+  Downloaded cssparser v0.37.0
+  Downloaded ctor v1.0.14
+  Downloaded darling v0.24.1
+  Downloaded darling_core v0.24.1
+  Downloaded derive_more v2.1.1
+  Downloaded digest v0.11.3
+  Downloaded dispatch2 v0.3.1
+  Downloaded displaydoc v0.2.7
+  Downloaded dom_query v0.28.0
+  Downloaded ecb v0.2.1
+  Downloaded find-msvc-tools v0.1.15
+  Downloaded flate2 v1.1.11
+  Downloaded getrandom v0.3.4
+  Downloaded getrandom v0.4.3
+  Downloaded gif v0.14.2
+  Downloaded rustc_version v0.4.1
+  Downloaded scopeguard v1.2.0
+  Downloaded serde_derive v1.0.229
+  Downloaded serde_derive_internals v0.29.1
+  Downloaded serde_repr v0.1.21
+  Downloaded serde_spanned v1.1.3
+  Downloaded serde_with_macros v3.24.0
+  Downloaded serialize-to-javascript v0.1.2
+  Downloaded shlex v2.0.1
+  Downloaded simd-adler32 v0.3.10
+  Downloaded siphasher v1.0.4
+  Downloaded socket2 v0.6.5
+  Downloaded stable_deref_trait v1.2.1
+  Downloaded static_vcruntime v3.0.0
+  Downloaded string_cache_codegen v0.6.1
+  Downloaded stringprep v0.1.5
+  Downloaded strsim v0.11.1
+  Downloaded swift-rs v1.0.9
+  Downloaded tauri-build v2.7.5
+  Downloaded tauri-plugin v2.7.3
+  Downloaded tauri-runtime-wry v2.12.4
+  Downloaded tinyvec v1.13.3
+  Downloaded toml_writer v1.2.0+spec-1.1.0
+  Downloaded typeid v1.0.3
+  Downloaded unicode-properties v0.1.5
+  Downloaded utf8_iter v1.1.0
+  Downloaded version_check v0.9.5
+  Downloaded web_atoms v0.2.6
+  Downloaded yoke-derive v0.8.4
+  Downloaded zerofrom v0.1.8
+  Downloaded zerofrom-derive v0.1.8
+  Downloaded zeroize v1.9.2
+  Downloaded iana-time-zone v0.1.65
+  Downloaded icu_normalizer_data v2.4.0
+  Downloaded brotli-decompressor v5.0.3
+  Downloaded cc v1.11.2
+  Downloaded chrono v0.4.45
+  Downloaded crossbeam-channel v0.5.17
+  Downloaded derive_more-impl v2.1.1
+  Downloaded semver v1.0.28
+  Downloaded serde-untagged v0.1.9
+  Downloaded serde_core v1.0.229
+  Downloaded servo_arc v0.4.3
+  Downloaded string_cache v0.9.0
+  Downloaded synstructure v0.14.0
+  Downloaded tauri-runtime v2.12.3
+  Downloaded tempfile v3.27.0
+  Downloaded tendril v0.5.1
+  Downloaded thiserror v2.0.21
+  Downloaded thiserror-impl v2.0.21
+  Downloaded tinystr v0.8.5
+  Downloaded toml_datetime v1.1.3+spec-1.1.0
+  Downloaded toml_parser v1.1.5+spec-1.1.0
+  Downloaded unicode-ident v1.0.27
+  Downloaded urlpattern v0.6.0
+  Downloaded weezl v0.1.12
+  Downloaded writeable v0.6.4
+  Downloaded yoke v0.8.4
+  Downloaded regex v1.13.1
+  Downloaded icu_properties v2.4.0
+  Downloaded image-webp v0.2.4
+  Downloaded infer v0.22.0
+  Downloaded inout v0.2.6
+  Downloaded io-extras v0.19.0
+  Downloaded io-lifetimes v3.0.1
+  Downloaded ipnet v2.12.2
+  Downloaded itoa v1.0.19
+  Downloaded json-patch v4.2.0
+  Downloaded lock_api v0.4.14
+  Downloaded markup5ever v0.39.0
+  Downloaded maybe-owned v0.3.4
+  Downloaded md-5 v0.11.0
+  Downloaded schemars v0.9.0
+  Downloaded selectors v0.38.0
+  Downloaded serde v1.0.229
+  Downloaded tauri-macros v2.7.5
+  Downloaded tauri-plugin-dialog v2.8.4
+  Downloaded time-macros v0.2.32
+  Downloaded toml v1.2.1+spec-1.1.0
+  Downloaded tray-icon v0.25.1
+  Downloaded unicode-bidi v0.3.18
+  Downloaded walkdir v2.5.0
+  Downloaded weezl v0.2.1
+  Downloaded indexmap v1.9.3
+  Downloaded indexmap v2.14.2
+  Downloaded io-lifetimes v2.0.4
+  Downloaded jiff-core v0.1.8
+  Downloaded jsonptr v0.7.1
+  Downloaded keyboard-types v0.8.3
+  Downloaded litemap v0.8.3
+  Downloaded log v0.4.35
+  Downloaded mime v0.3.18
+  Downloaded multiversion_no_op v1.0.0
+  Downloaded encoding_rs v0.8.44
+  Downloaded tauri-utils v2.10.3
+  Downloaded unicode-normalization v0.1.26
+  Downloaded uuid v1.29.2
+  Downloaded zerotrie v0.2.5
+  Downloaded regex-automata v0.4.18
+  Downloaded miniz_oxide v0.9.1
+  Downloaded brotli v9.1.3
+  Downloaded serde_json v1.0.154
+  Downloaded typed-path v0.13.0
+  Downloaded zerovec v0.11.9
+  Downloaded lopdf v0.47.0
+  Downloaded memchr v2.8.3
+  Downloaded miniz_oxide v0.8.9
+  Downloaded winnow v1.0.5
+  Downloaded jiff v0.2.46
+  Downloaded libc v0.2.191
+  Downloaded mio v1.2.5
+  Downloaded muda v0.20.0
+  Downloaded new_debug_unreachable v1.0.6
+  Downloaded num-conv v0.2.2
+  Downloaded num-traits v0.2.19
+  Downloaded objc2-encode v4.1.0
+  Downloaded objc2-exception-helper v0.1.1
+  Downloaded objc2-io-surface v0.3.2
+  Downloaded objc2-quartz-core v0.3.2
+  Downloaded option-ext v0.2.0
+  Downloaded phf v0.13.1
+  Downloaded phf_codegen v0.13.1
+  Downloaded phf_shared v0.13.1
+  Downloaded potential_utf v0.1.6
+  Downloaded precomputed-hash v0.1.1
+  Downloaded quick-error v2.0.1
+  Downloaded serde_with v3.24.0
+  Downloaded wry v0.57.2
+  Downloaded moxcms v0.8.1
+  Downloaded nom v8.0.0
+  Downloaded once_cell v1.21.4
+  Downloaded parking_lot v0.12.5
+  Downloaded parking_lot_core v0.9.12
+  Downloaded percent-encoding v2.3.2
+  Downloaded phf_generator v0.13.1
+  Downloaded phf_macros v0.13.1
+  Downloaded pin-project-lite v0.2.17
+  Downloaded pkg-config v0.3.34
+  Downloaded powerfmt v0.2.1
+  Downloaded quote v1.0.47
+  Downloaded vcpkg v0.2.15
+  Downloaded objc2-core-graphics v0.3.2
+  Downloaded plist v1.10.3
+  Downloaded proc-macro2 v1.0.107
+  Downloaded rand_core v0.10.1
+  Downloaded ref-cast v1.0.27
+  Downloaded ref-cast-impl v1.0.27
+  Downloaded time v0.3.55
+  Downloaded objc2-web-kit v0.3.2
+  Downloaded png v0.18.1
+  Downloaded raw-window-handle v0.6.2
+  Downloaded rustc-hash v2.1.3
+  Downloaded zerovec-derive v0.11.7
+  Downloaded syn v2.0.119
+  Downloaded objc2 v0.6.5
+  Downloaded objc2-core-foundation v0.3.2
+  Downloaded quick-xml v0.42.0
+  Downloaded rangemap v1.8.0
+  Downloaded nix v0.32.0
+  Downloaded objc2-foundation v0.3.2
+  Downloaded rfd v0.17.2
+  Downloaded tauri v2.12.6
+  Downloaded objc2-app-kit v0.3.2
+  Downloaded hex v0.4.3
+  Downloaded zmij v1.0.23
+  Downloaded ident_case v1.0.1
+  Downloaded idna_adapter v1.2.2
+  Downloaded rand v0.10.4
+  Downloaded hybrid-array v0.4.15
+  Downloaded zune-jpeg v0.5.15
+  Downloaded hashlink v0.12.2
+  Downloaded html5ever v0.39.0
+  Downloaded icu_provider v2.4.0
+  Downloaded rustix v1.1.6
+  Downloaded hashbrown v0.12.3
+  Downloaded ico v0.6.0
+  Downloaded icu_locale_core v2.4.0
+  Downloaded rusqlite v0.42.0
+  Downloaded http v1.5.0
+  Downloaded zlib-rs v0.6.8
+  Downloaded icu_collections v2.4.0
+  Downloaded idna v1.1.0
+  Downloaded zip v9.6.0
+  Downloaded hashbrown v0.17.1
+  Downloaded icu_properties_data v2.4.0
+  Downloaded regex-syntax v0.8.11
+  Downloaded image v0.25.10
+  Downloaded pxfm v0.1.30
+  Downloaded icu_normalizer v2.4.0
+  Downloaded tokio v1.54.1
+  Downloaded window-vibrancy v0.8.1
+  Downloaded libsqlite3-sys v0.40.0
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.27
+   Compiling quote v1.0.47
+   Compiling serde_core v1.0.229
+   Compiling cfg-if v1.0.5
+   Compiling syn v3.0.10
+   Compiling memchr v2.8.3
+   Compiling smallvec v1.16.5
+   Compiling syn v2.0.119
+   Compiling litemap v0.8.3
+   Compiling siphasher v1.0.4
+   Compiling writeable v0.6.4
+   Compiling itoa v1.0.19
+   Compiling utf_types v1.0.0
+   Compiling utf8_iter v1.1.0
+   Compiling phf_shared v0.13.1
+   Compiling fastrand v2.5.0
+   Compiling phf_generator v0.13.1
+   Compiling icu_properties_data v2.4.0
+   Compiling synstructure v0.14.0
+   Compiling stable_deref_trait v1.2.1
+   Compiling libc v0.2.191
+   Compiling icu_normalizer_data v2.4.0
+   Compiling zmij v1.0.23
+   Compiling zerofrom-derive v0.1.8
+   Compiling yoke-derive v0.8.4
+   Compiling zerovec-derive v0.11.7
+   Compiling serde_derive v1.0.229
+   Compiling zerofrom v0.1.8
+   Compiling displaydoc v0.2.7
+   Compiling find-msvc-tools v0.1.15
+   Compiling shlex v2.0.1
+   Compiling cc v1.11.2
+   Compiling bitflags v2.13.2
+   Compiling serde v1.0.229
+   Compiling yoke v0.8.4
+   Compiling zerovec v0.11.9
+   Compiling phf_macros v0.13.1
+   Compiling thiserror v2.0.21
+   Compiling thiserror-impl v2.0.21
+   Compiling log v0.4.35
+   Compiling num-conv v0.2.2
+   Compiling time-core v0.1.9
+   Compiling tinystr v0.8.5
+   Compiling phf_codegen v0.13.1
+   Compiling equivalent v1.0.3
+   Compiling scopeguard v1.2.0
+   Compiling deranged v0.5.9
+   Compiling powerfmt v0.2.1
+   Compiling autocfg v1.5.1
+   Compiling strsim v0.11.1
+   Compiling ident_case v1.0.1
+   Compiling serde_json v1.0.154
+   Compiling winnow v1.0.5
+   Compiling typeid v1.0.3
+   Compiling darling_core v0.24.1
+   Compiling toml_parser v1.1.5+spec-1.1.0
+   Compiling icu_locale_core v2.4.0
+   Compiling potential_utf v0.1.6
+   Compiling zerotrie v0.2.5
+   Compiling parking_lot_core v0.9.12
+   Compiling toml_writer v1.2.0+spec-1.1.0
+   Compiling erased-serde v0.4.11
+   Compiling icu_provider v2.4.0
+   Compiling icu_collections v2.4.0
+   Compiling aho-corasick v1.1.5
+   Compiling darling_macro v0.24.1
+   Compiling new_debug_unreachable v1.0.6
+   Compiling regex-syntax v0.8.11
+   Compiling fnv v1.0.7
+   Compiling web-time v1.1.0
+   Compiling darling v0.24.1
+   Compiling lock_api v0.4.14
+   Compiling phf v0.13.1
+   Compiling string_cache_codegen v0.6.1
+   Compiling getrandom v0.4.3
+   Compiling bytes v1.12.1
+   Compiling precomputed-hash v0.1.1
+   Compiling objc2-encode v4.1.0
+   Compiling regex-automata v0.4.18
+   Compiling alloc-no-stdlib v3.0.0
+   Compiling alloc-stdlib v0.3.0
+   Compiling web_atoms v0.2.6
+   Compiling parking_lot v0.12.5
+   Compiling serde_with_macros v3.24.0
+   Compiling icu_normalizer v2.4.0
+   Compiling icu_properties v2.4.0
+   Compiling regex v1.13.1
+   Compiling objc2-exception-helper v0.1.1
+   Compiling quick-xml v0.42.0
+   Compiling semver v1.0.28
+   Compiling base64 v0.23.1
+   Compiling anyhow v1.0.104
+   Compiling idna_adapter v1.2.2
+   Compiling string_cache v0.9.0
+   Compiling brotli-decompressor v6.3.2
+   Compiling http v1.5.0
+   Compiling serde_spanned v1.1.3
+   Compiling toml_datetime v1.1.3+spec-1.1.0
+   Compiling dtoa v1.0.11
+   Compiling percent-encoding v2.3.2
+   Compiling same-file v1.0.6
+   Compiling dunce v1.0.5
+   Compiling form_urlencoded v1.2.2
+   Compiling walkdir v2.5.0
+   Compiling dtoa-short v0.3.5
+   Compiling toml v1.2.1+spec-1.1.0
+   Compiling brotli v9.1.3
+   Compiling uuid v1.29.2
+   Compiling idna v1.1.0
+   Compiling tendril v0.5.1
+   Compiling indexmap v1.9.3
+   Compiling selectors v0.38.0
+   Compiling derive_more-impl v2.1.1
+   Compiling cssparser-macros v0.7.1
+   Compiling camino v1.2.6
+   Compiling ctor v1.0.14
+   Compiling typenum v1.20.1
+   Compiling objc2 v0.6.5
+   Compiling glob v0.3.4
+   Compiling derive_more v2.1.1
+   Compiling cssparser v0.37.0
+   Compiling markup5ever v0.39.0
+   Compiling hybrid-array v0.4.15
+   Compiling url v2.5.8
+   Compiling swift-rs v1.0.9
+   Compiling serde_derive_internals v0.29.1
+   Compiling servo_arc v0.4.3
+   Compiling bit-vec v0.8.0
+   Compiling rustc-hash v2.1.3
+   Compiling hashbrown v0.17.1
+   Compiling hashbrown v0.12.3
+   Compiling schemars v0.8.22
+   Compiling schemars_derive v0.8.22
+   Compiling indexmap v2.14.2
+   Compiling bit-set v0.8.0
+   Compiling html5ever v0.39.0
+   Compiling cfb v0.14.0
+   Compiling jsonptr v0.7.1
+   Compiling time v0.3.55
+   Compiling cargo-platform v0.1.9
+   Compiling tauri-utils v2.10.3
+   Compiling dyn-clone v1.0.20
+   Compiling base64 v0.21.7
+   Compiling foldhash v0.2.0
+   Compiling dom_query v0.28.0
+   Compiling plist v1.10.3
+   Compiling cargo_metadata v0.19.2
+   Compiling infer v0.22.0
+   Compiling serde-untagged v0.1.9
+   Compiling json-patch v4.2.0
+   Compiling urlpattern v0.6.0
+   Compiling serde_with v3.24.0
+   Compiling simd-adler32 v0.3.10
+   Compiling block2 v0.6.2
+   Compiling crc32fast v1.5.5
+   Compiling adler2 v2.0.1
+   Compiling objc2-core-foundation v0.3.2
+   Compiling crypto-common v0.2.2
+   Compiling objc2-foundation v0.3.2
+   Compiling miniz_oxide v0.9.1
+   Compiling flate2 v1.1.11
+   Compiling objc2-quartz-core v0.3.2
+   Compiling option-ext v0.2.0
+   Compiling objc2-app-kit v0.3.2
+   Compiling heck v0.5.0
+   Compiling miniz_oxide v0.8.9
+   Compiling fdeflate v0.3.7
+   Compiling block-buffer v0.12.1
+   Compiling time-macros v0.2.32
+   Compiling const-oid v0.10.3
+   Compiling rustversion v1.0.23
+   Compiling digest v0.11.3
+   Compiling crossbeam-utils v0.8.23
+   Compiling version_check v0.9.5
+   Compiling raw-window-handle v0.6.2
+   Compiling cookie v0.18.2
+   Compiling dpi v0.1.2
+   Compiling core-foundation-sys v0.8.7
+   Compiling core-foundation v0.10.1
+   Compiling tauri v2.12.6
+   Compiling tauri-plugin v2.7.3
+   Compiling foreign-types-macros v0.2.4
+   Compiling foreign-types-shared v0.3.1
+   Compiling rustix v1.1.6
+   Compiling foreign-types v0.5.0
+   Compiling crossbeam-channel v0.5.17
+   Compiling wry v0.57.2
+   Compiling core-graphics-types v0.2.0
+   Compiling objc2-web-kit v0.3.2
+   Compiling png v0.18.1
+   Compiling dirs-sys v0.5.0
+   Compiling dispatch2 v0.3.1
+   Compiling block-padding v0.4.2
+   Compiling errno v0.3.15
+   Compiling cpufeatures v0.3.1
+   Compiling io-lifetimes v3.0.1
+   Compiling tauri-runtime v2.12.3
+   Compiling rand_core v0.10.1
+   Compiling io-lifetimes v2.0.4
+   Compiling byteorder v1.5.0
+   Compiling ico v0.6.0
+   Compiling sha2 v0.11.1
+   Compiling inout v0.2.6
+   Compiling dirs v7.0.0
+   Compiling core-graphics v0.25.0
+   Compiling tauri-plugin-fs v2.7.1
+   Compiling rustc_version v0.4.1
+   Compiling io-extras v0.19.0
+   Compiling tauri-runtime-wry v2.12.4
+   Compiling muda v0.20.0
+   Compiling once_cell v1.21.4
+   Compiling getrandom v0.3.4
+   Compiling embed-resource v3.0.12
+   Compiling tao v0.37.2
+   Compiling cipher v0.5.2
+   Compiling tauri-codegen v2.7.5
+   Compiling keyboard-types v0.8.3
+   Compiling num-traits v0.2.19
+   Compiling serialize-to-javascript-impl v0.1.2
+   Compiling cfg_aliases v0.2.2
+   Compiling cap-primitives v4.0.3
+   Compiling pin-project-lite v0.2.17
+   Compiling pkg-config v0.3.34
+   Compiling vcpkg v0.2.15
+   Compiling libsqlite3-sys v0.40.0
+   Compiling tokio v1.54.1
+   Compiling serialize-to-javascript v0.1.2
+   Compiling nix v0.32.0
+   Compiling tauri-macros v2.7.5
+   Compiling fs-set-times v0.20.3
+   Compiling tauri-winres v0.3.7
+   Compiling tauri-plugin-dialog v2.8.4
+   Compiling encoding_rs v0.8.44
+   Compiling constant_time_eq v0.6.1
+   Compiling window-vibrancy v0.8.1
+   Compiling cargo_toml v1.0.1
+   Compiling serde_repr v0.1.21
+   Compiling ambient-authority v0.0.2
+   Compiling embed_plist v1.2.2
+   Compiling tinyvec v1.13.3
+   Compiling ipnet v2.12.2
+   Compiling maybe-owned v0.3.4
+   Compiling rfd v0.17.2
+   Compiling mime v0.3.18
+   Compiling cap-std v4.0.3
+   Compiling static_vcruntime v3.0.0
+   Compiling alloc-no-stdlib v2.0.4
+   Compiling tauri-build v2.7.5
+   Compiling alloc-stdlib v0.2.4
+   Compiling unicode-normalization v0.1.26
+   Compiling chacha20 v0.10.2
+   Compiling zeroize_derive v1.5.0
+   Compiling multiversion_no_op v1.0.0
+   Compiling simdutf8 v0.1.5
+   Compiling cpubits v0.1.1
+   Compiling cap-fs-ext v4.0.3
+   Compiling weezl v0.1.12
+   Compiling unicode-bidi v0.3.18
+   Compiling zune-core v0.5.3
+   Compiling unicode-properties v0.1.5
+   Compiling byteorder-lite v0.1.0
+   Compiling color_quant v1.1.0
+   Compiling pxfm v0.1.30
+   Compiling quick-error v2.0.1
+   Compiling image-webp v0.2.4
+   Compiling moxcms v0.8.1
+   Compiling gif v0.14.2
+   Compiling stringprep v0.1.5
+   Compiling zune-jpeg v0.5.15
+   Compiling aes v0.9.4
+   Compiling zeroize v1.9.2
+   Compiling rand v0.10.4
+   Compiling shandong-poc-001b v0.2.1 (/Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri)
+   Compiling brotli-decompressor v5.0.3
+   Compiling cbc v0.2.1
+   Compiling ecb v0.2.1
+   Compiling md-5 v0.11.0
+   Compiling hashlink v0.12.2
+   Compiling nom v8.0.0
+   Compiling typed-path v0.13.0
+   Compiling fallible-iterator v0.3.0
+   Compiling fallible-streaming-iterator v0.1.9
+   Compiling rangemap v1.8.0
+   Compiling weezl v0.2.1
+   Compiling bytemuck v1.25.2
+   Compiling image v0.25.10
+   Compiling tempfile v3.27.0
+   Compiling rusqlite v0.42.0
+   Compiling lopdf v0.47.0
+   Compiling zip v9.6.0
+   Compiling fs2 v0.4.3
+   Compiling base64 v0.22.1
+warning: function `check_tree` is never used
+  --> examples/../src/library_paths.rs:67:8
+   |
+67 | pub fn check_tree(root: &Path) -> io::Result<()> {
+   |        ^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `error`, `needs_layout_repair`, `migration_parent`, `prepare_rollback`, and `check_cleanup` are never used
+   --> examples/../src/library_root.rs:197:12
+    |
+ 46 | impl LibraryRoot {
+    | ---------------- methods in this implementation
+...
+197 |     pub fn error(&self) -> Option<&str> {
+    |            ^^^^^
+...
+201 |     pub fn needs_layout_repair(&self) -> Result<bool, String> {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+234 |     pub fn migration_parent(&self, requested: &Path) -> Result<PathBuf, String> {
+    |            ^^^^^^^^^^^^^^^^
+...
+383 |     pub fn prepare_rollback(&mut self) -> Result<(), String> {
+    |            ^^^^^^^^^^^^^^^^
+...
+399 |     pub fn check_cleanup(&self, requested: &Path) -> Result<(), String> {
+    |            ^^^^^^^^^^^^^
+
+warning: constant `MAX_BYTES` is never used
+ --> examples/../src/storage.rs:8:7
+  |
+8 | const MAX_BYTES: u64 = 32 * 1024 * 1024;
+  |       ^^^^^^^^^
+
+warning: function `check_envelope` is never used
+  --> examples/../src/storage.rs:10:4
+   |
+10 | fn check_envelope(data: &Value) -> Result<(), String> {
+   |    ^^^^^^^^^^^^^^
+
+warning: function `load` is never used
+  --> examples/../src/storage.rs:24:8
+   |
+24 | pub fn load(path: &Path) -> Result<Option<Value>, String> {
+   |        ^^^^
+
+warning: function `save` is never used
+  --> examples/../src/storage.rs:41:8
+   |
+41 | pub fn save(path: &Path, data: &Value) -> Result<(), String> {
+   |        ^^^^
+
+warning: `shandong-poc-001b` (example "dev012_migration") generated 6 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 13s
+     Running unittests src/lib.rs (src-tauri/target/debug/build/shandong-poc-001b/fe9417e4e5051b86/out/shandong_poc_001b-fe9417e4e5051b86)
+
+running 68 tests
+test db::attachments::tests::dev005_t03_animated_gif_is_decoded_beyond_the_first_frame ... ok
+test db::attachments::tests::dev005_t05_invalid_formats_sizes_ids_permissions_and_path_escape ... ok
+test db::attachments::tests::dev005_t03_t04_imports_four_formats_and_reuses_physical_files ... ok
+test db::attachments::tests::dev005_t06_registration_failure_and_interrupted_stage_are_retryable ... ok
+test db::attachments::tests::dev005_t08_t10_fixed_revisions_and_missing_or_corrupt_files ... ok
+test db::favorites_tests::dev008_t03_t04_create_rename_reorder_validate ... ok
+test db::favorites_tests::dev008_t01_t02_upgrade_retains_migrations_and_default_stays_unique ... ok
+test db::favorites_tests::dev008_t05_t07_t09_t14_merge_keep_source_and_cross_folder_mark ... ok
+test db::favorites_tests::dev008_t08_collection_delete_and_add_are_serialized ... ok
+test db::favorites_tests::dev008_t08_t17_concurrent_idempotency_failed_batch_and_delete_roll_back ... ok
+test db::favorites_tests::dev008_t06_t10_t16_multi_type_pdf_versions_metadata_and_safe_folder_delete ... ok
+test db::favorites_tests::dev008_t13_t15_t18_latest_user_revision_review_and_fixed_selection_survive_reopen ... ok
+test db::migrations::tests::dev003_t10_schema_two_failure_rolls_back_subjects_and_ddl ... ok
+test db::migrations::tests::dev003_t02_t10_upgrade_preserves_schema_one_user_data_and_pins ... ok
+test db::migrations::tests::dev004_t02_schema_two_preserves_records_and_pinned_revision ... ok
+test db::migrations::tests::test_003_failed_upgrade_rolls_back_ddl_data_and_version ... ok
+test db::pack_tests::dev009_committed_cleanup_republishes_a_missing_link_from_valid_stage ... ok
+test db::pack_tests::dev009_t02_migrates_schema7_with_historical_revision_and_favorite ... ok
+test db::pack_tests::dev009_reuses_unchanged_revision_and_rejects_stale_confirmation ... ok
+test db::pack_tests::dev009_t08_preflight_rejects_bad_hierarchy_references_and_ownership ... ok
+test db::pack_tests::dev009_t03_to_t07_checks_container_manifest_and_decode_failures ... ok
+test db::pack_tests::dev009_t09_to_t17_import_upgrade_and_preserve_user_resources ... ok
+test db::pack_tests::dev009_t20_cross_connection_concurrency_and_t21_integrity_history ... ok
+test db::pack_zip::tests::poc003_crash_worker ... ok
+
+running 1 test
+
+running 1 test
+test db::favorites_tests::dev008_t10_t19_mixed_1000_and_5000_query_benchmark ... ok
+test db::pack_zip::tests::poc003_output_budget_checks_actual_read ... ok
+test db::pack_zip::tests::poc003_reads_real_zip_and_hashes_stream ... ok
+test db::pack_zip::tests::poc003_kills_child_before_and_after_commit ... ok
+test db::pack_zip::tests::poc003_refuses_high_ratio_before_decompressing ... ok
+test db::pack_zip::tests::poc003_refuses_nonportable_members ... ok
+test db::paper_files::tests::dev007_bad_pdf_copy_interrupted_directory_failure_and_sql_rollback ... ok
+test db::paper_files::tests::dev007_cross_page_alias_correction_and_failed_new_question_are_consistent ... ok
+test db::paper_files::tests::dev007_dedup_distinct_papers_same_name_versions_and_hash_failures ... ok
+test db::paper_tests::dev006_failed_duplicate_and_bad_points_roll_back_version ... ok
+test db::paper_tests::dev006_invalid_answer_analysis_image_blocks_pair_only_at_export ... ok
+test db::paper_tests::dev006_projection_is_disjoint_and_identity_stays_pinned ... ok
+test db::protection::tests::dev010_t01_upgrade_schema_eight_preserves_rows_and_migration_history ... ok
+test db::protection::tests::dev010_t02_snapshot_has_committed_wal_and_excludes_open_transaction ... ok
+test db::pack_tests::dev009_t18_faults_at_staging_publication_sqlite_and_result_registration ... ok
+test db::protection_tests::dev010_t15_t19_trash_preserves_fixed_references_and_public_rules ... ok
+test db::protection_tests::dev010_t06_restore_old_schema_in_isolation ... ok
+test db::protection_tests::dev010_t24_t25_draft_orders_writes_and_commits_formal_save_atomically ... ok
+test db::tests::dev002_editor_atomic_create_reopen_and_revision_conflicts ... ok
+test db::tests::dev002_shared_rich_text_contract ... ok
+test db::protection_tests::dev010_t03_t04_t12_backup_cancel_missing_image_and_space_cleanup ... ok
+test db::tests::dev002_editor_branches_from_public_without_changing_original ... ok
+test db::tests::dev003_t01_review_effective_by_utc_calendar_date ... ok
+test db::tests::explicit_duplicate_confirmation_preserves_existing_sources_and_revisions ... ok
+test db::tests::knowledge_tests::dev003_t02_nine_subjects_are_seeded_once ... ok
+test db::tests::knowledge_tests::dev003_t03_t04_t05_tree_sort_constraints_and_aliases ... ok
+test db::tests::knowledge_tests::dev003_t06_t07_t08_link_and_search_current_without_duplicates ... ok
+test db::tests::metadata_tests::dev004_t03_t04_t05_metadata_persists_and_origin_predicates_share_one_occurrence ... ok
+test db::tests::metadata_tests::dev004_t06_search_audit_matches_effective_current_revision_state ... ok
+test db::tests::metadata_tests::dev004_t07_year_and_difficulty_sort_stable_with_ties_and_missing_values ... ok
+test db::tests::knowledge_tests::dev004_t01_alias_knowledge_is_searchable_without_rewriting_sources ... ok
+test db::tests::metadata_tests::dev005_t01_shared_origin_rejects_stale_baseline_from_another_connection ... ok
+test db::tests::rich_text_round_trip_keeps_latex_attachment_and_part_id_and_rejects_bad_content ... ok
+test db::tests::test_001_initializes_schema_wal_foreign_keys_and_history ... ok
+test db::tests::test_002_reopens_same_database_without_reapplying_migration ... ok
+test db::tests::test_004_counts_unique_questions_separately_from_parts_and_occurrences ... ok
+test db::tests::test_005_verification_is_version_bound_and_honors_review_chain_and_expiry ... ok
+test db::tests::test_006_user_revision_is_selected_and_public_original_is_unchanged ... ok
+test db::tests::test_007_public_update_preserves_user_revision_and_first_public_content ... ok
+test db::tests::test_008_saved_composition_reopens_pinned_revision_and_rolls_back_missing_items ... ok
+test db::tests::test_009_blocks_revision_mutation_deletion_and_cross_question_references ... ok
+test db::tests::validates_knowledge_hierarchy_and_structured_database_errors ... ok
+test db::tests::knowledge_tests::dev003_t09_synthetic_ten_thousand_query_benchmark ... ok
+test db::tests::metadata_tests::dev004_t11_metadata_query_benchmark ... ok
+
+test result: ok. 68 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.67s
+
+     Running unittests src/main.rs (src-tauri/target/debug/build/shandong-poc-001b/ee7beb640186e12b/out/shandong_poc_001b-ee7beb640186e12b)
+
+running 7 tests
+test library_root::tests::dev010_switch_child ... ok
+test library_paths::macos_tests::system_var_alias_is_accepted_but_descendant_links_are_rejected ... ok
+test library_root::tests::dev010_t11_failed_candidate_keeps_current_database ... ok
+test storage::tests::distinguishes_corruption_and_unsupported_versions ... ok
+test storage::tests::round_trip_replacement_preserves_content_and_ids ... ok
+
+running 1 test
+
+running 1 test
+test library_root::safety_tests::dev0101_t01_t02_t03_t09_t10_root_relations_and_cleanup ... ok
+
+running 1 test
+test library_root::tests::dev010_t13_kill_process_before_and_after_atomic_root_switch ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.49s
+
+   Doc-tests shandong_poc_001b
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

@@ -1,0 +1,57 @@
+Native Win32 window hwnd present, process PID 22768, URL http://tauri.localhost/
+Selected file through native Win32 controls in 导入试卷 PDF
+Imported and rendered original.pdf (6 pages, 7665 bytes, including native selection 602.7ms)
+Print one original page with Microsoft Print to PDF and save to: C:\download\KnowPaper\shandong_study_platform_v1\poc-001b\.test-output\org.shandong-study.dev010-1200ab72\paper-reader\system-printed-original-22768.pdf
+{
+  images: [],
+  reader: '返回试卷库\n' +
+    '原创系统打印验收卷\n' +
+    '收藏试卷\n' +
+    'PDF 版本 \n' +
+    '原卷 · original.pdf · 6 页 · 89f303ff\n' +
+    '上一页\n' +
+    '下一页\n' +
+    '页码 \n' +
+    '/ 6\n' +
+    '跳转\n' +
+    '缩放 \n' +
+    '适合整页\n' +
+    '适合宽度\n' +
+    '50%\n' +
+    '75%\n' +
+    '100%\n' +
+    '125%\n' +
+    '150%\n' +
+    '200%\n' +
+    '300%\n' +
+    '旋转\n' +
+    '缩略图\n' +
+    '搜索 PDF\n' +
+    '保存原始 PDF\n' +
+    '打印原卷\n' +
+    '已关联试题（0）\n' +
+    '截取题目\n' +
+    '1\n' +
+    '2\n' +
+    '3\n' +
+    '4\n' +
+    '5\n' +
+    '打印原始 PDF\n' +
+    '起始页 \n' +
+    '结束页 \n' +
+    '准备打印页面\n' +
+    '打开系统打印\n' +
+    '关闭打印'
+}
+file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:54
+  throw new Error('等待超时：' + description, { cause: error })
+        ^
+
+Error: 等待超时：spooled system PDF
+    at waitFor (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:54:9)
+    at async readerRegression (file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-paper-reader.mjs:132:5)
+    at async file:///C:/download/KnowPaper/shandong_study_platform_v1/poc-001b/tests/windows-webview.mjs:291:26 {
+  [cause]: undefined
+}
+
+Node.js v24.13.0

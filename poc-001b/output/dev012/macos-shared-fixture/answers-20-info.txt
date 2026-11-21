@@ -1,0 +1,65 @@
+Title:           知卷 KnowPaper（测试版）
+Producer:        macOS Version 15.8.2 (Build 24H232) Quartz PDFContext
+CreationDate:    Sat Nov 21 12:59:15 2026 UTC
+ModDate:         Sat Nov 21 12:59:15 2026 UTC
+Custom Metadata: no
+Metadata Stream: no
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           7
+Encrypted:       no
+Page    1 size:  595 x 842 pts (A4)
+Page    1 rot:   0
+Page    2 size:  595 x 842 pts (A4)
+Page    2 rot:   0
+Page    3 size:  595 x 842 pts (A4)
+Page    3 rot:   0
+Page    4 size:  595 x 842 pts (A4)
+Page    4 rot:   0
+Page    5 size:  595 x 842 pts (A4)
+Page    5 rot:   0
+Page    6 size:  595 x 842 pts (A4)
+Page    6 rot:   0
+Page    7 size:  595 x 842 pts (A4)
+Page    7 rot:   0
+Page    1 MediaBox:      0.00     0.00   595.00   842.00
+Page    1 CropBox:       0.00     0.00   595.00   842.00
+Page    1 BleedBox:      0.00     0.00   595.00   842.00
+Page    1 TrimBox:       0.00     0.00   595.00   842.00
+Page    1 ArtBox:        0.00     0.00   595.00   842.00
+Page    2 MediaBox:      0.00     0.00   595.00   842.00
+Page    2 CropBox:       0.00     0.00   595.00   842.00
+Page    2 BleedBox:      0.00     0.00   595.00   842.00
+Page    2 TrimBox:       0.00     0.00   595.00   842.00
+Page    2 ArtBox:        0.00     0.00   595.00   842.00
+Page    3 MediaBox:      0.00     0.00   595.00   842.00
+Page    3 CropBox:       0.00     0.00   595.00   842.00
+Page    3 BleedBox:      0.00     0.00   595.00   842.00
+Page    3 TrimBox:       0.00     0.00   595.00   842.00
+Page    3 ArtBox:        0.00     0.00   595.00   842.00
+Page    4 MediaBox:      0.00     0.00   595.00   842.00
+Page    4 CropBox:       0.00     0.00   595.00   842.00
+Page    4 BleedBox:      0.00     0.00   595.00   842.00
+Page    4 TrimBox:       0.00     0.00   595.00   842.00
+Page    4 ArtBox:        0.00     0.00   595.00   842.00
+Page    5 MediaBox:      0.00     0.00   595.00   842.00
+Page    5 CropBox:       0.00     0.00   595.00   842.00
+Page    5 BleedBox:      0.00     0.00   595.00   842.00
+Page    5 TrimBox:       0.00     0.00   595.00   842.00
+Page    5 ArtBox:        0.00     0.00   595.00   842.00
+Page    6 MediaBox:      0.00     0.00   595.00   842.00
+Page    6 CropBox:       0.00     0.00   595.00   842.00
+Page    6 BleedBox:      0.00     0.00   595.00   842.00
+Page    6 TrimBox:       0.00     0.00   595.00   842.00
+Page    6 ArtBox:        0.00     0.00   595.00   842.00
+Page    7 MediaBox:      0.00     0.00   595.00   842.00
+Page    7 CropBox:       0.00     0.00   595.00   842.00
+Page    7 BleedBox:      0.00     0.00   595.00   842.00
+Page    7 TrimBox:       0.00     0.00   595.00   842.00
+Page    7 ArtBox:        0.00     0.00   595.00   842.00
+File size:       57141 bytes
+Optimized:       no
+PDF version:     1.3

@@ -1,0 +1,8 @@
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+AAAAAA+MicrosoftYaHeiUI-Bold         CID TrueType      Identity-H       yes yes yes      4  0
+BAAAAA+MicrosoftYaHeiUI              CID TrueType      Identity-H       yes yes yes      5  0
+CAAAAA+ArialMT                       CID TrueType      Identity-H       yes yes yes      9  0
+DAAAAA+KaTeX_Math-Italic             CID TrueType      Identity-H       yes yes yes     10  0
+EAAAAA+KaTeX_Main-Regular            CID TrueType      Identity-H       yes yes yes     11  0
+FAAAAA+KaTeX_Size1-Regular           CID TrueType      Identity-H       yes yes yes     12  0

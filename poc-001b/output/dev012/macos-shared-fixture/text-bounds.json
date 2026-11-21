@@ -1,0 +1,37 @@
+{
+  "answers-20.pdf": {
+    "pages": 7,
+    "checkedWords": 549,
+    "outsidePage": 0
+  },
+  "answers-30.pdf": {
+    "pages": 10,
+    "checkedWords": 819,
+    "outsidePage": 0
+  },
+  "answers-50.pdf": {
+    "pages": 17,
+    "checkedWords": 1359,
+    "outsidePage": 0
+  },
+  "paper-20.pdf": {
+    "pages": 12,
+    "checkedWords": 819,
+    "outsidePage": 0
+  },
+  "paper-30.pdf": {
+    "pages": 18,
+    "checkedWords": 1169,
+    "outsidePage": 0
+  },
+  "paper-50.pdf": {
+    "pages": 27,
+    "checkedWords": 1869,
+    "outsidePage": 0
+  },
+  "single.pdf": {
+    "pages": 1,
+    "checkedWords": 88,
+    "outsidePage": 0
+  }
+}

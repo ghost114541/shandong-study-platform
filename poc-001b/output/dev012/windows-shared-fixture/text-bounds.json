@@ -1,0 +1,44 @@
+{
+  "answers-20.pdf": {
+    "sha256": "3131e7e73268039193ed1c9395becb37c5f474cd356afbdc6f2f1167e6b06717",
+    "pages": 7,
+    "checkedWords": 549,
+    "outsidePage": 0
+  },
+  "answers-30.pdf": {
+    "sha256": "1afbbe7bcfff85f6dec3e0003852e823536b01f3b10719b7dc29115df1fa7c7c",
+    "pages": 11,
+    "checkedWords": 819,
+    "outsidePage": 0
+  },
+  "answers-50.pdf": {
+    "sha256": "6aee0219e774e5d8113956fccec0e8190507ec39a886c34d5903153095fc864c",
+    "pages": 17,
+    "checkedWords": 1359,
+    "outsidePage": 0
+  },
+  "paper-20.pdf": {
+    "sha256": "94615707f1bc2d249f979537aaaa18783dc4f8b4bcd325f43229a44634199499",
+    "pages": 12,
+    "checkedWords": 879,
+    "outsidePage": 0
+  },
+  "paper-30.pdf": {
+    "sha256": "b30fbd9bf61d851363126deda057915452e031e6a5ee01a66d507684a1c3a9dd",
+    "pages": 17,
+    "checkedWords": 1259,
+    "outsidePage": 0
+  },
+  "paper-50.pdf": {
+    "sha256": "5a1d15e8228f4bd1fcaa81907a686dd7d345edd77073331407f34a1ff027d26f",
+    "pages": 27,
+    "checkedWords": 2019,
+    "outsidePage": 0
+  },
+  "single.pdf": {
+    "sha256": "9af00abe6a66d1fc7a09de978c3ad1d47987058ec5589b18521dcf15794ff776",
+    "pages": 1,
+    "checkedWords": 86,
+    "outsidePage": 0
+  }
+}

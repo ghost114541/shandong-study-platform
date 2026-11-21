@@ -1,0 +1,122 @@
+{
+  "originalReader": [
+    {
+      "name": "two screenshot attachments and editor",
+      "ms": 165.6
+    },
+    {
+      "name": "perf20 first open after import",
+      "ms": 102.1,
+      "appWorkingSet": 97447936,
+      "appLifetimePeakWorkingSet": 230334464,
+      "webviewTreeWorkingSetSample": 938803200,
+      "webviewTreeProcessCount": 6
+    },
+    {
+      "name": "perf20 five thumbnails",
+      "ms": 165.9,
+      "appWorkingSet": 97447936,
+      "appLifetimePeakWorkingSet": 230334464,
+      "webviewTreeWorkingSetSample": 940232704,
+      "webviewTreeProcessCount": 6
+    },
+    {
+      "name": "perf20 jump 20",
+      "ms": 15.2,
+      "appWorkingSet": 97447936,
+      "appLifetimePeakWorkingSet": 230334464,
+      "webviewTreeWorkingSetSample": 942608384,
+      "webviewTreeProcessCount": 6
+    },
+    {
+      "name": "perf20 search",
+      "ms": 160,
+      "appWorkingSet": 97447936,
+      "appLifetimePeakWorkingSet": 230334464,
+      "webviewTreeWorkingSetSample": 949108736,
+      "webviewTreeProcessCount": 6
+    },
+    {
+      "name": "perf20 reopen",
+      "ms": 95,
+      "appWorkingSet": 97452032,
+      "appLifetimePeakWorkingSet": 230334464,
+      "webviewTreeWorkingSetSample": 895918080,
+      "webviewTreeProcessCount": 6
+    },
+    {
+      "name": "perf100 first open after import",
+      "ms": 110.8,
+      "appWorkingSet": 97185792,
+      "appLifetimePeakWorkingSet": 230334464,
+      "webviewTreeWorkingSetSample": 901230592,
+      "webviewTreeProcessCount": 6
+    },
+    {
+      "name": "perf100 five thumbnails",
+      "ms": 169.6,
+      "appWorkingSet": 97198080,
+      "appLifetimePeakWorkingSet": 230334464,
+      "webviewTreeWorkingSetSample": 901373952,
+      "webviewTreeProcessCount": 6
+    },
+    {
+      "name": "perf100 jump 50",
+      "ms": 13.4,
+      "appWorkingSet": 97198080,
+      "appLifetimePeakWorkingSet": 230334464,
+      "webviewTreeWorkingSetSample": 905515008,
+      "webviewTreeProcessCount": 6
+    },
+    {
+      "name": "perf100 jump 100",
+      "ms": 12,
+      "appWorkingSet": 97198080,
+      "appLifetimePeakWorkingSet": 230334464,
+      "webviewTreeWorkingSetSample": 911040512,
+      "webviewTreeProcessCount": 6
+    },
+    {
+      "name": "perf100 search",
+      "ms": 169.6,
+      "appWorkingSet": 97198080,
+      "appLifetimePeakWorkingSet": 230334464,
+      "webviewTreeWorkingSetSample": 913575936,
+      "webviewTreeProcessCount": 6
+    },
+    {
+      "name": "perf100 reopen",
+      "ms": 104.2,
+      "appWorkingSet": 97198080,
+      "appLifetimePeakWorkingSet": 230334464,
+      "webviewTreeWorkingSetSample": 922099712,
+      "webviewTreeProcessCount": 6
+    }
+  ],
+  "composition": [
+    {
+      "size": 10,
+      "loadMs": 318,
+      "previewMs": 158,
+      "exportMs": 1081,
+      "appMiB": 49,
+      "familyMiB": 542.3
+    },
+    {
+      "size": 30,
+      "loadMs": 316,
+      "previewMs": 174,
+      "exportMs": 1170,
+      "appMiB": 49.7,
+      "familyMiB": 570.2
+    },
+    {
+      "size": 50,
+      "loadMs": 320,
+      "previewMs": 159,
+      "exportMs": 1287,
+      "appMiB": 50.8,
+      "familyMiB": 599.8
+    }
+  ]
+}

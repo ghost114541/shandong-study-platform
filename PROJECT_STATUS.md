@@ -1,3 +1,13 @@
+# DEV-012 macOS 跨平台开发交接（2026-11-21）
+
+- 基准 `dev/dev-011-windows-installer` / `9446c0c764412566f2467effaacc37c00e7d321f`。开发分支 `dev/dev-012-macos`。Preview 0.2.1 和 SQLite Schema 9 延用，DEC-039～041 延用。
+- 正式实现包括 arm64 `.app`／`.dmg`、WebKit 异步 A4 单题及双 PDF、PDFKit 原卷系统打印，以及 macOS 系统路径别名支持。Windows WebView2、NSIS 继续保留。
+- 官方 macOS arm64 CI 全部 Job 通过，覆盖原生构建及打包、A4 多页探针、应用单份与 20／30／50 题双卷、100 页扫描原卷，以及 Windows 合成备份的 Mac 原生数据层恢复。Windows 原生回归和反向恢复已重跑。
+- DEV-012 macOS 跨平台开发与可用环境验收完成，待网页端 ChatGPT 独立源码审查。
+- macOS Apple Silicon 实机验收尚未完成，不能宣称正式跨平台兼容通过。完整 GUI E2E-007、原生打印预览、安装重装和 OID-005 实机范围待核验。待网页端 ChatGPT 独立源码审查。
+
+[DEV-012 交接报告](DEV-012_REPORT.md) · [32 项验收矩阵](DEV-012_TEST_RESULTS.md) · [PDF 实验](DEV-012_PDF_POC.md) · [实机步骤](DEV-012_MACOS_INSTALL_DESIGN.md)
+
 # DEV-011 Windows 安装与数据安全交接（2026-11-19）
 
 **DEV-011 Windows 安装、升级与卸载核心开发验收完成，待网页端 ChatGPT 独立源码审查。整体结论 CONDITIONAL PASS。**
