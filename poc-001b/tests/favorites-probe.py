@@ -72,7 +72,9 @@ def main():
     path = Path(raw_path).resolve()
     assert path.name == "study.sqlite3"
     dev009 = re.fullmatch(r"org\.shandong-study\.dev009-[a-f0-9]{8}", path.parent.name) is not None
-    assert dev009 or path.parent.name.startswith("org.shandong-study.dev008-")
+    assert dev009 or path.parent.name == "org.shandong-study.dev010-1200ab72" or path.parent.name.startswith(
+        "org.shandong-study.dev008-"
+    )
     if action == "backup":
         assert not dev009
         source = Path(args[0]).resolve()

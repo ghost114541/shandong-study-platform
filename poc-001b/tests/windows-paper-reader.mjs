@@ -44,8 +44,9 @@ export async function readerRegression(h) {
   }
   async function importFile(name, title, { paperTitle, role = 'original', invalid } = {}) {
     if (paperTitle) {
-      await press(`[...document.querySelectorAll('.paper-library-list article')].find(node =>
-        node.querySelector('h2').textContent === ${JSON.stringify(paperTitle)}).querySelector('button:last-child:is(article > button)')`)
+      await press(`[...[...document.querySelectorAll('.paper-library-list article')].find(node =>
+        node.querySelector('h2').textContent === ${JSON.stringify(paperTitle)})
+        .querySelectorAll('button')].find(button => button.textContent === '添加 PDF 文件')`)
     } else {
       await click('导入 PDF')
       await change('[name=title]', title)
@@ -114,9 +115,13 @@ export async function readerRegression(h) {
   await click('试卷库')
   await waitFor(() => evaluate("document.querySelector('.paper-library-heading h1')?.textContent === '试卷库'"), 'paper library')
   if (process.argv.includes('--paper-print')) {
-    await waitFor(() => evaluate(searchButton('原卷 · original.pdf') + ' !== undefined'), 'print fixture')
-    await press(searchButton('原卷 · original.pdf'))
-    await rendered(1)
+    await waitFor(() => evaluate("!document.querySelector('.paper-library [role=status]')"), 'loaded paper library')
+    if (await evaluate(searchButton('原卷 · original.pdf') + ' !== undefined')) {
+      await press(searchButton('原卷 · original.pdf'))
+      await rendered(1)
+    } else {
+      await importFile('original', '原创系统打印验收卷')
+    }
     await click('打印原卷')
     await change('[aria-label="结束页"]', '1')
     await click('准备打印页面')

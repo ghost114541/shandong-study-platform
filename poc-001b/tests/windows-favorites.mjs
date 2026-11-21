@@ -296,7 +296,10 @@ export async function favoritesRegression(h) {
 
   await close()
   const inspected = JSON.parse(execFileSync(python, ['tests/favorites-probe.py', 'state', database], { encoding: 'utf8' }))
-  assert.equal(inspected.version, process.env.POC001B_TEST_APP_IDENTIFIER.startsWith('org.shandong-study.dev009-') ? 8 : 7)
+  const identifier = process.env.POC001B_TEST_APP_IDENTIFIER
+  const schema = identifier === 'org.shandong-study.dev010-1200ab72' ? 9
+    : identifier.startsWith('org.shandong-study.dev009-') ? 8 : 7
+  assert.equal(inspected.version, schema)
   assert.equal(inspected.names[1], '期末练习')
   assert.ok(inspected.relations.some((row) => row[0] === review && row[1] === question && row[2] === 1))
   await start(true)

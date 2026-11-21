@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, rmdirSync, unlinkSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-const probe = (command, path) => execFileSync('python', ['tests/sqlite-probe.py', command, path], { encoding: 'utf8' })
+const probe = (command, path, ...args) => execFileSync('python', ['tests/sqlite-probe.py', command, path, ...args], { encoding: 'utf8' })
 const ipc = (evaluate, command, args) => evaluate(
   `window.__TAURI_INTERNALS__.invoke(${JSON.stringify(command)}, ${JSON.stringify(args)})`)
 
@@ -118,6 +118,9 @@ export async function attachmentRegression({ out, profile, database, start, clos
   }
 
   await start()
+  if (process.env.POC001B_TEST_APP_IDENTIFIER === 'org.shandong-study.dev010-1200ab72') {
+    probe('seed-ui', database, '3')
+  }
   const before = JSON.parse(probe('read', database))
   await click('新建试题')
   await edit('附件题干验证：观察曲线。')

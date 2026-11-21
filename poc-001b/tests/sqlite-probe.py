@@ -126,14 +126,16 @@ def main():
             db.execute("PRAGMA recursive_triggers=ON")
             def doc(text):
                 return {"type": "doc", "content": [{"type": "paragraph", "content": [{"type": "text", "text": text}]}]}
-            for index in range(30):
+            count = int(args[0]) if args and profile == "org.shandong-study.dev010-1200ab72" else 30
+            assert 1 <= count <= 30
+            for index in range(count):
                 key = f"dev004-ui-page-{index:03d}"
                 payload = {"schema_version": 1, "question_type": "解答题", "score": 5, "parts": [],
                            "stem": doc(f"分页样本 {index}"), "answer": doc(f"分页样本答案 {index}")}
                 db.execute("INSERT INTO question VALUES (?, 'math')", [key])
                 db.execute("INSERT INTO question_revision(question_id,scope,content_version,content_json) VALUES (?,'user',1,?)",
                            [key, json.dumps(payload, ensure_ascii=False)])
-            print("Seeded 30 synthetic rows for pagination")
+            print(f"Seeded {count} synthetic rows for pagination")
         elif command == "info":
             print(json.dumps({"version": db.execute("PRAGMA user_version").fetchone()[0],
                               "migrations": [dict(row) for row in db.execute("SELECT * FROM schema_migration ORDER BY version")]}))

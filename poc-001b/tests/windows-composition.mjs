@@ -211,7 +211,7 @@ export async function compositionRegression(h) {
   await evaluate("document.querySelector('.composition-items li:first-child summary').click()")
   await click('试题检索')
   nativeClose()
-  await readyText('dialog[open]', '会丢弃')
+  await waitFor(() => evaluate('/保留草稿|会丢弃/.test(document.querySelector("dialog[open]")?.textContent ?? "")'), '关闭时确认未保存组卷')
   await click('继续编辑')
   await click('自定义组卷')
   assert.deepEqual(await ids(), [physics.id, math.id, chemistry.id])
