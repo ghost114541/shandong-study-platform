@@ -7,6 +7,7 @@ edition = "2021"
 [features]
 dev009-test-hooks = []
 dev010-test-hooks = []
+dev012-test-hooks = []
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }

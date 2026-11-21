@@ -6,9 +6,11 @@ mod library_root;
 mod storage;
 
 use library_root::{LibraryRoot, Phase};
-use serde_json::json;
+use lopdf::{dictionary, Document, Object, Stream};
+use serde_json::{json, Value};
 use shandong_poc_001b::db::{
     preflight_backup_space, unpack_backup, Database, DraftToken, DraftWrite, FavoriteCommand,
+    ImportPaper, PaperDraft, PaperPoints, PaperSelection, PaperSettings, RevisionContent,
     TrashKind, DATABASE_FILENAME,
 };
 use std::{
@@ -20,6 +22,135 @@ use std::{
 const KNOWLEDGE: &str = "dev012-portable-knowledge";
 const TRASHED: &str = "dev012-portable-trash";
 const DRAFT: &str = "ab37cd49-1a35-4a37-a943-807cb9e02012";
+
+fn paragraph(text: &str) -> Value {
+    json!({"type":"paragraph","content":[{"type":"text","text":text}]})
+}
+
+fn create_compositions(db: &mut Database) {
+    let subjects = [
+        "math",
+        "chinese",
+        "english",
+        "physics",
+        "chemistry",
+        "biology",
+        "politics",
+        "history",
+        "geography",
+    ];
+    let illustration = db
+        .import_attachment(include_bytes!("../icons/icon.png"), Some("image/png"))
+        .unwrap();
+    let revisions: Vec<i64> = (1..=50).map(|number| {
+        let mut stem = vec![
+            paragraph(&format!("STEM-{number:03} 原创跨平台试题")),
+            json!({"type":"paragraph","content":[
+                {"type":"text","text":"行内公式与化学式："},
+                {"type":"inlineMath","attrs":{"latex":r"2\mathrm{H_2}+\mathrm{O_2}\to2\mathrm{H_2O}"}}
+            ]}),
+            json!({"type":"blockMath","attrs":{"latex":r"\int_0^1 x^2\,dx=\frac13"}}),
+        ];
+        if number % 3 == 0 {
+            stem.push(json!({"type":"image","attrs":{"src":format!("attachment:{}", illustration.id),"alt":"原创图示"}}));
+        }
+        if number == 1 {
+            for index in 1..=55 {
+                stem.push(paragraph(&format!("READ-{index:03} 阅读材料：山间的云雾随气温变化，观测者沿溪记录各处的风向和水位。")));
+            }
+        }
+        let attachments = if number % 3 == 0 { vec![&illustration] } else { Vec::new() };
+        let content = RevisionContent::from_json(&json!({
+            "schema_version":1, "question_type":"解答题", "score":4,
+            "stem":{"type":"doc","content":stem},
+            "answer":{"type":"doc","content":[paragraph(&format!("ANSWER-{number:03} 原创答案"))]},
+            "analysis":{"type":"doc","content":[paragraph("由记录推导结论，并说明适用条件。")]},
+            "parts":[
+                {"id":"a","score":2,"prompt":{"type":"doc","content":[paragraph("列出已知量。")]}},
+                {"id":"b","score":2,"prompt":{"type":"doc","content":[paragraph("解释结果。")]}}
+            ],
+            "attachments":attachments
+        }).to_string()).unwrap();
+        db.create_question_with_revision(&format!("dev012-mixed-{number:03}"), subjects[(number - 1) % subjects.len()], &content).unwrap()
+    }).collect();
+    for count in [20, 30, 50] {
+        let group = "合成试题";
+        let draft = PaperDraft {
+            title: format!("DEV-012 原创混合卷 {count}"),
+            previous_id: None,
+            settings: PaperSettings {
+                groups: vec![group.into()],
+                ..Default::default()
+            },
+            items: revisions[..count]
+                .iter()
+                .map(|&revision_id| PaperSelection {
+                    revision_id,
+                    points: PaperPoints {
+                        group: group.into(),
+                        score: 4,
+                        part_scores: vec![2, 2],
+                    },
+                })
+                .collect(),
+        };
+        db.create_composed_paper(&draft).unwrap();
+    }
+}
+
+fn create_scan(db: &mut Database, path: &Path) {
+    let mut pdf = Document::with_version("1.5");
+    let pages_root = pdf.new_object_id();
+    let raster = image::load_from_memory(include_bytes!("../icons/icon.png"))
+        .unwrap()
+        .thumbnail_exact(160, 160)
+        .into_rgb8();
+    let image = pdf.add_object(Stream::new(
+        dictionary! {
+            "Type" => "XObject", "Subtype" => "Image", "Width" => raster.width(),
+            "Height" => raster.height(), "BitsPerComponent" => 8, "ColorSpace" => "DeviceRGB",
+        },
+        raster.into_raw(),
+    ));
+    let contents = pdf.add_object(Stream::new(
+        dictionary! {},
+        b"q 160 0 0 160 60 600 cm /Scan Do Q".to_vec(),
+    ));
+    let resources = pdf.add_object(dictionary! { "XObject" => dictionary! { "Scan" => image } });
+    let pages: Vec<Object> = (0..100)
+        .map(|_| {
+            Object::Reference(pdf.add_object(dictionary! {
+                "Type" => "Page", "Parent" => pages_root, "Contents" => contents,
+            }))
+        })
+        .collect();
+    pdf.objects.insert(
+        pages_root,
+        Object::Dictionary(dictionary! {
+            "Type" => "Pages", "Count" => 100, "Kids" => pages, "Resources" => resources,
+            "MediaBox" => vec![0.into(), 0.into(), 595.into(), 842.into()],
+        }),
+    );
+    let catalog = pdf.add_object(dictionary! { "Type" => "Catalog", "Pages" => pages_root });
+    pdf.trailer.set("Root", catalog);
+    pdf.compress();
+    pdf.save(path).unwrap();
+    let registered = db
+        .import_paper_pdf(
+            path,
+            &ImportPaper {
+                paper_id: None,
+                title: "DEV-012 原创 100 页扫描样本".into(),
+                subject_id: "physics".into(),
+                year: None,
+                region: None,
+                source: None,
+                role: "original".into(),
+            },
+        )
+        .unwrap();
+    assert_eq!(registered.page_count, 100);
+}
 
 fn open(root: &mut LibraryRoot) -> Database {
     root.open_database(
@@ -34,6 +165,8 @@ fn seed(legacy: &Path, destination: &Path) {
     let work = tempfile::tempdir().unwrap();
     unpack_backup(legacy, work.path(), &mut |_, _, _| Ok(())).unwrap();
     let mut db = Database::open(&work.path().join(DATABASE_FILENAME)).unwrap();
+    create_compositions(&mut db);
+    create_scan(&mut db, &work.path().join("dev012-scan.pdf"));
     db.create_knowledge_point(KNOWLEDGE, "math", None, "DEV-012 原创自定义知识点")
         .unwrap();
     db.add_knowledge_alias(KNOWLEDGE, "跨平台别名").unwrap();

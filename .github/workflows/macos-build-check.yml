@@ -83,6 +83,16 @@ jobs:
         run: npm run tauri -- build --target aarch64-apple-darwin -- --locked 2>&1 | tee preview-artifacts/build.log
       - name: Inspect app and DMG
         run: bash scripts/macos-package-check.sh 2>&1 | tee preview-artifacts/package-check.log
+      - name: Exercise the real WebKit application with an isolated profile
+        run: |
+          command -v pdfinfo || brew install poppler
+          npm run tauri -- build --no-bundle --target aarch64-apple-darwin \
+            --config '{"identifier":"org.shandong-study.dev012-74d09001"}' \
+            --features dev012-test-hooks -- --locked 2>&1 | tee preview-artifacts/smoke-build.log
+          python3 tests/macos-app-check.py preview-artifacts/app-smoke \
+            preview-artifacts/backup/windows.knowbackup \
+            src-tauri/target/aarch64-apple-darwin/release/knowpaper-preview \
+            2>&1 | tee preview-artifacts/app-smoke-check.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:

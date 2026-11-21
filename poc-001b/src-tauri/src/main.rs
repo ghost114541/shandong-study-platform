@@ -2,6 +2,8 @@
 
 mod composition_export;
 mod composition_ipc;
+#[cfg(all(target_os = "macos", feature = "dev012-test-hooks"))]
+mod dev012_smoke;
 mod draft_trash_ipc;
 mod editor_ipc;
 mod favorites_ipc;
@@ -102,7 +104,10 @@ fn main() {
     } else {
         None
     };
-    tauri::Builder::default()
+    let builder = tauri::Builder::default();
+    #[cfg(all(target_os = "macos", feature = "dev012-test-hooks"))]
+    let builder = dev012_smoke::attach(builder, &context.config().identifier);
+    builder
         .plugin(tauri_plugin_dialog::init())
         .manage(paper_reader_ipc::PdfSessions::default())
         .manage(composition_export::PrintJobs::default())

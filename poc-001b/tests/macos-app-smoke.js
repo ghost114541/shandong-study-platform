@@ -1,0 +1,76 @@
+(() => {
+  if (window.__knowpaperSmokeStarted) return
+  window.__knowpaperSmokeStarted = true
+  const start = performance.now()
+  const timings = {}
+  const check = (condition, message) => {
+    if (!condition) throw new Error(message)
+  }
+  const invoke = (name, args = {}) => window.__TAURI_INTERNALS__.invoke(name, args)
+  const wait = async (name, find, timeout = 30_000) => {
+    const deadline = performance.now() + timeout
+    while (performance.now() < deadline) {
+      const result = find()
+      if (result) return result
+      await new Promise(resolve => setTimeout(resolve, 50))
+    }
+    throw new Error(name + ': ' + [...document.querySelectorAll('[role=alert]')].map(n => n.textContent).join('; '))
+  }
+  const enabled = (name) => [...document.querySelectorAll('button:enabled')].find(b => b.textContent.trim() === name)
+  const click = async name => (await wait(name, () => enabled(name))).click()
+  const elapsed = begin => Math.round(performance.now() - begin)
+
+  async function run() {
+    check(await invoke('database_status') === 9, 'Schema 9')
+    check((await invoke('list_subjects')).length === 9, 'nine subjects')
+    timings.schemaAndSubjectsMs = elapsed(start)
+    await click('旧版 JSON 演示')
+    await click('题卷预览')
+    let begin = performance.now()
+    await click('导出当前 PDF')
+    const status = await wait('single PDF', () => document.querySelector('.status')?.textContent.match(/PDF 已保存到 (.+)/))
+    const single = status[1]
+    timings.singleMs = elapsed(begin)
+
+    const papers = await invoke('list_compositions')
+    const pairs = {}
+    for (const count of [20, 30, 50]) {
+      const id = papers.find(p => p.title === 'DEV-012 原创混合卷 ' + count)?.id
+      check(id, 'missing composition ' + count)
+      const preview = await invoke('preview_composition', { id })
+      check(preview.paper.entries.length === count && preview.answers.entries.length === count, 'wrong snapshot size')
+      if (count === 20) {
+        const rejected = await invoke('export_composition', { id, identity: 'wrong-identity', confirmed: true })
+          .then(() => false, () => true)
+        check(rejected, 'snapshot mismatch accepted')
+      }
+      begin = performance.now()
+      const result = await invoke('export_composition', { id, identity: preview.identity, confirmed: true })
+      check(result.paper && result.answers, 'PDF pair incomplete')
+      pairs[count] = result
+      timings['pair' + count + 'Ms'] = elapsed(begin)
+    }
+
+    await click('试卷库')
+    const source = await wait('registered original PDF', () =>
+      [...document.querySelectorAll('.paper-library-list button[title^="SHA-256"]')]
+        .find(button => button.textContent.includes('dev012-scan')))
+    begin = performance.now()
+    source.click()
+    const canvas = () => document.querySelector('.reader-workspace .pdf-reading-area canvas')
+    await wait('PDF.js first page rendered', () => canvas()?.width > 0 &&
+      Boolean(canvas().getContext('2d').getImageData(4, 4, 1, 1).data[3]))
+    const page = () => document.querySelector('[aria-label="跳转页码"]')
+    check(page()?.max === '100', 'wrong PDF.js page count')
+    timings.pdfFirstPageMs = elapsed(begin)
+    begin = performance.now()
+    await click('下一页')
+    await wait('jump and draw second page', () => page()?.value === '2' &&
+      Boolean(canvas()?.getContext('2d').getImageData(4, 4, 1, 1).data[3]))
+    timings.pdfNextPageMs = elapsed(begin)
+    return { ok: true, single, pairs, timings, originalPages: Number(page().max) }
+  }
+  run().then(result => { window.__knowpaperSmokeResult = result }, error => {
+    window.__knowpaperSmokeResult = { ok: false, error: error?.message ?? String(error), timings }
+  })
+})()
