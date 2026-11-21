@@ -1,8 +1,49 @@
 #import <AppKit/AppKit.h>
 #import <PDFKit/PDFKit.h>
 #import <WebKit/WebKit.h>
+#import <objc/runtime.h>
 
-int knowpaper_webview_pdf(void *view, const char *path) {
+typedef void (*KPPrintCallback)(void *context, int status);
+
+@interface KPPrintCompletion : NSObject
+@property KPPrintCallback callback;
+@end
+
+static char completionKey;
+static BOOL printing;
+
+@implementation KPPrintCompletion
+- (void)operation:(NSPrintOperation *)operation didRun:(BOOL)success contextInfo:(void *)context {
+    printing = NO;
+    self.callback(context, success ? 1 : 0);
+    objc_setAssociatedObject(operation, &completionKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+@end
+
+static int startPrinting(NSPrintOperation *operation, NSWindow *window,
+                         KPPrintCallback callback, void *context) {
+    if (!operation || !window || printing) {
+        return -1;
+    }
+    KPPrintCompletion *delegate = [[KPPrintCompletion alloc] init];
+    delegate.callback = callback;
+    objc_setAssociatedObject(operation, &completionKey, delegate, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    printing = YES;
+    @try {
+        // WebKit computes its page range asynchronously. Running synchronously
+        // on the UI thread can prevent that callback and generate blank pages.
+        [operation runOperationModalForWindow:window delegate:delegate
+                              didRunSelector:@selector(operation:didRun:contextInfo:)
+                                 contextInfo:context];
+        return 1;
+    } @catch (NSException *exception) {
+        printing = NO;
+        NSLog(@"KnowPaper cannot start PDF printing: %@", exception.name);
+        return -1;
+    }
+}
+
+int knowpaper_webview_pdf(void *view, const char *path, KPPrintCallback callback, void *context) {
     @autoreleasepool {
         @try {
             WKWebView *webview = (__bridge WKWebView *)view;
@@ -24,7 +65,7 @@ int knowpaper_webview_pdf(void *view, const char *path) {
             NSPrintOperation *operation = [webview printOperationWithPrintInfo:info];
             operation.showsPrintPanel = NO;
             operation.showsProgressPanel = NO;
-            return [operation runOperation] ? 1 : 0;
+            return startPrinting(operation, webview.window, callback, context);
         } @catch (NSException *exception) {
             NSLog(@"KnowPaper WebKit print error: %@", exception.name);
             return -1;

@@ -1,7 +1,12 @@
 #import <AppKit/AppKit.h>
 #import <WebKit/WebKit.h>
 
-int knowpaper_webview_pdf(void *view, const char *path);
+int knowpaper_webview_pdf(void *view, const char *path, void (*callback)(void *, int), void *context);
+
+static void finished(void *context, int status) {
+    fprintf(stderr, "Native print completed: %d\n", status);
+    exit(status == 1 ? 0 : 3);
+}
 
 @interface Probe : NSObject <WKNavigationDelegate>
 @property (strong) NSWindow *window;
@@ -20,7 +25,11 @@ int knowpaper_webview_pdf(void *view, const char *path);
             NSLog(@"Fixture assets failed to load: %@", error);
             exit(2);
         }
-        exit(knowpaper_webview_pdf((__bridge void *)view, self.destination.fileSystemRepresentation) == 1 ? 0 : 3);
+        fprintf(stderr, "Fixture loaded, starting native print\n");
+        if (knowpaper_webview_pdf((__bridge void *)view, self.destination.fileSystemRepresentation,
+                                  finished, NULL) != 1) {
+            exit(3);
+        }
     }];
 }
 - (void)webView:(WKWebView *)view didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {

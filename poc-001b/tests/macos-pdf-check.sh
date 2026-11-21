@@ -11,9 +11,11 @@ xcrun clang -fobjc-arc -Werror -framework AppKit -framework WebKit -framework PD
 # A process-level watchdog also covers a WebKit or AppKit call that stalls the main thread.
 python3 - "$fixture" "$output" <<'PY'
 import pathlib
+import resource
 import subprocess
 import sys
 fixture, output = map(pathlib.Path, sys.argv[1:])
+resource.setrlimit(resource.RLIMIT_FSIZE, (32 * 1024 * 1024, 32 * 1024 * 1024))
 for name in ("fixture", "repeat"):
     subprocess.run([fixture / "probe", fixture / "fixture.html", output / f"{name}.pdf"],
                    check=True, timeout=90)
