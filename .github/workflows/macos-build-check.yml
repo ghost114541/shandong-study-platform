@@ -18,6 +18,7 @@ permissions:
 jobs:
   build:
     runs-on: macos-15
+    needs: windows-fixture
     timeout-minutes: 60
     defaults:
       run:
@@ -66,6 +67,18 @@ jobs:
           npm test 2>&1 | tee preview-artifacts/typescript-tests.log
       - name: Run native Rust tests
         run: cargo test --locked --manifest-path src-tauri/Cargo.toml 2>&1 | tee preview-artifacts/rust-tests.log
+      - uses: actions/download-artifact@v4
+        with:
+          name: knowpaper-dev012-windows-backup-${{ github.sha }}
+          path: poc-001b/preview-artifacts/backup
+      - name: Restore Windows fixture through the native data layer
+        run: |
+          evidence=preview-artifacts/backup
+          cargo run --locked --manifest-path src-tauri/Cargo.toml --example dev012_migration -- \
+            restore "$evidence/windows.knowbackup" "$evidence/macos.knowbackup" \
+            > "$evidence/restore.json" 2> >(tee "$evidence/restore.log" >&2)
+          python3 tests/dev012-backup-fingerprint.py "$evidence/windows.knowbackup" \
+            "$evidence/macos.knowbackup" > "$evidence/cross-platform-fingerprints.json"
       - name: Build native app and DMG
         run: npm run tauri -- build --target aarch64-apple-darwin -- --locked 2>&1 | tee preview-artifacts/build.log
       - name: Inspect app and DMG
@@ -74,6 +87,35 @@ jobs:
         if: always()
         with:
           name: knowpaper-preview-macos-arm64-${{ github.sha }}
+          path: poc-001b/preview-artifacts/
+          if-no-files-found: error
+          retention-days: 14
+
+  windows-fixture:
+    runs-on: windows-2025
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: poc-001b
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Create a new Windows backup from original synthetic data
+        run: |
+          New-Item -ItemType Directory -Path preview-artifacts -Force | Out-Null
+          cargo run --locked --manifest-path src-tauri/Cargo.toml --example dev012_migration -- `
+            seed output/dev010/original-fixture.knowbackup preview-artifacts/windows.knowbackup `
+            > preview-artifacts/windows-manifest.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python tests/dev012-backup-fingerprint.py preview-artifacts/windows.knowbackup `
+            > preview-artifacts/windows-fingerprints.json
+          exit $LASTEXITCODE
+      - uses: actions/upload-artifact@v4
+        with:
+          name: knowpaper-dev012-windows-backup-${{ github.sha }}
           path: poc-001b/preview-artifacts/
           if-no-files-found: error
           retention-days: 14
