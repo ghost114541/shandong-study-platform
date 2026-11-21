@@ -72,7 +72,8 @@ def main():
     path = Path(raw_path).resolve()
     assert path.name == "study.sqlite3"
     dev009 = re.fullmatch(r"org\.shandong-study\.dev009-[a-f0-9]{8}", path.parent.name) is not None
-    assert dev009 or path.parent.name == "org.shandong-study.dev010-1200ab72" or path.parent.name.startswith(
+    dev012 = path.parent.name == "org.shandong-study.dev010-1200ab72"
+    assert dev009 or dev012 or path.parent.name.startswith(
         "org.shandong-study.dev008-"
     )
     if action == "backup":
@@ -115,7 +116,7 @@ def main():
         db.execute("PRAGMA foreign_keys = ON")
         db.execute("PRAGMA recursive_triggers = ON")
         version = db.execute("PRAGMA user_version").fetchone()[0]
-        assert version == (8 if dev009 else 7)
+        assert version == (9 if dev012 else 8 if dev009 else 7)
         if action == "lock":
             db.execute("BEGIN IMMEDIATE")
             print("locked", flush=True)

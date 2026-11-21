@@ -15,7 +15,11 @@ pub fn attach(builder: tauri::Builder<Wry>, identifier: &str) -> tauri::Builder<
             return;
         }
         let app = view.app_handle().clone();
-        if let Err(error) = view.eval(include_str!("../../tests/macos-app-smoke.js")) {
+        let Some(window) = app.get_webview_window("main") else {
+            app.exit(2);
+            return;
+        };
+        if let Err(error) = window.eval(include_str!("../../tests/macos-app-smoke.js")) {
             eprintln!("Cannot start application smoke test: {error}");
             app.exit(2);
             return;
@@ -26,7 +30,7 @@ pub fn attach(builder: tauri::Builder<Wry>, identifier: &str) -> tauri::Builder<
                 loop {
                     let (sender, receiver) = oneshot::channel();
                     let sender = std::sync::Mutex::new(Some(sender));
-                    view.eval_with_callback(
+                    window.eval_with_callback(
                         "window.__knowpaperSmokeResult ?? null",
                         move |value| {
                             if let Some(sender) = sender.lock().unwrap().take() {

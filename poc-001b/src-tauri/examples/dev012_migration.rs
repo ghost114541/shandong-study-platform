@@ -209,7 +209,11 @@ fn seed(legacy: &Path, destination: &Path) {
 }
 
 fn restore(archive: &Path, output: &Path) {
-    assert_eq!(std::env::consts::OS, "macos");
+    let (source, destination, backup_id) = match std::env::consts::OS {
+        "macos" => ("windows", "macos", "dev012-macos"),
+        "windows" => ("macos", "windows", "dev012-roundtrip-windows"),
+        platform => panic!("This fixture runs on macOS or Windows, not {platform}"),
+    };
     let lab = tempfile::tempdir().unwrap();
     let profile = lab.path().join("知卷 DEV-012");
     let mut root = LibraryRoot::lock(&profile).unwrap();
@@ -229,7 +233,7 @@ fn restore(archive: &Path, output: &Path) {
             preview.manifest.schema_version,
             preview.manifest.platform.as_str()
         ),
-        (9, "windows")
+        (9, source)
     );
     root.update(Phase::Verified, None).unwrap();
     root.queue_switch().unwrap();
@@ -263,19 +267,19 @@ fn restore(archive: &Path, output: &Path) {
     let restore_seconds = start.elapsed().as_secs_f64();
     let start = Instant::now();
     let manifest = db
-        .create_backup(output, "dev012-macos", &mut |_, _, _| Ok(()))
+        .create_backup(output, backup_id, &mut |_, _, _| Ok(()))
         .unwrap();
     assert_eq!(
         (manifest.schema_version, manifest.platform.as_str()),
-        (9, "macos")
+        (9, destination)
     );
     println!(
         "{}",
         json!({
             "restoreSeconds": restore_seconds,
             "backupSeconds": start.elapsed().as_secs_f64(),
-            "windowsManifest": preview.manifest,
-            "macosManifest": manifest,
+            "inputManifest": preview.manifest,
+            "outputManifest": manifest,
         })
     );
 }

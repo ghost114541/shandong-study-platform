@@ -21,12 +21,13 @@ const attachmentsMode = process.argv.includes('--attachments')
 const compositionMode = process.argv.includes('--composition')
 const readerMode = ['--paper-reader', '--paper-print', '--schema-six'].some((flag) => process.argv.includes(flag))
 const favoriteMode = ['--favorites', '--favorites-performance', '--schema-seven'].some((flag) => process.argv.includes(flag))
-const editorMode = sqliteMode || knowledgeMode || upgradeMode || advancedMode || attachmentsMode || compositionMode || readerMode || favoriteMode
+const crossPlatformMode = process.argv.includes('--dev012-fixture')
+const editorMode = sqliteMode || knowledgeMode || upgradeMode || advancedMode || attachmentsMode || compositionMode || readerMode || favoriteMode || crossPlatformMode
 const port = Number(process.env.POC001B_TEST_CDP_PORT ?? 19245)
 const isolatedIdentifier = process.env.POC001B_TEST_APP_IDENTIFIER
 assert.match(isolatedIdentifier ?? '', /^org\.shandong-study\.dev\d+-[a-f0-9]+$/i, 'Use an isolated build identifier')
 const out = resolve(join('.test-output', isolatedIdentifier,
-  favoriteMode ? 'favorites' : readerMode ? 'paper-reader' : upgradeMode ? 'upgrade' : compositionMode ? 'composition' : attachmentsMode ? 'attachments' : advancedMode ? 'advanced' : knowledgeMode ? 'knowledge' : sqliteMode ? 'sqlite' : 'legacy'))
+  crossPlatformMode ? 'dev012-fixture' : favoriteMode ? 'favorites' : readerMode ? 'paper-reader' : upgradeMode ? 'upgrade' : compositionMode ? 'composition' : attachmentsMode ? 'attachments' : advancedMode ? 'advanced' : knowledgeMode ? 'knowledge' : sqliteMode ? 'sqlite' : 'legacy'))
 const profile = join(process.env.APPDATA, isolatedIdentifier)
 const database = join(profile, 'study.sqlite3')
 const storage = join(profile, 'questions.json')
@@ -269,7 +270,17 @@ async function legacyRegression() {
 
 try {
   const harness = { out, profile, database, port, pid: () => child.pid, start, close, nativeClose, snapshot, click, send, evaluate, status, waitFor, fillFormula }
-  if (process.argv.includes('--schema-seven')) {
+  if (crossPlatformMode) {
+    assert.equal(isolatedIdentifier, 'org.shandong-study.dev010-1200ab72')
+    assert.ok(existsSync(database), 'Seed the isolated profile with the verified DEV-012 fixture')
+    await start()
+    await evaluate(readFileSync('tests/macos-app-smoke.js', 'utf8'))
+    const result = await waitFor(() => evaluate('window.__knowpaperSmokeResult'), 'DEV-012 cross-platform fixture', 240000)
+    writeFileSync(join(out, 'app-smoke.json'), JSON.stringify(result, null, 2))
+    assert.equal(result.ok, true, result.error)
+    console.log(JSON.stringify(result))
+    await close()
+  } else if (process.argv.includes('--schema-seven')) {
     await start(); await close(); await start(); await close()
     console.log('Actual Schema 6 profile opened and restarted natively at Schema 7')
   } else if (process.argv.includes('--favorites')) await favoritesRegression(harness)

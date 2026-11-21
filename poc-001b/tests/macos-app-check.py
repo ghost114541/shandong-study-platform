@@ -16,7 +16,7 @@ def inspect_pdf(source, target, expected=0, answers=False):
     shutil.copyfile(source, target)
     base = target.with_suffix("")
     info = subprocess.check_output(["pdfinfo", "-f", "1", "-l", "500", "-box", target], text=True)
-    text = subprocess.check_output(["pdftotext", "-layout", target, "-"], text=True)
+    text = subprocess.check_output(["pdftotext", "-layout", target, "-"], encoding="utf-8")
     fonts = subprocess.check_output(["pdffonts", target], text=True)
     images = subprocess.check_output(["pdfimages", "-list", target], text=True)
     for name, data in (("info", info), ("text", text), ("fonts", fonts), ("images", images)):
@@ -44,7 +44,22 @@ def inspect_pdf(source, target, expected=0, answers=False):
             "sha256": hashlib.sha256(target.read_bytes()).hexdigest()}
 
 
+def inspect_outputs(report, output):
+    output.mkdir(parents=True, exist_ok=True)
+    results = json.loads(report.read_text(encoding="utf-8"))
+    assert results["ok"] and results["originalPages"] == 100
+    evidence = {"single": inspect_pdf(results["single"], output / "single.pdf")}
+    for count, pair in results["pairs"].items():
+        for kind in ("paper", "answers"):
+            name = f"{kind}-{count}"
+            evidence[name] = inspect_pdf(pair[kind], output / f"{name}.pdf", int(count), kind == "answers")
+    (output / "pdf-summary.json").write_text(json.dumps(evidence, indent=2) + "\n")
+
+
 def main():
+    if sys.argv[1] == "--inspect":
+        inspect_outputs(Path(sys.argv[2]), Path(sys.argv[3]))
+        return
     output = Path(sys.argv[1]).resolve()
     archive = Path(sys.argv[2]).resolve()
     executable = Path(sys.argv[3]).resolve()
@@ -66,14 +81,7 @@ def main():
     if report.exists():
         print(report.read_text())
     process.check_returncode()
-    results = json.loads(report.read_text())
-    assert results["ok"] and results["originalPages"] == 100
-    evidence = {"single": inspect_pdf(results["single"], output / "single.pdf")}
-    for count, pair in results["pairs"].items():
-        for kind in ("paper", "answers"):
-            name = f"{kind}-{count}"
-            evidence[name] = inspect_pdf(pair[kind], output / f"{name}.pdf", int(count), kind == "answers")
-    (output / "pdf-summary.json").write_text(json.dumps(evidence, indent=2) + "\n")
+    inspect_outputs(report, output)
 
 
 if __name__ == "__main__":

@@ -77,9 +77,14 @@ if __name__ == "__main__":
     windows = business_fingerprint(Path(sys.argv[1]))
     assert windows["manifest"]["platform"] == "windows"
     evidence = {"windows": windows}
-    if len(sys.argv) == 3:
+    if len(sys.argv) >= 3:
         macos = business_fingerprint(Path(sys.argv[2]))
         assert macos["manifest"]["platform"] == "macos"
         assert windows["business"] == macos["business"]
         evidence["macos"] = macos
+    if len(sys.argv) == 4:
+        roundtrip = business_fingerprint(Path(sys.argv[3]))
+        assert roundtrip["manifest"]["platform"] == "windows"
+        assert windows["business"] == roundtrip["business"]
+        evidence["windowsRoundtrip"] = roundtrip
     print(json.dumps(evidence, ensure_ascii=True, indent=2))
