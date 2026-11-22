@@ -604,12 +604,12 @@ fn dev013_tables_are_immutable_and_survive_fixed_papers_drafts_and_backups() {
     assert_eq!(db.revision(first).unwrap().unwrap().content, original);
     assert_eq!(db.current_revision("q1").unwrap().unwrap().content, updated);
     assert_eq!(db.draft_payload(&token.id).unwrap(), payload);
-    assert_eq!(db.load_paper(&paper.id).unwrap(), paper);
+    assert_eq!(db.load_paper(&paper.header.id).unwrap(), paper);
     let search: String = db.connection.query_row(
         "SELECT text FROM revision_search_text WHERE revision_id=?1", [second], |row| row.get(0)
     ).unwrap();
     assert!(search.contains("DEV013_TABLE_SEARCH"));
-    let snapshots = serde_json::to_value(db.composition_print_pair(&paper.id).unwrap()).unwrap();
+    let snapshots = serde_json::to_value(db.composition_print_pair(&paper.header.id).unwrap()).unwrap();
     assert_eq!(snapshots["paper"]["entries"][0]["main"], original.stem);
     assert_eq!(snapshots["answers"]["entries"][0]["main"], original.answer.unwrap());
 }
