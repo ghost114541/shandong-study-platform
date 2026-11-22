@@ -102,6 +102,9 @@
       for (const [kind, button] of [['paper', '题卷预览'], ['answers', '答案卷预览']]) {
         await click(button)
         await wait('rendered table', () => document.querySelector('.paper .rich-table'))
+        const mathBase = document.querySelector('.rich-table .katex .base')
+        check(mathBase && getComputedStyle(mathBase).whiteSpace === 'nowrap',
+          'KaTeX must keep the tokens within each formula group together')
         await wait('table attachments ready', () => !document.querySelector('.paper .attachment-notice'))
         await click('导出当前 PDF')
         const saved = await wait('table ' + kind + ' PDF', () =>

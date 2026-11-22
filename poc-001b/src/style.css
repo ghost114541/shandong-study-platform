@@ -94,7 +94,7 @@ main { max-width: 1180px; margin: auto; padding: 18px 26px 32px; }
 .rich-table p:last-child { margin-bottom: 0; }
 /* Keep unusually wide inline formulas inside a cell and wrap at KaTeX token boundaries. */
 .rich-table .katex { white-space: normal; }
-.rich-table .katex .base { white-space: normal; overflow-wrap: anywhere; }
+.rich-table .katex .base { overflow-wrap: normal; }
 @media print {
   .rich-table thead { break-inside: avoid; break-after: avoid; }
   .rich-table tr { break-inside: avoid; page-break-inside: avoid; }
