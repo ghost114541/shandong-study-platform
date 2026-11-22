@@ -85,11 +85,15 @@ export function QuestionEditor({ content, onChange, onError, externalImages = fa
     editorProps: {
       attributes: { 'aria-label': '题目内容', spellcheck: 'false' },
       handleDOMEvents: {
-        paste(_view, event) {
-          return rejectTableHtml(event, event.clipboardData)
+        paste(view, event) {
+          const { $from } = view.state.selection
+          const inCell = Array.from({ length: $from.depth }, (_, index) => $from.node(index + 1))
+            .some((node) => node.type.name === 'tableCell' || node.type.name === 'tableHeader')
+          return rejectUnsupportedTransfer(event, event.clipboardData, inCell)
         },
         drop(_view, event) {
-          return rejectTableHtml(event, event.dataTransfer)
+          const target = event.target
+          return rejectUnsupportedTransfer(event, event.dataTransfer, target instanceof Element && Boolean(target.closest('td, th')))
         },
       },
       // Only the image chooser inserts images. Pasted HTML must not introduce remote image URLs.
@@ -116,10 +120,15 @@ export function QuestionEditor({ content, onChange, onError, externalImages = fa
       canUndo: editor.can().undo(), canRedo: editor.can().redo(),
     }),
   })
-  function rejectTableHtml(event: Event, transfer: DataTransfer | null) {
-    if (!tables || !/<\s*(?:table|thead|tbody|tfoot|tr|td|th)(?=[\s/>])/i.test(transfer?.getData('text/html') ?? '')) return false
+  function rejectUnsupportedTransfer(event: Event, transfer: DataTransfer | null, inCell: boolean) {
+    if (!tables || !transfer) return false
+    const html = transfer.getData('text/html')
+    const hasTable = /<\s*(?:table|thead|tbody|tfoot|tr|td|th)(?=[\s/>])/i.test(html)
+    const hasBlock = inCell && (transfer.files.length > 0 || /<\s*img(?=[\s/>])|data-type\s*=\s*["']?block-math\b/i.test(html))
+    if (!hasTable && !hasBlock) return false
     event.preventDefault()
-    onError('暂不支持粘贴或拖入表格，请先插入表格再填写单元格。')
+    onError(hasTable ? '暂不支持粘贴或拖入表格，请先插入表格再填写单元格。'
+      : '单元格只支持文字和行内公式。请在表格外插入图片或独立公式。')
     return true
   }
   const dialogOpen = draft !== null

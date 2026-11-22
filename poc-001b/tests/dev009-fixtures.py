@@ -104,6 +104,10 @@ def contents(pack_id, version, questions, file_images, paper_count, fault=None):
                        analysis=doc("先因式分解，再检验。"), attachments=[image] if image else [], parts=[
                            dict(id="a", score=4, prompt=doc("求方程的根。"), answer=doc("2 和 -5"), analysis=None)
                        ])
+        if fault == "rich-table" and i == 0:
+            table_fixture = json.loads(Path(__file__).with_name("dev013-table.json").read_text(encoding="utf-8"))
+            content["schema_version"] = 2
+            content["stem"]["content"].extend(table_fixture["stem"]["content"])
         bank.append(dict(id=f"kp009-q-{i:04d}", subject_id=subject,
                          revision="rev2" if upgraded else "rev1", content=content,
                          knowledge=[f"kp009-{subject}-child"], rights_id="original"))
@@ -236,7 +240,7 @@ def generate(output, all_cases):
     if all_cases:
         records.append(make(output, "same-revision-reused", version="1.0.1"))
         for fault in ["conflict", "image", "pdf", "parent", "cycle", "knowledge", "attachment", "duplicate-id",
-                      "size", "missing", "extra", "protocol", "schema", "app", "content", "format", "version",
+                      "size", "missing", "extra", "protocol", "schema", "app", "content", "rich-table", "format", "version",
                       "missing-manifest", "json", "duplicate-key", "traversal", "absolute", "drive", "unc",
                       "reserved", "case", "overlap", "link", "fifo", "duplicate-path", "ratio", "member-count", "member-size", "total-size"]:
             records.append(make(output, "case-" + fault, fault=fault))

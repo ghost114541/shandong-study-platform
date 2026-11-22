@@ -132,6 +132,7 @@ fn dev009_t03_to_t07_checks_container_manifest_and_decode_failures() {
         ("schema", "不兼容"),
         ("app", "不兼容"),
         ("content", "不兼容"),
+        ("rich-table", "试题内容版本必须与清单一致"),
         ("format", "不兼容"),
         ("version", "JSON"),
         ("traversal", "路径"),

@@ -101,10 +101,15 @@ def inspect_outputs(report, output):
         except (AssertionError, OSError, subprocess.CalledProcessError) as error:
             failures[name] = str(error)
     tables = results.get("tables")
+    if os.environ.get("GITHUB_REF_NAME") == "dev/dev-013-rich-tables":
+        assert tables, "DEV-013 CI must generate the table PDFs"
     if tables:
         for name, src in (("table-single-paper", tables["paper"]), ("table-single-answers", tables["answers"]),
                           ("table-pair-paper", tables["pair"]["paper"]), ("table-pair-answers", tables["pair"]["answers"])):
-            evidence[name] = inspect_table(src, output / f"{name}.pdf")
+            try:
+                evidence[name] = inspect_table(src, output / f"{name}.pdf")
+            except (AssertionError, OSError, subprocess.CalledProcessError) as error:
+                failures[name] = str(error)
     (output / "pdf-summary.json").write_text(json.dumps(evidence, indent=2) + "\n")
     pdf_root = Path(results["single"]).parent
     expected_batches = {Path(pair["paper"]).parent for pair in results["pairs"].values()}

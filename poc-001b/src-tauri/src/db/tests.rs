@@ -562,7 +562,7 @@ fn validates_knowledge_hierarchy_and_structured_database_errors() {
 }
 #[test]
 fn dev013_tables_are_immutable_and_survive_fixed_papers_drafts_and_backups() {
-    let (temp, mut db) = database();
+    let (_temp, mut db) = database();
     question(&db);
     let fixture = include_str!("../../../tests/dev013-table.json");
     let mut original = RevisionContent::from_json(fixture).unwrap();
@@ -595,7 +595,8 @@ fn dev013_tables_are_immutable_and_survive_fixed_papers_drafts_and_backups() {
         object_id:"q1".into(), base_revision:Some(second), payload:invalid, attachments:vec![],
     }).unwrap_err().kind, ErrorKind::InvalidContent);
 
-    let archive = temp.path().join("tables.knowbackup");
+    let archives = tempfile::tempdir().unwrap();
+    let archive = archives.path().join("tables.knowbackup");
     db.create_backup(&archive, "dev013-test", &mut |_, _, _| Ok(())).unwrap();
     let restored = tempfile::tempdir().unwrap();
     unpack_backup(&archive, restored.path(), &mut |_, _, _| Ok(())).unwrap();

@@ -11,6 +11,7 @@ import { attachmentRegression, schemaThreeUpgrade } from './windows-attachments.
 import { compositionRegression, schemaFourUpgrade } from './windows-composition.mjs'
 import { readerRegression } from './windows-paper-reader.mjs'
 import { favoritesRegression, favoritesPerformance } from './windows-favorites.mjs'
+import { tableRegression } from './windows-tables.mjs'
 
 const executable = resolve(process.argv[2] ?? 'src-tauri/target/release/shandong-poc-001b.exe')
 const sqliteMode = process.argv.includes('--sqlite')
@@ -22,12 +23,13 @@ const compositionMode = process.argv.includes('--composition')
 const readerMode = ['--paper-reader', '--paper-print', '--schema-six'].some((flag) => process.argv.includes(flag))
 const favoriteMode = ['--favorites', '--favorites-performance', '--schema-seven'].some((flag) => process.argv.includes(flag))
 const crossPlatformMode = process.argv.includes('--dev012-fixture')
-const editorMode = sqliteMode || knowledgeMode || upgradeMode || advancedMode || attachmentsMode || compositionMode || readerMode || favoriteMode || crossPlatformMode
+const tableMode = process.argv.includes('--dev013-tables')
+const editorMode = sqliteMode || knowledgeMode || upgradeMode || advancedMode || attachmentsMode || compositionMode || readerMode || favoriteMode || crossPlatformMode || tableMode
 const port = Number(process.env.POC001B_TEST_CDP_PORT ?? 19245)
 const isolatedIdentifier = process.env.POC001B_TEST_APP_IDENTIFIER
 assert.match(isolatedIdentifier ?? '', /^org\.shandong-study\.dev\d+-[a-f0-9]+$/i, 'Use an isolated build identifier')
 const out = resolve(join('.test-output', isolatedIdentifier,
-  crossPlatformMode ? 'dev012-fixture' : favoriteMode ? 'favorites' : readerMode ? 'paper-reader' : upgradeMode ? 'upgrade' : compositionMode ? 'composition' : attachmentsMode ? 'attachments' : advancedMode ? 'advanced' : knowledgeMode ? 'knowledge' : sqliteMode ? 'sqlite' : 'legacy'))
+  tableMode ? 'dev013-tables' : crossPlatformMode ? 'dev012-fixture' : favoriteMode ? 'favorites' : readerMode ? 'paper-reader' : upgradeMode ? 'upgrade' : compositionMode ? 'composition' : attachmentsMode ? 'attachments' : advancedMode ? 'advanced' : knowledgeMode ? 'knowledge' : sqliteMode ? 'sqlite' : 'legacy'))
 const profile = join(process.env.APPDATA, isolatedIdentifier)
 const database = join(profile, 'study.sqlite3')
 const storage = join(profile, 'questions.json')
@@ -80,7 +82,7 @@ async function start(offline = false) {
   child = spawn(executable, [], {
     env: {
       ...process.env,
-      ...(crossPlatformMode ? { WEBVIEW2_USER_DATA_FOLDER: join(out, 'webview2-profile') } : {}),
+      ...(crossPlatformMode || tableMode ? { WEBVIEW2_USER_DATA_FOLDER: join(out, 'webview2-profile') } : {}),
       WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS:
         '--remote-debugging-port=' + port + ' --remote-debugging-address=127.0.0.1',
     },
@@ -119,7 +121,7 @@ async function start(offline = false) {
     '$p = Get-Process -Id ' + child.pid + '; if (!$p.MainWindowHandle) { exit 1 }; $p.MainWindowTitle'], { encoding: 'utf8' })
   assert.ok(state.trim())
   const schema = process.argv.includes('--stage-a') ? 3 : isolatedIdentifier.startsWith('org.shandong-study.dev009-') ? 8
-    : /^org\.shandong-study\.dev01[02]-/.test(isolatedIdentifier) ? 9
+    : /^org\.shandong-study\.dev01[023]-/.test(isolatedIdentifier) ? 9
     : isolatedIdentifier.startsWith('org.shandong-study.dev008-') ? 7
     : isolatedIdentifier.startsWith('org.shandong-study.dev007-') ? 6
     : isolatedIdentifier.startsWith('org.shandong-study.dev006-') ? 5
@@ -272,8 +274,11 @@ async function legacyRegression() {
 
 try {
   const harness = { out, profile, database, port, pid: () => child.pid, start, close, nativeClose, snapshot, click, send, evaluate, status, waitFor, fillFormula }
-  if (crossPlatformMode) {
-    assert.match(isolatedIdentifier, /^org\.shandong-study\.dev01[02]-[a-f0-9]+$/)
+  if (tableMode) {
+    assert.match(isolatedIdentifier, /^org\.shandong-study\.dev013-[a-f0-9]+$/)
+    await tableRegression(harness)
+  } else if (crossPlatformMode) {
+    assert.match(isolatedIdentifier, /^org\.shandong-study\.dev01[023]-[a-f0-9]+$/)
     assert.ok(existsSync(database), 'Seed the isolated profile with the verified DEV-012 fixture')
     await start()
     await evaluate(readFileSync('tests/macos-app-smoke.js', 'utf8'))
