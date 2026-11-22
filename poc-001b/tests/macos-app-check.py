@@ -143,7 +143,7 @@ def inspect_table(source, target):
         assert len(target.with_name(target.stem + "-images.txt").read_text(encoding="utf-8").splitlines()) > 2
         expected = "STEM"
     if "-pair-" in target.stem:
-        assert re.findall(expected + r"-(\d{3})", text) == [f"{index:03}" for index in range(2, 21)], target
+        assert re.findall(r"\b" + expected + r"-(\d{3})", text) == [f"{index:03}" for index in range(2, 21)], target
     summary["tableBodyRows"] = len(re.findall(r"TABROW-(?!000)\d{3}", text))
     return summary
 
