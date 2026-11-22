@@ -100,14 +100,47 @@ def inspect_outputs(report, output):
             evidence[name] = inspect_pdf(source, output / f"{name}.pdf", count, answers)
         except (AssertionError, OSError, subprocess.CalledProcessError) as error:
             failures[name] = str(error)
+    tables = results.get("tables")
+    if tables:
+        for name, src in (("table-single-paper", tables["paper"]), ("table-single-answers", tables["answers"]),
+                          ("table-pair-paper", tables["pair"]["paper"]), ("table-pair-answers", tables["pair"]["answers"])):
+            evidence[name] = inspect_table(src, output / f"{name}.pdf")
     (output / "pdf-summary.json").write_text(json.dumps(evidence, indent=2) + "\n")
     pdf_root = Path(results["single"]).parent
     expected_batches = {Path(pair["paper"]).parent for pair in results["pairs"].values()}
+    if tables:
+        expected_batches.add(Path(tables["pair"]["paper"]).parent)
     assert set(pdf_root.glob("composition-*")) == expected_batches
     assert not list(pdf_root.glob(".composition-staging-*")), "incomplete batch left in staging"
     for batch in expected_batches:
         assert {path.name for path in batch.iterdir()} == {"paper.pdf", "answers.pdf"}
     assert not failures, failures
+
+
+def inspect_table(source, target):
+    summary = inspect_pdf(source, target)
+    text = target.with_name(target.stem + "-text.txt").read_text(encoding="utf-8")
+    font_text = target.with_name(target.stem + "-fonts.txt").read_text(encoding="utf-8")
+    solutions = ("TABSOLUTION", "TABANALYSIS", "TABPARTANSWER", "TABPARTANALYSIS")
+    assert "KaTeX" in font_text, target
+    if target.stem.endswith("-answers"):
+        assert "TABROW" not in text and "TABPART-0" not in text and "STEM-" not in text, target
+        for marker in solutions:
+            assert re.findall(marker + r"-(00[12])", text) == ["001", "002"], (target, marker)
+        expected = "ANSWER"
+    else:
+        assert all(marker not in text for marker in solutions) and "ANSWER-" not in text, target
+        assert re.findall(r"TABROW-(\d{3})", text) and re.findall(r"TABROW-(?!000)(\d{3})", text) == [
+            f"{index:03}" for index in range(1, 61)
+        ], target
+        assert len([page for page in text.split("\f") if re.search(r"TABROW-(?!000)\d{3}", page)]) >= 2
+        assert re.findall(r"TABPART-(00[12])", text) == ["001", "002"], target
+        assert len(target.with_name(target.stem + "-images.txt").read_text(encoding="utf-8").splitlines()) > 2
+        expected = "STEM"
+    if "-pair-" in target.stem:
+        assert re.findall(expected + r"-(\d{3})", text) == [f"{index:03}" for index in range(2, 21)], target
+    summary["tableBodyRows"] = len(re.findall(r"TABROW-(?!000)\d{3}", text))
+    return summary
 
 
 def main():

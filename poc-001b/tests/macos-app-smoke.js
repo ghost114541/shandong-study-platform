@@ -90,6 +90,29 @@
       timings['pair' + count + 'Ms'] = elapsed(begin)
     }
 
+    let tables
+    const tablePaper = papers.find(p => p.title === 'DEV-013 原创表格混合卷 20')
+    if (tablePaper) {
+      await click('SQLite 题库')
+      const question = await wait('table question', () =>
+        document.querySelector('button[data-question-id="dev013-structured-table"]:enabled'))
+      question.click()
+      await wait('table editor', () => document.querySelector('.tiptap table')?.rows.length === 61)
+      tables = {}
+      for (const [kind, button] of [['paper', '题卷预览'], ['answers', '答案卷预览']]) {
+        await click(button)
+        await wait('rendered table', () => document.querySelector('.paper .rich-table'))
+        await click('导出当前 PDF')
+        const saved = await wait('table ' + kind + ' PDF', () =>
+          document.querySelector('.status')?.textContent.match(/PDF 已保存到 (.+)/))
+        tables[kind] = saved[1]
+      }
+      const { id } = tablePaper
+      const preview = await invoke('preview_composition', { id })
+      check(preview.paper.entries.length === 20 && preview.answers.entries.length === 20, 'wrong table snapshot size')
+      tables.pair = await invoke('export_composition', { id, identity: preview.identity, confirmed: true })
+    }
+
     await click('试卷库')
     const source = await wait('registered original PDF', () =>
       [...document.querySelectorAll('.paper-library-list button[title^="SHA-256"]')]
@@ -107,7 +130,7 @@
     await wait('jump and draw second page', () => page()?.value === '2' &&
       Boolean(canvas()?.getContext('2d').getImageData(4, 4, 1, 1).data[3]))
     timings.pdfNextPageMs = elapsed(begin)
-    return { ok: true, single, pairs, timings, faults, originalPages: Number(page().max) }
+    return { ok: true, single, pairs, tables, timings, faults, originalPages: Number(page().max) }
   }
   run().then(result => { window.__knowpaperSmokeResult = result }, error => {
     window.__knowpaperSmokeResult = { ok: false, error: error?.message ?? String(error), timings }

@@ -1,0 +1,150 @@
+{
+  "schema_version": 2,
+  "question_type": "解答题",
+  "score": 1,
+  "stem": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "table",
+        "content": [
+          {
+            "type": "tableRow",
+            "content": [
+              {
+                "type": "tableHeader",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "中文 ABC 123",
+                        "marks": [
+                          {
+                            "type": "bold"
+                          },
+                          {
+                            "type": "italic"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hardBreak"
+                      },
+                      {
+                        "type": "inlineMath",
+                        "attrs": {
+                          "latex": "x^2"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "tableHeader",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "中文 ABC 123",
+                        "marks": [
+                          {
+                            "type": "bold"
+                          },
+                          {
+                            "type": "italic"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hardBreak"
+                      },
+                      {
+                        "type": "inlineMath",
+                        "attrs": {
+                          "latex": "x^2"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "tableRow",
+            "content": [
+              {
+                "type": "tableCell",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "中文 ABC 123",
+                        "marks": [
+                          {
+                            "type": "bold"
+                          },
+                          {
+                            "type": "italic"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hardBreak"
+                      },
+                      {
+                        "type": "inlineMath",
+                        "attrs": {
+                          "latex": "x^2"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "tableCell",
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "中文 ABC 123",
+                        "marks": [
+                          {
+                            "type": "bold"
+                          },
+                          {
+                            "type": "italic"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hardBreak"
+                      },
+                      {
+                        "type": "inlineMath",
+                        "attrs": {
+                          "latex": "x^2"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "parts": []
+}

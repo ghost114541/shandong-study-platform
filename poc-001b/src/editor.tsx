@@ -9,10 +9,11 @@ import StarterKit from '@tiptap/starter-kit'
 import katex from 'katex'
 import 'katex/contrib/mhchem'
 import graph from '../../poc-001/assets/parabola.svg?url'
-import { bundledGraph, parseDocument } from './model'
+import { bundledGraph } from './model'
 import type { Attachment, RichDocument, RichImageAttributes } from './model'
 import { AttachmentImage, imageByteLimit, imageTypes, importImage } from './attachment-image'
 import { describeError } from './sqlite-api'
+import { documentFromEditor, tableExtensions } from './editor-table'
 
 export const mathOptions = { trust: false, strict: 'ignore' } as const
 export function imageUrl(src: string): string | null {
@@ -51,11 +52,12 @@ interface Props {
   content: RichDocument
   onChange: (data: RichDocument, imported?: Attachment) => void
   externalImages?: boolean
+  tables?: boolean
   onImportingChange?: (importing: boolean) => void
   onError: (message: string) => void
 }
 
-export function QuestionEditor({ content, onChange, onError, externalImages = false, onImportingChange }: Props) {
+export function QuestionEditor({ content, onChange, onError, externalImages = false, tables = false, onImportingChange }: Props) {
   const [draft, setDraft] = useState<FormulaDraft | null>(null)
   const [formulaError, setFormulaError] = useState('')
   const [imageBusy, setImageBusy] = useState(false)
@@ -69,6 +71,7 @@ export function QuestionEditor({ content, onChange, onError, externalImages = fa
         listKeymap: false, strike: false, underline: false,
       }),
       LocalImage,
+      ...(tables ? tableExtensions(onError) : []),
       InlineMath.configure({
         katexOptions: mathOptions,
         onClick: (node, pos) => setDraft({ kind: 'inline', latex: node.attrs.latex, pos }),
@@ -81,16 +84,25 @@ export function QuestionEditor({ content, onChange, onError, externalImages = fa
     content,
     editorProps: {
       attributes: { 'aria-label': '题目内容', spellcheck: 'false' },
+      handleDOMEvents: {
+        paste(_view, event) {
+          return rejectTableHtml(event, event.clipboardData)
+        },
+        drop(_view, event) {
+          return rejectTableHtml(event, event.dataTransfer)
+        },
+      },
       // Only the image chooser inserts images. Pasted HTML must not introduce remote image URLs.
       transformPastedHTML(html) {
-        const document = new DOMParser().parseFromString(html, 'text/html')
-        document.querySelectorAll('img').forEach((node) => node.remove())
-        return document.body.innerHTML
+        const template = document.createElement('template')
+        template.innerHTML = html
+        template.content.querySelectorAll('img').forEach((node) => node.remove())
+        return template.innerHTML
       },
     },
     onUpdate({ editor }) {
       try {
-        onChange(parseDocument(editor.getJSON()), imported.current)
+        onChange(documentFromEditor(editor.getJSON()), imported.current)
       } catch (error) {
         onError(String(error))
       }
@@ -98,8 +110,18 @@ export function QuestionEditor({ content, onChange, onError, externalImages = fa
   })
   const formatting = useEditorState({
     editor,
-    selector: ({ editor }) => ({ bold: editor.isActive('bold'), italic: editor.isActive('italic') }),
+    selector: ({ editor }) => ({
+      bold: editor.isActive('bold'), italic: editor.isActive('italic'),
+      inTable: tables && editor.isActive('table'),
+      canUndo: editor.can().undo(), canRedo: editor.can().redo(),
+    }),
   })
+  function rejectTableHtml(event: Event, transfer: DataTransfer | null) {
+    if (!tables || !/<\s*(?:table|thead|tbody|tfoot|tr|td|th)(?=[\s/>])/i.test(transfer?.getData('text/html') ?? '')) return false
+    event.preventDefault()
+    onError('暂不支持粘贴或拖入表格，请先插入表格再填写单元格。')
+    return true
+  }
   const dialogOpen = draft !== null
   useEffect(() => {
     if (dialogOpen) dialog.current?.showModal()
@@ -175,12 +197,23 @@ export function QuestionEditor({ content, onChange, onError, externalImages = fa
       <button aria-pressed={formatting.bold} onMouseDown={(event) => event.preventDefault()} onClick={() => editor.chain().focus().toggleBold().run()}><b>粗体</b></button>
       <button aria-pressed={formatting.italic} onMouseDown={(event) => event.preventDefault()} onClick={() => editor.chain().focus().toggleItalic().run()}><i>斜体</i></button>
       <button onClick={() => setDraft({ kind: 'inline', latex: '' })}>插入行内公式</button>
-      <button onClick={() => setDraft({ kind: 'block', latex: '' })}>插入独立公式</button>
-      <label className="file-button">添加图片<input type="file" aria-label="添加图片" accept={imageTypes.join(',')} onChange={insertImage} disabled={imageBusy} /></label>
+      <button disabled={formatting.inTable} onClick={() => setDraft({ kind: 'block', latex: '' })}>插入独立公式</button>
+      <label className="file-button">添加图片<input type="file" aria-label="添加图片" accept={imageTypes.join(',')} onChange={insertImage} disabled={imageBusy || formatting.inTable} /></label>
+      {tables && <>
+        <button disabled={formatting.inTable} onClick={() => editor.chain().focus().insertTable({ rows: 2, cols: 2, withHeaderRow: true }).run()}>插入表格</button>
+        <button disabled={!formatting.inTable} onClick={() => editor.chain().focus().addRowAfter().run()}>下方加行</button>
+        <button disabled={!formatting.inTable} onClick={() => editor.chain().focus().deleteRow().run()}>删除行</button>
+        <button disabled={!formatting.inTable} onClick={() => editor.chain().focus().addColumnAfter().run()}>右侧加列</button>
+        <button disabled={!formatting.inTable} onClick={() => editor.chain().focus().deleteColumn().run()}>删除列</button>
+        <button disabled={!formatting.inTable} onClick={() => editor.chain().focus().deleteTable().run()}>删除表格</button>
+        <button disabled={!formatting.canUndo} onClick={() => editor.chain().focus().undo().run()}>撤销</button>
+        <button disabled={!formatting.canRedo} onClick={() => editor.chain().focus().redo().run()}>重做</button>
+      </>}
     </div>
     {imageBusy && <p role="status">正在导入图片…</p>}
     <EditorContent editor={editor} />
     <p className="hint">点击编辑区中的公式可以修改原始 LaTeX。</p>
+    {tables && <p className="hint">单元格支持文字和行内公式。按 Tab 切换单元格，图片和独立公式可放在表格外。</p>}
     <dialog ref={dialog} onCancel={dismiss} aria-labelledby="formula-title">
       <form onSubmit={applyFormula}>
         <h3 id="formula-title">{draft?.kind === 'block' ? '独立公式' : '行内公式'}</h3>

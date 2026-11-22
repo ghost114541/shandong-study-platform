@@ -405,6 +405,12 @@ impl ValidatedPack {
             {
                 return Err(invalid(format!("试题 {} 字段或权利关联无效。", item.id)));
             }
+            if item.content.schema_version != self.manifest.content_version {
+                return Err(DbError::new(
+                    ErrorKind::UnsupportedContent,
+                    "资源包内的试题内容版本必须与清单一致，目前资源包仅支持 v1。",
+                ));
+            }
             item.content.to_json()?;
             for a in &item.content.attachments {
                 let blob = self.blobs.get(&a.sha256);

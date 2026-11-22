@@ -1,5 +1,5 @@
 use super::*;
-use serde_json::json;
+use serde_json::{json, Value};
 use std::{
     fs,
     path::{Path, PathBuf},
@@ -235,8 +235,13 @@ fn dev009_t09_to_t17_import_upgrade_and_preserve_user_resources() {
         original.content.stem["content"][0]["content"][1]["type"],
         "inlineMath"
     );
+    let mut user_table: Value =
+        serde_json::from_str(include_str!("../../../tests/dev013-table.json")).unwrap();
+    user_table["stem"]["content"][0]["content"][0]["content"][0]["content"][0]["content"][0]["text"] =
+        json!("我的个人修订");
+    let user_table = RevisionContent::from_json(&user_table.to_string()).unwrap();
     let edited = db
-        .append_user_revision(first, Some(original.id), &personal("我的个人修订"))
+        .append_user_revision(first, Some(original.id), &user_table)
         .unwrap();
     let own = db
         .create_question_with_revision("personal-only", "math", &personal("个人自建题"))
@@ -357,6 +362,7 @@ fn dev009_t09_to_t17_import_upgrade_and_preserve_user_resources() {
     db.recover_resource_packs().unwrap();
     db.integrity_check().unwrap();
     assert_eq!(db.current_revision(first).unwrap().unwrap().id, edited);
+    assert_eq!(db.current_revision(first).unwrap().unwrap().content, user_table);
     assert_eq!(db.public_original(first).unwrap().unwrap(), original);
     assert_eq!(
         db.current_revision("personal-only").unwrap().unwrap().id,

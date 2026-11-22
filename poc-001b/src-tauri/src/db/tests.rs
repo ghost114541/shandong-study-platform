@@ -561,6 +561,89 @@ fn validates_knowledge_hierarchy_and_structured_database_errors() {
     assert!(matches!(Database::open(&path), Err(error) if error.kind == ErrorKind::Integrity));
 }
 #[test]
+fn dev013_tables_are_immutable_and_survive_fixed_papers_drafts_and_backups() {
+    let (temp, mut db) = database();
+    question(&db);
+    let fixture = include_str!("../../../tests/dev013-table.json");
+    let mut original = RevisionContent::from_json(fixture).unwrap();
+    original.answer = Some(original.stem.clone());
+    let first = db.append_revision("q1", Scope::User, None, &original).unwrap();
+    db.record_review(first, review(Verdict::Passed, "2026-11-20", None)).unwrap();
+    let paper = db.create_composed_paper(&PaperDraft {
+        title: "DEV-013 固定表格修订".into(), previous_id: None, settings: Default::default(),
+        items: vec![PaperSelection {
+            revision_id: first,
+            points: PaperPoints { group: "试题".into(), score: 1, part_scores: vec![] },
+        }],
+    }).unwrap();
+    let mut updated = original.clone();
+    updated.stem["content"][0]["content"][0]["content"][0]["content"][0]["content"][0]["text"] =
+        json!("DEV013_TABLE_SEARCH");
+    let second = db.append_user_revision("q1", Some(first), &updated).unwrap();
+    assert_ne!(first, second);
+    assert!(db.latest_review(second).unwrap().is_none());
+    let token = DraftToken { id: "b137cd49-1a35-4a37-a943-807cb9e02013".into(), sequence: 1 };
+    let payload = json!({"field":"stem", "content": updated});
+    assert!(db.put_draft(&DraftWrite {
+        token: token.clone(), object_type:"question".into(), object_id:"q1".into(),
+        base_revision:Some(second), payload:payload.clone(), attachments:vec![],
+    }).unwrap());
+    let mut invalid = payload.clone();
+    invalid["content"]["stem"]["content"][0]["attrs"] = json!({"onload":"unsafe"});
+    assert_eq!(db.put_draft(&DraftWrite {
+        token: DraftToken { sequence: 2, ..token.clone() }, object_type:"question".into(),
+        object_id:"q1".into(), base_revision:Some(second), payload:invalid, attachments:vec![],
+    }).unwrap_err().kind, ErrorKind::InvalidContent);
+
+    let archive = temp.path().join("tables.knowbackup");
+    db.create_backup(&archive, "dev013-test", &mut |_, _, _| Ok(())).unwrap();
+    let restored = tempfile::tempdir().unwrap();
+    unpack_backup(&archive, restored.path(), &mut |_, _, _| Ok(())).unwrap();
+    let mut db = Database::open(&restored.path().join(DATABASE_FILENAME)).unwrap();
+    assert_eq!(db.schema_version().unwrap(), 9);
+    assert_eq!(db.revision(first).unwrap().unwrap().content, original);
+    assert_eq!(db.current_revision("q1").unwrap().unwrap().content, updated);
+    assert_eq!(db.draft_payload(&token.id).unwrap(), payload);
+    assert_eq!(db.load_paper(&paper.id).unwrap(), paper);
+    let search: String = db.connection.query_row(
+        "SELECT text FROM revision_search_text WHERE revision_id=?1", [second], |row| row.get(0)
+    ).unwrap();
+    assert!(search.contains("DEV013_TABLE_SEARCH"));
+    let snapshots = serde_json::to_value(db.composition_print_pair(&paper.id).unwrap()).unwrap();
+    assert_eq!(snapshots["paper"]["entries"][0]["main"], original.stem);
+    assert_eq!(snapshots["answers"]["entries"][0]["main"], original.answer.unwrap());
+}
+
+#[test]
+fn dev013_table_validator_rejects_invalid_shapes_and_limits() {
+    let doc: Value = serde_json::from_str(include_str!("../../../tests/dev013-table.json")).unwrap();
+    let mut cases = vec![];
+    let mut v1 = doc.clone();
+    v1["schema_version"] = json!(1);
+    cases.push(v1);
+    let mut attrs = doc.clone();
+    attrs["stem"]["content"][0]["content"][0]["content"][0]["attrs"] = json!({"onmouseover":"unsafe"});
+    cases.push(attrs);
+    let mut uneven = doc.clone();
+    uneven["stem"]["content"][0]["content"][1]["content"].as_array_mut().unwrap().pop();
+    cases.push(uneven);
+    let mut too_many = doc.clone();
+    too_many["stem"]["content"] = json!(vec![doc["stem"]["content"][0].clone(); 17]);
+    cases.push(too_many);
+    let mut too_large = doc.clone();
+    too_large["stem"]["content"][0]["content"][0]["content"][0]["content"][0]["content"][0]["text"] =
+        json!("测".repeat(180_000));
+    cases.push(too_large);
+    let mut nested = doc.clone();
+    nested["stem"]["content"][0]["content"][0]["content"][0]["content"][0] =
+        doc["stem"]["content"][0].clone();
+    cases.push(nested);
+    for case in cases {
+        assert_eq!(RevisionContent::from_json(&case.to_string()).unwrap_err().kind, ErrorKind::InvalidContent);
+    }
+}
+
+#[test]
 fn dev002_shared_rich_text_contract() {
     let cases: Vec<serde_json::Value> =
         serde_json::from_str(include_str!("../../../tests/revision-contract.json")).unwrap();

@@ -433,6 +433,15 @@ pub(super) fn insert_revision(
         params![question, scope.as_sql(), base, content.schema_version, json],
     )?;
     let id = connection.last_insert_rowid();
+    if content.schema_version == super::content::TABLE_CONTENT_VERSION {
+        let text = super::content::table_search_text(content);
+        if !text.is_empty() {
+            connection.execute(
+                "UPDATE revision_search_text SET text = text || ?1 WHERE revision_id = ?2",
+                params![text, id],
+            )?;
+        }
+    }
     for attachment in &content.attachments {
         connection.execute(
             "INSERT INTO revision_attachment(revision_id, attachment_id) VALUES (?1, ?2)",

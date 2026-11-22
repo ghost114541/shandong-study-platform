@@ -1,4 +1,4 @@
-use super::{Database, DbError, ErrorKind, Result, ReviewStatus, CONTENT_VERSION};
+use super::{content::supported_version, Database, DbError, ErrorKind, Result, ReviewStatus};
 use rusqlite::{params, Connection, OptionalExtension, TransactionBehavior};
 use serde::{Deserialize, Serialize};
 
@@ -479,7 +479,7 @@ impl Database {
             let content_version = row.get::<_, Option<u32>>(13)?;
             let unavailable = match kind.as_str() {
                 "question" if revision_id.is_none() => Some("试题暂无可读修订。"),
-                "question" if content_version != Some(CONTENT_VERSION) => {
+                "question" if !content_version.is_some_and(supported_version) => {
                     Some("试题修订格式暂不支持。")
                 }
                 "knowledge" if disabled => Some("知识点已停用。"),

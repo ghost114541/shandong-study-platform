@@ -167,12 +167,96 @@ fn open(root: &mut LibraryRoot) -> Database {
     .unwrap()
 }
 
-fn seed(legacy: &Path, destination: &Path) {
+fn table(prefix: &str, rows: usize) -> Value {
+    let rows = (0..=rows)
+        .map(|row| {
+            let kind = if row == 0 { "tableHeader" } else { "tableCell" };
+            let mut label = paragraph(&format!("{prefix}-{row:03}"));
+            label["content"][0]["marks"] = json!([{"type":"bold"}]);
+            let detail = if row == 0 {
+                paragraph("样本及公式")
+            } else {
+                json!({"type":"paragraph","content":[
+                    {"type":"text","text":"依据实测数据记录位置和时间，并比较变化趋势。".repeat(4)},
+                    {"type":"hardBreak"},
+                    {"type":"inlineMath","attrs":{"latex":"x^2+12"}}
+                ]})
+            };
+            json!({"type":"tableRow","content":[
+                {"type":kind,"content":[label]},
+                {"type":kind,"content":[detail]}
+            ]})
+        })
+        .collect::<Vec<_>>();
+    json!({"type":"table","content":rows})
+}
+
+fn create_table_composition(db: &mut Database) {
+    let existing = db
+        .list_papers()
+        .unwrap()
+        .into_iter()
+        .find(|paper| paper.title == "DEV-012 原创混合卷 20")
+        .unwrap();
+    let mut items = db
+        .load_paper(&existing.id)
+        .unwrap()
+        .items
+        .into_iter()
+        .skip(1)
+        .map(|item| PaperSelection {
+            revision_id: item.question.revision.id,
+            points: item.points,
+        })
+        .collect::<Vec<_>>();
+    let illustration = db
+        .import_attachment(include_bytes!("../icons/icon.png"), Some("image/png"))
+        .unwrap();
+    let doc = |label| json!({"type":"doc","content":[table(label, 2)]});
+    let content = RevisionContent::from_json(&json!({
+        "schema_version":2, "question_type":"解答题", "score":4,
+        "stem":{"type":"doc","content":[table("TABROW", 60),
+            {"type":"image","attrs":{"src":format!("attachment:{}", illustration.id),"alt":"原创图示"}}
+        ]},
+        "answer":doc("TABSOLUTION"), "analysis":doc("TABANALYSIS"),
+        "parts":[{"id":"a","score":4,"prompt":doc("TABPART"),"answer":doc("TABPARTANSWER"),"analysis":doc("TABPARTANALYSIS")}],
+        "attachments":[illustration]
+    }).to_string()).unwrap();
+    let revision_id = db
+        .create_question_with_revision("dev013-structured-table", "math", &content)
+        .unwrap();
+    items.insert(
+        0,
+        PaperSelection {
+            revision_id,
+            points: PaperPoints {
+                group: "合成试题".into(),
+                score: 4,
+                part_scores: vec![4],
+            },
+        },
+    );
+    db.create_composed_paper(&PaperDraft {
+        title: "DEV-013 原创表格混合卷 20".into(),
+        previous_id: None,
+        settings: PaperSettings {
+            groups: vec!["合成试题".into()],
+            ..Default::default()
+        },
+        items,
+    })
+    .unwrap();
+}
+
+fn seed(legacy: &Path, destination: &Path, tables: bool) {
     assert_eq!(std::env::consts::OS, "windows");
     let work = tempfile::tempdir().unwrap();
     unpack_backup(legacy, work.path(), &mut |_, _, _| Ok(())).unwrap();
     let mut db = Database::open(&work.path().join(DATABASE_FILENAME)).unwrap();
     create_compositions(&mut db);
+    if tables {
+        create_table_composition(&mut db);
+    }
     create_scan(&mut db, &work.path().join("dev012-scan.pdf"));
     db.create_knowledge_point(KNOWLEDGE, "math", None, "DEV-012 原创自定义知识点")
         .unwrap();
@@ -294,13 +378,14 @@ fn restore(archive: &Path, output: &Path) {
 fn main() {
     let args: Vec<PathBuf> = std::env::args_os().skip(1).map(PathBuf::from).collect();
     let [mode, input, output] = args.as_slice() else {
-        panic!("Usage: dev012_migration <seed|restore> <input archive> <new output archive>");
+        panic!("Usage: dev012_migration <seed|seed-tables|restore> <input archive> <new output archive>");
     };
     let input = input.canonicalize().unwrap();
     let output = std::env::current_dir().unwrap().join(output);
     fs::create_dir_all(output.parent().unwrap()).unwrap();
     match mode.to_str() {
-        Some("seed") => seed(&input, &output),
+        Some("seed") => seed(&input, &output, false),
+        Some("seed-tables") => seed(&input, &output, true),
         Some("restore") => restore(&input, &output),
         _ => panic!("Expected seed or restore"),
     }

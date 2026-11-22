@@ -15,6 +15,7 @@
     "@tiptap/core": "^3.0.0",
     "@tiptap/extension-image": "^3.0.0",
     "@tiptap/extension-mathematics": "^3.0.0",
+    "@tiptap/extension-table": "3.34.0",
     "@tiptap/pm": "^3.0.0",
     "@tiptap/react": "^3.0.0",
     "@tiptap/starter-kit": "^3.0.0",

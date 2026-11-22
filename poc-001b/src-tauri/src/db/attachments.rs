@@ -413,7 +413,8 @@ impl Database {
                 content
                     .answer
                     .iter()
-                    .chain(content.parts.iter().filter_map(|part| part.answer.as_ref())),
+                    .chain(content.analysis.iter())
+                    .chain(content.parts.iter().flat_map(|part| part.answer.iter().chain(part.analysis.iter()))),
             )
         } else {
             picture_ids(

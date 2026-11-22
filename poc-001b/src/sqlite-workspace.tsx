@@ -8,7 +8,7 @@ import { invoke } from '@tauri-apps/api/core'
 import { QuestionEditor } from './editor'
 import { AttachmentDeclarations } from './attachment-image'
 import type { ConfirmLeave, ReportGuard } from './leave-guard'
-import { CONTENT_VERSION, referencedAttachments, revisionToPaper } from './model'
+import { CONTENT_VERSION, parseQuestionDraftContent, referencedAttachments, revisionToPaper, withRevisionContentVersion } from './model'
 import type { Attachment, PaperData, RevisionContent, RichDocument } from './model'
 import { Content, Paper } from './paper'
 import { QuestionKnowledge } from './question-knowledge'
@@ -43,9 +43,9 @@ const emptyRevision: RevisionContent = {
   stem: blank, answer: null, analysis: null, attachments: [], parts: [],
 }
 
-function targetPart(field: Field): { index: number; key: 'prompt' | 'answer' } {
+function targetPart(field: Field): { index: number; key: 'prompt' | 'answer' | 'analysis' } {
   const [key, index] = field.split(':')
-  return { index: Number(index), key: key === 'prompt' ? 'prompt' : 'answer' }
+  return { index: Number(index), key: key === 'prompt' || key === 'analysis' ? key : 'answer' }
 }
 
 function activeDocument(content: RevisionContent, field: Field): RichDocument {
@@ -167,6 +167,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, in
       setQuestions(list)
       if (recovered) {
         const data = await protection.load<QuestionDraftState>(recovered.id)
+        const content = parseQuestionDraftContent(data.content)
         const [detail, revisions, current] = await Promise.all([
           recovered.base_revision === null ? null : sqlite.revision(recovered.base_revision),
           data.fresh ? [] : sqlite.revisions(recovered.object_id),
@@ -176,7 +177,7 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, in
         setSelection({ questionId: recovered.object_id, subjectId: data.subjectId,
           detail, view: 'current', fresh: data.fresh, screenshot: data.screenshot })
         setHistory(revisions)
-        setDraft(data.content)
+        setDraft(content)
         setField(data.field)
         setDraftConflict(recovered.conflict || (current?.revision.id ?? null) !== recovered.base_revision)
         setDirty(true)
@@ -244,9 +245,13 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, in
     update((previous) => {
       const attachments = imported && !previous.attachments.some((item) => item.id === imported.id)
         ? [...previous.attachments, imported] : previous.attachments
-      if (field === 'stem' || field === 'answer' || field === 'analysis') return { ...previous, attachments, [field]: doc }
+      if (field === 'stem' || field === 'answer' || field === 'analysis') {
+        return withRevisionContentVersion({ ...previous, attachments, [field]: doc })
+      }
       const { index, key } = targetPart(field)
-      return { ...previous, attachments, parts: previous.parts.map((part, i) => i === index ? { ...part, [key]: doc } : part) }
+      return withRevisionContentVersion({
+        ...previous, attachments, parts: previous.parts.map((part, i) => i === index ? { ...part, [key]: doc } : part),
+      })
     })
   }
 
@@ -386,12 +391,13 @@ export function SQLiteWorkspace({ reportGuard, confirmLeave, initialQuestion, in
             {draft.parts.flatMap((part, index) => [
               <option key={part.id + '-prompt'} value={'prompt:' + index}>小问 {index + 1} · 题干</option>,
               <option key={part.id + '-answer'} value={'answer:' + index}>小问 {index + 1} · 答案</option>,
+              <option key={part.id + '-analysis'} value={'analysis:' + index}>小问 {index + 1} · 解析</option>,
             ])}
           </select></label>
           <AttachmentDeclarations.Provider value={draft.attachments}>
             {readOnly ? <div className="original-view"><Content data={activeDocument(draft, field)} /></div>
               : <div inert={busy}><QuestionEditor key={editorGeneration + ':' + revisionId + ':' + field}
-                externalImages onImportingChange={setImporting} content={activeDocument(draft, field)} onChange={updateDocument} onError={setError} /></div>}
+                tables externalImages onImportingChange={setImporting} content={activeDocument(draft, field)} onChange={updateDocument} onError={setError} /></div>}
           </AttachmentDeclarations.Provider>
           {!selection.fresh && <QuestionKnowledge key={selection.questionId} questionId={selection.questionId}
             subjectId={selection.subjectId} editable={!blocked && !readOnly} />}

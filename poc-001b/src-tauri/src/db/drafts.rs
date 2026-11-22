@@ -46,6 +46,11 @@ impl Database {
         if json.len() > 16 * 1024 * 1024 {
             return Err(invalid("草稿超过 16 MiB，请缩小编辑内容。"));
         }
+        if draft.object_type == "question" {
+            if let Some(content) = draft.payload.get("content") {
+                super::RevisionContent::validate_draft(content)?;
+            }
+        }
         let tx = self
             .connection
             .transaction_with_behavior(TransactionBehavior::Immediate)?;

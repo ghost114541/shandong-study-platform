@@ -4,6 +4,12 @@ use serde_json::Value;
 use std::collections::HashSet;
 
 pub const CONTENT_VERSION: u32 = 1;
+pub const TABLE_CONTENT_VERSION: u32 = 2;
+const MAX_TABLE_BYTES: usize = 512 * 1024;
+
+pub(super) fn supported_version(version: u32) -> bool {
+    matches!(version, CONTENT_VERSION | TABLE_CONTENT_VERSION)
+}
 const MAX_BYTES: usize = 32 * 1024 * 1024;
 const MAX_SAFE_INTEGER: u64 = (1 << 53) - 1;
 const RASTER_TYPES: &[&str] = &["image/png", "image/jpeg", "image/webp", "image/gif"];
@@ -46,7 +52,7 @@ fn invalid(message: impl Into<String>) -> DbError {
 }
 
 fn check_version(version: u64) -> Result<()> {
-    if version == u64::from(CONTENT_VERSION) {
+    if u32::try_from(version).is_ok_and(supported_version) {
         return Ok(());
     }
     Err(DbError::new(
@@ -57,6 +63,14 @@ fn check_version(version: u64) -> Result<()> {
 
 impl RevisionContent {
     pub fn from_json(json: &str) -> Result<Self> {
+        Self::decode(json, false)
+    }
+
+    pub(super) fn validate_draft(value: &Value) -> Result<()> {
+        Self::decode(&value.to_string(), true).map(|_| ())
+    }
+
+    fn decode(json: &str, draft: bool) -> Result<Self> {
         if json.len() > MAX_BYTES {
             return Err(invalid("题目修订超过 32 MiB。"));
         }
@@ -79,12 +93,12 @@ impl RevisionContent {
         }
         let result: Self =
             serde_json::from_value(value).map_err(|error| invalid(error.to_string()))?;
-        result.validate()?;
+        result.validate(draft)?;
         Ok(result)
     }
 
     pub(crate) fn to_json(&self) -> Result<String> {
-        self.validate()?;
+        self.validate(false)?;
         let json = serde_json::to_string(self).map_err(|error| invalid(error.to_string()))?;
         if json.len() > MAX_BYTES {
             return Err(invalid("题目修订超过 32 MiB。"));
@@ -92,10 +106,29 @@ impl RevisionContent {
         Ok(json)
     }
 
-    fn validate(&self) -> Result<()> {
+    fn validate(&self, draft: bool) -> Result<()> {
         check_version(u64::from(self.schema_version))?;
-        if self.question_type.trim().is_empty() {
+        if !draft && self.question_type.trim().is_empty() {
             return Err(invalid("题型不能为空。"));
+        }
+        if self.schema_version == TABLE_CONTENT_VERSION
+            && ![
+                Some(&self.stem),
+                self.answer.as_ref(),
+                self.analysis.as_ref(),
+            ]
+            .into_iter()
+            .chain(self.parts.iter().flat_map(|part| {
+                [
+                    Some(&part.prompt),
+                    part.answer.as_ref(),
+                    part.analysis.as_ref(),
+                ]
+            }))
+            .flatten()
+            .any(|doc| children(doc).any(|block| kind(block) == Some("table")))
+        {
+            return Err(invalid("富文本版本 2 仅用于含表格的修订。"));
         }
 
         let mut attachment_ids = HashSet::new();
@@ -128,6 +161,7 @@ impl RevisionContent {
                     part.analysis.as_ref(),
                 ],
                 &attachment_ids,
+                self.schema_version,
             )?;
         }
         if !self.parts.is_empty()
@@ -142,6 +176,7 @@ impl RevisionContent {
                 self.analysis.as_ref(),
             ],
             &attachment_ids,
+            self.schema_version,
         )
     }
 
@@ -177,7 +212,11 @@ fn only_fields(value: &Value, allowed: &[&str]) -> bool {
         .is_some_and(|object| object.keys().all(|key| allowed.contains(&key.as_str())))
 }
 
-fn validate_documents(documents: [Option<&Value>; 3], attachments: &HashSet<&str>) -> Result<()> {
+fn validate_documents(
+    documents: [Option<&Value>; 3],
+    attachments: &HashSet<&str>,
+    version: u32,
+) -> Result<()> {
     for doc in documents.into_iter().flatten() {
         if kind(doc) != Some("doc") || !only_fields(doc, &["type", "content"]) {
             return Err(invalid("富文本根节点必须为 doc。"));
@@ -186,38 +225,13 @@ fn validate_documents(documents: [Option<&Value>; 3], attachments: &HashSet<&str
             .as_array()
             .filter(|blocks| !blocks.is_empty())
             .ok_or_else(|| invalid("富文本 doc 必须具有非空 content 数组。"))?;
+        let mut tables = Vec::new();
         for block in blocks {
             match kind(block) {
-                Some("paragraph") if only_fields(block, &["type", "content"]) => {
-                    if let Some(inlines) = block.get("content") {
-                        for node in inlines
-                            .as_array()
-                            .ok_or_else(|| invalid("段落 content 必须为数组。"))?
-                        {
-                            match kind(node) {
-                                Some("text")
-                                    if only_fields(node, &["type", "text", "marks"])
-                                        && node["text"]
-                                            .as_str()
-                                            .is_some_and(|text| !text.is_empty()) =>
-                                {
-                                    if let Some(marks) = node.get("marks") {
-                                        if !marks.as_array().is_some_and(|items| {
-                                            items.iter().all(|mark| {
-                                                matches!(kind(mark), Some("bold" | "italic"))
-                                                    && only_fields(mark, &["type"])
-                                            })
-                                        }) {
-                                            return Err(invalid("文字标记必须为粗体或斜体。"));
-                                        }
-                                    }
-                                }
-                                Some("inlineMath") => validate_latex(node)?,
-                                Some("hardBreak") if only_fields(node, &["type"]) => {}
-                                _ => return Err(invalid("无效的段落行内节点。")),
-                            }
-                        }
-                    }
+                Some("paragraph") => validate_paragraph(block, false)?,
+                Some("table") if version == TABLE_CONTENT_VERSION => {
+                    validate_table(block)?;
+                    tables.push(block);
                 }
                 Some("blockMath") => validate_latex(block)?,
                 Some("image") => {
@@ -248,8 +262,99 @@ fn validate_documents(documents: [Option<&Value>; 3], attachments: &HashSet<&str
                 _ => return Err(invalid("无效的富文本块节点。")),
             }
         }
+        if tables.len() > 16
+            || (!tables.is_empty()
+                && serde_json::to_vec(&tables)
+                    .map_err(|error| invalid(error.to_string()))?
+                    .len()
+                    > MAX_TABLE_BYTES)
+        {
+            return Err(invalid("单份文档最多 16 张表格，合计不得超过 512 KiB。"));
+        }
     }
     Ok(())
+}
+
+fn validate_paragraph(block: &Value, in_cell: bool) -> Result<()> {
+    if kind(block) != Some("paragraph") || !only_fields(block, &["type", "content"]) {
+        return Err(invalid("无效的段落节点。"));
+    }
+    if let Some(inlines) = block.get("content") {
+        let inlines = inlines
+            .as_array()
+            .ok_or_else(|| invalid("段落 content 必须为数组。"))?;
+        if in_cell && inlines.len() > 256 {
+            return Err(invalid("单元格段落最多包含 256 个行内节点。"));
+        }
+        for node in inlines {
+            match kind(node) {
+                Some("text")
+                    if only_fields(node, &["type", "text", "marks"])
+                        && node["text"].as_str().is_some_and(|text| !text.is_empty()) =>
+                {
+                    if let Some(marks) = node.get("marks") {
+                        if !marks.as_array().is_some_and(|items| {
+                            items.iter().all(|mark| {
+                                matches!(kind(mark), Some("bold" | "italic"))
+                                    && only_fields(mark, &["type"])
+                            })
+                        }) {
+                            return Err(invalid("文字标记必须为粗体或斜体。"));
+                        }
+                    }
+                }
+                Some("inlineMath") => validate_latex(node)?,
+                Some("hardBreak") if only_fields(node, &["type"]) => {}
+                _ => return Err(invalid("无效的段落行内节点。")),
+            }
+        }
+    }
+    Ok(())
+}
+
+fn table_children(node: &Value, limit: usize) -> Result<&[Value]> {
+    node["content"]
+        .as_array()
+        .filter(|children| !children.is_empty() && children.len() <= limit)
+        .filter(|_| only_fields(node, &["type", "content"]))
+        .map(Vec::as_slice)
+        .ok_or_else(|| invalid("表格节点字段或尺寸无效。"))
+}
+
+fn validate_table(table: &Value) -> Result<()> {
+    let rows = table_children(table, 120)?;
+    let columns = table_children(&rows[0], 8)?.len();
+    if rows.len() * columns > 480 {
+        return Err(invalid("单张表格最多 480 格。"));
+    }
+    for (index, row) in rows.iter().enumerate() {
+        let cells = table_children(row, 8)?;
+        if kind(row) != Some("tableRow") || cells.len() != columns {
+            return Err(invalid("表格必须由等宽的行组成。"));
+        }
+        for cell in cells {
+            if kind(cell) != Some("tableCell") && !(index == 0 && kind(cell) == Some("tableHeader"))
+            {
+                return Err(invalid("无效的单元格节点，表头限首行。"));
+            }
+            for paragraph in table_children(cell, 16)? {
+                validate_paragraph(paragraph, true)?;
+            }
+        }
+    }
+    Ok(())
+}
+
+pub(super) fn table_paragraphs(doc: &Value) -> impl Iterator<Item = &Value> {
+    children(doc)
+        .filter(|node| kind(node) == Some("table"))
+        .flat_map(children)
+        .flat_map(children)
+        .flat_map(children)
+}
+
+fn children(node: &Value) -> impl Iterator<Item = &Value> {
+    node["content"].as_array().into_iter().flatten()
 }
 
 fn kind(node: &Value) -> Option<&str> {
@@ -292,17 +397,33 @@ fn valid_image_source(src: &str, attachments: &HashSet<&str>) -> bool {
 }
 
 pub(super) fn has_content(doc: &Value) -> bool {
-    doc["content"].as_array().is_some_and(|blocks| {
-        blocks.iter().any(|block| {
-            matches!(kind(block), Some("blockMath" | "image"))
-                || block["content"].as_array().is_some_and(|nodes| {
-                    nodes.iter().any(|node| {
-                        kind(node) == Some("inlineMath")
-                            || node["text"]
-                                .as_str()
-                                .is_some_and(|text| !text.trim().is_empty())
-                    })
-                })
-        })
-    })
+    children(doc).any(|block| matches!(kind(block), Some("blockMath" | "image")))
+        || children(doc)
+            .filter(|block| kind(block) == Some("paragraph"))
+            .chain(table_paragraphs(doc))
+            .flat_map(children)
+            .any(|node| {
+                kind(node) == Some("inlineMath")
+                    || node["text"]
+                        .as_str()
+                        .is_some_and(|text| !text.trim().is_empty())
+            })
+}
+
+pub(super) fn table_search_text(content: &RevisionContent) -> String {
+    let mut result = String::new();
+    for paragraph in std::iter::once(&content.stem)
+        .chain(content.parts.iter().map(|part| &part.prompt))
+        .flat_map(table_paragraphs)
+    {
+        result.push('\n');
+        for node in children(paragraph) {
+            if let Some(text) = node["text"].as_str() {
+                result.push_str(text);
+            } else {
+                result.push('\n');
+            }
+        }
+    }
+    result
 }

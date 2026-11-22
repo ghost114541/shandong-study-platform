@@ -3,7 +3,7 @@ name: macOS Preview arm64
 on:
   workflow_dispatch:
   push:
-    branches: [dev/dev-012-macos]
+    branches: [dev/dev-012-macos, dev/dev-013-rich-tables]
     paths:
       - '.github/workflows/macos-build-check.yml'
       - 'poc-001b/src/**'
@@ -156,8 +156,9 @@ jobs:
       - name: Create a new Windows backup from original synthetic data
         run: |
           New-Item -ItemType Directory -Path preview-artifacts -Force | Out-Null
+          $fixtureMode = if ($env:GITHUB_REF_NAME -eq 'dev/dev-013-rich-tables') { 'seed-tables' } else { 'seed' }
           cargo run --locked --manifest-path src-tauri/Cargo.toml --example dev012_migration -- `
-            seed output/dev010/original-fixture.knowbackup preview-artifacts/windows.knowbackup `
+            $fixtureMode output/dev010/original-fixture.knowbackup preview-artifacts/windows.knowbackup `
             > preview-artifacts/windows-manifest.json
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tests/dev012-backup-fingerprint.py preview-artifacts/windows.knowbackup `

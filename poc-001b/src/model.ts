@@ -10,6 +10,26 @@ const textNode = z.strictObject({
 })
 const latexAttrs = z.strictObject({ latex: unicode.min(1).max(4000).refine((value) => /\P{White_Space}/u.test(value), 'LaTeX 不能为空') })
 const inlineMath = z.strictObject({ type: z.literal('inlineMath'), attrs: latexAttrs })
+const inline = z.discriminatedUnion('type', [
+  textNode, inlineMath, z.strictObject({ type: z.literal('hardBreak') }),
+])
+const paragraph = z.strictObject({ type: z.literal('paragraph'), content: z.array(inline).optional() })
+const cellParagraph = paragraph.extend({ content: z.array(inline).max(256).optional() })
+const tableCell = z.strictObject({
+  type: z.enum(['tableHeader', 'tableCell']), content: z.array(cellParagraph).min(1).max(16),
+})
+const table = z.strictObject({
+  type: z.literal('table'),
+  content: z.array(z.strictObject({
+    type: z.literal('tableRow'), content: z.array(tableCell).min(1).max(8),
+  })).min(1).max(120),
+}).superRefine(({ content }, ctx) => {
+  const columns = content[0]?.content.length ?? 0
+  if (content.length * columns > 480 || content.some((row, i) =>
+    row.content.length !== columns || (i > 0 && row.content.some((cell) => cell.type === 'tableHeader')))) {
+    ctx.addIssue({ code: 'custom', message: '表格必须为等宽矩形，表头限首行，最多 480 格。' })
+  }
+})
 const imageSource = z.string().refine(
   (src) => src === bundledGraph || /^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/]+={0,2}(?![\s\S])/.test(src)
     || /^attachment:[A-Za-z0-9_-]+(?![\s\S])/.test(src),
@@ -18,12 +38,8 @@ const imageSource = z.string().refine(
 const document = z.strictObject({
   type: z.literal('doc'),
   content: z.array(z.discriminatedUnion('type', [
-    z.strictObject({
-      type: z.literal('paragraph'),
-      content: z.array(z.discriminatedUnion('type', [
-        textNode, inlineMath, z.strictObject({ type: z.literal('hardBreak') }),
-      ])).optional(),
-    }),
+    paragraph,
+    table,
     z.strictObject({ type: z.literal('blockMath'), attrs: latexAttrs }),
     z.strictObject({
       type: z.literal('image'),
@@ -33,6 +49,11 @@ const document = z.strictObject({
       }),
     }),
   ])).min(1),
+}).superRefine(({ content }, ctx) => {
+  const tables = content.filter((block) => block.type === 'table')
+  if (tables.length > 16 || (tables.length && new TextEncoder().encode(JSON.stringify(tables)).length > 512 * 1024)) {
+    ctx.addIssue({ code: 'custom', message: '单份文档最多 16 张表格，合计不得超过 512 KiB。' })
+  }
 })
 
 const question = z.strictObject({
@@ -59,12 +80,16 @@ const questionSet = z.strictObject({
     if (pictures([q.stem, ...q.parts.flatMap((p) => [p.prompt, p.answer])]).some((src) => src.startsWith('attachment:'))) {
       ctx.addIssue({ code: 'custom', message: '旧版 JSON 文件不包含附件登记表' })
     }
+    if ([q.stem, ...q.parts.flatMap((p) => [p.prompt, p.answer])].some(documentHasTable)) {
+      ctx.addIssue({ code: 'custom', message: '旧版 JSON 试题集不支持表格。' })
+    }
   }
 })
 
 export type QuestionSet = z.infer<typeof questionSet>
 export type RichDocument = z.infer<typeof document>
 export type RichBlock = RichDocument['content'][number]
+export type RichParagraph = z.infer<typeof paragraph>
 export type RichImageAttributes = Extract<RichBlock, { type: 'image' }>['attrs']
 
 function pictures(documents: RichDocument[]): string[] {
@@ -72,6 +97,7 @@ function pictures(documents: RichDocument[]): string[] {
 }
 
 export const CONTENT_VERSION = 1
+export const TABLE_CONTENT_VERSION = 2
 const nonblank = unicode.refine((value) => /\P{White_Space}/u.test(value))
 const points = score.max(0xffffffff)
 const optionalDocument = document.nullish().transform((value) => value ?? null)
@@ -83,9 +109,9 @@ const attachment = z.strictObject({
 })
 export type Attachment = z.infer<typeof attachment>
 
-const revisionContent = z.strictObject({
-  schema_version: z.literal(CONTENT_VERSION),
-  question_type: nonblank,
+const questionDraftContent = z.strictObject({
+  schema_version: z.union([z.literal(CONTENT_VERSION), z.literal(TABLE_CONTENT_VERSION)]),
+  question_type: unicode,
   score: points,
   stem: document,
   answer: optionalDocument,
@@ -105,13 +131,31 @@ const revisionContent = z.strictObject({
   }
   const docs = [value.stem, value.answer, value.analysis,
     ...value.parts.flatMap((part) => [part.prompt, part.answer, part.analysis])]
+  if ((value.schema_version === TABLE_CONTENT_VERSION) !== docs.some(documentHasTable)) {
+    issue('富文本版本 2 仅用于含表格的修订。')
+  }
   for (const src of pictures(docs.filter((doc) => doc !== null))) {
     if (src.startsWith('attachment:') && !attachments.has(src.slice('attachment:'.length))) issue('图片引用未登记的附件')
     if (src.startsWith('data:') && src.slice(src.indexOf(',') + 1).length % 4 !== 0) issue('图片 Base64 长度无效')
   }
 })
 
+const revisionContent = questionDraftContent.safeExtend({ question_type: nonblank })
 export type RevisionContent = z.infer<typeof revisionContent>
+
+export function parseQuestionDraftContent(input: unknown): RevisionContent {
+  return questionDraftContent.parse(input)
+}
+
+function documentHasTable(doc: RichDocument | null): boolean {
+  return doc?.content.some((block) => block.type === 'table') ?? false
+}
+
+export function withRevisionContentVersion(value: RevisionContent): RevisionContent {
+  const docs = [value.stem, value.answer, value.analysis,
+    ...value.parts.flatMap((part) => [part.prompt, part.answer, part.analysis])]
+  return { ...value, schema_version: docs.some(documentHasTable) ? TABLE_CONTENT_VERSION : CONTENT_VERSION }
+}
 
 export function referencedAttachments(value: RevisionContent): Attachment[] {
   const documents = [value.stem, value.answer, value.analysis,
@@ -225,14 +269,15 @@ export interface PaperData {
     score: number
     stem: RichDocument
     answer?: RichDocument | null
-    parts: { score: number; prompt: RichDocument; answer: RichDocument | null }[]
+    analysis?: RichDocument | null
+    parts: { score: number; prompt: RichDocument; answer: RichDocument | null; analysis?: RichDocument | null }[]
   }[]
 }
 
 export function revisionToPaper(content: RevisionContent, subject: string): PaperData {
   return {
     title: '知卷试题',
-    questions: [{ subject, score: content.score, stem: content.stem, answer: content.answer, parts: content.parts }],
+    questions: [{ subject, score: content.score, stem: content.stem, answer: content.answer, analysis: content.analysis, parts: content.parts }],
   }
 }
 
@@ -240,9 +285,11 @@ export function projectPaper(source: PaperData, answer: boolean) {
   return source.questions.map((q, index) => ({
     number: index + 1, subject: q.subject, score: q.score,
     stem: answer ? q.answer : q.stem,
+    analysis: answer ? q.analysis : undefined,
     parts: q.parts.map((p, i) => ({
       label: String(index + 1) + '.' + String(i + 1), score: p.score,
       content: answer ? p.answer : p.prompt,
+      analysis: answer ? p.analysis : undefined,
     })),
   }))
 }
