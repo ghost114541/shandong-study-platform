@@ -1,0 +1,357 @@
+{
+  "first": {
+    "id": 2564,
+    "question_id": "dd0731a5-75e7-4eff-bfc5-8791f82f1bd1",
+    "base_revision_id": null,
+    "scope": "user",
+    "content": {
+      "schema_version": 2,
+      "question_type": "解答题",
+      "score": 0,
+      "stem": {
+        "content": [
+          {
+            "content": [
+              {
+                "content": [
+                  {
+                    "content": [
+                      {
+                        "content": [
+                          {
+                            "marks": [
+                              {
+                                "type": "bold"
+                              },
+                              {
+                                "type": "italic"
+                              }
+                            ],
+                            "text": "中文 ABC 123",
+                            "type": "text"
+                          }
+                        ],
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableHeader"
+                  },
+                  {
+                    "content": [
+                      {
+                        "content": [
+                          {
+                            "text": "TAB-to-second-cell",
+                            "type": "text"
+                          }
+                        ],
+                        "type": "paragraph"
+                      },
+                      {
+                        "content": [
+                          {
+                            "text": "换行 456",
+                            "type": "text"
+                          },
+                          {
+                            "attrs": {
+                              "latex": "x^2+12"
+                            },
+                            "type": "inlineMath"
+                          }
+                        ],
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableHeader"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableHeader"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableHeader"
+                  }
+                ],
+                "type": "tableRow"
+              },
+              {
+                "content": [
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  }
+                ],
+                "type": "tableRow"
+              },
+              {
+                "content": [
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  }
+                ],
+                "type": "tableRow"
+              }
+            ],
+            "type": "table"
+          },
+          {
+            "type": "paragraph"
+          }
+        ],
+        "type": "doc"
+      },
+      "answer": null,
+      "analysis": null,
+      "parts": [],
+      "attachments": []
+    }
+  },
+  "second": {
+    "id": 2565,
+    "question_id": "dd0731a5-75e7-4eff-bfc5-8791f82f1bd1",
+    "base_revision_id": 2564,
+    "scope": "user",
+    "content": {
+      "schema_version": 2,
+      "question_type": "解答题",
+      "score": 0,
+      "stem": {
+        "content": [
+          {
+            "content": [
+              {
+                "content": [
+                  {
+                    "content": [
+                      {
+                        "content": [
+                          {
+                            "marks": [
+                              {
+                                "type": "bold"
+                              },
+                              {
+                                "type": "italic"
+                              }
+                            ],
+                            "text": "中文 ABC 123",
+                            "type": "text"
+                          }
+                        ],
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableHeader"
+                  },
+                  {
+                    "content": [
+                      {
+                        "content": [
+                          {
+                            "text": "TAB-to-second-cell",
+                            "type": "text"
+                          }
+                        ],
+                        "type": "paragraph"
+                      },
+                      {
+                        "content": [
+                          {
+                            "text": "换行 456",
+                            "type": "text"
+                          },
+                          {
+                            "attrs": {
+                              "latex": "x^2+12"
+                            },
+                            "type": "inlineMath"
+                          }
+                        ],
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableHeader"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableHeader"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableHeader"
+                  }
+                ],
+                "type": "tableRow"
+              },
+              {
+                "content": [
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  }
+                ],
+                "type": "tableRow"
+              },
+              {
+                "content": [
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  },
+                  {
+                    "content": [
+                      {
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  },
+                  {
+                    "content": [
+                      {
+                        "content": [
+                          {
+                            "text": "DEV013-AUTOSAVE",
+                            "type": "text"
+                          }
+                        ],
+                        "type": "paragraph"
+                      }
+                    ],
+                    "type": "tableCell"
+                  }
+                ],
+                "type": "tableRow"
+              }
+            ],
+            "type": "table"
+          },
+          {
+            "type": "paragraph"
+          }
+        ],
+        "type": "doc"
+      },
+      "answer": null,
+      "analysis": null,
+      "parts": [],
+      "attachments": []
+    }
+  },
+  "htmlBlocked": true
+}

@@ -1,0 +1,49 @@
+{
+  "faults": {
+    "closedAnswer": "macOS PDF 打印窗口已关闭。",
+    "concurrent": "系统正处理另一项打印任务，请稍后重试。",
+    "quarantined": "上一项 macOS 打印尚未结束。请稍后重试；若仍无法打印，请保存工作并退出后重新打开知卷。",
+    "start": "macOS WebKit 无法开始打印。",
+    "timeout": "macOS PDF 打印超时。请稍后重试；若仍无法打印，请保存工作并退出后重新打开知卷。"
+  },
+  "ok": true,
+  "originalPages": 100,
+  "pairs": {
+    "20": {
+      "answers": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-291762733e2f-tBeK0D/answers.pdf",
+      "paper": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-291762733e2f-tBeK0D/paper.pdf",
+      "warnings": []
+    },
+    "30": {
+      "answers": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-1920fd9e85ea-PPPzgc/answers.pdf",
+      "paper": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-1920fd9e85ea-PPPzgc/paper.pdf",
+      "warnings": []
+    },
+    "50": {
+      "answers": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-541b8e084771-PryRpZ/answers.pdf",
+      "paper": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-541b8e084771-PryRpZ/paper.pdf",
+      "warnings": []
+    }
+  },
+  "single": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/paper.pdf",
+  "tables": {
+    "answers": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/revision-2563-answers.pdf",
+    "pair": {
+      "answers": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-f620b1568c5b-oGLS5M/answers.pdf",
+      "paper": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/composition-f620b1568c5b-oGLS5M/paper.pdf",
+      "warnings": []
+    },
+    "paper": "/Users/runner/Library/Application Support/org.shandong-study.dev012-74d09001/pdf/revision-2563-paper.pdf"
+  },
+  "timings": {
+    "pair20Ms": 1050,
+    "pair30Ms": 1253,
+    "pair50Ms": 1320,
+    "pdfFirstPageMs": 604,
+    "pdfNextPageMs": 3,
+    "recoveryMs": 2277,
+    "schemaAndSubjectsMs": 223,
+    "singleMs": 420,
+    "timeoutMs": 1006
+  }
+}

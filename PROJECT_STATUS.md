@@ -1,3 +1,11 @@
+# DEV-013 结构化表格（2026-11-22）
+
+- 独立分支 `dev/dev-013-rich-tables`，起点 `fe05f71d7cca831be3fffa2eacfb851386b7476c`。本地表格修订使用内容 v2，继续读取 v1，SQLite Schema 9、备份 v1、`.studyzip` 和 DEC-039～041 延用。
+- Windows 原生编辑、草稿、固定修订、单题和 20 题双 PDF 已取得实测证据。Windows/macOS 官方 CI 均 PASS，执行提交为 `b9b7d6cbd8244cef721f8dd17d689736a955f4ca`。Mac WebKit 续页表头与拆行边界见测试矩阵。DEV-012 保持 **CONDITIONAL PASS**，Apple Silicon 实机保持 **BLOCKED**。
+- DEV-013 已推送，待网页端 ChatGPT 独立源码审查。
+
+[设计](DEV-013_TABLE_DESIGN.md) · [报告](DEV-013_REPORT.md) · [测试](DEV-013_TEST_RESULTS.md) · [已知问题](DEV-013_KNOWN_ISSUES.md)
+
 # DEV-012 独立审查后收尾（2026-11-22）
 
 - 开发分支为 `dev/dev-012-macos`，首次收尾基线为 `094b6acfd119901a2acdf7943a905b90d1ce886d`。历史 DEV-011 基线为 `9446c0c764412566f2467effaacc37c00e7d321f`。Preview 0.2.1、SQLite Schema 9、备份协议 v1、`.studyzip` 及 DEC-039～041 延用。

@@ -1,0 +1,20 @@
+Windows Preview installer — GitHub Actions job 137248990872
+https://github.com/ghost114541/shandong-study-platform/actions/runs/45035739161
+Relevant lines from the job log
+2026-11-22T14:59:07.0650319Z   ref: b9b7d6cbd8244cef721f8dd17d689736a955f4ca
+2026-11-22T14:59:10.6857034Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin b9b7d6cbd8244cef721f8dd17d689736a955f4ca
+2026-11-22T14:59:12.7538821Z  * branch            b9b7d6cbd8244cef721f8dd17d689736a955f4ca -> FETCH_HEAD
+2026-11-22T14:59:12.8569502Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force b9b7d6cbd8244cef721f8dd17d689736a955f4ca
+2026-11-22T14:59:13.3818592Z Note: switching to 'b9b7d6cbd8244cef721f8dd17d689736a955f4ca'.
+2026-11-22T14:59:13.4727110Z b9b7d6cbd8244cef721f8dd17d689736a955f4ca
+2026-11-22T14:59:43.6733561Z ℹ tests 37
+2026-11-22T14:59:43.6734077Z ℹ pass 37
+2026-11-22T15:03:11.6900707Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 3m 26s
+2026-11-22T15:04:13.1079234Z test result: ok. 71 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 61.27s
+2026-11-22T15:04:15.5174296Z test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.39s
+2026-11-22T15:04:16.6379200Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-11-22T15:11:29.3878216Z [31;1m    Finished `release` profile [optimized] target(s) in 6m 57s[0m
+2026-11-22T15:11:53.6633494Z   name: knowpaper-preview-windows-x64-b9b7d6cbd8244cef721f8dd17d689736a955f4ca
+2026-11-22T15:12:04.0476782Z Artifact knowpaper-preview-windows-x64-b9b7d6cbd8244cef721f8dd17d689736a955f4ca.zip successfully finalized. Artifact ID 14760291010
+2026-11-22T15:12:04.0479304Z Artifact knowpaper-preview-windows-x64-b9b7d6cbd8244cef721f8dd17d689736a955f4ca has been successfully uploaded! Final size is 303563067 bytes. Artifact ID is 14760291010
+2026-11-22T15:12:04.0493759Z Artifact download URL: https://github.com/ghost114541/shandong-study-platform/actions/runs/45035739161/artifacts/14760291010

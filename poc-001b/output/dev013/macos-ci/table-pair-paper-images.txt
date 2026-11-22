@@ -1,0 +1,16 @@
+page   num  type   width height color comp bpc  enc interp  object ID x-ppi y-ppi size ratio
+--------------------------------------------------------------------------------------------
+   9     0 image     512   512  icc     3   8  image  yes       45  0    90    90 3991B 0.5%
+   9     1 smask     512   512  gray    1   8  image  yes       45  0    90    90 1167B 0.4%
+  10     2 image     512   512  icc     3   8  image  yes       45  0    90    90 3991B 0.5%
+  10     3 smask     512   512  gray    1   8  image  yes       45  0    90    90 1167B 0.4%
+  12     4 image     512   512  icc     3   8  image  yes       45  0    90    90 3991B 0.5%
+  12     5 smask     512   512  gray    1   8  image  yes       45  0    90    90 1167B 0.4%
+  13     6 image     512   512  icc     3   8  image  yes       45  0    90    90 3991B 0.5%
+  13     7 smask     512   512  gray    1   8  image  yes       45  0    90    90 1167B 0.4%
+  15     8 image     512   512  icc     3   8  image  yes       45  0    90    90 3991B 0.5%
+  15     9 smask     512   512  gray    1   8  image  yes       45  0    90    90 1167B 0.4%
+  16    10 image     512   512  icc     3   8  image  yes       45  0    90    90 3991B 0.5%
+  16    11 smask     512   512  gray    1   8  image  yes       45  0    90    90 1167B 0.4%
+  18    12 image     512   512  icc     3   8  image  yes       45  0    90    90 3991B 0.5%
+  18    13 smask     512   512  gray    1   8  image  yes       45  0    90    90 1167B 0.4%

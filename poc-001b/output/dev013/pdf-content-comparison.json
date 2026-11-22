@@ -1,0 +1,78 @@
+{
+  "windows-pdf": {
+    "table-single-paper": {
+      "pages": 10,
+      "bytes": 69127,
+      "sha256": "c0888cce6f6493ce861f6025831c6ae962620d35b0c207761df8ea19ce76d251",
+      "tableBodyRows": 60,
+      "completeChinesePhrases": 248,
+      "completeFormulaTextSequences": 62,
+      "stemTableHeaderOccurrences": 9
+    },
+    "table-pair-paper": {
+      "pages": 19,
+      "bytes": 109752,
+      "sha256": "9305d41fd973b192f55626667bdcfaf98c995615c4100c8aa4fcf6a2b62e5cb5",
+      "tableBodyRows": 60,
+      "completeChinesePhrases": 248,
+      "completeFormulaTextSequences": 62,
+      "stemTableHeaderOccurrences": 8
+    },
+    "table-single-answers": {
+      "pages": 2,
+      "bytes": 60315,
+      "sha256": "0fa292b41322b7b62c930fa533b50d4771ec5c13f32847fc8ae761b393f23fd9",
+      "tableBodyRows": 0,
+      "completeChinesePhrases": 32,
+      "completeFormulaTextSequences": 8,
+      "stemTableHeaderOccurrences": 0
+    },
+    "table-pair-answers": {
+      "pages": 8,
+      "bytes": 95997,
+      "sha256": "f5c3295c64179afd86680de4172cfcc7f6c70069cce294fab0fc98f16cc8f39c",
+      "tableBodyRows": 0,
+      "completeChinesePhrases": 32,
+      "completeFormulaTextSequences": 8,
+      "stemTableHeaderOccurrences": 0
+    }
+  },
+  "macos-ci": {
+    "table-single-paper": {
+      "pages": 9,
+      "bytes": 56317,
+      "sha256": "87a01866d6ae9d310542e1e1f16afdfe4564543f40b57c9f190e3e279165652f",
+      "tableBodyRows": 60,
+      "completeChinesePhrases": 248,
+      "completeFormulaTextSequences": 62,
+      "stemTableHeaderOccurrences": 1
+    },
+    "table-pair-paper": {
+      "pages": 19,
+      "bytes": 169803,
+      "sha256": "5cb80de9e18c00433cc3d642cd8832c8b83a761abe121be7db8a84e49ecba603",
+      "tableBodyRows": 60,
+      "completeChinesePhrases": 248,
+      "completeFormulaTextSequences": 62,
+      "stemTableHeaderOccurrences": 1
+    },
+    "table-single-answers": {
+      "pages": 2,
+      "bytes": 39387,
+      "sha256": "8c16db5d9e38e400cfead22073bf7ec2126b5e7db486ff416275971afe26fcc2",
+      "tableBodyRows": 0,
+      "completeChinesePhrases": 32,
+      "completeFormulaTextSequences": 8,
+      "stemTableHeaderOccurrences": 0
+    },
+    "table-pair-answers": {
+      "pages": 8,
+      "bytes": 75581,
+      "sha256": "0a603eab3ab14a2050d96162fbe6a3b4e435a1c92427d9a491ec83408f1c5f6b",
+      "tableBodyRows": 0,
+      "completeChinesePhrases": 32,
+      "completeFormulaTextSequences": 8,
+      "stemTableHeaderOccurrences": 0
+    }
+  }
+}

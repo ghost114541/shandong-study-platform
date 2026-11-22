@@ -1,0 +1,11 @@
+{
+  "commit": "b9b7d6cbd8244cef721f8dd17d689736a955f4ca",
+  "windows": "Microsoft Windows 11 家庭版 中文版",
+  "build": "26200",
+  "node": "v24.13.0",
+  "npm": "11.6.2",
+  "rust": "rustc 1.100.0 (0ef1bc386 2026-11-09)",
+  "webView2": "157.0.4341.60",
+  "isolatedIdentifier": "org.shandong-study.dev013-4d013a",
+  "executableSha256": "8EDDDFCD78D2B7EADB756C60113A3C7B5621746A666DA9641DF7507F886DDCD7"
+}

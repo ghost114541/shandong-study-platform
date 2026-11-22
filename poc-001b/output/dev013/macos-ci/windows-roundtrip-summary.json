@@ -1,0 +1,15 @@
+{
+  "testedCommit": "b9b7d6cbd8244cef721f8dd17d689736a955f4ca",
+  "artifact": 14760037514,
+  "databaseSchema": 9,
+  "businessTables": 43,
+  "fixedRevisionRows": 122,
+  "resourceFiles": 131,
+  "businessFingerprintSha256": "18717210095684d5c82aa1da5135ac17d952af984b93bda1b82ebf84ec8b0c6b",
+  "identicalBusinessFingerprints": true,
+  "archiveSha256": {
+    "windows": "d688f1c060ea996298a54e5bff988e6b79cfcc4a2d0cbac84433402dca99196c",
+    "macos": "be27109bfe74c3a634c12eae6447e3900de20bda811f310b5dd6d9c352fbd813",
+    "windowsRoundtrip": "07da63e3a29027f8d9edcb447b1f1fb68a7f023719ec8864405bdad086b70de8"
+  }
+}

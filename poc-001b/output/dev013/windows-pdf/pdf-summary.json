@@ -1,0 +1,130 @@
+{
+  "single": {
+    "pages": 1,
+    "bytes": 96727,
+    "sha256": "6fc1d3229df83f8239556f6001faba2c522b8fb00c22776627144068b629e5de"
+  },
+  "paper-20": {
+    "pages": 12,
+    "bytes": 104755,
+    "mathPages": {
+      "MATH-017": [
+        1
+      ],
+      "MATH-034": [
+        2
+      ],
+      "MATH-051": [
+        3
+      ]
+    },
+    "literalCopy": {
+      "\u8bd5\u5377": true,
+      "\u4e2d\u6587": true,
+      "\u4e2d\u2f42": false,
+      "\u5168\u89d2": true,
+      "\u5168\u2ec6": false,
+      "\ufa19": true,
+      "\u795e": false,
+      "\uff21\uff22\uff23\uff11\uff12\uff13": true,
+      "ABC123": false
+    },
+    "orphanPartHeadingPages": [],
+    "sha256": "5f37cba250c0b36aadb93fc6f3d6753370c22d9b7c98e3f93255481685239a89"
+  },
+  "answers-20": {
+    "pages": 7,
+    "bytes": 61880,
+    "sha256": "76149ffab74b3dfd753272a87aea32815841eb2809476b4b11baf866307689d0"
+  },
+  "paper-30": {
+    "pages": 17,
+    "bytes": 112000,
+    "mathPages": {
+      "MATH-017": [
+        1
+      ],
+      "MATH-034": [
+        2
+      ],
+      "MATH-051": [
+        3
+      ]
+    },
+    "literalCopy": {
+      "\u8bd5\u5377": true,
+      "\u4e2d\u6587": true,
+      "\u4e2d\u2f42": false,
+      "\u5168\u89d2": true,
+      "\u5168\u2ec6": false,
+      "\ufa19": true,
+      "\u795e": false,
+      "\uff21\uff22\uff23\uff11\uff12\uff13": true,
+      "ABC123": false
+    },
+    "orphanPartHeadingPages": [],
+    "sha256": "901ca85f349e54ce7982a576db46ec8b418d6e60b572f234b8822de08c048a74"
+  },
+  "answers-30": {
+    "pages": 11,
+    "bytes": 66145,
+    "sha256": "3631f34fceb9f2c8db12fdff5dee255faa0cbc47b28c3b11ca3f7110960b9076"
+  },
+  "paper-50": {
+    "pages": 27,
+    "bytes": 126561,
+    "mathPages": {
+      "MATH-017": [
+        1
+      ],
+      "MATH-034": [
+        2
+      ],
+      "MATH-051": [
+        3
+      ]
+    },
+    "literalCopy": {
+      "\u8bd5\u5377": true,
+      "\u4e2d\u6587": true,
+      "\u4e2d\u2f42": false,
+      "\u5168\u89d2": true,
+      "\u5168\u2ec6": false,
+      "\ufa19": true,
+      "\u795e": false,
+      "\uff21\uff22\uff23\uff11\uff12\uff13": true,
+      "ABC123": false
+    },
+    "orphanPartHeadingPages": [],
+    "sha256": "245821bb66c45f866533a62a4481f830123acf7714787f4a7397d40600f3ef56"
+  },
+  "answers-50": {
+    "pages": 17,
+    "bytes": 73312,
+    "sha256": "b1cf158594926c900b366262a234360eefb8174f048d7dcb56f7bd7ef30b6929"
+  },
+  "table-single-paper": {
+    "pages": 10,
+    "bytes": 69127,
+    "sha256": "c0888cce6f6493ce861f6025831c6ae962620d35b0c207761df8ea19ce76d251",
+    "tableBodyRows": 60
+  },
+  "table-single-answers": {
+    "pages": 2,
+    "bytes": 60315,
+    "sha256": "0fa292b41322b7b62c930fa533b50d4771ec5c13f32847fc8ae761b393f23fd9",
+    "tableBodyRows": 0
+  },
+  "table-pair-paper": {
+    "pages": 19,
+    "bytes": 109752,
+    "sha256": "9305d41fd973b192f55626667bdcfaf98c995615c4100c8aa4fcf6a2b62e5cb5",
+    "tableBodyRows": 60
+  },
+  "table-pair-answers": {
+    "pages": 8,
+    "bytes": 95997,
+    "sha256": "f5c3295c64179afd86680de4172cfcc7f6c70069cce294fab0fc98f16cc8f39c",
+    "tableBodyRows": 0
+  }
+}

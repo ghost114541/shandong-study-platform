@@ -1,0 +1,216 @@
+src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/Info.plist: OK
+{
+  "CFBundleDevelopmentRegion" => "English"
+  "CFBundleDisplayName" => "知卷 KnowPaper（测试版）"
+  "CFBundleExecutable" => "knowpaper-preview"
+  "CFBundleIconFile" => "icon.icns"
+  "CFBundleIdentifier" => "org.shandong-study.knowpaper-preview"
+  "CFBundleInfoDictionaryVersion" => "6.0"
+  "CFBundleName" => "知卷 KnowPaper（测试版）"
+  "CFBundlePackageType" => "APPL"
+  "CFBundleShortVersionString" => "0.2.1"
+  "CFBundleVersion" => "0.2.1"
+  "CSResourcesFileMapped" => 1
+  "LSMinimumSystemVersion" => "13.0"
+  "LSRequiresCarbon" => 1
+  "NSHighResolutionCapable" => 1
+}
+src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/MacOS/knowpaper-preview: Mach-O 64-bit executable arm64
+src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/MacOS/knowpaper-preview:
+	/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit (compatibility version 45.0.0, current version 2575.60.5)
+	/System/Library/Frameworks/WebKit.framework/Versions/A/WebKit (compatibility version 1.0.0, current version 621.2.5)
+	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/ApplicationServices (compatibility version 1.0.0, current version 65.0.0)
+	/System/Library/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)
+	/System/Library/Frameworks/Carbon.framework/Versions/A/Carbon (compatibility version 2.0.0, current version 170.0.0)
+	/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo (compatibility version 1.2.0, current version 1.5.0)
+	/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 3502.1.255)
+	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)
+	/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore (compatibility version 1.2.0, current version 1.11.0)
+	/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 3502.1.255)
+	/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)
+	/System/Library/Frameworks/PDFKit.framework/Versions/A/PDFKit (compatibility version 1.0.0, current version 1332.5.2)
+	/usr/lib/libiconv.2.dylib (compatibility version 7.0.0, current version 7.0.0)
+	/System/Library/Frameworks/ColorSync.framework/Versions/A/ColorSync (compatibility version 1.0.0, current version 3777.4.1)
+	/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices (compatibility version 1.0.0, current version 1226.0.0)
+src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/_CodeSignature/CodeResources
+src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/MacOS/knowpaper-preview
+src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/Resources/icon.icns
+src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/Info.plist
+src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app: valid on disk
+src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app: satisfies its Designated Requirement
+Executable=/Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app/Contents/MacOS/knowpaper-preview
+Identifier=org.shandong-study.knowpaper-preview
+Format=app bundle with Mach-O thin (arm64)
+CodeDirectory v=20500 size=193701 flags=0x10002(adhoc,runtime) hashes=6046+3 location=embedded
+VersionPlatform=1
+VersionMin=851968
+VersionSDK=984320
+Hash type=sha256 size=32
+CandidateCDHash sha256=6a0d7c0d0cd2136c96848c0aac14dc06f9946920
+CandidateCDHashFull sha256=6a0d7c0d0cd2136c96848c0aac14dc06f994692094d1a6cf720b2f5ff681390f
+Hash choices=sha256
+CMSDigest=6a0d7c0d0cd2136c96848c0aac14dc06f994692094d1a6cf720b2f5ff681390f
+CMSDigestType=2
+Executable Segment base=0
+Executable Segment limit=17989632
+Executable Segment flags=0x1
+Page size=4096
+CDHash=6a0d7c0d0cd2136c96848c0aac14dc06f9946920
+Signature=adhoc
+Info.plist entries=14
+TeamIdentifier=not set
+Runtime Version=15.5.0
+Sealed Resources version=2 rules=13 files=1
+Internal requirements count=0 size=12
+src-tauri/target/aarch64-apple-darwin/release/bundle/macos/知卷 KnowPaper（测试版）.app: rejected
+Gatekeeper assessment exit: 3
+Format Description: UDIF read-only compressed (zlib)
+Class Name: CUDIFDiskImage
+Checksum Type: CRC32
+Size Information:
+	CUDIFEncoding-bytes-total: 9480315
+	Total Empty Bytes: 25307648
+	Sector Count: 100425
+	Total Bytes: 51417600
+	CUDIFEncoding-bytes-wasted: 0
+	Total Non-Empty Bytes: 26109952
+	Compressed Ratio: 0.36308730096478153
+	CUDIFEncoding-bytes-in-use: 9480315
+	Compressed Bytes: 9480315
+Checksum Value: $346725ED
+Segments:
+	0: /Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg
+Partition Information:
+	3:
+		Name: disk image (Apple_HFS : 4)
+		Partition Number: 3
+		Checksum Type: CRC32
+		Checksum Value: $A5B1C453
+	4:
+		Name: GPT Partition Data (Backup GPT Table : 5)
+		Partition Number: 4
+		Checksum Type: CRC32
+		Checksum Value: $9ADC45AB
+	0:
+		Name: GPT Header (Primary GPT Header : 1)
+		Partition Number: 0
+		Checksum Type: CRC32
+		Checksum Value: $6CE93BCF
+	5:
+		Name: GPT Header (Backup GPT Header : 6)
+		Partition Number: 5
+		Checksum Type: CRC32
+		Checksum Value: $7EDC7EAB
+	1:
+		Name: GPT Partition Data (Primary GPT Table : 2)
+		Partition Number: 1
+		Checksum Type: CRC32
+		Checksum Value: $9ADC45AB
+	-1:
+		Name: Protective Master Boot Record (MBR : 0)
+		Partition Number: -1
+		Checksum Type: CRC32
+		Checksum Value: $2A16DB28
+	2:
+		Name:  (Apple_Free : 3)
+		Partition Number: 2
+		Checksum Type: CRC32
+		Checksum Value: $00000000
+Format: UDZO
+Backing Store Information:
+	URL: file:///Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/%E7%9F%A5%E5%8D%B7%20KnowPaper%EF%BC%88%E6%B5%8B%E8%AF%95%E7%89%88%EF%BC%89_0.2.1_aarch64.dmg
+	Name: 知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg
+	Class Name: CUDIFEncoding
+	Backing Store Information:
+		URL: file:///Users/runner/work/shandong-study-platform/shandong-study-platform/poc-001b/src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/%E7%9F%A5%E5%8D%B7%20KnowPaper%EF%BC%88%E6%B5%8B%E8%AF%95%E7%89%88%EF%BC%89_0.2.1_aarch64.dmg
+		Name: 知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg
+		Class Name: CBSDBackingStore
+partitions:
+	partition-scheme: GUID
+	block-size: 512
+	partitions:
+		0:
+			partition-name: Protective Master Boot Record
+			partition-start: 0
+			partition-synthesized: true
+			partition-length: 1
+			partition-hint: MBR
+		1:
+			partition-name: GPT Header
+			partition-start: 1
+			partition-synthesized: true
+			partition-length: 1
+			partition-hint: Primary GPT Header
+		2:
+			partition-name: GPT Partition Data
+			partition-start: 2
+			partition-synthesized: true
+			partition-length: 32
+			partition-hint: Primary GPT Table
+		3:
+			partition-name:
+			partition-start: 34
+			partition-synthesized: true
+			partition-length: 6
+			partition-hint: Apple_Free
+		4:
+			partition-UUID: EADB6E46-ABA9-47A8-A947-C53AD9C23E44
+			partition-name: disk image
+			partition-hint-UUID: 48465300-0000-11AA-AA11-00306543ECAC
+			partition-start: 40
+			partition-number: 1
+			partition-length: 100352
+			partition-hint: Apple_HFS
+			partition-filesystems:
+				HFS+:
+		5:
+			partition-name: GPT Partition Data
+			partition-start: 100392
+			partition-synthesized: true
+			partition-length: 32
+			partition-hint: Backup GPT Table
+		6:
+			partition-name: GPT Header
+			partition-start: 100424
+			partition-synthesized: true
+			partition-length: 1
+			partition-hint: Backup GPT Header
+	burnable: false
+udif-ordered-chunks: true
+Properties:
+	Encrypted: false
+	Kernel Compatible: true
+	Checksummed: true
+	Software License Agreement: false
+	Partitioned: false
+	Compressed: true
+Resize limits (per hdiutil resize -limits):
+56056	100352	100352
+Checksumming Protective Master Boot Record (MBR : 0)…
+Protective Master Boot Record (MBR :: verified   CRC32 $2A16DB28
+Checksumming GPT Header (Primary GPT Header : 1)…
+ GPT Header (Primary GPT Header : 1): verified   CRC32 $6CE93BCF
+Checksumming GPT Partition Data (Primary GPT Table : 2)…
+GPT Partition Data (Primary GPT Tabl: verified   CRC32 $9ADC45AB
+Checksumming  (Apple_Free : 3)…
+                    (Apple_Free : 3): verified   CRC32 $00000000
+Checksumming disk image (Apple_HFS : 4)…
+          disk image (Apple_HFS : 4): verified   CRC32 $A5B1C453
+Checksumming GPT Partition Data (Backup GPT Table : 5)…
+GPT Partition Data (Backup GPT Table: verified   CRC32 $9ADC45AB
+Checksumming GPT Header (Backup GPT Header : 6)…
+  GPT Header (Backup GPT Header : 6): verified   CRC32 $7EDC7EAB
+verified   CRC32 $346725ED
+hdiutil: verify: checksum of "src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg" is VALID
+expected   CRC32 $346725ED
+/dev/disk5          	GUID_partition_scheme
+/dev/disk5s1        	Apple_HFS                      	/private/var/folders/9d/l02zfgrs7c16twd3wbpdmhkc0000gn/T/tmp.H2VpH5BCPR
+total 40
+drwxr-xr-x    3 runner  staff    102 Nov 22 15:10 知卷 KnowPaper（测试版）.app
+drwxr-xr-x@   5 runner  staff    238 Nov 22 15:10 .
+drwx------@ 133 runner  staff   4256 Nov 22 15:10 ..
+-rw-r--r--@   1 runner  staff  15893 Nov 22 15:10 .VolumeIcon.icns
+lrwxr-xr-x    1 runner  staff     13 Nov 22 15:10 Applications -> /Applications
+"disk5" ejected.
+9136b1ab20864b482c5de0e2206c89ae2b00227f8b9654345246cc057d702131  知卷 KnowPaper（测试版）_0.2.1_aarch64.dmg
+2a0ae3fe6a783bb1bc096b76b211a5e667ea0143c7df7fd62da313c04104809d  KnowPaper-Preview-arm64.app.zip

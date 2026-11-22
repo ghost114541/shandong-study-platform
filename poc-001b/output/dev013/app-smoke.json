@@ -1,0 +1,41 @@
+{
+  "ok": true,
+  "single": "\\\\?\\%APPDATA%\\org.shandong-study.dev013-4d013a\\pdf\\paper.pdf",
+  "pairs": {
+    "20": {
+      "warnings": [],
+      "paper": "\\\\?\\%APPDATA%\\org.shandong-study.dev013-4d013a\\pdf\\composition-5bc9416d6cdb-zxHwS8\\paper.pdf",
+      "answers": "\\\\?\\%APPDATA%\\org.shandong-study.dev013-4d013a\\pdf\\composition-5bc9416d6cdb-zxHwS8\\answers.pdf"
+    },
+    "30": {
+      "warnings": [],
+      "paper": "\\\\?\\%APPDATA%\\org.shandong-study.dev013-4d013a\\pdf\\composition-f1b8f5fe2b8b-fdzGnz\\paper.pdf",
+      "answers": "\\\\?\\%APPDATA%\\org.shandong-study.dev013-4d013a\\pdf\\composition-f1b8f5fe2b8b-fdzGnz\\answers.pdf"
+    },
+    "50": {
+      "warnings": [],
+      "paper": "\\\\?\\%APPDATA%\\org.shandong-study.dev013-4d013a\\pdf\\composition-ab76d298687e-DjRe6H\\paper.pdf",
+      "answers": "\\\\?\\%APPDATA%\\org.shandong-study.dev013-4d013a\\pdf\\composition-ab76d298687e-DjRe6H\\answers.pdf"
+    }
+  },
+  "tables": {
+    "paper": "\\\\?\\%APPDATA%\\org.shandong-study.dev013-4d013a\\pdf\\revision-2563-paper.pdf",
+    "answers": "\\\\?\\%APPDATA%\\org.shandong-study.dev013-4d013a\\pdf\\revision-2563-answers.pdf",
+    "pair": {
+      "warnings": [],
+      "paper": "\\\\?\\%APPDATA%\\org.shandong-study.dev013-4d013a\\pdf\\composition-e6dbb941fdf8-ZFlsWM\\paper.pdf",
+      "answers": "\\\\?\\%APPDATA%\\org.shandong-study.dev013-4d013a\\pdf\\composition-e6dbb941fdf8-ZFlsWM\\answers.pdf"
+    }
+  },
+  "timings": {
+    "schemaAndSubjectsMs": 3,
+    "singleMs": 234,
+    "pair20Ms": 983,
+    "pair30Ms": 1272,
+    "pair50Ms": 1709,
+    "pdfFirstPageMs": 183,
+    "pdfNextPageMs": 4
+  },
+  "faults": {},
+  "originalPages": 100
+}
