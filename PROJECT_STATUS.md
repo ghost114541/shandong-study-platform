@@ -1,3 +1,11 @@
+# CONTENT-002 跨学科个人题库（2026-11-24）
+
+- 独立分支 `content/content-002-cross-subject-pilot` 基于远端 CONTENT-001 `56e7955c66dc484dc65963ef92b0b723623401f4`。
+- Windows 原生试点新增语文、物理、历史 3 套完整试卷、3 份答案解析版及 6 道顶层逻辑题。累计个人库 4 套卷、9 道题，正式审核通过 0。
+- 重启后的双向定位、3 对导出、原生完整备份及旧组卷固定修订已验证。私人追溯清单与活动库及解包库一致。应用协议、DEV-012、DEV-013 与 OID-004 沿用既有状态。
+
+[报告](CONTENT-002_REPORT.md) · [九科矩阵](CONTENT-002_SUBJECT_COVERAGE.csv) · [测试](CONTENT-002_TEST_RESULTS.md) · [追溯格式](CONTENT-002_TRACE_SCHEMA.md) · [已知事项](CONTENT-002_KNOWN_ISSUES.md)
+
 # CONTENT-001 山东高中个人题库（2026-11-24）
 
 - 修订任务授权建立个人离线库。独立分支 `content/content-001-provenance-audit` 基于 `82da6023bf91f5aa4712a6feae835d6c970390f7`。调查 13 个来源站点或机构，覆盖九科，登记 27 条资源链接及配套记录。

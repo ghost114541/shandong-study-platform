@@ -1,0 +1,29 @@
+{
+  "scope": "CONTENT-001 + CONTENT-002 private personal pilot; excludes synthetic libraries",
+  "schema": 9,
+  "as_of": "2026-11-24",
+  "errors": 0,
+  "pending_associations": 9,
+  "counts": {
+    "pdf_resources": 9,
+    "fixed_items": 10,
+    "occurrences": 9,
+    "revision_links": 10,
+    "unique_logical_questions": 9,
+    "canonical_with_answer": 9,
+    "canonical_with_all_analysis_fields": 9,
+    "canonical_review_passed": 0
+  },
+  "content002_delta": {
+    "imported_papers": 3,
+    "imported_answer_with_analysis_pdfs": 3,
+    "top_level_questions": 6,
+    "revision_links": 7,
+    "reviewed_questions": 0
+  },
+  "backup": {
+    "archive_version": 1,
+    "verified_files": 10,
+    "extracted_trace_matches_active": true
+  }
+}

@@ -1,0 +1,24 @@
+test_rejects_missing_and_wrong_schema (test_content001_counts.InventoryTest.test_rejects_missing_and_wrong_schema) ... ok
+test_requires_all_part_fields (test_content001_counts.InventoryTest.test_requires_all_part_fields) ... ok
+test_schema_views_and_preferred_revision (test_content001_counts.InventoryTest.test_schema_views_and_preferred_revision) ... ok
+test_answer_does_not_create_review (test_content002_trace_audit.TraceAuditTest.test_answer_does_not_create_review) ... ok
+test_cross_paper_alias_never_inflates_logical_count (test_content002_trace_audit.TraceAuditTest.test_cross_paper_alias_never_inflates_logical_count) ... ok
+test_duplicate_resource (test_content002_trace_audit.TraceAuditTest.test_duplicate_resource) ... ok
+test_hash_mismatch (test_content002_trace_audit.TraceAuditTest.test_hash_mismatch) ... ok
+test_missing_private_file (test_content002_trace_audit.TraceAuditTest.test_missing_private_file) ... ok
+test_missing_question (test_content002_trace_audit.TraceAuditTest.test_missing_question) ... ok
+test_new_revision_requires_mapping_and_retains_pin (test_content002_trace_audit.TraceAuditTest.test_new_revision_requires_mapping_and_retains_pin) ... ok
+test_nonexistent_paper (test_content002_trace_audit.TraceAuditTest.test_nonexistent_paper) ... ok
+test_omitted_scoped_paper (test_content002_trace_audit.TraceAuditTest.test_omitted_scoped_paper) ... ok
+test_page_out_of_range (test_content002_trace_audit.TraceAuditTest.test_page_out_of_range) ... ok
+test_parent_path_rejected (test_content002_trace_audit.TraceAuditTest.test_parent_path_rejected) ... ok
+test_registry_requires_matching_hash_and_source (test_content002_trace_audit.TraceAuditTest.test_registry_requires_matching_hash_and_source) ... ok
+test_registry_requires_source_id (test_content002_trace_audit.TraceAuditTest.test_registry_requires_source_id) ... ok
+test_review_must_match_evidence_and_date (test_content002_trace_audit.TraceAuditTest.test_review_must_match_evidence_and_date) ... ok
+test_wrong_fixed_pin (test_content002_trace_audit.TraceAuditTest.test_wrong_fixed_pin) ... ok
+test_wrong_revision_owner (test_content002_trace_audit.TraceAuditTest.test_wrong_revision_owner) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 8.292s
+
+OK
