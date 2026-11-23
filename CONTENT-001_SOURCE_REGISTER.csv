@@ -1,0 +1,28 @@
+resource_id,subject,name,year,region,type,source_url,publisher,retrieved_on,format,has_answer,has_analysis,sha256,imported,content_checked,usage_scope,access_status,parent_resource_id,file_url,observed_on
+C001-2024-CHN,语文,2024 新课标 I 卷（山东适用）语文试题,2024,山东,完整试卷,https://www.jiaoyuwu.com/downfile/4398.html,教育屋,,PDF,listed,listed,,no,no,PERSONAL_ONLY,timeout,,,2026-11-24
+C001-2024-CHN-KEY-ALT,语文,2024 新课标 I 卷（山东适用）语文参考答案,2024,山东,答案或解析,https://www.jiaoyuwu.com/downfile/4399.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,landing_page,C001-2024-CHN,,2026-11-24
+C001-2024-CHN-ANALYSIS,语文,2024 新课标 I 卷（山东适用）语文解析,2024,山东,答案或解析,https://www.jiaoyuwu.com/downfile/4400.html,教育屋,,PDF,unknown,listed,,no,no,PERSONAL_ONLY,landing_page,C001-2024-CHN,,2026-11-24
+C001-2024-MATH,数学,2024 新课标 I 卷（山东适用）数学试题,2024,山东,完整试卷,https://www.jiaoyuwu.com/downfile/4401.html,教育屋,2026-11-24,PDF,yes,yes,acb3d58de5a2538d739d9e246f175c4ec275c4d6179bf1a82cfb6ba4ecdf965d,yes,no,PERSONAL_ONLY,obtained,,https://down.jiaoyuwu.com/m00/c1/35/b123d9cf66e629a890222966bf09f0a7.pdf,2026-11-24
+C001-2024-MATH-KEY-ALT,数学,2024 新课标 I 卷（山东适用）数学参考答案,2024,山东,答案或解析,https://www.jiaoyuwu.com/downfile/4402.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,landing_page,C001-2024-MATH,,2026-11-24
+C001-2024-MATH-ANALYSIS,数学,2024 新课标 I 卷（山东适用）数学解析,2024,山东,答案或解析,https://www.jiaoyuwu.com/downfile/4403.html,教育屋,2026-11-24,PDF,yes,yes,0258864d62ea7682a6ac33fe2eb9eafb6f8c2e8f469affda9694fb1dff42f353,yes,no,PERSONAL_ONLY,obtained,C001-2024-MATH,https://down.jiaoyuwu.com/m00/84/f7/2af4b693320b5179c8f9afd93f3cd3a7.pdf,2026-11-24
+C001-2024-ENG,英语,2024 新课标 I 卷（山东适用）英语试题,2024,山东,完整试卷,https://www.jiaoyuwu.com/downfile/4404.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,web_pdf,,,2026-11-24
+C001-2024-ENG-KEY-ALT,英语,2024 新课标 I 卷（山东适用）英语参考答案,2024,山东,答案或解析,https://www.jiaoyuwu.com/downfile/4405.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,landing_page,C001-2024-ENG,,2026-11-24
+C001-2024-PHY,物理,2024 山东卷物理试题,2024,山东,完整试卷,https://www.jiaoyuwu.com/downfile/4414.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,web_pdf,,,2026-11-24
+C001-2024-PHY-KEY-ALT,物理,2024 山东卷物理参考答案,2024,山东,答案或解析,https://www.jiaoyuwu.com/downfile/4415.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,landing_page,C001-2024-PHY,,2026-11-24
+C001-2024-CHEM,化学,2024 山东卷化学试题,2024,山东,完整试卷,https://www.jiaoyuwu.com/downfile/4408.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,web_pdf_image,,,2026-11-24
+C001-2024-CHEM-KEY-ALT,化学,2024 山东卷化学参考答案,2024,山东,答案或解析,https://www.jiaoyuwu.com/downfile/4409.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,landing_page,C001-2024-CHEM,,2026-11-24
+C001-2024-BIO,生物,2024 山东卷生物试题,2024,山东,完整试卷,https://www.jiaoyuwu.com/downfile/4412.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,web_pdf,,,2026-11-24
+C001-2024-BIO-KEY-ALT,生物,2024 山东卷生物参考答案,2024,山东,答案或解析,https://www.jiaoyuwu.com/downfile/4413.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,landing_page,C001-2024-BIO,,2026-11-24
+C001-2024-POL,思想政治,2024 山东卷思想政治试题,2024,山东,完整试卷,https://www.jiaoyuwu.com/downfile/4416.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,web_pdf,,,2026-11-24
+C001-2024-POL-KEY-ALT,思想政治,2024 山东卷思想政治参考答案,2024,山东,答案或解析,https://www.jiaoyuwu.com/downfile/4417.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,landing_page,C001-2024-POL,,2026-11-24
+C001-2024-HIS,历史,2024 山东卷历史试题,2024,山东,完整试卷,https://www.jiaoyuwu.com/downfile/4410.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,timeout,,,2026-11-24
+C001-2024-HIS-KEY-ALT,历史,2024 山东卷历史参考答案,2024,山东,答案或解析,https://www.jiaoyuwu.com/downfile/4411.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,landing_page,C001-2024-HIS,,2026-11-24
+C001-2024-GEO,地理,2024 山东卷地理试题,2024,山东,完整试卷,https://www.jiaoyuwu.com/downfile/4406.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,web_pdf,,,2026-11-24
+C001-2024-GEO-KEY-ALT,地理,2024 山东卷地理参考答案,2024,山东,答案或解析,https://www.jiaoyuwu.com/downfile/4407.html,教育屋,,PDF,listed,unknown,,no,no,PERSONAL_ONLY,landing_page,C001-2024-GEO,,2026-11-24
+C001-2024-MATH-ANSWER,数学,2024 新课标 I 卷数学参考答案（掌上高考）,2024,山东,答案或解析,https://static-gkcx.gaokao.cn/upload/zhenti/20240611/1718078172_6542.pdf,掌上高考,2026-11-24,PDF,yes,no,26cb7ee800f1fe799a6b2b985a74f6bc3e7a476793cf11b4ff51261cba296191,yes,no,PERSONAL_ONLY,obtained,C001-2024-MATH,,2026-11-24
+C001-2024-MATH-Q01,数学,2024 新课标 I 卷数学第 1 题,2024,山东,独立题目,https://www.jiaoyuwu.com/downfile/4401.html,教育屋,2026-11-24,PDF选题,yes,yes,,yes,no,PERSONAL_ONLY,transcribed,C001-2024-MATH,,2026-11-24
+C001-2025-JN-MATH,数学,2025 济南高三一模数学,2025,山东济南,完整试卷,https://zy.21cnjy.com/22636825,21世纪教育网,,HTML预览／PDF标称,listed,unknown,,no,no,PERSONAL_ONLY,preview_only,,,2026-11-24
+C001-PEP-MATH,数学,高中数学 B 版同步教学资源目录,,全国,知识点,https://www.pep.com.cn/gzsxb/,人民教育出版社,,HTML目录,unknown,unknown,,no,no,PERSONAL_ONLY,index_only,,,2026-11-24
+C001-2024-MATH-ALT,数学,2024 新课标 I 卷数学同卷版本,2024,山东,完整试卷,https://www.jszs.com/uploads/file/202409/25/1727253896333232.pdf,江苏招生考试网,2026-11-24,PDF,yes,unknown,a93e2956097336e72a870d08589a9031361ca2b954842ef4cea03db3d33e6d19,no,no,PERSONAL_ONLY,obtained_same_paper,C001-2024-MATH,,2026-11-24
+C001-2024-MATH-Q02,数学,2024 新课标 I 卷数学第 2 题,2024,山东,独立题目,https://www.jiaoyuwu.com/downfile/4401.html,教育屋,2026-11-24,PDF选题,yes,yes,,yes,no,PERSONAL_ONLY,transcribed,C001-2024-MATH,,2026-11-24
+C001-2024-MATH-Q03,数学,2024 新课标 I 卷数学第 3 题,2024,山东,独立题目,https://www.jiaoyuwu.com/downfile/4401.html,教育屋,2026-11-24,PDF选题,yes,yes,,yes,no,PERSONAL_ONLY,transcribed,C001-2024-MATH,,2026-11-24

@@ -1,0 +1,231 @@
+{
+  "baseline_commit": "82da6023bf91f5aa4712a6feae835d6c970390f7",
+  "inventory_excludes": "Historical overlapping scratch profiles, which are not unique resources. Field presence does not establish correctness or explanation quality, and knowledge nodes are not explanations.",
+  "sqlite_read_only_snapshots": {
+    "preview_default_retained": {
+      "schema": 9,
+      "review_as_of": "2026-11-24",
+      "physical_question_rows": 0,
+      "revision_rows": 0,
+      "duplicate_links": 0,
+      "visible_current_questions": {
+        "top_level": 0,
+        "selected_revision_parts": 0,
+        "answer_fields_complete": 0,
+        "analysis_fields_present_for_all_parts": 0
+      },
+      "current_review_status": {},
+      "visible_questions_by_subject_id": {},
+      "visible_knowledge_nodes": 2,
+      "visible_paper_records": 0,
+      "papers_with_original_pdf": 0,
+      "papers_with_original_and_answer_or_analysis_file": 0,
+      "papers_with_original_and_answer_file": 0,
+      "distinct_original_pdf_hashes": 0,
+      "paper_occurrences": 0,
+      "paper_regions": 0,
+      "fixed_composition_items": 0,
+      "verification_rows": 0
+    },
+    "preview_previous_synthetic": {
+      "schema": 9,
+      "review_as_of": "2026-11-24",
+      "physical_question_rows": 2507,
+      "revision_rows": 2512,
+      "duplicate_links": 1,
+      "visible_current_questions": {
+        "top_level": 2506,
+        "selected_revision_parts": 2505,
+        "answer_fields_complete": 2505,
+        "analysis_fields_present_for_all_parts": 0
+      },
+      "current_review_status": {
+        "passed": 1,
+        "unreviewed": 2505
+      },
+      "visible_questions_by_subject_id": {
+        "math": 631,
+        "physics": 625,
+        "chemistry": 625,
+        "history": 625
+      },
+      "visible_knowledge_nodes": 20,
+      "visible_paper_records": 30,
+      "papers_with_original_pdf": 30,
+      "papers_with_original_and_answer_or_analysis_file": 29,
+      "papers_with_original_and_answer_file": 29,
+      "distinct_original_pdf_hashes": 22,
+      "paper_occurrences": 29,
+      "paper_regions": 30,
+      "fixed_composition_items": 2,
+      "verification_rows": 1
+    },
+    "preview_active_dev011_synthetic": {
+      "schema": 9,
+      "review_as_of": "2026-11-24",
+      "physical_question_rows": 2508,
+      "revision_rows": 2514,
+      "duplicate_links": 1,
+      "visible_current_questions": {
+        "top_level": 2507,
+        "selected_revision_parts": 2505,
+        "answer_fields_complete": 2505,
+        "analysis_fields_present_for_all_parts": 0
+      },
+      "current_review_status": {
+        "passed": 1,
+        "unreviewed": 2506
+      },
+      "visible_questions_by_subject_id": {
+        "math": 632,
+        "physics": 625,
+        "chemistry": 625,
+        "history": 625
+      },
+      "visible_knowledge_nodes": 20,
+      "visible_paper_records": 31,
+      "papers_with_original_pdf": 31,
+      "papers_with_original_and_answer_or_analysis_file": 29,
+      "papers_with_original_and_answer_file": 29,
+      "distinct_original_pdf_hashes": 22,
+      "paper_occurrences": 30,
+      "paper_regions": 31,
+      "fixed_composition_items": 3,
+      "verification_rows": 1
+    },
+    "dev013_test": {
+      "schema": 9,
+      "review_as_of": "2026-11-24",
+      "physical_question_rows": 2559,
+      "revision_rows": 2567,
+      "duplicate_links": 1,
+      "visible_current_questions": {
+        "top_level": 2558,
+        "selected_revision_parts": 2606,
+        "answer_fields_complete": 2506,
+        "analysis_fields_present_for_all_parts": 1
+      },
+      "current_review_status": {
+        "passed": 1,
+        "unreviewed": 2557
+      },
+      "visible_questions_by_subject_id": {
+        "math": 639,
+        "physics": 631,
+        "chemistry": 631,
+        "history": 630,
+        "chinese": 6,
+        "english": 6,
+        "biology": 5,
+        "politics": 5,
+        "geography": 5
+      },
+      "visible_knowledge_nodes": 21,
+      "visible_paper_records": 31,
+      "papers_with_original_pdf": 31,
+      "papers_with_original_and_answer_or_analysis_file": 29,
+      "papers_with_original_and_answer_file": 29,
+      "distinct_original_pdf_hashes": 23,
+      "paper_occurrences": 29,
+      "paper_regions": 30,
+      "fixed_composition_items": 122,
+      "verification_rows": 1
+    },
+    "content001_isolated_private_pilot": {
+      "schema": 9,
+      "review_as_of": "2026-11-24",
+      "physical_question_rows": 3,
+      "revision_rows": 3,
+      "duplicate_links": 0,
+      "visible_current_questions": {
+        "top_level": 3,
+        "selected_revision_parts": 0,
+        "answer_fields_complete": 3,
+        "analysis_fields_present_for_all_parts": 3
+      },
+      "current_review_status": {
+        "unreviewed": 3
+      },
+      "visible_questions_by_subject_id": {
+        "math": 3
+      },
+      "visible_knowledge_nodes": 5,
+      "visible_paper_records": 1,
+      "papers_with_original_pdf": 1,
+      "papers_with_original_and_answer_or_analysis_file": 1,
+      "papers_with_original_and_answer_file": 1,
+      "distinct_original_pdf_hashes": 1,
+      "paper_occurrences": 3,
+      "paper_regions": 3,
+      "fixed_composition_items": 4,
+      "verification_rows": 0
+    }
+  },
+  "tracked_fixture_inventory": {
+    "poc001_example_questions": 3,
+    "dev009_synthetic_archive_lines": {
+      "small.studyzip": {
+        "data/knowledge.jsonl": 2,
+        "data/papers.jsonl": 1,
+        "data/questions.jsonl": 4
+      },
+      "upgrade.studyzip": {
+        "data/knowledge.jsonl": 2,
+        "data/papers.jsonl": 1,
+        "data/questions.jsonl": 5
+      }
+    },
+    "dev010_track": "original-fixture.knowbackup, synthetic; no contribution to either content scope"
+  },
+  "source_survey": {
+    "source_sites_or_organizations": 13,
+    "register_rows": 27,
+    "register_rows_by_subject": {
+      "语文": 3,
+      "数学": 10,
+      "英语": 2,
+      "物理": 2,
+      "化学": 2,
+      "生物": 2,
+      "思想政治": 2,
+      "历史": 2,
+      "地理": 2
+    },
+    "local_downloads": 4,
+    "candidate_2024_exam_editions_with_subject_pages": 9,
+    "candidate_2024_exam_editions_with_listed_answers": 9,
+    "candidate_2024_exam_editions_with_listed_analysis": 2,
+    "candidate_2024_exam_pdf_web_recognized_including_local": 7,
+    "locally_obtained_distinct_complete_exam_editions": 1,
+    "locally_observed_top_level_questions_in_complete_edition": 19
+  },
+  "personal_pilot": {
+    "imported_register_rows": 6,
+    "imported_register_rows_with_source": 6,
+    "obtained_but_unimported_same_paper_versions": 1,
+    "questions": {
+      "top_level": 3,
+      "with_answer": 3,
+      "with_analysis": 3,
+      "checked": 0,
+      "pending_check": 3
+    },
+    "papers": {
+      "complete": 1,
+      "with_answer": 1,
+      "with_analysis": 1,
+      "checked": 0,
+      "pending_check": 1
+    },
+    "paired_files": {
+      "answers": 1,
+      "analysis": 1
+    },
+    "reviewed_knowledge_explanations": 0
+  },
+  "confirmed_formal_redistribution": {
+    "top_level_questions": 0,
+    "complete_papers": 0,
+    "reviewed_knowledge_explanations": 0
+  }
+}

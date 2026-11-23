@@ -1,3 +1,11 @@
+# CONTENT-001 山东高中个人题库（2026-11-24）
+
+- 修订任务授权建立个人离线库。独立分支 `content/content-001-provenance-audit` 基于 `82da6023bf91f5aa4712a6feae835d6c970390f7`。调查 13 个来源站点或机构，覆盖九科，登记 27 条资源链接及配套记录。
+- Windows 隔离试点收录 3 道数学真题和 1 套完整试卷，保留来源、真实文件哈希、参考答案、解析、原卷定位和固定组卷。三题和一卷待正式内容复核，扩充目标尚未达到。
+- OID-004 保持开放，仅阻断第三方资源随软件正式公开发行。DEV-012、DEV-013 保持 **CONDITIONAL PASS**，Apple Silicon 实机 **BLOCKED**。
+
+[审计](CONTENT-001_AUDIT_REPORT.md) · [来源](CONTENT-001_SOURCE_REGISTER.csv) · [导入](CONTENT-001_IMPORT_PLAN.md) · [测试](CONTENT-001_TEST_RESULTS.md) · [问题](CONTENT-001_KNOWN_ISSUES.md)
+
 # DEV-013 结构化表格（2026-11-22）
 
 - 独立分支 `dev/dev-013-rich-tables`，起点 `fe05f71d7cca831be3fffa2eacfb851386b7476c`。本地表格修订使用内容 v2，继续读取 v1，SQLite Schema 9、备份 v1、`.studyzip` 和 DEC-039～041 延用。
