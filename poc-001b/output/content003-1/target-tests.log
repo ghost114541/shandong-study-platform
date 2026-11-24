@@ -1,0 +1,7 @@
+wrong-exe rejected; database and WAL unchanged
+wrong-hash rejected; database and WAL unchanged
+wrong-app-identifier rejected; database and WAL unchanged
+occupied-port rejected; database and WAL unchanged
+foreign target and unknown PID rejected before connection; database and WAL unchanged
+stale-pre-restore-path rejected; database and WAL unchanged
+in-process library mismatch rejected by active-library guard; database and WAL unchanged

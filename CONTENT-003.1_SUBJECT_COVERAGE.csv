@@ -1,0 +1,10 @@
+﻿subject,baseline_questions,added_questions,total_questions,paper_records,complete_material_sets,complete_in_app_without_external_audio,human_review_passed
+biology,17,15,32,2,2,2,0
+chemistry,13,0,13,2,2,2,0
+chinese,2,7,9,2,2,2,0
+english,4,3,7,1,1,0,0
+geography,6,6,12,2,2,2,0
+history,15,8,23,2,2,2,0
+math,28,46,74,6,6,6,0
+physics,2,19,21,3,2,2,0
+politics,15,0,15,2,2,2,0

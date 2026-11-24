@@ -82,6 +82,26 @@ def audit(database, trace, root, as_of, register=None, mode='scoped'):
     return result
 
 
+def link_key(row):
+    return tuple(row.get(key) for key in ('question_id', 'revision_id', 'resource_id', 'source_key'))
+
+
+def review_record(db, rid, as_of):
+    return db.execute("""
+            SELECT verdict, expires_on, checked_on, reviewer, evidence
+            FROM verification_record WHERE revision_id = ? AND checked_on <= ?
+            ORDER BY checked_on DESC, id DESC LIMIT 1
+    """, (rid, as_of)).fetchone()
+
+
+def review_status(review, as_of):
+    if review is None:
+        return 'unreviewed'
+    if review[0] == 'passed' and review[1] and review[1] < as_of:
+        return 'expired'
+    return review[0]
+
+
 def check_inventory(db, trace, root, as_of, mode, result):
     def issue(code, record):
         result['errors'].append({'code': code, 'record': record})
@@ -93,6 +113,7 @@ def check_inventory(db, trace, root, as_of, mode, result):
     papers = dict(db.execute("SELECT id, subject_id FROM paper"))
     questions = dict(db.execute("SELECT original_id, logical_id FROM question_identity"))
     excluded = {'paper': set(), 'question': set()}
+    accepted_exclusions = []
     for row in trace.get('exclusions', []):
         kind, key = row['kind'], row['id']
         inventory = {'paper': papers, 'question': questions}.get(kind, {})
@@ -100,6 +121,7 @@ def check_inventory(db, trace, root, as_of, mode, result):
             issue('invalid_exclusion', key)
         else:
             excluded[kind].add(key)
+            accepted_exclusions.append(row)
     scoped_papers = set(trace['paper_ids'])
     entries = trace.get('question_sources', [])
     mapped_questions = {row['question_id'] for row in entries}
@@ -121,7 +143,12 @@ def check_inventory(db, trace, root, as_of, mode, result):
     source_ids = {}
     mapped_revisions = set()
     registered_pdf_links = set()
+    valid_sources = defaultdict(list)
+    bad_pairs = set()
+    snapshot_errors = {row['record'] for row in result['errors'] if isinstance(row['record'], str)}
+    invalid_links = {link_key(row) for index, row in enumerate(trace['links']) if f'link[{index}]' in snapshot_errors}
     for entry in entries:
+        errors_before = len(result['errors'])
         qid, rid, sid = (entry[k] for k in ('question_id', 'revision_id', 'source_id'))
         pair = (qid, rid)
         identity = (qid, entry.get('resource_id'), entry.get('kind'), entry['source_url'], entry['sha256'],
@@ -150,7 +177,7 @@ def check_inventory(db, trace, root, as_of, mode, result):
             if (not resource or key not in pdf_links or entry['sha256'] != resource['downloaded_sha256']
                     or entry['source_url'] != resource['source_url']):
                 issue('question_paper_source_mismatch', pair)
-        elif entry.get('kind') in ('web', 'screenshot', 'local'):
+        elif entry.get('kind') in ('web', 'screenshot', 'local', 'manual'):
             try:
                 if digest(controlled_file(root, entry['path'])) != entry['sha256']:
                     issue('question_source_hash_mismatch', sid)
@@ -162,14 +189,8 @@ def check_inventory(db, trace, root, as_of, mode, result):
         answer = complete(content, 'answer')
         fields = [has_content(part.get('analysis')) for part in content['parts'] or [content]]
         analysis = 'complete' if all(fields) else 'partial' if any(fields) else 'missing'
-        review = db.execute("""
-            SELECT verdict, expires_on, checked_on, reviewer, evidence
-            FROM verification_record WHERE revision_id = ? AND checked_on <= ?
-            ORDER BY checked_on DESC, id DESC LIMIT 1
-        """, (rid, as_of)).fetchone()
-        status = 'unreviewed' if review is None else review[0]
-        if status == 'passed' and review[1] and review[1] < as_of:
-            status = 'expired'
+        review = review_record(db, rid, as_of)
+        status = review_status(review, as_of)
         if (entry['answer_status'] != ('present' if answer else 'missing')
                 or entry['analysis_status'] != analysis):
             issue('question_source_answer_or_analysis_mismatch', pair)
@@ -178,33 +199,64 @@ def check_inventory(db, trace, root, as_of, mode, result):
             issue('question_source_review_mismatch', pair)
         if status == 'passed' and not answer:
             issue('passed_question_without_answer', pair)
+        if len(result['errors']) == errors_before and (entry['kind'] != 'paper' or
+                (key not in invalid_links and resource_id not in snapshot_errors)):
+            valid_sources[pair].append(entry)
+        else:
+            bad_pairs.add(pair)
 
     compare('database_revision_unmapped', set(revisions), {(q, r) for q, r, _ in mapped_revisions})
     if trace['version'] == 2:
         compare('paper_split_state_missing', scoped_papers, set(trace.get('paper_states', {})))
     compare('pdf_link_missing_question_source', pdf_links, registered_pdf_links)
+    bad_pairs.update((q, r) for q, r, _, _ in pdf_links - registered_pdf_links)
     compare('database_file_unmapped_full',
             {fid for fid, pid in db.execute("SELECT id, paper_id FROM paper_file") if pid in target_papers},
             {row['paper_file_id'] for row in resources.values()})
     region_keys = {(row['question_id'], resources[row['resource_id']]['paper_file_id'], row['source_key'])
                    for row in trace['links'] if row['resource_id'] in resources}
-    compare('database_region_unmapped_full', {
+    actual_regions = {
         (qid, fid, key) for pid, qid, fid, key in
         db.execute("SELECT paper_id, question_id, file_id, source_key FROM paper_region")
         if pid in target_papers or qid in target_questions
-    }, region_keys)
-    compare('database_occurrence_unmapped_full', {
+    }
+    compare('database_region_unmapped_full', actual_regions, region_keys)
+    incomplete_questions = {qid for qid, _, _ in actual_regions - region_keys}
+    actual_occurrences = {
         (pid, qid, key) for pid, qid, key in
         db.execute("SELECT paper_id, question_id, source_key FROM question_occurrence")
         if pid in target_papers or qid in target_questions
-    }, {(resources[row['resource_id']]['paper_id'], row['question_id'], row['source_key'])
-        for row in trace['links'] if row['resource_id'] in resources})
+    }
+    mapped_occurrences = {(resources[row['resource_id']]['paper_id'], row['question_id'], row['source_key'])
+                          for row in trace['links'] if row['resource_id'] in resources}
+    compare('database_occurrence_unmapped_full', actual_occurrences, mapped_occurrences)
+    incomplete_questions.update(qid for _, qid, _ in actual_occurrences - mapped_occurrences)
     compare('database_pin_unmapped_full', {
         (cid, pos, qid, rid) for cid, pos, qid, rid in
         db.execute("SELECT composition_id, position, question_id, revision_id FROM composition_item")
         if qid in target_questions
     }, {(pin['composition_id'], item['position'], item['question_id'], item['revision_id'])
         for pin in trace['compositions'] for item in pin['items']})
+    supplements = set()
+    for row in trace.get('supplemental_resources', []):
+        key = row['resource_id']
+        if key in supplements or key in resources or row.get('paper_id') not in scoped_papers:
+            issue('invalid_supplement_identity', key)
+            continue
+        if (row.get('kind') != 'listening_audio' or row.get('usage_scope') != 'PERSONAL_ONLY'
+                or urlsplit(row.get('source_url', '')).scheme != 'https'):
+            issue('invalid_supplement_metadata', key)
+            continue
+        try:
+            if digest(controlled_file(root, row['path'])) != row['sha256']:
+                issue('supplement_hash_mismatch', key)
+                continue
+        except (OSError, ValueError):
+            issue('supplement_missing_or_uncontrolled', key)
+            continue
+        supplements.add(key)
+    if trace.get('supplemental_resources'):
+        result['counts']['supplemental_resources_verified'] = len(supplements)
     result['mode'] = mode
     result['counts'].update(database_papers=len(target_papers), database_question_records=len(target_questions),
                             database_revision_rows=len(revisions), registered_question_sources=len(source_ids),
@@ -212,7 +264,52 @@ def check_inventory(db, trace, root, as_of, mode, result):
     current = {(qid, rid) for qid, rid in db.execute("SELECT question_id,id FROM current_question_revision")
                if qid in target_questions}
     compare('database_current_revision_unmapped', current, {(q, r) for q, r, _ in mapped_revisions})
-    result['counts']['database_current_logical_questions'] = len({questions[q] for q, _ in current})
+    # Count only the current revision of each canonical DEC-039 identity.
+    logical_ids = {questions[q] for q in target_questions if q in questions}
+    totals = Counter(dict.fromkeys((
+        'canonical_with_answer', 'canonical_with_all_analysis_fields', 'canonical_analysis_checked',
+        'canonical_answer_checked', 'canonical_review_passed', 'canonical_review_pending',
+        'canonical_review_disputed', 'canonical_review_failed', 'canonical_source_complete',
+        'canonical_content_disputed'
+    ), 0))
+    states = Counter()
+    if mode == 'full':
+        result['pending'] = [row for row in result['pending'] if 'review' not in row]
+    reviewed_links = defaultdict(list)
+    for link in trace['links']:
+        if link_key(link) not in invalid_links:
+            reviewed_links[link['question_id'], link['revision_id']].append(link)
+    logical_count = 0
+    for qid, rid, raw in db.execute('SELECT question_id,id,content_json FROM current_question_revision'):
+        if qid not in logical_ids:
+            continue
+        logical_count += 1
+        content = json.loads(raw)
+        pair = (qid, rid)
+        answer = complete(content, 'answer')
+        analysis = complete(content, 'analysis')
+        status = review_status(review_record(db, rid, as_of), as_of)
+        source_complete = (bool(valid_sources[pair]) and pair not in bad_pairs
+                           and qid not in incomplete_questions and qid not in excluded['question'])
+        marks = [*valid_sources[pair], *reviewed_links[pair]]
+        totals['canonical_with_answer'] += answer
+        totals['canonical_with_all_analysis_fields'] += analysis
+        totals['canonical_analysis_checked'] += analysis and source_complete and any(row.get('analysis_checked') is True for row in marks)
+        totals['canonical_answer_checked'] += answer and source_complete and any(row.get('answer_checked') is True for row in marks)
+        totals['canonical_review_passed'] += status == 'passed'
+        totals['canonical_review_pending'] += status in ('unreviewed', 'expired')
+        totals['canonical_review_disputed'] += status == 'disputed'
+        totals['canonical_review_failed'] += status == 'failed'
+        totals['canonical_content_disputed'] += any(row.get('content_check') == 'disputed' for row in marks)
+        totals['canonical_source_complete'] += source_complete
+        states[status] += 1
+        if mode == 'full' and (status != 'passed' or not answer or not analysis or not source_complete):
+            result['pending'].append(dict(record=qid, revision_id=rid, review=status,
+                answer_present=answer, analysis_fields_complete=analysis, source_complete=source_complete))
+    result['counts'].update(totals, unique_logical_questions=logical_count,
+                            database_current_logical_questions=logical_count)
+    result['current_review_status'] = dict(states)
+    result['exclusions'] = accepted_exclusions
 
 
 def audit_snapshot(db, trace, root, as_of, library):
@@ -349,10 +446,11 @@ def audit_snapshot(db, trace, root, as_of, library):
             issue('answer_status_mismatch', label)
         if entry['analysis_status'] not in (analysis, 'pending'):
             issue('analysis_status_mismatch', label)
-        if 'answer_resource_id' in entry:
-            answer_file = files.get(entry['answer_resource_id'])
-            if not answer_file or answer_file['paper_id'] != paper or answer_file['paper_file_role'] not in ('answer', 'analysis'):
-                issue('answer_resource_mismatch', label)
+        for field, roles in [('answer_resource_id', ('answer', 'analysis')), ('analysis_resource_id', ('analysis',))]:
+            if field in entry:
+                ref = files.get(entry[field])
+                if not ref or ref['paper_id'] != paper or ref['paper_file_role'] not in roles:
+                    issue(field.removesuffix('_id')+'_mismatch', label)
         review = one("""
             SELECT verdict, checked_on, reviewer, evidence, expires_on
             FROM verification_record WHERE revision_id = ? AND checked_on <= ?

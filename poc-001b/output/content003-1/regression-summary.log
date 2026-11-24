@@ -1,0 +1,10 @@
+CONTENT-003.1 regression on Windows x64
+Ran 31 tests in 12.788s (Python CONTENT-001/002/003); OK
+Node batch cases: 2 passed, 0 failed
+Frontend TypeScript tests: 37 passed, 0 failed
+TypeScript typecheck: exit 0
+Final sidecar replay: identical JSON structure
+Baseline archive members: 161 verified
+Final archive members: 331 verified
+Restored business tables: 43 equal
+Restored archived resources: 330 equal

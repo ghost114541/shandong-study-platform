@@ -1,0 +1,119 @@
+{
+  "app_executable_sha256": "7bc2ff555e6a36a36de31c89b91baee268dca8332bc7d94bbd70c2ca2b28c2b3",
+  "audio_bytes": 11295139,
+  "audio_duration_decoded_seconds": 1411.866125,
+  "audio_sha256": "90c521996ea165f1de0d5e2cff4cb4e64051f4af48ca6eebc8c0c69b6285b3ad",
+  "audio_start_seconds_per_group": [
+    252.0,
+    282.4,
+    318.0,
+    339.1,
+    365.2,
+    462.0,
+    590.4,
+    747.9,
+    955.2,
+    1137.2
+  ],
+  "audio_topic_matches": 10,
+  "backup_sha256": "f4374edfb721cf46ee20345d362294b8b543d58e39e755068b787ee815bc3834",
+  "baseline_backup_sha256": "cb79325b65707ae67b7c34fbb401dd05764d418d477d2b24a65aaa99cf9dd3e8",
+  "batch_native_events": {
+    "bio": {
+      "created": 15,
+      "paper_records_processed": 1
+    },
+    "geo": {
+      "created": 6,
+      "paper_records_processed": 1
+    },
+    "history": {
+      "created": 8,
+      "paper_records_processed": 1
+    },
+    "math": {
+      "created": 46,
+      "paper_records_processed": 3
+    },
+    "repeat": {
+      "paper_records_processed": 4,
+      "recovered": 29
+    },
+    "resume": {
+      "created": 29,
+      "paper_records_processed": 4
+    }
+  },
+  "final-backup.log": [
+    {
+      "files": 331,
+      "stage": "backup"
+    }
+  ],
+  "final-restore.log": [
+    {
+      "papers": 22,
+      "stage": "restore_restarted"
+    }
+  ],
+  "full_restore_comparison": {
+    "business_tables_equal": 43,
+    "members_verified": 331,
+    "resource_files_equal": 330,
+    "retained_rows": {
+      "composition": 6,
+      "composition_item": 15,
+      "paper": 21,
+      "paper_file": 36,
+      "paper_region": 123,
+      "question": 102,
+      "question_knowledge": 102,
+      "question_occurrence": 102,
+      "question_revision": 105
+    }
+  },
+  "real_interruption_observed": true,
+  "search-final.log": [
+    {
+      "stage": "search_and_location",
+      "subject": "math"
+    },
+    {
+      "stage": "search_and_location",
+      "subject": "chinese"
+    },
+    {
+      "stage": "search_and_location",
+      "subject": "physics"
+    },
+    {
+      "stage": "search_and_location",
+      "subject": "biology"
+    },
+    {
+      "stage": "search_and_location",
+      "subject": "geography"
+    },
+    {
+      "stage": "search_and_location",
+      "subject": "history"
+    },
+    {
+      "stage": "search_and_location",
+      "subject": "chemistry"
+    },
+    {
+      "stage": "search_and_location",
+      "subject": "english"
+    },
+    {
+      "stage": "search_and_location",
+      "subject": "politics"
+    }
+  ],
+  "source_index_by_status": {
+    "downloaded_pending_review": 3,
+    "downloaded_verified_external": 1,
+    "imported": 44
+  }
+}

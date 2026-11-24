@@ -2,30 +2,19 @@
 import assert from 'node:assert/strict'
 import { spawn, execFile } from 'node:child_process'
 import { existsSync, writeFileSync } from 'node:fs'
-import { basename, dirname, join, resolve } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { setTimeout as delay } from 'node:timers/promises'
 import { promisify } from 'node:util'
 import { readJson, runBatch, writeJson } from './content003_batch.mjs'
 
+import { TargetGuard } from './content003_target.mjs'
+
 const execute = promisify(execFile)
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const [operation, workspace, executable, manifest, registry, failAfter] = process.argv.slice(2)
-const privateRoot = resolve(workspace)
-const app = resolve(executable)
-const profile = join(process.env.APPDATA, 'org.shandong-study.content003-isolated')
-const port = 19443
-const journal = join(profile,'data-protection','root.json')
-const strip = path => path.startsWith('\\\\?\\') ? path.slice(4) : path
-function active() {
-  return existsSync(journal) ? strip(readJson(journal).active) : profile
-}
-function assertIsolated() {
-  const root = resolve(active()).toLowerCase()
-  const base = resolve(profile).toLowerCase()
-  assert.ok(root === base || (dirname(root) === base + '.knowpaper-libraries'
-    && /^knowpaper-library-[a-z0-9]+$/i.test(basename(root))))
-}
+const [operation, workspace, executable, manifest, registry, identityFile, failAfter] = process.argv.slice(2)
+const targetGuard = new TargetGuard(workspace, executable, identityFile, resolve(repo, '..'))
+const privateRoot = targetGuard.workspace
 let child, ws, launchError, id = 0
 const pending = new Map()
 async function waitFor(fn, label, max = 23000) {
@@ -33,25 +22,34 @@ async function waitFor(fn, label, max = 23000) {
   let error
   while (Date.now() < stop) {
     if (launchError) throw launchError
+    if (label !== 'app close' && child?.exitCode != null) throw Error('Launched application exited')
     try { const value = await fn(); if (value) return value } catch (e) { error = e }
     await delay(150)
   }
   throw new Error('Timeout: '+ label, {cause:error})
 }
-async function start() {
-  child = spawn(app, [], {cwd: privateRoot, windowsHide:true, env: {...process.env,
-    WEBVIEW2_USER_DATA_FOLDER: join(privateRoot, 'webview2'),
-    WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS: '--remote-debugging-port='+port+' --remote-debugging-address=127.0.0.1'
-  }, stdio:'ignore'})
+async function start(switching = false) {
+  const env = await targetGuard.beforeLaunch(switching)
+  launchError = undefined
+  child = spawn(targetGuard.app, [], {cwd: privateRoot, windowsHide:true, env, stdio:'ignore'})
   child.once('error', error => { launchError = error })
-  const target = await waitFor(async () => (await (await fetch('http://127.0.0.1:'+port+'/json/list')).json())
-    .find(t => t.type === 'page' && t.url.startsWith('http')), 'WebView2 target')
-  ws = new WebSocket(target.webSocketDebuggerUrl)
-  await new Promise((ok, fail) => { ws.onopen = ok; ws.onerror = fail })
+  const rows = await waitFor(async () => {
+    const found = await targetGuard.listeners()
+    return found.length ? found : null
+  }, 'WebView2 listener')
+  ws = new WebSocket(await targetGuard.target(child, rows))
+  await new Promise((ok, fail) => {
+    const timer = setTimeout(() => fail(Error('WebView2 socket timeout')), 5000)
+    ws.onopen = () => { clearTimeout(timer); ok() }
+    ws.onerror = error => { clearTimeout(timer); fail(error) }
+  })
+  await targetGuard.verifySocket(child)
   ws.onmessage = ({data}) => {
     const m=JSON.parse(data); pending.get(m.id)?.(m)
   }
   await waitFor(() => ev("!!window.__TAURI_INTERNALS__ && !!document.querySelector('main')"), 'app')
+  await guard()
+  await targetGuard.schema()
   await send('Network.enable')
   await send('Network.setBlockedURLs', {urls:['https://*']})
 }
@@ -68,7 +66,7 @@ async function ev(expression) {
   if (result.exceptionDetails) throw Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text)
   return result.result.value
 }
-async function call(command,args={}) {
+async function rawCall(command,args={}) {
   const result = await invoke(JSON.stringify(command)+','+JSON.stringify(args))
   if ('error' in result) throw Error(command+': '+result.error)
   return result.value
@@ -77,8 +75,28 @@ async function invoke(args) {
   return ev('window.__TAURI_INTERNALS__.invoke('+args+
     ').then(value=>({value}),error=>({error:error?.message??JSON.stringify(error)}))')
 }
+let identityFailure
+async function guard(phase) {
+  if (identityFailure) throw identityFailure
+  try {
+    assert.ok(!launchError && child.exitCode === null && ws.readyState === WebSocket.OPEN,
+      'Verified process and socket must remain live')
+    return await targetGuard.active(rawCall, phase)
+  } catch (error) {
+    identityFailure = new Error('TARGET_IDENTITY_REJECTED', {cause:error})
+    identityFailure.targetIdentityRejected = true
+    throw identityFailure
+  }
+}
+
+async function call(command,args={}) {
+  await guard()
+  return rawCall(command,args)
+}
+
 async function pick(command,args,dialog,path) {
-  const selecting=call(command,args)
+  await guard()
+  const selecting=rawCall(command,args)
   selecting.catch(()=>{})
   await execute('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',join(repo,'tests/windows-pdf-dialog.ps1'),
     '-AppProcess',String(child.pid),'-Title',dialog,'-Filename',path],{windowsHide:true,timeout:26000})
@@ -93,6 +111,7 @@ async function close() {
 }
 
 async function image(bytes) {
+  await guard()
   const result = await invoke("'import_attachment',Uint8Array.from(atob("+
     JSON.stringify(bytes.toString('base64'))+"),c=>c.charCodeAt(0)).buffer,"+
     "{headers:{'x-image-media-type':'image/png'}}")
@@ -133,20 +152,22 @@ async function verifyVisual(subject, location, expectedImages) {
 }
 
 try {
-  assert.ok(['restore','backup','preview','import','verify','annotate'].includes(operation))
-  assertIsolated()
+  assert.ok(['restore','backup','preview','import','verify','annotate','probe'].includes(operation))
   await start()
-  assertIsolated()
-  assert.equal(await call('database_status'), 9)
   if (operation === 'restore') {
-    const before = active()
+    const before = targetGuard.expected
     assert.ok(await pick('preview_restore',{},'选择知卷备份',resolve(manifest)))
-    await call('confirm_restore')
+    const candidate = targetGuard.restoreCandidate('verified')
+    await guard('verified')
+    await rawCall('confirm_restore')
+    assert.equal(targetGuard.restoreCandidate('pending'), candidate)
+    targetGuard.expected = candidate
     await close()
-    await start()
-    assertIsolated()
-    assert.notEqual(active(),before)
+    await start(true)
+    assert.equal(targetGuard.library((await guard()).previous),before)
     console.log(JSON.stringify({stage:'restore_restarted',papers:(await call('list_paper_records')).length}))
+  } else if (operation === 'probe') {
+    console.log(JSON.stringify({stage:'verified_identity'}))
   } else if (operation === 'backup') {
     const target = resolve(manifest)
     assert.ok(!existsSync(target), 'Backup destination already exists')

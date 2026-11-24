@@ -1,5 +1,6 @@
 """Verify and unpack an application backup, and compare retained baseline rows."""
 import argparse
+from collections import Counter
 from contextlib import closing
 import hashlib
 import json
@@ -8,7 +9,7 @@ import shutil
 import sqlite3
 from zipfile import ZipFile
 
-from content002_trace_audit import digest
+from content002_trace_audit import controlled_file, digest
 
 RETAINED = (
     'question', 'question_revision', 'question_occurrence', 'paper', 'paper_file',
@@ -63,7 +64,38 @@ def retained(before, after):
 
 
 def fingerprint(root, paths):
-    return {name:digest(root / name) for name in sorted(set(paths))}
+    root = root.resolve(strict=True)
+    return {name:digest(controlled_file(root, name)) for name in sorted(set(paths))}
+
+
+def compare_business_state(before, after, backup):
+    """Check the logical database and the actual members after app restore/restart."""
+    def connect(root):
+        return sqlite3.connect((root / 'study.sqlite3').resolve(strict=True).as_uri()+'?mode=ro', uri=True)
+
+    def tables(db):
+        return {name for name, in db.execute("SELECT name FROM sqlite_schema WHERE type='table'")
+                if not name.startswith('sqlite_') and name != 'backup_record'}
+
+    with closing(connect(before)) as original, closing(connect(after)) as restored:
+        for db in (original, restored):
+            db.execute('BEGIN')
+            if db.execute('PRAGMA user_version').fetchone() != (9,):
+                raise ValueError('Expected Schema 9')
+        business_tables = tables(original)
+        if business_tables != tables(restored):
+            raise ValueError('Business table inventory differs')
+        for table in sorted(business_tables):
+            sql = 'SELECT * FROM "' + table.replace('"', '""') + '"'
+            if Counter(original.execute(sql)) != Counter(restored.execute(sql)):
+                raise ValueError(f'Business records differ: {table}')
+
+    with ZipFile(backup) as archive:
+        entries = json.loads(archive.read('manifest.json'))['files']
+    paths = [row['path'] for row in entries if row['path'] != 'study.sqlite3']
+    if fingerprint(before, paths) != fingerprint(after, paths):
+        raise ValueError('Restored resource bytes differ')
+    return {'business_tables_equal':len(business_tables), 'resource_files_equal':len(paths)}
 
 
 if __name__ == '__main__':
@@ -71,9 +103,12 @@ if __name__ == '__main__':
     parser.add_argument('backup', type=Path)
     parser.add_argument('target', type=Path)
     parser.add_argument('--before', type=Path)
+    parser.add_argument('--compare-library', type=Path, help='Active library after a verified restore')
     args = parser.parse_args()
     count = unpack(args.backup, args.target)
     result = {'members_verified':count}
     if args.before:
         result['retained_rows'] = retained(args.before, args.target / 'study.sqlite3')
+    if args.compare_library:
+        result.update(compare_business_state(args.target, args.compare_library, args.backup))
     print(json.dumps(result, sort_keys=True))

@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
-import { openSync, closeSync, fsyncSync, readFileSync, realpathSync, renameSync, writeFileSync, unlinkSync } from 'node:fs'
+import { openSync, closeSync, fsyncSync, readFileSync, realpathSync, renameSync, writeFileSync, unlinkSync, existsSync } from 'node:fs'
 import { resolve, dirname, basename } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { isDeepStrictEqual } from 'node:util'
+import { pathToFileURL } from 'node:url'
 
 const sha = bytes => createHash('sha256').update(bytes).digest('hex')
 const rich = text => ({type:'doc',content:text.split(/\r?\n/).map(line => ({
@@ -49,6 +50,22 @@ function fileArgs(paper, file, id) {
     region:paper.region,source:paper.application_source ?? paper.source_url,role:file.role,paper_id:id}}
 }
 
+export function referenceFile(paper, role, checksum) {
+  const candidates = paper.files.filter(file => file.role === role && (!checksum || file.sha256 === checksum))
+  assert.ok(candidates.length <= 1, 'Specify the exact '+role+' PDF SHA-256')
+  assert.ok(!checksum || candidates.length === 1, 'Referenced PDF SHA-256 is absent')
+  return candidates[0]
+}
+
+function registeredVersions(record) {
+  return Object.fromEntries(record.descriptor.files.map(spec => {
+    const file = record.files[spec.sha256] ?? record.files[spec.role]
+    assert.equal(file?.sha256, spec.sha256, 'Legacy journal file mapping is ambiguous or incomplete')
+    assert.equal(file.role, spec.role)
+    return [spec.sha256, {file, spec}]
+  }))
+}
+
 export async function runBatch({manifest, registry, native, preview, failAfter, log = console.log}) {
   const root = realpathSync(dirname(resolve(manifest)))
   const plan = readJson(manifest)
@@ -63,7 +80,7 @@ export async function runBatch({manifest, registry, native, preview, failAfter, 
     try {
       assert.ok(subjects.has(paper.subject), 'Unknown subject')
       assert.ok(paper.title && paper.source_url && Number.isInteger(paper.year))
-      assert.equal(paper.files.filter(file => file.role === 'original').length, 1)
+      assert.ok(paper.files.some(file => file.role === 'original'))
       assert.equal(new Set(paper.files.map(file => file.sha256)).size, paper.files.length)
       for (const file of paper.files) {
         const {bytes,path} = inputFile(root, file.path, file.sha256)
@@ -85,7 +102,10 @@ export async function runBatch({manifest, registry, native, preview, failAfter, 
       assert.ok(question.duplicate_of || question.answer || question.content)
       if (question.paper_key) {
         const paper = plan.papers.find(row => row.key === question.paper_key)
-        const pages = paper.files.find(file => file.role === 'original').pages
+        const pages = referenceFile(paper, 'original', question.original_sha256).pages
+        const answer = question.analysis_sha256 && !question.answer_sha256 ? null :
+          referenceFile(paper, 'answer', question.answer_sha256)
+        if (question.analysis_sha256 || !answer) referenceFile(paper, 'analysis', question.analysis_sha256)
         assert.equal(paper.subject, question.subject)
         assert.ok(question.source_key && question.regions?.length)
         for (const {page_index, rect} of question.regions) {
@@ -124,9 +144,31 @@ export async function runBatch({manifest, registry, native, preview, failAfter, 
   }
 }
 
+export function migrateRegistry(state) {
+  assert.ok([1,2].includes(state.version), 'Unsupported import journal version')
+  state = structuredClone(state)
+  // Resolve legacy references against their original descriptor before merging new versions.
+  for (const [key, record] of Object.entries(state.papers)) {
+    const versions = registeredVersions(record)
+    state.papers[key].files = Object.fromEntries(Object.entries(versions).map(([sha,row]) => [sha,row.file]))
+  }
+  for (const entry of Object.values(state.questions)) {
+    const record = state.papers[entry.paper_key]
+    if (!record || entry.original_file_id) continue
+    const fileId = role => {
+      const spec = referenceFile(record.descriptor, role)
+      return spec ? record.files[spec.sha256].id : null
+    }
+    entry.original_file_id = fileId('original')
+    entry.answer_file_id = fileId('answer')
+    entry.analysis_file_id = entry.answer_file_id ? null : fileId('analysis')
+  }
+  state.version = 2
+  return state
+}
+
 async function applyPlan(plan, root, registry, native, failAfter, log) {
-  const state = readJson(registry)
-  assert.equal(state.version, 1)
+  const state = migrateRegistry(readJson(registry))
   const papers = new Map()
   const signatures = new Map(Object.entries(state.questions).flatMap(([key,question]) =>
     question.signature ? [[question.signature,key]] : []))
@@ -140,41 +182,57 @@ async function applyPlan(plan, root, registry, native, failAfter, log) {
     try {
       const records = await native.call('list_paper_records')
       const ordered = [...paper.files].sort((a,b) => Number(b.role === 'original') - Number(a.role === 'original'))
-      let paperId
-      const result = {}
+      const prior = state.papers[paper.key]
+      const versions = prior ? registeredVersions(prior) : {}
+      if (prior) {
+        for (const key of ['title','subject','year','region'])
+          assert.equal(prior.descriptor[key], paper[key], 'Stable paper identity changed: '+key)
+      }
+      const all = records.flatMap(row => row.files.map(item => ({row, item})))
+      let paperId = prior?.paper_id
       for (const file of ordered) {
-        const existing = records.flatMap(row => row.files.map(item => ({row, item})))
-          .filter(({item}) => item.sha256 === file.sha256)
-        assert.ok(existing.length <= 1, 'Multiple PDF candidates')
-        const match = existing[0]
-        if (match) {
-          assert.equal(match.item.role,file.role,'PDF already assigned a different role')
-          assert.equal(match.row.title, paper.title, 'PDF already belongs to another title')
-          assert.equal(match.row.subject_id, paper.subject)
-          if (paperId) assert.equal(match.item.paper_id, paperId)
-        } else if (file.role === 'original') {
-          assert.ok(!records.some(row => row.title === paper.title && row.subject_id === paper.subject),
-            'Same paper title with different PDF needs review')
+        const matches = all.filter(({item}) => item.sha256 === file.sha256)
+        assert.ok(matches.length <= 1, 'Multiple PDF candidates')
+        if (!matches.length) continue
+        const [{row,item}] = matches
+        assert.equal(item.role,file.role,'PDF already assigned a different role')
+        assert.equal(row.title,paper.title,'PDF already belongs to another title')
+        assert.equal(row.subject_id,paper.subject)
+        if (paperId) assert.equal(item.paper_id,paperId)
+        paperId = item.paper_id
+      }
+      assert.ok(!paperId || records.some(row => row.id === paperId &&
+        row.title === paper.title && row.subject_id === paper.subject), 'Registered paper is missing or changed')
+      assert.ok(paperId || !records.some(row => row.title === paper.title && row.subject_id === paper.subject),
+        'Same paper title with different PDF needs a registered paper identity')
+      for (const file of ordered) {
+        const entry = versions[file.sha256]
+        if (entry) {
+          for (const field of ['role','pages','source_url','download_url'])
+            assert.equal(entry.spec[field],file[field],'Registered file provenance differs: '+field)
         }
-        let stored = match?.item
+        let stored = all.find(({item}) => item.sha256 === file.sha256)?.item
         if (!stored) {
+          assert.ok(!entry, 'Registered file missing from the application')
           const {path} = inputFile(root, file.path, file.sha256)
           stored = await native.pick('import_paper_pdf',fileArgs(paper,file,paperId),'导入试卷 PDF',path)
           wrote()
         }
-        assert.equal(stored.sha256, file.sha256)
-        assert.equal(stored.page_count, file.pages)
+        assert.equal(stored.sha256,file.sha256)
+        assert.equal(stored.page_count,file.pages)
+        if (entry) assert.equal(entry.file.id, stored.id, 'Registered file ID differs')
         paperId = stored.paper_id
-        result[file.role] = stored
+        versions[file.sha256] = entry ?? {file:stored,spec:file}
       }
-      if (state.papers[paper.key]) assert.equal(state.papers[paper.key].paper_id,paperId)
-      const next = {paper_id:paperId, files:result, descriptor:paper}
+      const next = {paper_id:paperId,
+        files:Object.fromEntries(Object.entries(versions).map(([sha,row]) => [sha,row.file])),
+        descriptor:{...paper,files:Object.values(versions).map(row => row.spec)}}
       writeJson(registry, {...state, papers:{...state.papers,[paper.key]:next}})
       state.papers[paper.key] = next
-      papers.set(paper.key, next)
+      papers.set(paper.key, {record:next, files:paper.files})
       log(JSON.stringify({stage:'paper', key:paper.key, status:'ok', ms:Math.round(performance.now()-started)}))
     } catch (error) {
-      if (error.message === 'INJECTED_AFTER_IPC_BEFORE_REGISTRY') throw error
+      if (error.targetIdentityRejected || error.message === 'INJECTED_AFTER_IPC_BEFORE_REGISTRY') throw error
       failures++
       log(JSON.stringify({stage:'paper', key:paper.key, status:'failed', error:error.message}))
     }
@@ -185,7 +243,10 @@ async function applyPlan(plan, root, registry, native, failAfter, log) {
     try {
       const paper = papers.get(q.paper_key)
       assert.ok(!q.paper_key || paper, 'Linked paper was not imported')
-      const link = paper && {file_id:paper.files.original.id, source_key:q.source_key, regions:q.regions}
+      const original = paper && referenceFile(paper, 'original', q.original_sha256)
+      const answer = paper && !(q.analysis_sha256 && !q.answer_sha256) && referenceFile(paper, 'answer', q.answer_sha256)
+      const analysis = paper && (q.analysis_sha256 || !answer ? referenceFile(paper, 'analysis', q.analysis_sha256) : undefined)
+      const link = paper && {file_id:paper.record.files[original.sha256].id, source_key:q.source_key, regions:q.regions}
       const id = q.duplicate_of ?? 'content003-' + q.key
       const signature = q.duplicate_of ? undefined : duplicateSignature(q)
       assert.ok(!signature || !signatures.has(signature) || signatures.get(signature) === q.key,
@@ -200,7 +261,7 @@ async function applyPlan(plan, root, registry, native, failAfter, log) {
           await native.call('link_paper_regions', {questionId:id,link,correct:false})
           wrote()
         }
-        revisionId = (await native.call('current_revision',{questionId:id})).revision.id
+        revisionId = state.questions[q.key]?.revision_id ?? (await native.call('current_revision',{questionId:id})).revision.id
       } else {
         let content = q.content ?? {schema_version:1,parts:[],attachments:[],
           question_type:q.kind,score:q.score,stem:rich(q.stem ?? ''),
@@ -253,17 +314,35 @@ async function applyPlan(plan, root, registry, native, failAfter, log) {
           await native.call('set_question_knowledge',{questionId:id,id:q.knowledge_id,linked:true})
       }
       const entry = {...state.questions[q.key],question_id:id,revision_id:revisionId,paper_key:q.paper_key,source_key:q.source_key,
-        regions:q.regions,source:q.source,signature,analysis_checked:q.analysis_checked === true}
+        regions:q.regions,source:q.source,signature,analysis_checked:q.analysis_checked === true,
+        ...(q.answer_checked === true ? {answer_checked:true} : {}),
+        original_file_id:link?.file_id, answer_file_id:paper ? (answer ? paper.record.files[answer.sha256].id : null) : undefined,
+        analysis_file_id:paper ? (analysis ? paper.record.files[analysis.sha256].id : null) : undefined}
+      const registered = state.questions[q.key]
+      if (registered) {
+        for (const [field, value] of Object.entries(entry)) {
+          if (registered[field] !== undefined)
+            assert.deepEqual(value, registered[field], 'Registered question provenance differs: '+field)
+        }
+      }
       writeJson(registry,{...state,questions:{...state.questions,[q.key]:entry}})
       state.questions[q.key] = entry
       if (signature) signatures.set(signature,q.key)
       log(JSON.stringify({stage:'question',key:q.key,status:q.duplicate_of?'deduplicated':prior.length?'recovered':'created',
         ms:Math.round(performance.now()-started)}))
     } catch (error) {
-      if (error.message === 'INJECTED_AFTER_IPC_BEFORE_REGISTRY') throw error
+      if (error.targetIdentityRejected || error.message === 'INJECTED_AFTER_IPC_BEFORE_REGISTRY') throw error
       failures++
       log(JSON.stringify({stage:'question',key:q.key,status:'failed',error:error.message}))
     }
   }
   return failures
+}
+
+
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  const [flag, before, after] = process.argv.slice(2)
+  assert.ok(flag === '--migrate-registry' && before && after && !existsSync(after),
+    'Usage: content003_batch.mjs --migrate-registry <old.json> <new.json>')
+  writeJson(after, migrateRegistry(readJson(before)))
 }
