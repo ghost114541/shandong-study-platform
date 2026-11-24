@@ -1,0 +1,43 @@
+{
+  "baseline": {
+    "logical_questions": 9,
+    "complete_papers": 4,
+    "subjects": 4,
+    "question_revisions": 10,
+    "fixed_items": 10
+  },
+  "net_added": {
+    "logical_questions": 93,
+    "complete_papers": 16,
+    "paper_records": 17
+  },
+  "cumulative": {
+    "logical_questions": 102,
+    "paper_records": 21,
+    "complete_papers": 20,
+    "subjects_with_questions": 9,
+    "subjects_with_complete_papers": 8,
+    "papers_with_paired_pdf": 14,
+    "question_revisions": 105,
+    "fixed_items": 15,
+    "reference_answer_fields_present": 102,
+    "reference_answer_fields_missing": 0,
+    "analysis_fields_present_all_parts": 102,
+    "content_checked_working_count": 25,
+    "complete_analysis_checked_working_count": 25,
+    "content_review_pending": 102,
+    "formal_human_review_passed": 0,
+    "disputed_logical_questions": 2,
+    "confirmed_incorrect": 0,
+    "question_source_mapped": 102,
+    "original_source_mapped": 21
+  },
+  "duplicates": {
+    "replay_questions_reused": 28,
+    "replay_paper_records_reused": 5,
+    "alternative_editions_not_counted_as_new_papers": 2,
+    "real_questions_merged_as_duplicates": 0,
+    "final_code_replay_questions_reused": 38,
+    "final_code_replay_paper_records_reused": 18
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "native_first_write_interrupted": true,
+  "native_resume_questions_created_recovered": {
+    "recovered": 1,
+    "created": 27
+  },
+  "native_replay_questions_created_recovered": {
+    "recovered": 28
+  },
+  "native_replay_paper_records_reused": 5,
+  "negative_preflight_codes": {
+    "ENOENT": 1,
+    "ERR_ASSERTION": 1
+  },
+  "native_canvas_subjects": 9,
+  "native_composition_items_exported": 5,
+  "dual_pdf_pages": {
+    "answers": 3,
+    "paper": 3
+  },
+  "dual_pdf_answer_headings": {
+    "answers": 7,
+    "paper": 0
+  },
+  "final_backup": {
+    "members_verified": 161,
+    "retained_rows": {
+      "composition": 5,
+      "composition_item": 10,
+      "paper": 4,
+      "paper_file": 9,
+      "paper_region": 9,
+      "question": 9,
+      "question_knowledge": 9,
+      "question_occurrence": 9,
+      "question_revision": 10
+    }
+  },
+  "final_restore": {
+    "stage": "restore_restarted",
+    "papers": 21
+  },
+  "disputes_appended": 2,
+  "performance": {
+    "acquisition_file_count": 31,
+    "acquisition_total_seconds": 29.436,
+    "acquisition_external_eol_seconds": null,
+    "candidate_extraction_runs": [
+      {
+        "candidates": 60,
+        "seconds": 12.719
+      },
+      {
+        "candidates": 38,
+        "seconds": 10.937
+      }
+    ],
+    "paper_ipc_ms_sample_count": 17,
+    "paper_ipc_ms_total": 26388,
+    "paper_ipc_ms_mean": 1552.2,
+    "question_ipc_ms_sample_count": 92,
+    "question_ipc_ms_total": 31911,
+    "question_ipc_ms_mean": 346.9,
+    "full_audit_ms": 232
+  },
+  "native_final_code_replay": {
+    "questions_recovered": 38,
+    "paper_records_reused": 18,
+    "duplicate_notes_created": 0
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "mode": "full",
+  "as_of": "2026-11-24",
+  "schema": 9,
+  "counts": {
+    "canonical_review_passed": 0,
+    "canonical_with_all_analysis_fields": 102,
+    "canonical_with_answer": 102,
+    "database_current_logical_questions": 102,
+    "database_papers": 21,
+    "database_question_records": 102,
+    "database_revision_rows": 105,
+    "excluded_papers": 0,
+    "excluded_questions": 0,
+    "fixed_items": 15,
+    "occurrences": 102,
+    "pdf_resources": 36,
+    "registered_question_sources": 102,
+    "revision_links": 105,
+    "unique_logical_questions": 102
+  },
+  "structural_errors": {
+    "before_backup": 0,
+    "verified_archive": 0,
+    "application_restore": 0
+  },
+  "paper_split_states": {
+    "partial": 11,
+    "awaiting_split": 10
+  },
+  "paper_completeness": {
+    "complete": 20,
+    "missing_required_material": 1
+  },
+  "content_disputes_outside_formal_review": 2
+}

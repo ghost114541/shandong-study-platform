@@ -53,9 +53,11 @@ def check_register(resources, rows):
     return errors
 
 
-def audit(database, trace, root, as_of, register=None):
-    if type(trace['version']) is not int or trace['version'] != 1:
-        raise ValueError("Expected trace version 1")
+def audit(database, trace, root, as_of, register=None, mode='scoped'):
+    if type(trace['version']) is not int or trace['version'] not in (1, 2):
+        raise ValueError("Expected trace version 1 or 2")
+    if mode not in ('scoped', 'full'):
+        raise ValueError("Expected scoped or full audit")
     root = root.resolve(strict=True)
     database = database.resolve(strict=True)
     uri = Path(str(database).removeprefix('\\\\?\\')).as_uri() + '?mode=ro'
@@ -65,10 +67,152 @@ def audit(database, trace, root, as_of, register=None):
         if db.execute("PRAGMA user_version").fetchone() != (9,):
             raise ValueError("Expected Schema 9")
         result = audit_snapshot(db, trace, root, as_of, database.parent)
+        if trace['version'] == 2 or mode == 'full':
+            check_inventory(db, trace, root, as_of, mode, result)
     if register is not None:
         with register.open(newline='', encoding='utf-8-sig') as stream:
-            result['errors'].extend(check_register(trace['resources'], csv.DictReader(stream)))
+            rows = list(csv.DictReader(stream))
+        result['errors'].extend(check_register(trace['resources'], rows))
+        if mode == 'full':
+            resource_ids = {row['resource_id'] for row in trace['resources']}
+            result['errors'].extend(
+                {'code': 'imported_register_resource_unmapped', 'record': row['resource_id']}
+                for row in rows if row['imported'] == 'yes' and row['resource_id'] not in resource_ids
+            )
     return result
+
+
+def check_inventory(db, trace, root, as_of, mode, result):
+    def issue(code, record):
+        result['errors'].append({'code': code, 'record': record})
+
+    def compare(code, expected, actual):
+        for record in sorted(expected - actual):
+            issue(code, record)
+
+    papers = dict(db.execute("SELECT id, subject_id FROM paper"))
+    questions = dict(db.execute("SELECT original_id, logical_id FROM question_identity"))
+    excluded = {'paper': set(), 'question': set()}
+    for row in trace.get('exclusions', []):
+        kind, key = row['kind'], row['id']
+        inventory = {'paper': papers, 'question': questions}.get(kind, {})
+        if key not in inventory or key in excluded[kind] or not row['evidence'].strip():
+            issue('invalid_exclusion', key)
+        else:
+            excluded[kind].add(key)
+    scoped_papers = set(trace['paper_ids'])
+    entries = trace.get('question_sources', [])
+    mapped_questions = {row['question_id'] for row in entries}
+    compare('excluded_paper_is_registered', excluded['paper'] & scoped_papers, set())
+    compare('excluded_question_is_registered', excluded['question'] & mapped_questions, set())
+    target_papers = set(papers) - excluded['paper'] if mode == 'full' else scoped_papers
+    target_questions = set(questions) - excluded['question'] if mode == 'full' else mapped_questions
+    compare('database_paper_unmapped', target_papers, scoped_papers)
+    compare('database_question_unmapped', target_questions, mapped_questions)
+    compare('registered_question_missing', mapped_questions, set(questions))
+    revisions = {
+        (qid, rid): json.loads(raw) for qid, rid, raw in
+        db.execute("SELECT question_id, id, content_json FROM question_revision")
+        if qid in target_questions
+    }
+    resources = {row['resource_id']: row for row in trace['resources']}
+    pdf_links = {(row['question_id'], row['revision_id'], row['resource_id'], row['source_key'])
+                 for row in trace['links']}
+    source_ids = {}
+    mapped_revisions = set()
+    registered_pdf_links = set()
+    for entry in entries:
+        qid, rid, sid = (entry[k] for k in ('question_id', 'revision_id', 'source_id'))
+        pair = (qid, rid)
+        identity = (qid, entry.get('resource_id'), entry.get('kind'), entry['source_url'], entry['sha256'],
+                    entry.get('source_key'))
+        if not sid or (sid in source_ids and source_ids[sid] != identity):
+            issue('unstable_question_source_id', sid)
+        source_ids[sid] = identity
+        link = (qid, rid, sid)
+        if link in mapped_revisions:
+            issue('duplicate_question_source', link)
+        mapped_revisions.add(link)
+        content = revisions.get(pair)
+        if content is None:
+            issue('question_source_revision_missing', pair)
+            continue
+        url = urlsplit(entry['source_url'])
+        if url.scheme not in ('http', 'https', 'file') or (url.scheme != 'file' and not url.netloc):
+            issue('invalid_question_source_url', sid)
+        if entry.get('usage_scope') != 'PERSONAL_ONLY':
+            issue('invalid_question_source_scope', sid)
+        if entry.get('kind') == 'paper':
+            resource_id = entry['resource_id']
+            key = (qid, rid, resource_id, entry.get('source_key'))
+            registered_pdf_links.add(key)
+            resource = resources.get(resource_id)
+            if (not resource or key not in pdf_links or entry['sha256'] != resource['downloaded_sha256']
+                    or entry['source_url'] != resource['source_url']):
+                issue('question_paper_source_mismatch', pair)
+        elif entry.get('kind') in ('web', 'screenshot', 'local'):
+            try:
+                if digest(controlled_file(root, entry['path'])) != entry['sha256']:
+                    issue('question_source_hash_mismatch', sid)
+            except (OSError, ValueError):
+                issue('question_source_missing', sid)
+        else:
+            issue('invalid_question_source_kind', sid)
+
+        answer = complete(content, 'answer')
+        fields = [has_content(part.get('analysis')) for part in content['parts'] or [content]]
+        analysis = 'complete' if all(fields) else 'partial' if any(fields) else 'missing'
+        review = db.execute("""
+            SELECT verdict, expires_on, checked_on, reviewer, evidence
+            FROM verification_record WHERE revision_id = ? AND checked_on <= ?
+            ORDER BY checked_on DESC, id DESC LIMIT 1
+        """, (rid, as_of)).fetchone()
+        status = 'unreviewed' if review is None else review[0]
+        if status == 'passed' and review[1] and review[1] < as_of:
+            status = 'expired'
+        if (entry['answer_status'] != ('present' if answer else 'missing')
+                or entry['analysis_status'] != analysis):
+            issue('question_source_answer_or_analysis_mismatch', pair)
+        evidence = tuple(entry.get(field) for field in ('checked_at', 'reviewer', 'evidence'))
+        if entry['review_status'] != status or evidence != (review[2:] if review else (None,) * 3):
+            issue('question_source_review_mismatch', pair)
+        if status == 'passed' and not answer:
+            issue('passed_question_without_answer', pair)
+
+    compare('database_revision_unmapped', set(revisions), {(q, r) for q, r, _ in mapped_revisions})
+    if trace['version'] == 2:
+        compare('paper_split_state_missing', scoped_papers, set(trace.get('paper_states', {})))
+    compare('pdf_link_missing_question_source', pdf_links, registered_pdf_links)
+    compare('database_file_unmapped_full',
+            {fid for fid, pid in db.execute("SELECT id, paper_id FROM paper_file") if pid in target_papers},
+            {row['paper_file_id'] for row in resources.values()})
+    region_keys = {(row['question_id'], resources[row['resource_id']]['paper_file_id'], row['source_key'])
+                   for row in trace['links'] if row['resource_id'] in resources}
+    compare('database_region_unmapped_full', {
+        (qid, fid, key) for pid, qid, fid, key in
+        db.execute("SELECT paper_id, question_id, file_id, source_key FROM paper_region")
+        if pid in target_papers or qid in target_questions
+    }, region_keys)
+    compare('database_occurrence_unmapped_full', {
+        (pid, qid, key) for pid, qid, key in
+        db.execute("SELECT paper_id, question_id, source_key FROM question_occurrence")
+        if pid in target_papers or qid in target_questions
+    }, {(resources[row['resource_id']]['paper_id'], row['question_id'], row['source_key'])
+        for row in trace['links'] if row['resource_id'] in resources})
+    compare('database_pin_unmapped_full', {
+        (cid, pos, qid, rid) for cid, pos, qid, rid in
+        db.execute("SELECT composition_id, position, question_id, revision_id FROM composition_item")
+        if qid in target_questions
+    }, {(pin['composition_id'], item['position'], item['question_id'], item['revision_id'])
+        for pin in trace['compositions'] for item in pin['items']})
+    result['mode'] = mode
+    result['counts'].update(database_papers=len(target_papers), database_question_records=len(target_questions),
+                            database_revision_rows=len(revisions), registered_question_sources=len(source_ids),
+                            excluded_papers=len(excluded['paper']), excluded_questions=len(excluded['question']))
+    current = {(qid, rid) for qid, rid in db.execute("SELECT question_id,id FROM current_question_revision")
+               if qid in target_questions}
+    compare('database_current_revision_unmapped', current, {(q, r) for q, r, _ in mapped_revisions})
+    result['counts']['database_current_logical_questions'] = len({questions[q] for q, _ in current})
 
 
 def audit_snapshot(db, trace, root, as_of, library):
@@ -142,7 +286,7 @@ def audit_snapshot(db, trace, root, as_of, library):
         counts['pdf_resources'] += 1
 
     scope = trace['paper_ids']
-    if not scope or len(scope) != len(set(scope)):
+    if (trace['version'] == 1 and not scope) or len(scope) != len(set(scope)):
         issue('invalid_paper_scope', 'paper_ids')
     for paper in set(scope) | {entry['paper_id'] for entry in files.values()}:
         if paper not in scope:
@@ -245,9 +389,17 @@ def audit_snapshot(db, trace, root, as_of, library):
             """, active).fetchall()
             if any(rev != active[0] and rev not in mapped for (rev,) in ancestry):
                 issue('revision_history_gap', label)
+    paper_states = trace.get('paper_states', {})
+    for paper, state in paper_states.items():
+        if paper not in scope or state not in ('awaiting_split', 'partial', 'split_complete'):
+            issue('invalid_paper_split_status', paper)
+        elif (state == 'awaiting_split') != (paper not in linked_papers):
+            issue('paper_split_status_mismatch', paper)
+        elif state == 'awaiting_split':
+            pending.append({'record': paper, 'split': state})
     for rid, resource in files.items():
         paper, fid = resource['paper_id'], resource['paper_file_id']
-        if paper not in linked_papers:
+        if paper not in linked_papers and paper_states.get(paper) != 'awaiting_split':
             issue('orphan_resource', rid)
         if resource['paper_file_role'] == 'original':
             for key, qid in db.execute("""
@@ -300,12 +452,14 @@ def main():
     parser.add_argument('database', type=Path)
     parser.add_argument('trace', type=Path)
     parser.add_argument('--source-register', type=Path)
+    parser.add_argument('--mode', choices=('scoped', 'full'), default='scoped')
     parser.add_argument('--private-root', required=True, type=Path)
     parser.add_argument('--as-of', required=True, type=date.fromisoformat)
     options = parser.parse_args()
     try:
         trace = json.loads(options.trace.read_text(encoding='utf-8-sig'))
-        result = audit(options.database, trace, options.private_root, options.as_of.isoformat(), options.source_register)
+        result = audit(options.database, trace, options.private_root, options.as_of.isoformat(),
+                       options.source_register, options.mode)
     except (OSError, ValueError, KeyError, IndexError, TypeError, sqlite3.Error) as exc:
         print(json.dumps({'errors': [{'code': 'input_or_database_error', 'message': str(exc)}]}))
         return 2
