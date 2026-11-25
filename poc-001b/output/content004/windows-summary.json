@@ -1,0 +1,26 @@
+{
+  "samples": 27,
+  "subjects": {
+    "chinese": 3,
+    "math": 3,
+    "english": 3,
+    "physics": 3,
+    "chemistry": 3,
+    "biology": 3,
+    "politics": 3,
+    "history": 3,
+    "geography": 3
+  },
+  "native_node_pass": 14,
+  "python_pass": 35,
+  "target_rejection_cases": 7,
+  "export": {
+    "status": "FAIL",
+    "items_requested": 3,
+    "items_complete_on_both_arms": 2,
+    "missing_stem_image_count": 1,
+    "missing_analysis_count": 1,
+    "active_path_guard_result": "REJECTED_AFTER_WRITE"
+  },
+  "test_window_layout": "formula and table present in original PDF rasters, standalone rich node fixtures not executed"
+}

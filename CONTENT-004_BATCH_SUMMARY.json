@@ -1,0 +1,36 @@
+{
+  "batches": [
+    {
+      "batch": "A",
+      "status": "CHECKPOINT_COMPLETE",
+      "questions": 315,
+      "new_questions": 109,
+      "papers_in_app": 25,
+      "question_target": 300,
+      "paper_target": 25,
+      "eligible_duplicate_occurrences": 2
+    },
+    {
+      "batch": "B",
+      "status": "CANDIDATE_COLLECTION_ONLY",
+      "question_target": 450,
+      "paper_target": 32,
+      "candidate_file_count": 76,
+      "candidate_paper_count": 38,
+      "imported_questions": 0,
+      "imported_papers": 0
+    },
+    {
+      "batch": "C",
+      "status": "NOT_STARTED",
+      "question_target": 600,
+      "paper_target": 39
+    },
+    {
+      "batch": "D",
+      "status": "NOT_STARTED",
+      "question_target": 750,
+      "paper_target": 45
+    }
+  ]
+}

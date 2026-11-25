@@ -1,0 +1,22 @@
+✔ file version append after legacy replay, with interruption before registry checkpoint (762.7327ms)
+✔ identity rejection is fatal rather than a recoverable item failure (14.5601ms)
+✔ FIX-T01 registered key points to a different logical question (243.2701ms)
+✔ FIX-T02 registered source points to different regions (218.8685ms)
+✔ FIX-T03 registered question points to a different answer version (223.5638ms)
+✔ FIX-T04 valid new file mixed with same-hash provenance conflict (239.3805ms)
+✔ FIX-T13 a different question already owns the source occurrence (219.2755ms)
+✔ FIX-T13 an occurrence without a region is owned by a different question (211.6998ms)
+✔ FIX-T13 registered source key is replaced (211.1421ms)
+✔ FIX-T05 interrupted link resumes exactly once and rejects a changed manifest (463.8368ms)
+✔ FIX-T14 parents, sibling prefixes, and repository output are rejected (127.5168ms)
+✔ FIX-T15 Windows directory junction cannot redirect pending output or workspace (158.7938ms)
+✔ PATCH-T01 PDF import, backup and restore titles match the UTF-8 Rust source (1.0029ms)
+✔ PATCH-T02 substituted title fails the same contract assertion (1.3055ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2487.144

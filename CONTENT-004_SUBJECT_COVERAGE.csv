@@ -1,0 +1,10 @@
+subject,baseline,new,actual,target,deficit
+chinese,9,8,17,60,43
+math,74,15,89,120,31
+english,7,7,14,75,61
+physics,21,8,29,100,71
+chemistry,13,7,20,85,65
+biology,32,6,38,85,47
+politics,15,27,42,75,33
+history,23,27,50,75,25
+geography,12,4,16,75,59

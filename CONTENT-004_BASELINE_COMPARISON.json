@@ -1,0 +1,22 @@
+{
+  "qualified_backup_sha256": "eaf6e93e936c17d85d95b723c77e66a045ac3864b7ce94cb883552d47f8da479",
+  "baseline_backup_sha256": "51b5200f53673fd746a942a876e3340e373ba642905f173e2f73079b510bbc06",
+  "backup_members_verified": 566,
+  "active_library_switched": true,
+  "full_audit_equal": true,
+  "retained_rows": {
+    "question": 206,
+    "question_revision": 211,
+    "question_occurrence": 206,
+    "paper": 22,
+    "paper_file": 44,
+    "paper_region": 243,
+    "composition": 6,
+    "composition_item": 15,
+    "question_knowledge": 206
+  },
+  "business_tables_equal": 43,
+  "resource_files_equal": 565,
+  "external_private_members_verified": 407,
+  "external_backup_sha256": "edd57d97a7c9eca5ad29f0fab81bf0430b7ffb436a9ebf342bc64392493cbdad"
+}
