@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict'
-import { createHash } from 'node:crypto'
-import { openSync, closeSync, fsyncSync, readFileSync, realpathSync, renameSync, writeFileSync, unlinkSync, existsSync } from 'node:fs'
+import { createHash, randomUUID } from 'node:crypto'
+import { openSync, closeSync, fsyncSync, readFileSync, renameSync, writeFileSync, unlinkSync, existsSync } from 'node:fs'
 import { resolve, dirname, basename } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { isDeepStrictEqual } from 'node:util'
 import { pathToFileURL } from 'node:url'
+import { controlledPath, privateDirectory } from './content003_paths.mjs'
 
 const sha = bytes => createHash('sha256').update(bytes).digest('hex')
 const rich = text => ({type:'doc',content:text.split(/\r?\n/).map(line => ({
@@ -16,21 +17,29 @@ export function readJson(path) {
 }
 
 export function writeJson(path, value) {
-  const temp = path + '.tmp'
-  const file = openSync(temp, 'w')
+  const root = privateDirectory(dirname(resolve(path)))
+  path = controlledPath(root, path, {missing:true})
+  const temp = controlledPath(root, path + '.' + randomUUID() + '.tmp', {missing:true})
+  const file = openSync(temp, 'wx')
   try {
-    writeFileSync(file, JSON.stringify(value, null, 2) + '\n')
-    fsyncSync(file)
+    try {
+      controlledPath(root, temp)
+      writeFileSync(file, JSON.stringify(value, null, 2) + '\n')
+      fsyncSync(file)
+    } finally {
+      closeSync(file)
+    }
+    controlledPath(root, path, {missing:true})
+    renameSync(temp, path)
+    controlledPath(root, path)
   } finally {
-    closeSync(file)
+    if (existsSync(temp)) unlinkSync(controlledPath(root, temp))
   }
-  renameSync(temp, path)
 }
 
 function inputFile(root, relative, checksum) {
   assert.equal(basename(relative), relative)
-  const path = realpathSync(resolve(root, relative))
-  assert.equal(dirname(path), root, 'Private file escapes the manifest directory')
+  const path = controlledPath(root, resolve(root, relative))
   const bytes = readFileSync(path)
   assert.match(checksum, /^[0-9a-f]{64}$/)
   assert.equal(sha(bytes), checksum, 'Private file checksum differs')
@@ -66,8 +75,11 @@ function registeredVersions(record) {
   }))
 }
 
-export async function runBatch({manifest, registry, native, preview, failAfter, log = console.log}) {
-  const root = realpathSync(dirname(resolve(manifest)))
+export async function runBatch({manifest, registry, native, preview, failAfter, workspace = dirname(resolve(manifest)), log = console.log}) {
+  const privateRoot = privateDirectory(workspace)
+  manifest = controlledPath(privateRoot, manifest)
+  if (!preview || registry) registry = controlledPath(privateRoot, registry)
+  const root = dirname(manifest)
   const plan = readJson(manifest)
   assert.equal(plan.version, 1)
   const subjects = new Set((await native.call('list_subjects')).map(row => row.id))
@@ -132,15 +144,17 @@ export async function runBatch({manifest, registry, native, preview, failAfter, 
   const blockedQuestions = new Set(issues.flatMap(issue => issue.question ? [issue.question] : []))
   const ready = {
     papers: plan.papers.filter(paper => !blockedPapers.has(paper.key)),
-    questions: plan.questions.filter(question => !blockedQuestions.has(question.key)),
+    questions: plan.questions.filter(question => !blockedQuestions.has(question.key) && !blockedPapers.has(question.paper_key)),
   }
-  const lock = registry + '.lock'
+  const lock = controlledPath(privateRoot, registry + '.lock', {missing:true})
+  const intent = controlledPath(privateRoot, registry + '.pending', {missing:true})
   const file = openSync(lock, 'wx')
   try {
-    return issues.length + await applyPlan(ready, root, registry, native, failAfter, log)
+    controlledPath(privateRoot, lock)
+    return issues.length + await applyPlan(ready, root, registry, intent, native, failAfter, log)
   } finally {
     closeSync(file)
-    unlinkSync(lock)
+    unlinkSync(controlledPath(privateRoot, lock))
   }
 }
 
@@ -167,176 +181,292 @@ export function migrateRegistry(state) {
   return state
 }
 
-async function applyPlan(plan, root, registry, native, failAfter, log) {
-  const state = migrateRegistry(readJson(registry))
+function sameFields(actual, expected, fields, label) {
+  for (const field of fields) assert.deepEqual(actual[field], expected[field], label + ': ' + field)
+}
+
+function checkRegions(locations, link, id) {
+  assert.equal(locations.length, link.regions.length, 'Existing region count differs')
+  for (const [ordinal, region] of link.regions.entries()) {
+    const actual = locations.find(loc => loc.ordinal === ordinal)
+    assert.ok(actual && actual.question_id === id && actual.page_index === region.page_index &&
+      isDeepStrictEqual(actual.rect, region.rect), 'Existing source owner or regions differ')
+  }
+}
+
+function prepareContent(q, root) {
+  const content = structuredClone(q.content ?? {schema_version:1,parts:[],attachments:[],
+    question_type:q.kind,score:q.score,stem:rich(q.stem ?? ''),
+    answer:rich(q.answer ?? ''),analysis:rich(q.analysis ?? '')})
+  if (q.images?.length && !q.include_text_in_stem) content.stem = {type:'doc',content:[]}
+  if (q.analysis_images?.length && (!content.analysis || (!q.content && !q.analysis)))
+    content.analysis = {type:'doc',content:[]}
+  const images = []
+  for (const [field, items] of [['stem',q.images],['analysis',q.analysis_images]]) {
+    for (const image of items ?? []) {
+      const {bytes} = inputFile(root, image.path, image.sha256)
+      // The native attachment contract derives this descriptor from the PNG bytes.
+      const attachment = {id:'sha256-'+image.sha256, sha256:image.sha256,
+        byte_size:bytes.length, media_type:'image/png'}
+      if (!content.attachments.some(row => row.id === attachment.id)) content.attachments.push(attachment)
+      content[field].content.push({type:'image',attrs:{src:'attachment:'+attachment.id,alt:image.alt}})
+      images.push({attachment, bytes})
+    }
+  }
+  return {content, images}
+}
+
+async function preflightWrites(plan, root, state, native, log) {
   const papers = new Map()
-  const signatures = new Map(Object.entries(state.questions).flatMap(([key,question]) =>
-    question.signature ? [[question.signature,key]] : []))
-  let failures = 0
-  let writes = 0
-  function wrote() {
-    if (++writes === failAfter) throw Error('INJECTED_AFTER_IPC_BEFORE_REGISTRY')
+  const questions = []
+  const signatures = new Map(Object.entries(state.questions).flatMap(([key,q]) =>
+    q.signature ? [[q.signature,key]] : []))
+  const all = plan.papers.length ? await native.call('list_paper_records') : []
+  const occurrenceOwners = new Map()
+  if (plan.questions.some(question => question.paper_key) && native.occurrences) {
+    for (const {paper_id,source_key,question_id} of await native.occurrences())
+      occurrenceOwners.set(JSON.stringify([paper_id,source_key]),question_id)
+  }
+  const files = all.flatMap(row => row.files.map(item => ({row, item})))
+  const history = new Map()
+  for (const [key, record] of Object.entries(state.papers)) {
+    for (const [hash, entry] of Object.entries(registeredVersions(record))) {
+      assert.ok(!history.has(hash), 'Multiple registered papers claim a PDF hash')
+      history.set(hash, {key, ...entry})
+    }
+  }
+  const plannedHashes = new Map()
+  const paperIdentities = new Set()
+  const slots = new Map()
+  const regionPlans = new Map()
+  const knowledgePlans = new Map()
+  const locationsByFile = new Map()
+  let conflicts = 0
+  function conflict(error, kind, key) {
+    if (error.targetIdentityRejected || error.code !== 'ERR_ASSERTION') throw error
+    conflicts++
+    log(JSON.stringify({stage:kind,key,status:'source_conflict',error:error.message}))
   }
   for (const paper of plan.papers) {
-    const started = performance.now()
     try {
-      const records = await native.call('list_paper_records')
-      const ordered = [...paper.files].sort((a,b) => Number(b.role === 'original') - Number(a.role === 'original'))
       const prior = state.papers[paper.key]
       const versions = prior ? registeredVersions(prior) : {}
-      if (prior) {
-        for (const key of ['title','subject','year','region'])
-          assert.equal(prior.descriptor[key], paper[key], 'Stable paper identity changed: '+key)
-      }
-      const all = records.flatMap(row => row.files.map(item => ({row, item})))
-      let paperId = prior?.paper_id
-      for (const file of ordered) {
-        const matches = all.filter(({item}) => item.sha256 === file.sha256)
+      if (prior) sameFields(prior.descriptor, paper,
+        ['title','subject','year','region','source_url','application_source'], 'Stable paper provenance differs')
+      const ordered = [...paper.files].sort((a,b) => Number(b.role === 'original') - Number(a.role === 'original'))
+      let id = prior?.paper_id
+      const titleKey = JSON.stringify([paper.subject,paper.title])
+      assert.ok(!paperIdentities.has(titleKey), 'Two plans address the same paper')
+      paperIdentities.add(titleKey)
+      for (const spec of ordered) {
+        const checksum = spec.sha256
+        assert.ok(!plannedHashes.has(checksum), 'PDF hash claimed by two paper plans')
+        plannedHashes.set(checksum, paper.key)
+        const historical = history.get(checksum)
+        if (historical) {
+          assert.equal(historical.key, paper.key, 'PDF hash belongs to a different registered paper')
+          sameFields(historical.spec, spec, ['role','pages','source_url','download_url'], 'Registered file provenance differs')
+        }
+        const matches = files.filter(({item}) => item.sha256 === checksum)
         assert.ok(matches.length <= 1, 'Multiple PDF candidates')
-        if (!matches.length) continue
+        if (!matches.length) {
+          assert.ok(!historical, 'Registered file missing from the application')
+          continue
+        }
         const [{row,item}] = matches
-        assert.equal(item.role,file.role,'PDF already assigned a different role')
+        assert.equal(item.role,spec.role,'PDF already assigned a different role')
+        assert.equal(item.page_count,spec.pages,'Stored PDF page count differs')
+        if ('source' in item) assert.equal(item.source,paper.application_source ?? paper.source_url,
+          'Stored PDF source differs')
         assert.equal(row.title,paper.title,'PDF already belongs to another title')
         assert.equal(row.subject_id,paper.subject)
-        if (paperId) assert.equal(item.paper_id,paperId)
-        paperId = item.paper_id
+        if (id) assert.equal(item.paper_id,id,'PDF already belongs to another paper')
+        if (historical) assert.equal(item.id,historical.file.id,'Registered file ID differs')
+        id = item.paper_id
+        versions[checksum] = historical ?? {file:item,spec}
       }
-      assert.ok(!paperId || records.some(row => row.id === paperId &&
-        row.title === paper.title && row.subject_id === paper.subject), 'Registered paper is missing or changed')
-      assert.ok(paperId || !records.some(row => row.title === paper.title && row.subject_id === paper.subject),
-        'Same paper title with different PDF needs a registered paper identity')
-      for (const file of ordered) {
-        const entry = versions[file.sha256]
-        if (entry) {
-          for (const field of ['role','pages','source_url','download_url'])
-            assert.equal(entry.spec[field],file[field],'Registered file provenance differs: '+field)
-        }
-        let stored = all.find(({item}) => item.sha256 === file.sha256)?.item
-        if (!stored) {
-          assert.ok(!entry, 'Registered file missing from the application')
-          const {path} = inputFile(root, file.path, file.sha256)
-          stored = await native.pick('import_paper_pdf',fileArgs(paper,file,paperId),'导入试卷 PDF',path)
-          wrote()
-        }
-        assert.equal(stored.sha256,file.sha256)
-        assert.equal(stored.page_count,file.pages)
-        if (entry) assert.equal(entry.file.id, stored.id, 'Registered file ID differs')
-        paperId = stored.paper_id
-        versions[file.sha256] = entry ?? {file:stored,spec:file}
+      const stored = all.find(row => row.id === id)
+      if (id) {
+        assert.ok(stored && stored.title === paper.title && stored.subject_id === paper.subject,
+          'Registered paper is missing or changed')
+        for (const field of ['year','region','source'])
+          if (field in stored) assert.equal(stored[field], fileArgs(paper, ordered[0], id).input[field],
+            'Stored paper provenance differs: '+field)
+      } else {
+        assert.ok(!all.some(row => row.title === paper.title && row.subject_id === paper.subject),
+          'Same paper title with different PDF needs a registered paper identity')
       }
-      const next = {paper_id:paperId,
-        files:Object.fromEntries(Object.entries(versions).map(([sha,row]) => [sha,row.file])),
-        descriptor:{...paper,files:Object.values(versions).map(row => row.spec)}}
-      writeJson(registry, {...state, papers:{...state.papers,[paper.key]:next}})
-      state.papers[paper.key] = next
-      papers.set(paper.key, {record:next, files:paper.files})
-      log(JSON.stringify({stage:'paper', key:paper.key, status:'ok', ms:Math.round(performance.now()-started)}))
+      papers.set(paper.key, {paper,files:paper.files,ordered,versions,id,stored})
     } catch (error) {
-      if (error.targetIdentityRejected || error.message === 'INJECTED_AFTER_IPC_BEFORE_REGISTRY') throw error
-      failures++
-      log(JSON.stringify({stage:'paper', key:paper.key, status:'failed', error:error.message}))
+      conflict(error, 'paper', paper.key)
     }
   }
 
   for (const q of plan.questions) {
-    const started = performance.now()
     try {
       const paper = papers.get(q.paper_key)
-      assert.ok(!q.paper_key || paper, 'Linked paper was not imported')
+      if (q.paper_key && !paper) continue
       const original = paper && referenceFile(paper, 'original', q.original_sha256)
       const answer = paper && !(q.analysis_sha256 && !q.answer_sha256) && referenceFile(paper, 'answer', q.answer_sha256)
       const analysis = paper && (q.analysis_sha256 || !answer ? referenceFile(paper, 'analysis', q.analysis_sha256) : undefined)
-      const link = paper && {file_id:paper.record.files[original.sha256].id, source_key:q.source_key, regions:q.regions}
+      const fileId = spec => spec && paper.versions[spec.sha256]?.file.id
       const id = q.duplicate_of ?? 'content003-' + q.key
       const signature = q.duplicate_of ? undefined : duplicateSignature(q)
       assert.ok(!signature || !signatures.has(signature) || signatures.get(signature) === q.key,
         'Exact question candidate: use explicit duplicate_of after confirmation')
-      const prior = await native.call('list_revisions', {questionId:id})
-      const initial = prior.find(rev => rev.base_revision_id == null)
-      let revisionId
-      if (q.duplicate_of) {
-        assert.ok(initial && link, 'Confirmed duplicate requires an existing question and original PDF')
-        const locations = await native.call('list_pdf_locations', {questionId:id})
-        if (!locations.some(loc => loc.file_id === link.file_id && loc.source_key === link.source_key)) {
-          await native.call('link_paper_regions', {questionId:id,link,correct:false})
-          wrote()
-        }
-        revisionId = state.questions[q.key]?.revision_id ?? (await native.call('current_revision',{questionId:id})).revision.id
-      } else {
-        let content = q.content ?? {schema_version:1,parts:[],attachments:[],
-          question_type:q.kind,score:q.score,stem:rich(q.stem ?? ''),
-          answer:rich(q.answer ?? ''),analysis:rich(q.analysis ?? '')}
-        if (q.images?.length || q.analysis_images?.length) {
-          content = structuredClone(content)
-          if (q.images?.length && !q.include_text_in_stem) content.stem = {type:'doc',content:[]}
-          if (q.analysis_images?.length && (!content.analysis || (!q.content && !q.analysis)))
-            content.analysis = {type:'doc',content:[]}
-          for (const [field, images] of [['stem',q.images],['analysis',q.analysis_images]]) {
-            for (const image of images ?? []) {
-              const {bytes} = inputFile(root,image.path,image.sha256)
-              const attachment = await native.image(bytes)
-              if (!content.attachments.some(row => row.id === attachment.id)) content.attachments.push(attachment)
-              content[field].content.push({type:'image',attrs:{src:'attachment:'+attachment.id,alt:image.alt}})
-            }
+      if (signature) signatures.set(signature,q.key)
+      const registered = state.questions[q.key]
+      const entry = {question_id:id,paper_key:q.paper_key,source_key:q.source_key,
+        regions:q.regions,source:q.source,signature,original_file_id:fileId(original),
+        answer_file_id:paper ? answer ? fileId(answer) : null : undefined,
+        analysis_file_id:paper ? analysis ? fileId(analysis) : null : undefined}
+      if (registered) {
+        sameFields(entry, registered, Object.keys(entry).filter(field => field !== 'signature' ||
+          registered.signature !== undefined), 'Registered question provenance differs')
+      }
+      const revisions = await native.call('list_revisions', {questionId:id})
+      const initial = revisions.find(rev => rev.base_revision_id == null)
+      if (registered) {
+        assert.ok(initial && revisions.some(rev => rev.id === registered.revision_id), 'Registered revision is missing')
+        assert.equal(initial.id, registered.initial_revision_id ?? (q.duplicate_of ? initial.id : registered.revision_id),
+          'Registered initial revision differs')
+      }
+      if (q.duplicate_of) assert.ok(initial && original, 'Confirmed duplicate requires an existing question and original PDF')
+      let hasRegions = false
+      if (original) {
+        const slot = JSON.stringify([paper.id ?? q.paper_key,q.source_key])
+        const existingOwner = occurrenceOwners.get(slot)
+        assert.ok(!existingOwner || existingOwner === id, 'Stored occurrence belongs to another question')
+        const other = slots.get(slot)
+        assert.ok(!other || other === id, 'Source key claimed by different questions in this batch')
+        slots.set(slot,id)
+        const regionKey = JSON.stringify([slot, original.sha256])
+        if (regionPlans.has(regionKey)) assert.deepEqual(q.regions, regionPlans.get(regionKey),
+          'Source key claimed for different regions in this batch')
+        regionPlans.set(regionKey, q.regions)
+        for (const file of paper.stored?.files ?? []) {
+          if (file.role !== 'original') continue
+          if (!locationsByFile.has(file.id))
+            locationsByFile.set(file.id, await native.call('list_pdf_locations',{fileId:file.id}))
+          const locations = locationsByFile.get(file.id).filter(loc => loc.source_key === q.source_key)
+          assert.ok(locations.every(loc => loc.question_id === id), 'Existing occurrence belongs to another question')
+          if (file.id === entry.original_file_id && locations.length) {
+            checkRegions(locations, {regions:q.regions}, id)
+            hasRegions = true
           }
         }
-        if (prior.length) {
-          assert.ok(initial, 'Existing ID lacks an initial revision')
-          const original = (await native.call('read_revision',{revisionId:initial.id})).revision
-          // The normal content parser supplies optional defaults. Compare the submitted fields.
-          for (const [field,value] of Object.entries(content))
-            assert.ok(isDeepStrictEqual(original.content[field],value), 'Existing ID differs in '+field)
-          revisionId = initial.id
-        } else {
-          revisionId = (await native.call('create_question',{questionId:id,subjectId:q.subject,
-            contentJson:JSON.stringify(content),source:link})).id
-          wrote()
-        }
+        assert.ok(!initial || q.duplicate_of && !registered || hasRegions, 'Existing original PDF association is missing')
       }
-      if (link) {
-        const locations = (await native.call('list_pdf_locations',{questionId:id}))
-          .filter(loc => loc.file_id === link.file_id && loc.source_key === link.source_key)
-        assert.equal(locations.length, link.regions.length)
-        for (const [ordinal,region] of link.regions.entries()) {
-          const actual = locations.find(loc => loc.ordinal === ordinal)
-          assert.ok(actual && actual.page_index === region.page_index && isDeepStrictEqual(actual.rect,region.rect),
-            'Existing source regions differ')
-        }
+      const payload = q.duplicate_of ? null : prepareContent(q, root)
+      if (payload && revisions.length) {
+        assert.ok(initial, 'Existing ID lacks an initial revision')
+        const stored = (await native.call('read_revision',{revisionId:initial.id})).revision
+        for (const [field,value] of Object.entries(payload.content))
+          assert.ok(isDeepStrictEqual(stored.content[field],value), 'Existing ID differs in '+field)
       }
-      if (q.knowledge_id && !state.questions[q.key]) {
+      let createKnowledge = false
+      if (q.knowledge_id && !registered) {
         const nodes = await native.call('list_knowledge',{subjectId:q.subject})
-        if (!nodes.some(node => node.id === q.knowledge_id)) {
-          assert.ok(q.knowledge_title, 'Unknown knowledge node')
-          await native.call('create_knowledge',{id:q.knowledge_id,subjectId:q.subject,
-            title:q.knowledge_title,sortOrder:0})
-        }
-        if (!(await native.call('question_knowledge',{questionId:id})).includes(q.knowledge_id))
-          await native.call('set_question_knowledge',{questionId:id,id:q.knowledge_id,linked:true})
-      }
-      const entry = {...state.questions[q.key],question_id:id,revision_id:revisionId,paper_key:q.paper_key,source_key:q.source_key,
-        regions:q.regions,source:q.source,signature,analysis_checked:q.analysis_checked === true,
-        ...(q.answer_checked === true ? {answer_checked:true} : {}),
-        original_file_id:link?.file_id, answer_file_id:paper ? (answer ? paper.record.files[answer.sha256].id : null) : undefined,
-        analysis_file_id:paper ? (analysis ? paper.record.files[analysis.sha256].id : null) : undefined}
-      const registered = state.questions[q.key]
-      if (registered) {
-        for (const [field, value] of Object.entries(entry)) {
-          if (registered[field] !== undefined)
-            assert.deepEqual(value, registered[field], 'Registered question provenance differs: '+field)
+        createKnowledge = !nodes.some(node => node.id === q.knowledge_id)
+        assert.ok(!createKnowledge || q.knowledge_title, 'Unknown knowledge node')
+        if (createKnowledge) {
+          const node = [q.subject, q.knowledge_title]
+          if (knowledgePlans.has(q.knowledge_id)) assert.deepEqual(node, knowledgePlans.get(q.knowledge_id),
+            'Knowledge node claimed with different metadata')
+          knowledgePlans.set(q.knowledge_id, node)
         }
       }
-      writeJson(registry,{...state,questions:{...state.questions,[q.key]:entry}})
-      state.questions[q.key] = entry
-      if (signature) signatures.set(signature,q.key)
-      log(JSON.stringify({stage:'question',key:q.key,status:q.duplicate_of?'deduplicated':prior.length?'recovered':'created',
-        ms:Math.round(performance.now()-started)}))
+      questions.push({q,paper,original,answer,analysis,entry,registered,initial,hasRegions,payload,createKnowledge})
     } catch (error) {
-      if (error.targetIdentityRejected || error.message === 'INJECTED_AFTER_IPC_BEFORE_REGISTRY') throw error
-      failures++
-      log(JSON.stringify({stage:'question',key:q.key,status:'failed',error:error.message}))
+      conflict(error, 'question', q.key)
     }
   }
-  return failures
+  return {papers,questions,conflicts}
+}
+
+async function applyPlan(plan, root, registry, intent, native, failAfter, log) {
+  const fingerprint = sha(JSON.stringify(plan))
+  if (existsSync(intent)) assert.equal(readJson(intent).fingerprint, fingerprint,
+    'RETRY_REQUIRED_AFTER_IPC: resume the same manifest before applying a different plan')
+  const rawState = readJson(registry)
+  const state = migrateRegistry(rawState)
+  const {papers,questions,conflicts} = await preflightWrites(plan, root, state, native, log)
+  if (conflicts) return conflicts
+  let writes = 0
+  let mayHaveWritten = false
+  async function mutate(operation) {
+    if (!mayHaveWritten && !existsSync(intent)) writeJson(intent, {fingerprint})
+    mayHaveWritten = true
+    const result = await operation()
+    if (++writes === failAfter) throw Error('INJECTED_AFTER_IPC_BEFORE_REGISTRY')
+    return result
+  }
+  try {
+    for (const [key, planned] of papers) {
+      const {paper,ordered,versions} = planned
+      let id = planned.id
+      for (const spec of ordered) {
+        if (versions[spec.sha256]) continue
+        const {path} = inputFile(root, spec.path, spec.sha256)
+        const file = await mutate(() => native.pick('import_paper_pdf',fileArgs(paper,spec,id),'瀵煎叆璇曞嵎 PDF',path))
+        assert.equal(file.sha256,spec.sha256)
+        assert.equal(file.page_count,spec.pages)
+        assert.equal(file.role,spec.role)
+        if (id) assert.equal(file.paper_id,id)
+        id = file.paper_id
+        versions[spec.sha256] = {file,spec}
+      }
+      const next = {paper_id:id,
+        files:Object.fromEntries(Object.entries(versions).map(([hash,row]) => [hash,row.file])),
+        descriptor:{...paper,files:Object.values(versions).map(row => row.spec)}}
+      if (rawState.version !== state.version || !isDeepStrictEqual(state.papers[key], next)) {
+        state.papers[key] = next
+        writeJson(registry, state)
+      }
+      log(JSON.stringify({stage:'paper',key,status:'ok'}))
+    }
+
+    const completedRegions = new Set()
+    for (const {q,paper,original,answer,analysis,entry,registered,initial,hasRegions,payload,createKnowledge} of questions) {
+      const id = entry.question_id
+      const link = original && {file_id:paper.versions[original.sha256].file.id,source_key:q.source_key,regions:q.regions}
+      let revisionId = initial?.id
+      const regionKey = link && JSON.stringify([link.file_id, link.source_key])
+      if (q.duplicate_of && !hasRegions && !completedRegions.has(regionKey)) {
+        await mutate(() => native.call('link_paper_regions',{questionId:id,link,correct:false}))
+      } else if (!initial) {
+        for (const {bytes,attachment} of payload.images)
+          assert.deepEqual(await mutate(() => native.image(bytes)),attachment)
+        revisionId = (await mutate(() => native.call('create_question',{questionId:id,subjectId:q.subject,
+          contentJson:JSON.stringify(payload.content),source:link}))).id
+      }
+      if (link) {
+        const locations = await native.call('list_pdf_locations',{fileId:link.file_id})
+        checkRegions(locations.filter(loc => loc.source_key === link.source_key),link,id)
+        completedRegions.add(regionKey)
+      }
+      if (q.knowledge_id && !registered) {
+        if (createKnowledge && !(await native.call('list_knowledge',{subjectId:q.subject})).some(node => node.id === q.knowledge_id))
+          await mutate(() => native.call('create_knowledge',{id:q.knowledge_id,subjectId:q.subject,
+            title:q.knowledge_title,sortOrder:0}))
+        if (!(await native.call('question_knowledge',{questionId:id})).includes(q.knowledge_id))
+          await mutate(() => native.call('set_question_knowledge',{questionId:id,id:q.knowledge_id,linked:true}))
+      }
+      if (!registered) {
+        state.questions[q.key] = {...entry,revision_id:revisionId,initial_revision_id:revisionId,
+          original_file_id:link?.file_id, answer_file_id:paper ? answer ? paper.versions[answer.sha256].file.id : null : undefined,
+          analysis_file_id:paper ? analysis ? paper.versions[analysis.sha256].file.id : null : undefined,
+          analysis_checked:q.analysis_checked === true, ...(q.answer_checked === true ? {answer_checked:true} : {})}
+        writeJson(registry,state)
+      }
+      log(JSON.stringify({stage:'question',key:q.key,status:q.duplicate_of?'deduplicated':initial?'recovered':'created'}))
+    }
+    if (existsSync(intent)) unlinkSync(controlledPath(dirname(registry), intent))
+    return 0
+  } catch (error) {
+    if (!mayHaveWritten || error.targetIdentityRejected) throw error
+    throw new Error('RETRY_REQUIRED_AFTER_IPC: '+error.message, {cause:error})
+  }
 }
 
 
@@ -344,5 +474,5 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   const [flag, before, after] = process.argv.slice(2)
   assert.ok(flag === '--migrate-registry' && before && after && !existsSync(after),
     'Usage: content003_batch.mjs --migrate-registry <old.json> <new.json>')
-  writeJson(after, migrateRegistry(readJson(before)))
+  writeJson(after, migrateRegistry(readJson(controlledPath(privateDirectory(dirname(resolve(before))), before))))
 }

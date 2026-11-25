@@ -29,7 +29,7 @@ const values = (label, change) => {
 }
 const fault = async (label, pattern, path, config) => {
   await assert.rejects(execute(process.execPath,[join(scripts,'content003_native.mjs'),
-    'import', workspace, path,'not-a-manifest','not-a-registry',config], {timeout:30000}), pattern)
+    'probe', workspace, path,'','',config], {timeout:30000}), pattern)
   assert.deepEqual(fingerprint(),before)
   console.log(label+' rejected; database and WAL unchanged')
 }

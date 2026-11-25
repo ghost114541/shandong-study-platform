@@ -1,0 +1,125 @@
+{
+  "actual_pre_post": {
+    "business_tables_equal": 43,
+    "resource_files_equal": 330
+  },
+  "application_backup_version": 1,
+  "archive_actual_post": {
+    "business_tables_equal": 43,
+    "resource_files_equal": 330
+  },
+  "as_of": "2026-11-25",
+  "audit_pre_post_equal": true,
+  "backup_sha256": "51b5200f53673fd746a942a876e3340e373ba642905f173e2f73079b510bbc06",
+  "counts": {
+    "canonical_analysis_checked": 25,
+    "canonical_answer_checked": 102,
+    "canonical_content_disputed": 2,
+    "canonical_review_disputed": 0,
+    "canonical_review_failed": 0,
+    "canonical_review_passed": 0,
+    "canonical_review_pending": 206,
+    "canonical_source_complete": 206,
+    "canonical_with_all_analysis_fields": 131,
+    "canonical_with_answer": 206,
+    "complete_material_sets": 21,
+    "complete_sets_in_app": 20,
+    "database_current_logical_questions": 206,
+    "database_papers": 22,
+    "database_question_records": 206,
+    "database_revision_rows": 211,
+    "excluded_papers": 0,
+    "excluded_questions": 0,
+    "fixed_items": 15,
+    "occurrences": 206,
+    "pdf_resources": 44,
+    "registered_question_sources": 206,
+    "revision_links": 211,
+    "supplemental_resources_verified": 1,
+    "unique_logical_questions": 206
+  },
+  "current_review_status": {
+    "unreviewed": 206
+  },
+  "database_schema": 9,
+  "error_count": 0,
+  "final_active_library_recheck": {
+    "business_tables_equal": 43,
+    "full_audit_equal": true,
+    "resource_files_equal": 330,
+    "stage": "final_active_library_recheck"
+  },
+  "historical_baseline_backup": {
+    "members_verified": 161,
+    "sha256": "cb79325b65707ae67b7c34fbb401dd05764d418d477d2b24a65aaa99cf9dd3e8"
+  },
+  "historical_content_disputes": 2,
+  "isolated_active_library_changed": true,
+  "legacy_check_changes": [
+    {
+      "field": "answer_checked",
+      "now_counted": false,
+      "old": true,
+      "reason": "The registered extra revision has no explicit answer check.",
+      "subject": "biology"
+    },
+    {
+      "field": "answer_checked",
+      "now_counted": false,
+      "old": true,
+      "reason": "The registered extra revision has no explicit answer check.",
+      "subject": "biology"
+    }
+  ],
+  "material_status": [
+    {
+      "answer_complete": true,
+      "audio_match_status": "verified_for_practice",
+      "in_app_audio_support": "BLOCKED",
+      "in_app_complete": false,
+      "matching_external_audio": true,
+      "material_scope": "2024_new_curriculum_I_practice",
+      "paper_complete": true,
+      "public_redistribution": "not_cleared",
+      "shandong_actual_exam_complete": "needs_verification"
+    }
+  ],
+  "members_verified": 331,
+  "native_executable_sha256": "21fa7a5c689a377fc6bcfb1dcc8330aa25c667838875548cf91c8fabcd255bb8",
+  "original_baseline_actual_post": {
+    "business_tables_equal": 43,
+    "resource_files_equal": 330
+  },
+  "original_full_backup": {
+    "members_verified": 331,
+    "sha256": "f4374edfb721cf46ee20345d362294b8b543d58e39e755068b787ee815bc3834"
+  },
+  "private_assets": {
+    "private_assets_sha256_equal": 50,
+    "private_hash_manifest_entries": 50,
+    "private_metadata_files_equal": 4
+  },
+  "retained_rows": {
+    "composition": 6,
+    "composition_item": 15,
+    "paper": 22,
+    "paper_file": 44,
+    "paper_region": 243,
+    "question": 206,
+    "question_knowledge": 206,
+    "question_occurrence": 206,
+    "question_revision": 211
+  },
+  "subject_counts": {
+    "biology": 32,
+    "chemistry": 13,
+    "chinese": 9,
+    "english": 7,
+    "geography": 12,
+    "history": 23,
+    "math": 74,
+    "physics": 21,
+    "politics": 15
+  },
+  "trace_replay_equal": true
+}

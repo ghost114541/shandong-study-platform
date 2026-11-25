@@ -2,25 +2,25 @@ import assert from 'node:assert/strict'
 import { execFile } from 'node:child_process'
 import { createHash, randomUUID } from 'node:crypto'
 import { existsSync, lstatSync, readFileSync, realpathSync } from 'node:fs'
-import { basename, dirname, isAbsolute, join, relative, resolve } from 'node:path'
+import { basename, dirname, isAbsolute, join, resolve } from 'node:path'
 import { promisify } from 'node:util'
 import { readJson } from './content003_batch.mjs'
+import { controlledPath, privateDirectory } from './content003_paths.mjs'
 
 const execute = promisify(execFile)
-const identifier = 'org.shandong-study.content003-1-isolated'
+const identifier = 'org.shandong-study.content003-2-isolated'
 const normal = path => resolve(path.startsWith('\\\\?\\') ? path.slice(4) : path).toLowerCase()
 export class TargetGuard {
   constructor(workspace, executable, identityFile, repository) {
     assert.equal(process.platform, 'win32', 'The dedicated bridge is Windows-only')
-    const identity = readJson(identityFile)
-    this.workspace = realpathSync(workspace)
-    assert.ok(relative(repository, this.workspace).startsWith('..\\'), 'Choose a private directory outside the repository')
+    this.workspace = privateDirectory(workspace, repository)
+    const identity = readJson(controlledPath(this.workspace, identityFile))
     this.app = realpathSync(executable)
     assert.ok(isAbsolute(executable) && normal(executable) === normal(this.app), 'Supply the real absolute EXE path')
     assert.ok(isAbsolute(identity.executable))
     assert.equal(normal(this.app), normal(identity.executable), 'Unexpected executable path')
     this.hash = identity.sha256
-    this.profile = join(realpathSync(process.env.APPDATA), identifier)
+    this.profile = join(privateDirectory(process.env.APPDATA, repository), identifier)
     this.journal = join(this.profile, 'data-protection', 'root.json')
     this.expected = this.library(identity.library)
     this.port = identity.port ?? 19444
@@ -34,15 +34,12 @@ export class TargetGuard {
     const base = normal(this.profile)
     assert.ok(root === base || (dirname(root) === base + '.knowpaper-libraries'
       && /^knowpaper-library-[a-z0-9]+$/i.test(basename(root))), 'Unexpected isolated library path')
-    for (let parent = root; ; parent = dirname(parent)) {
-      if (!existsSync(parent)) continue
-      assert.equal(normal(realpathSync(parent)), parent, 'Library traverses a redirected path')
-      break
-    }
+    controlledPath(dirname(this.profile), root, {missing:true, type:'directory'})
     return root
   }
 
   pointer() {
+    controlledPath(dirname(this.profile), this.journal, {missing:true})
     return existsSync(this.journal) ? readJson(this.journal) : {active:this.profile, phase:'complete'}
   }
 
@@ -55,7 +52,8 @@ export class TargetGuard {
     assert.equal(this.library(switching ? pointer.candidate : pointer.active), this.expected, 'Prelaunch library mismatch')
     assert.equal(pointer.phase, switching ? 'pending' : 'complete')
     assert.equal((await this.listeners()).length, 0, 'Debug port already occupied')
-    this.webview = join(this.workspace, 'webview2-' + randomUUID())
+    this.webview = controlledPath(this.workspace, join(this.workspace, 'webview2-' + randomUUID()),
+      {missing:true, type:'directory'})
     const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.toUpperCase().startsWith('WEBVIEW2_')))
     return {...env, WEBVIEW2_USER_DATA_FOLDER:this.webview,
       WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS:'--remote-debugging-port='+this.port+' --remote-debugging-address=127.0.0.1'}

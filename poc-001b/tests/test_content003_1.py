@@ -41,7 +41,7 @@ class MixedInventory(full.FullAuditTest):
             trace['question_sources'].append(dict(question_id=qid,revision_id=rid,kind=kind,
                 source_id=qid, source_url='https://example.invalid/'+qid, path=raw.name,
                 sha256=digest(raw), usage_scope='PERSONAL_ONLY', answer_status=answer,
-                analysis_status=analysis, review_status=status, analysis_checked=rid == 4, **metadata))
+                analysis_status=analysis, review_status=status, analysis_checked=rid == 4, **({'check_revision_id':rid} if rid == 4 else {}), **metadata))
         for entry in (trace['links'][0], trace['question_sources'][0]):
             entry.update(review_status='passed', checked_at=fixture.DAY,
                          reviewer='Fixture reviewer', evidence='Fixture evidence')

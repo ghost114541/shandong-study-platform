@@ -1,3 +1,9 @@
+# CONTENT-003.2 批量导入与逐修订核对（2026-11-25）
+
+开发端完成定向修复，待网页端独立源码审查。全库隔离副本 206 题、211 修订、22 卷、44 个 PDF 版本、15 个固定引用。实际应用恢复、九科查询和全库审计通过。当前答案核对 102，解析核对 25，正式人工审核通过 0。英语应用内音频和 Apple Silicon 实机保持 BLOCKED，OID-004 开放。
+
+[报告](CONTENT-003.2_REPORT.md) · [验收矩阵](CONTENT-003.2_TEST_RESULTS.md) · [数量](CONTENT-003.2_COUNTS.json) · [全库摘要](CONTENT-003.2_FULL_AUDIT_SUMMARY.json)
+
 # CONTENT-003.1 批量导入安全与数量复验（2026-11-24）
 
 - 分支 `content/content-003-1-batch-hardening` 基于 `f4976ad6a641d71290ad69ff928fc8310cfb0b8f`。独立 Windows 配置下通过目标身份保护、混合来源全库计数、多个文件版本和批次重放的验证。

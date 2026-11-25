@@ -8,11 +8,12 @@ import { setTimeout as delay } from 'node:timers/promises'
 import { promisify } from 'node:util'
 import { readJson, runBatch, writeJson } from './content003_batch.mjs'
 
+import { controlledPath } from './content003_paths.mjs'
 import { TargetGuard } from './content003_target.mjs'
 
 const execute = promisify(execFile)
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const [operation, workspace, executable, manifest, registry, identityFile, failAfter] = process.argv.slice(2)
+const [operation, workspace, executable, manifestArg, registryArg, identityFile, failAfter] = process.argv.slice(2)
 const targetGuard = new TargetGuard(workspace, executable, identityFile, resolve(repo, '..'))
 const privateRoot = targetGuard.workspace
 let child, ws, launchError, id = 0
@@ -94,6 +95,20 @@ async function call(command,args={}) {
   return rawCall(command,args)
 }
 
+async function occurrences() {
+  await guard()
+  const db = controlledPath(targetGuard.expected, join(targetGuard.expected,'study.sqlite3'))
+  const code = [
+    'from pathlib import Path',
+    'import json,sqlite3,sys',
+    'conn=sqlite3.connect(Path(sys.argv[1]).as_uri()+"?mode=ro",uri=True)',
+    'conn.row_factory=sqlite3.Row',
+    'print(json.dumps([dict(row) for row in conn.execute("SELECT paper_id,source_key,question_id FROM question_occurrence")]))',
+  ].join('\n')
+  const {stdout} = await execute('python',['-B','-c',code,db],{windowsHide:true,timeout:10000})
+  return JSON.parse(stdout)
+}
+
 async function pick(command,args,dialog,path) {
   await guard()
   const selecting=rawCall(command,args)
@@ -142,7 +157,9 @@ async function verifyVisual(subject, location, expectedImages) {
     await waitFor(()=>ev('[...document.querySelectorAll("img")].filter(img=>img.complete && img.naturalWidth && img.src.startsWith("data:image/")).length >= '+expectedImages),'attachment rendering')
   const screenshot = async stage => {
     const {data} = await send('Page.captureScreenshot',{format:'png'})
-    writeFileSync(join(privateRoot,subject+'-'+stage+'.png'),Buffer.from(data,'base64'))
+    const path = controlledPath(privateRoot, join(privateRoot,subject+'-'+stage+'.png'), {missing:true})
+    writeFileSync(path,Buffer.from(data,'base64'),{flag:'wx'})
+    controlledPath(privateRoot, path)
   }
   await screenshot('editor')
   await click('查看原卷 · '+paper.title)
@@ -153,6 +170,13 @@ async function verifyVisual(subject, location, expectedImages) {
 
 try {
   assert.ok(['restore','backup','preview','import','verify','annotate','probe'].includes(operation))
+  const manifest = operation === 'probe' ? null : controlledPath(privateRoot, manifestArg, {missing:operation === 'backup'})
+  const registry = registryArg ? controlledPath(privateRoot, registryArg) : undefined
+  if (['import','annotate'].includes(operation)) assert.ok(registry, 'Private registry required')
+  if (operation === 'import') {
+    for (const suffix of ['.lock', '.pending']) controlledPath(privateRoot, registry + suffix, {missing:true})
+  }
+  if (operation === 'backup') assert.ok(!existsSync(manifest), 'Backup destination already exists')
   await start()
   if (operation === 'restore') {
     const before = targetGuard.expected
@@ -172,6 +196,7 @@ try {
     const target = resolve(manifest)
     assert.ok(!existsSync(target), 'Backup destination already exists')
     const result = await pick('create_backup',{},'保存知卷完整备份',target)
+    controlledPath(privateRoot, target)
     assert.equal(result.schema_version,9)
     console.log(JSON.stringify({stage:'backup',files:result.file_count}))
   } else if (operation === 'annotate') {
@@ -232,13 +257,15 @@ try {
         writeJson(registry,state)
       }
       const preview=await call('preview_composition',{id:header.id})
+      controlledPath(targetGuard.expected, join(targetGuard.expected,'pdf'), {missing:true,type:'directory'})
       const result=await call('export_composition',{id:header.id,identity:preview.identity,confirmed:true})
-      writeFileSync(join(privateRoot,'export-paths.json'),JSON.stringify(result))
+      for (const output of [result.paper, result.answers]) controlledPath(targetGuard.expected, output)
+      writeJson(join(privateRoot,'export-paths.json'),result)
       console.log(JSON.stringify({stage:'fixed_composition_export',items:ids.length}))
     }
   } else {
     process.exitCode = Number(Boolean(await runBatch({manifest,registry,
-      native:{call,pick,image},preview:operation==='preview',failAfter:Number(failAfter)})))
+      native:{call,pick,image,occurrences},workspace:privateRoot,preview:operation==='preview',failAfter:Number(failAfter)})))
   }
 } finally {
   await close()

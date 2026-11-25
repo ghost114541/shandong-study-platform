@@ -9,7 +9,7 @@ import shutil
 import sqlite3
 from zipfile import ZipFile
 
-from content002_trace_audit import controlled_file, digest
+from content002_trace_audit import controlled_file, digest, readonly_uri
 
 RETAINED = (
     'question', 'question_revision', 'question_occurrence', 'paper', 'paper_file',
@@ -51,7 +51,7 @@ def unpack(backup, target):
 
 def retained(before, after):
     def open_read(path):
-        return closing(sqlite3.connect(path.resolve(strict=True).as_uri()+'?mode=ro', uri=True))
+        return closing(sqlite3.connect(readonly_uri(path), uri=True))
 
     counts = {}
     with open_read(before) as old, open_read(after) as new:
@@ -71,7 +71,7 @@ def fingerprint(root, paths):
 def compare_business_state(before, after, backup):
     """Check the logical database and the actual members after app restore/restart."""
     def connect(root):
-        return sqlite3.connect((root / 'study.sqlite3').resolve(strict=True).as_uri()+'?mode=ro', uri=True)
+        return sqlite3.connect(readonly_uri(root / 'study.sqlite3'), uri=True)
 
     def tables(db):
         return {name for name, in db.execute("SELECT name FROM sqlite_schema WHERE type='table'")

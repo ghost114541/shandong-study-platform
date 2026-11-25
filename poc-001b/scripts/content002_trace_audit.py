@@ -53,6 +53,15 @@ def check_register(resources, rows):
     return errors
 
 
+def readonly_uri(database):
+    path = str(database.resolve(strict=True))
+    if path.startswith('\\\\?\\UNC\\'):
+        path = '\\\\' + path[8:]
+    else:
+        path = path.removeprefix('\\\\?\\')
+    return Path(path).as_uri() + '?mode=ro'
+
+
 def audit(database, trace, root, as_of, register=None, mode='scoped'):
     if type(trace['version']) is not int or trace['version'] not in (1, 2):
         raise ValueError("Expected trace version 1 or 2")
@@ -60,8 +69,7 @@ def audit(database, trace, root, as_of, register=None, mode='scoped'):
         raise ValueError("Expected scoped or full audit")
     root = root.resolve(strict=True)
     database = database.resolve(strict=True)
-    uri = Path(str(database).removeprefix('\\\\?\\')).as_uri() + '?mode=ro'
-    with closing(sqlite3.connect(uri, uri=True)) as db:
+    with closing(sqlite3.connect(readonly_uri(database), uri=True)) as db:
         db.execute("PRAGMA query_only=ON")
         db.execute("BEGIN")
         if db.execute("PRAGMA user_version").fetchone() != (9,):
@@ -79,6 +87,8 @@ def audit(database, trace, root, as_of, register=None, mode='scoped'):
                 {'code': 'imported_register_resource_unmapped', 'record': row['resource_id']}
                 for row in rows if row['imported'] == 'yes' and row['resource_id'] not in resource_ids
             )
+    for field in ('errors', 'pending'):
+        result[field].sort(key=lambda row: json.dumps(row, sort_keys=True))
     return result
 
 
@@ -100,6 +110,56 @@ def review_status(review, as_of):
     if review[0] == 'passed' and review[1] and review[1] < as_of:
         return 'expired'
     return review[0]
+
+
+def review_projection(db, rid, as_of):
+    review = review_record(db, rid, as_of)
+    projection = {'review_status': review_status(review, as_of)}
+    if review:
+        projection.update(dict(zip(('expires_on', 'checked_at', 'reviewer', 'evidence'), review[1:])))
+        projection['review_history'] = [
+            dict(zip(('id', 'verdict', 'expires_on', 'checked_at', 'reviewer', 'evidence', 'review_of'), record))
+            for record in db.execute("""
+                SELECT id, verdict, expires_on, checked_on, reviewer, evidence, review_of
+                FROM verification_record WHERE revision_id=? AND checked_on<=?
+                ORDER BY checked_on, id
+            """, (rid, as_of))
+        ]
+    return projection
+
+
+def review_matches(db, entry, as_of, lifecycle):
+    expected = review_projection(db, entry['revision_id'], as_of)
+    fields = ('review_status', 'checked_at', 'reviewer', 'evidence', 'expires_on', 'review_history')
+    return all(entry.get(field) == expected.get(field) for field in fields
+               if lifecycle or field in entry or field in fields[:4])
+
+
+ENGLISH_LISTENING_ID = 'CONTENT-003.1/2024-new-curriculum-I/english/listening'
+
+
+def english_material_status(trace, verified_supplements):
+    result = {}
+    for audio in trace.get('supplemental_resources', []):
+        if audio['resource_id'] != ENGLISH_LISTENING_ID:
+            continue
+        pid = audio['paper_id']
+        roles = {row['paper_file_role'] for row in trace['resources'] if row['paper_id'] == pid}
+        # 'complete' is the existing material assessment; a PDF role alone proves only presence.
+        assessed = trace.get('paper_quality', {}).get(pid) == 'complete'
+        usable_external = audio['resource_id'] in verified_supplements and audio.get('status') == 'verified_external'
+        result[pid] = {
+            'material_scope': '2024_new_curriculum_I_practice',
+            'paper_complete': assessed and 'original' in roles,
+            'answer_complete': assessed and 'answer' in roles,
+            'matching_external_audio': usable_external,
+            'audio_match_status': 'verified_for_practice' if usable_external else 'needs_verification',
+            'shandong_actual_exam_complete': 'needs_verification',
+            'in_app_complete': False,
+            'in_app_audio_support': 'BLOCKED',
+            'public_redistribution': 'not_cleared',
+        }
+    return result
 
 
 def check_inventory(db, trace, root, as_of, mode, result):
@@ -194,8 +254,7 @@ def check_inventory(db, trace, root, as_of, mode, result):
         if (entry['answer_status'] != ('present' if answer else 'missing')
                 or entry['analysis_status'] != analysis):
             issue('question_source_answer_or_analysis_mismatch', pair)
-        evidence = tuple(entry.get(field) for field in ('checked_at', 'reviewer', 'evidence'))
-        if entry['review_status'] != status or evidence != (review[2:] if review else (None,) * 3):
+        if not review_matches(db, entry, as_of, trace.get('review_projection') == 1):
             issue('question_source_review_mismatch', pair)
         if status == 'passed' and not answer:
             issue('passed_question_without_answer', pair)
@@ -257,10 +316,26 @@ def check_inventory(db, trace, root, as_of, mode, result):
         supplements.add(key)
     if trace.get('supplemental_resources'):
         result['counts']['supplemental_resources_verified'] = len(supplements)
+    materials = english_material_status(trace, supplements)
+    if materials:
+        complete_papers = {pid for pid in scoped_papers
+                           if trace.get('paper_quality', {}).get(pid) == 'complete'}
+        special = set(materials)
+        result['material_status'] = list(materials.values())
+        result['counts']['complete_material_sets'] = len(complete_papers - special) + sum(
+            row['paper_complete'] and row['answer_complete'] and row['matching_external_audio']
+            for row in materials.values())
+        result['counts']['complete_sets_in_app'] = len(complete_papers - special) + sum(
+            row['in_app_complete'] for row in materials.values())
     result['mode'] = mode
     result['counts'].update(database_papers=len(target_papers), database_question_records=len(target_questions),
                             database_revision_rows=len(revisions), registered_question_sources=len(source_ids),
                             excluded_papers=len(excluded['paper']), excluded_questions=len(excluded['question']))
+    parents = dict(db.execute("SELECT id, base_revision_id FROM question_revision"))
+    def bound_checks(row):
+        rid = row['revision_id']
+        return row.get('check_revision_id', rid if parents.get(rid) is None else None) == rid
+
     current = {(qid, rid) for qid, rid in db.execute("SELECT question_id,id FROM current_question_revision")
                if qid in target_questions}
     compare('database_current_revision_unmapped', current, {(q, r) for q, r, _ in mapped_revisions})
@@ -291,7 +366,7 @@ def check_inventory(db, trace, root, as_of, mode, result):
         status = review_status(review_record(db, rid, as_of), as_of)
         source_complete = (bool(valid_sources[pair]) and pair not in bad_pairs
                            and qid not in incomplete_questions and qid not in excluded['question'])
-        marks = [*valid_sources[pair], *reviewed_links[pair]]
+        marks = [row for row in [*valid_sources[pair], *reviewed_links[pair]] if bound_checks(row)]
         totals['canonical_with_answer'] += answer
         totals['canonical_with_all_analysis_fields'] += analysis
         totals['canonical_analysis_checked'] += analysis and source_complete and any(row.get('analysis_checked') is True for row in marks)
@@ -309,6 +384,15 @@ def check_inventory(db, trace, root, as_of, mode, result):
     result['counts'].update(totals, unique_logical_questions=logical_count,
                             database_current_logical_questions=logical_count)
     result['current_review_status'] = dict(states)
+    result['historical_content_dispute_revisions'] = sorted({
+        (row['question_id'], row['revision_id'])
+        for row in [*trace['links'], *entries] if bound_checks(row) and row.get('content_check') == 'disputed'
+    })
+    result['legacy_checks_pending_verification'] = sorted({
+        (row['question_id'], row['revision_id'])
+        for row in [*trace['links'], *entries] if row.get('unverified_legacy_checks') or (not bound_checks(row) and any(
+            row.get(field) for field in ('answer_checked', 'analysis_checked', 'content_check', 'alternative_sources')))
+    })
     result['exclusions'] = accepted_exclusions
 
 
@@ -451,18 +535,8 @@ def audit_snapshot(db, trace, root, as_of, library):
                 ref = files.get(entry[field])
                 if not ref or ref['paper_id'] != paper or ref['paper_file_role'] not in roles:
                     issue(field.removesuffix('_id')+'_mismatch', label)
-        review = one("""
-            SELECT verdict, checked_on, reviewer, evidence, expires_on
-            FROM verification_record WHERE revision_id = ? AND checked_on <= ?
-            ORDER BY checked_on DESC, id DESC LIMIT 1
-        """, rev, as_of)
-        status = review[0] if review else 'unreviewed'
-        if review and status == 'passed' and review[4] and review[4] < as_of:
-            status = 'expired'
-        metadata = tuple(entry.get(k) for k in ('checked_at', 'reviewer', 'evidence'))
-        if entry['review_status'] != status or (review and metadata != review[1:4]) or (
-            not review and any(value is not None for value in metadata)
-        ) or (status == 'passed' and not answer):
+        status = review_status(review_record(db, rev, as_of), as_of)
+        if not review_matches(db, entry, as_of, trace.get('review_projection') == 1):
             issue('review_status_or_evidence_mismatch', label)
         active = one("SELECT id FROM current_question_revision WHERE question_id = ?", qid)
         if active == (rev,):
