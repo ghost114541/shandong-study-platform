@@ -20,7 +20,10 @@ export class TargetGuard {
     assert.ok(isAbsolute(identity.executable))
     assert.equal(normal(this.app), normal(identity.executable), 'Unexpected executable path')
     this.hash = identity.sha256
-    this.profile = join(privateDirectory(process.env.APPDATA, repository), identifier)
+    this.identifier = identity.identifier ?? identifier
+    assert.ok([identifier, 'org.shandong-study.content003-2-patch-isolated'].includes(this.identifier),
+      'Unexpected dedicated application identifier')
+    this.profile = join(privateDirectory(process.env.APPDATA, repository), this.identifier)
     this.journal = join(this.profile, 'data-protection', 'root.json')
     this.expected = this.library(identity.library)
     this.port = identity.port ?? 19444
@@ -47,7 +50,7 @@ export class TargetGuard {
     const bytes = readFileSync(this.app)
     assert.match(this.hash, /^[0-9a-f]{64}$/)
     assert.equal(createHash('sha256').update(bytes).digest('hex'), this.hash, 'EXE hash mismatch')
-    assert.ok(bytes.includes(Buffer.from(identifier)), 'EXE lacks dedicated application identifier')
+    assert.ok(bytes.includes(Buffer.from(this.identifier)), 'EXE lacks dedicated application identifier')
     const pointer = this.pointer()
     assert.equal(this.library(switching ? pointer.candidate : pointer.active), this.expected, 'Prelaunch library mismatch')
     assert.equal(pointer.phase, switching ? 'pending' : 'complete')

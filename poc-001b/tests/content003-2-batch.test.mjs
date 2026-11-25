@@ -56,7 +56,8 @@ function fixture(t) {
       db.locations.push(...link.regions.map((item,ordinal) => ({...item,ordinal,
         file_id:link.file_id,source_key:link.source_key,question_id:questionId})))
     },
-    pick(command,{input},_dialog,path) {
+    pick(command,{input},dialog,path) {
+      assert.equal(dialog,'导入试卷 PDF')
       mutationCalls.push(command)
       const bytes = readFileSync(path)
       const sha256 = hash(bytes)

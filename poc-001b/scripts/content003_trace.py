@@ -164,6 +164,10 @@ def rebuild(db, baseline, journal, as_of):
     trace['paper_ids'] = list(dict.fromkeys(trace['paper_ids']))
     resources = indexed(trace['resources'], file_key)
     links = indexed(trace['links'], link_key)
+    def occurrence_key(row):
+        return tuple(row[key] for key in ('question_id', 'resource_id', 'source_key'))
+
+    occurrences = indexed(trace.get('paper_occurrences', []), occurrence_key)
     sources = indexed(trace.get('question_sources', []), source_key)
     compositions = indexed(trace['compositions'], lambda row: row['composition_id'])
     dates = ('imported_at', 'updated_at')
@@ -209,7 +213,16 @@ def rebuild(db, baseline, journal, as_of):
     explicit_links = set()
     for item in (revision for question in journal['questions'].values()
                  for revision in revision_entries(question)):
-        qid, rid = item['question_id'], item['revision_id']
+        qid = item['question_id']
+        if item.get('occurrence_only'):
+            if 'revision_id' in item or item.get('extra_revisions') or any(item.get(field) for field in CHECK_FIELDS):
+                raise ValueError('An occurrence may not carry revision provenance or checks')
+            original = chosen_file(paper_resources[item['paper_key']], item['original_file_id'], 'original')
+            row = dict(question_id=qid, resource_id=original['resource_id'], source_key=item['source_key'],
+                       regions=item['regions'], imported_at=as_of, updated_at=as_of)
+            merge_row(occurrences, occurrence_key, row, ignore=dates)
+            continue
+        rid = item['revision_id']
         raw, = db.execute("SELECT content_json FROM question_revision WHERE question_id=? AND id=?",
                           (qid, rid)).fetchone()
         content = json.loads(raw)
@@ -250,6 +263,11 @@ def rebuild(db, baseline, journal, as_of):
                          source_url=spec['url'], sha256=spec['sha256'], usage_scope='PERSONAL_ONLY')
             merge_row(sources, source_key, entry, ignore=mutable)
             explicit_checks[source_key(entry)] = entry
+    for link in links.values():
+        key = occurrence_key(link)
+        occurrence = occurrences.pop(key, None)
+        if occurrence is not None and occurrence['regions'] != link['regions']:
+            raise ValueError(f'Conflicting occurrence regions for {key}')
     by_resource = indexed(resources.values(), lambda row: row['resource_id'])
     for key, link in links.items():
         if key not in explicit_links:
@@ -266,6 +284,8 @@ def rebuild(db, baseline, journal, as_of):
         else:
             qualify_legacy_checks(db, entry)
         refresh_review(db, entry, as_of)
+    if occurrences or 'paper_occurrences' in trace:
+        trace['paper_occurrences'] = list(occurrences.values())
     trace.update(resources=list(resources.values()), links=list(links.values()),
                  question_sources=list(sources.values()), compositions=list(compositions.values()))
     return trace

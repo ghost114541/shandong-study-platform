@@ -272,8 +272,9 @@ def check_inventory(db, trace, root, as_of, mode, result):
     compare('database_file_unmapped_full',
             {fid for fid, pid in db.execute("SELECT id, paper_id FROM paper_file") if pid in target_papers},
             {row['paper_file_id'] for row in resources.values()})
+    locations = trace['links'] + trace.get('paper_occurrences', [])
     region_keys = {(row['question_id'], resources[row['resource_id']]['paper_file_id'], row['source_key'])
-                   for row in trace['links'] if row['resource_id'] in resources}
+                   for row in locations if row['resource_id'] in resources}
     actual_regions = {
         (qid, fid, key) for pid, qid, fid, key in
         db.execute("SELECT paper_id, question_id, file_id, source_key FROM paper_region")
@@ -287,7 +288,7 @@ def check_inventory(db, trace, root, as_of, mode, result):
         if pid in target_papers or qid in target_questions
     }
     mapped_occurrences = {(resources[row['resource_id']]['paper_id'], row['question_id'], row['source_key'])
-                          for row in trace['links'] if row['resource_id'] in resources}
+                          for row in locations if row['resource_id'] in resources}
     compare('database_occurrence_unmapped_full', actual_occurrences, mapped_occurrences)
     incomplete_questions.update(qid for _, qid, _ in actual_occurrences - mapped_occurrences)
     compare('database_pin_unmapped_full', {
@@ -479,9 +480,16 @@ def audit_snapshot(db, trace, root, as_of, library):
     linked_papers = set()
     linked_occurrences = set()
     seen = set()
-    for index, entry in enumerate(trace['links']):
-        rid, qid, rev, key = (entry[k] for k in ('resource_id', 'question_id', 'revision_id', 'source_key'))
-        label = f'link[{index}]'
+    mapped_regions = set()
+    links = trace['links']
+    for index, entry in enumerate(links + trace.get('paper_occurrences', [])):
+        occurrence_only = index >= len(links)
+        rid, qid, key = (entry[k] for k in ('resource_id', 'question_id', 'source_key'))
+        rev = entry.get('revision_id')
+        label = f'occurrence[{index - len(links)}]' if occurrence_only else f'link[{index}]'
+        if occurrence_only and entry.keys() - {
+                'resource_id', 'question_id', 'source_key', 'regions', 'imported_at', 'updated_at'}:
+            issue('unexpected_occurrence_metadata', label)
         metadata_dates(entry, label, 'imported_at', 'updated_at')
         identity = (rid, key, qid, rev)
         if identity in seen:
@@ -498,10 +506,11 @@ def audit_snapshot(db, trace, root, as_of, library):
             continue
         if logical[1] != subject:
             issue('question_subject_mismatch', label)
-        row = one("SELECT question_id, content_json FROM question_revision WHERE id = ?", rev)
-        if type(rev) is not int or not row or row[0] != qid:
-            issue('revision_missing_or_wrong_owner', label)
-            continue
+        if not occurrence_only:
+            row = one("SELECT question_id, content_json FROM question_revision WHERE id = ?", rev)
+            if type(rev) is not int or not row or row[0] != qid:
+                issue('revision_missing_or_wrong_owner', label)
+                continue
         if one("SELECT question_id FROM question_occurrence WHERE paper_id = ? AND source_key = ?", paper, key) != (qid,):
             issue('occurrence_mismatch', label)
             continue
@@ -519,7 +528,13 @@ def audit_snapshot(db, trace, root, as_of, library):
             issue('page_out_of_range_or_empty', label)
         if region_rows != [(r['page_index'], *r['rect']) for r in regions]:
             issue('region_mismatch', label)
-        revisions[(rid, key, qid)].add(rev)
+        location = (rid, key, qid)
+        if occurrence_only and location in mapped_regions:
+            issue('duplicate_occurrence_mapping', label)
+        mapped_regions.add(location)
+        if occurrence_only:
+            continue
+        revisions[location].add(rev)
         content = json.loads(row[1])
         answer = complete(content, 'answer')
         analyses = [has_content(part.get('analysis')) for part in (content['parts'] or [content])]
@@ -577,7 +592,7 @@ def audit_snapshot(db, trace, root, as_of, library):
             for key, qid in db.execute("""
                 SELECT DISTINCT source_key, question_id FROM paper_region WHERE file_id = ?
             """, (fid,)):
-                if (rid, key, qid) not in revisions:
+                if (rid, key, qid) not in mapped_regions:
                     issue('database_region_unmapped', f'{rid}/{key}/{qid}')
             for (other,) in db.execute("SELECT id FROM paper_file WHERE paper_id = ?", (paper,)):
                 if other not in file_ids:
@@ -612,7 +627,7 @@ def audit_snapshot(db, trace, root, as_of, library):
     identities = {one("SELECT logical_id FROM question_identity WHERE original_id = ?", qid)[0] for qid in current}
     for qid in identities - logical_current.keys():
         pending.append({'record': qid, 'review': 'canonical_current_revision_outside_trace'})
-    counts.update(occurrences=len(linked_occurrences), revision_links=len(seen), unique_logical_questions=len(identities),
+    counts.update(occurrences=len(linked_occurrences), revision_links=sum(len(values) for values in revisions.values()), unique_logical_questions=len(identities),
                   canonical_with_answer=sum(v[0] for v in logical_current.values()),
                   canonical_with_all_analysis_fields=sum(v[1] == 'complete' for v in logical_current.values()),
                   canonical_review_passed=sum(v[2] == 'passed' for v in logical_current.values()))

@@ -22,7 +22,8 @@ test('file version append after legacy replay, with interruption before registry
       assert.equal(command, 'list_paper_records')
       return structuredClone(db)
     },
-    pick(command, {input}, _dialog, path) {
+    pick(command, {input}, dialog, path) {
+      assert.equal(dialog,'导入试卷 PDF')
       assert.equal(command, 'import_paper_pdf')
       writes++
       let row = db.find(row => row.id === input.paper_id)

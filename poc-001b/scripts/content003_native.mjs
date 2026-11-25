@@ -115,6 +115,7 @@ async function pick(command,args,dialog,path) {
   selecting.catch(()=>{})
   await execute('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',join(repo,'tests/windows-pdf-dialog.ps1'),
     '-AppProcess',String(child.pid),'-Title',dialog,'-Filename',path],{windowsHide:true,timeout:26000})
+  console.log(JSON.stringify({stage:'native_dialog_selected',command}))
   return selecting
 }
 async function close() {

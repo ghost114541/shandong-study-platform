@@ -327,7 +327,12 @@ async function preflightWrites(plan, root, state, native, log) {
       const revisions = await native.call('list_revisions', {questionId:id})
       const initial = revisions.find(rev => rev.base_revision_id == null)
       if (registered) {
-        assert.ok(initial && revisions.some(rev => rev.id === registered.revision_id), 'Registered revision is missing')
+        if (registered.occurrence_only) {
+          assert.ok(q.duplicate_of && initial && registered.initial_revision_id === initial.id &&
+            registered.revision_id === undefined, 'Registered occurrence identity differs')
+        } else {
+          assert.ok(initial && revisions.some(rev => rev.id === registered.revision_id), 'Registered revision is missing')
+        }
         assert.equal(initial.id, registered.initial_revision_id ?? (q.duplicate_of ? initial.id : registered.revision_id),
           'Registered initial revision differs')
       }
@@ -408,7 +413,7 @@ async function applyPlan(plan, root, registry, intent, native, failAfter, log) {
       for (const spec of ordered) {
         if (versions[spec.sha256]) continue
         const {path} = inputFile(root, spec.path, spec.sha256)
-        const file = await mutate(() => native.pick('import_paper_pdf',fileArgs(paper,spec,id),'瀵煎叆璇曞嵎 PDF',path))
+        const file = await mutate(() => native.pick('import_paper_pdf',fileArgs(paper,spec,id),'导入试卷 PDF',path))
         assert.equal(file.sha256,spec.sha256)
         assert.equal(file.page_count,spec.pages)
         assert.equal(file.role,spec.role)
@@ -453,10 +458,13 @@ async function applyPlan(plan, root, registry, intent, native, failAfter, log) {
           await mutate(() => native.call('set_question_knowledge',{questionId:id,id:q.knowledge_id,linked:true}))
       }
       if (!registered) {
-        state.questions[q.key] = {...entry,revision_id:revisionId,initial_revision_id:revisionId,
+        const provenance = q.duplicate_of
+          ? {occurrence_only:true}
+          : {revision_id:revisionId,analysis_checked:q.analysis_checked === true,
+            ...(q.answer_checked === true ? {answer_checked:true} : {})}
+        state.questions[q.key] = {...entry,...provenance,initial_revision_id:revisionId,
           original_file_id:link?.file_id, answer_file_id:paper ? answer ? paper.versions[answer.sha256].file.id : null : undefined,
-          analysis_file_id:paper ? analysis ? paper.versions[analysis.sha256].file.id : null : undefined,
-          analysis_checked:q.analysis_checked === true, ...(q.answer_checked === true ? {answer_checked:true} : {})}
+          analysis_file_id:paper ? analysis ? paper.versions[analysis.sha256].file.id : null : undefined}
         writeJson(registry,state)
       }
       log(JSON.stringify({stage:'question',key:q.key,status:q.duplicate_of?'deduplicated':initial?'recovered':'created'}))
