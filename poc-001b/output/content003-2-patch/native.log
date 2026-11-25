@@ -1,0 +1,8 @@
+Baseline synthetic reproduction: Counter({'current_revision_unmapped': 1, 'revision_history_gap': 1})
+Earlier run: initial WebView2 target page was unavailable before import.
+Earlier fixture assertion corrected: explicit false represents an unchecked revision.
+Final candidate readiness: {"stage":"verified_identity"}
+{"stage":"PATCH-T03","native_picker_matched":true,"pages":1,"sha256":"f92f283f219606bfe54387b0069b115c9039514974b6949941a7b38acbc6f706"}
+{"stage":"PATCH-T04","native_picker_matched":true,"interruption_after_pdf_ipc":true,"pages":1,"sha256":"504fdf0e7dbd4d5c61bec0a36cfabdd52d3a4482fca1dedd0183f7c76477380e","files_after_replay":2,"registry_preserved":true}
+{"stage": "multi_revision_full_audit", "logical_questions": 1, "revision_links": 3, "paper_occurrences": 2, "new_occurrence_only": 1, "historical_fixed_pins": 1, "historical_formal_passes": 1, "current_formal_passes": 0, "current_content_checks": 0, "errors": 0, "repeat_rebuild_equal": true, "forged_occurrence_review_rejected": true}
+{"stage":"occurrence_conflict","business_and_resources_unchanged":true}

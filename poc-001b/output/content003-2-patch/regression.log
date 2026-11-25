@@ -1,0 +1,39 @@
+=== Node ===
+✔ file version append after legacy replay, with interruption before registry checkpoint (2606.2734ms)
+✔ identity rejection is fatal rather than a recoverable item failure (28.6865ms)
+✔ FIX-T01 registered key points to a different logical question (827.4254ms)
+✔ FIX-T02 registered source points to different regions (859.5915ms)
+✔ FIX-T03 registered question points to a different answer version (702.9044ms)
+✔ FIX-T04 valid new file mixed with same-hash provenance conflict (624.5499ms)
+✔ FIX-T13 a different question already owns the source occurrence (597.7293ms)
+✔ FIX-T13 an occurrence without a region is owned by a different question (634.6753ms)
+✔ FIX-T13 registered source key is replaced (745.4412ms)
+✔ FIX-T05 interrupted link resumes exactly once and rejects a changed manifest (1396.7949ms)
+✔ FIX-T14 parents, sibling prefixes, and repository output are rejected (362.6962ms)
+✔ FIX-T15 Windows directory junction cannot redirect pending output or workspace (504.323ms)
+✔ PATCH-T01 PDF import, backup and restore titles match the UTF-8 Rust source (1.4591ms)
+✔ PATCH-T02 substituted title fails the same contract assertion (2.1294ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7681.9053
+
+=== Python ===
+...................................
+----------------------------------------------------------------------
+Ran 35 tests in 36.155s
+
+OK
+
+=== Windows target ===
+wrong-exe rejected; database and WAL unchanged
+wrong-hash rejected; database and WAL unchanged
+wrong-app-identifier rejected; database and WAL unchanged
+occupied-port rejected; database and WAL unchanged
+foreign target and unknown PID rejected before connection; database and WAL unchanged
+stale-pre-restore-path rejected; database and WAL unchanged
+in-process library mismatch rejected by active-library guard; database and WAL unchanged

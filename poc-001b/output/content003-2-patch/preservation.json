@@ -1,0 +1,47 @@
+{
+  "assets_sha256_equal": 50,
+  "audit_errors": 0,
+  "counts": {
+    "canonical_analysis_checked": 25,
+    "canonical_answer_checked": 102,
+    "canonical_content_disputed": 2,
+    "canonical_review_disputed": 0,
+    "canonical_review_failed": 0,
+    "canonical_review_passed": 0,
+    "canonical_review_pending": 206,
+    "canonical_source_complete": 206,
+    "canonical_with_all_analysis_fields": 131,
+    "canonical_with_answer": 206,
+    "complete_material_sets": 21,
+    "complete_sets_in_app": 20,
+    "database_current_logical_questions": 206,
+    "database_papers": 22,
+    "database_question_records": 206,
+    "database_revision_rows": 211,
+    "excluded_papers": 0,
+    "excluded_questions": 0,
+    "fixed_items": 15,
+    "occurrences": 206,
+    "pdf_resources": 44,
+    "registered_question_sources": 206,
+    "revision_links": 211,
+    "supplemental_resources_verified": 1,
+    "unique_logical_questions": 206
+  },
+  "groups": {
+    "business_tables_equal": 43,
+    "resource_files_equal": 330
+  },
+  "read_only_before_after_fingerprints_equal": true,
+  "rows": {
+    "composition": 6,
+    "composition_item": 15,
+    "paper": 22,
+    "paper_file": 44,
+    "paper_region": 243,
+    "question": 206,
+    "question_knowledge": 206,
+    "question_occurrence": 206,
+    "question_revision": 211
+  }
+}
