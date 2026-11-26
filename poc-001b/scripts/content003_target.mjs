@@ -22,7 +22,8 @@ export class TargetGuard {
     this.hash = identity.sha256
     this.identifier = identity.identifier ?? identifier
     assert.ok([identifier, 'org.shandong-study.content003-2-patch-isolated',
-      'org.shandong-study.content004-isolated'].includes(this.identifier),
+      'org.shandong-study.content004-isolated', 'org.shandong-study.content004-b-isolated',
+      'org.shandong-study.content004-export-isolated'].includes(this.identifier),
       'Unexpected dedicated application identifier')
     this.profile = join(privateDirectory(process.env.APPDATA, repository), this.identifier)
     this.journal = join(this.profile, 'data-protection', 'root.json')

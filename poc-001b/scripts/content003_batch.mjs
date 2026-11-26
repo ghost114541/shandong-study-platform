@@ -56,7 +56,8 @@ function duplicateSignature(question) {
 
 function fileArgs(paper, file, id) {
   return {input:{title:paper.title,subject_id:paper.subject,year:paper.year,
-    region:paper.region,source:paper.application_source ?? paper.source_url,role:file.role,paper_id:id}}
+    region:paper.region,source:file.application_source ?? paper.application_source ?? paper.source_url,
+    role:file.role,paper_id:id}}
 }
 
 export function referenceFile(paper, role, checksum) {
@@ -196,7 +197,7 @@ function checkRegions(locations, link, id) {
 
 function prepareContent(q, root) {
   const content = structuredClone(q.content ?? {schema_version:1,parts:[],attachments:[],
-    question_type:q.kind,score:q.score,stem:rich(q.stem ?? ''),
+    question_type:q.kind,score:q.score ?? 0,stem:rich(q.stem ?? ''),
     answer:rich(q.answer ?? ''),analysis:rich(q.analysis ?? '')})
   if (q.images?.length && !q.include_text_in_stem) content.stem = {type:'doc',content:[]}
   if (q.analysis_images?.length && (!content.analysis || (!q.content && !q.analysis)))
@@ -265,7 +266,8 @@ async function preflightWrites(plan, root, state, native, log) {
         const historical = history.get(checksum)
         if (historical) {
           assert.equal(historical.key, paper.key, 'PDF hash belongs to a different registered paper')
-          sameFields(historical.spec, spec, ['role','pages','source_url','download_url'], 'Registered file provenance differs')
+          sameFields(historical.spec, spec, ['role','pages','source_url','download_url','application_source'],
+            'Registered file provenance differs')
         }
         const matches = files.filter(({item}) => item.sha256 === checksum)
         assert.ok(matches.length <= 1, 'Multiple PDF candidates')
@@ -276,7 +278,7 @@ async function preflightWrites(plan, root, state, native, log) {
         const [{row,item}] = matches
         assert.equal(item.role,spec.role,'PDF already assigned a different role')
         assert.equal(item.page_count,spec.pages,'Stored PDF page count differs')
-        if ('source' in item) assert.equal(item.source,paper.application_source ?? paper.source_url,
+        if ('source' in item) assert.equal(item.source,fileArgs(paper, spec, id).input.source,
           'Stored PDF source differs')
         assert.equal(row.title,paper.title,'PDF already belongs to another title')
         assert.equal(row.subject_id,paper.subject)

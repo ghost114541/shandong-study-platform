@@ -118,8 +118,12 @@ pub async fn export_composition(
             });
         }
         let root = crate::data_directory(&app)?.join("pdf");
+        crate::library_paths::check_components(&root)
+            .map_err(|error| format!("PDF 导出目录不安全：{error}"))?;
         std::fs::create_dir_all(&root)
             .map_err(|error| format!("无法创建 PDF 导出目录：{error}"))?;
+        let root = crate::library_paths::directory(&root)
+            .map_err(|error| format!("PDF 导出目录不安全：{error}"))?;
         let staging = tempfile::Builder::new()
             .prefix(".composition-staging-")
             .tempdir_in(&root)

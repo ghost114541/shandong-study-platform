@@ -53,3 +53,24 @@ export function privateDirectory(path, repository = repositoryRoot) {
   }
   return verified
 }
+
+export function controlledCompositionPdf(library, path, filename) {
+  assert.ok(filename === 'paper.pdf' || filename === 'answers.pdf', 'Unexpected PDF role')
+  // Rust canonicalizes the active library. On Windows the IPC path can therefore
+  // use the extended drive spelling for the same directory seen by Node.
+  if (process.platform === 'win32' && /^\\\\\?\\[a-z]:\\/i.test(path)) {
+    const ordinary = path.slice(4)
+    assert.ok(!ordinary.includes('/') && ordinary.slice(3).split('\\').every(Boolean),
+      'Invalid extended Windows PDF path')
+    assert.ok(!ordinary.slice(3).split('\\').some(segment => segment === '.' || segment === '..'),
+      'Relative segment in extended Windows PDF path')
+    path = ordinary
+  }
+  assert.ok(isAbsolute(path), 'Expected an absolute PDF path')
+  const pdf = controlledPath(library, resolve(library, 'pdf'), {type:'directory'})
+  const output = controlledPath(pdf, path)
+  const parts = relative(pdf, output).split(sep)
+  assert.ok(parts.length === 2 && /^composition-[a-f0-9]{12}-[a-z0-9]+$/i.test(parts[0]) &&
+    parts[1] === filename, 'Unexpected composition PDF path')
+  return output
+}

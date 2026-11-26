@@ -8,7 +8,7 @@ import { setTimeout as delay } from 'node:timers/promises'
 import { promisify } from 'node:util'
 import { readJson, runBatch, writeJson } from './content003_batch.mjs'
 
-import { controlledPath } from './content003_paths.mjs'
+import { controlledCompositionPdf, controlledPath } from './content003_paths.mjs'
 import { TargetGuard } from './content003_target.mjs'
 
 const execute = promisify(execFile)
@@ -170,8 +170,9 @@ async function verifyVisual(subject, location, expectedImages) {
 }
 
 try {
-  assert.ok(['restore','backup','preview','import','verify','annotate','probe'].includes(operation))
-  const manifest = operation === 'probe' ? null : controlledPath(privateRoot, manifestArg, {missing:operation === 'backup'})
+  assert.ok(['restore','backup','preview','import','verify','annotate','probe','export-fixtures'].includes(operation))
+  const manifest = ['probe','export-fixtures'].includes(operation) ? null :
+    controlledPath(privateRoot, manifestArg, {missing:operation === 'backup'})
   const registry = registryArg ? controlledPath(privateRoot, registryArg) : undefined
   if (['import','annotate'].includes(operation)) assert.ok(registry, 'Private registry required')
   if (operation === 'import') {
@@ -191,6 +192,10 @@ try {
     await start(true)
     assert.equal(targetGuard.library((await guard()).previous),before)
     console.log(JSON.stringify({stage:'restore_restarted',papers:(await call('list_paper_records')).length}))
+  } else if (operation === 'export-fixtures') {
+    assert.equal(targetGuard.identifier, 'org.shandong-study.content004-export-isolated')
+    const { runExportFixtures } = await import('../tests/content004-export-native.mjs')
+    await runExportFixtures({call, image, root:targetGuard.expected, workspace:privateRoot})
   } else if (operation === 'probe') {
     console.log(JSON.stringify({stage:'verified_identity'}))
   } else if (operation === 'backup') {
@@ -258,10 +263,22 @@ try {
         writeJson(registry,state)
       }
       const preview=await call('preview_composition',{id:header.id})
+      const evidence = data.composition_evidence &&
+        controlledPath(privateRoot, join(privateRoot, data.composition_evidence), {type:'directory'})
+      if (evidence) {
+        writeFileSync(controlledPath(evidence, join(evidence, 'snapshot.json'), {missing:true}),
+          JSON.stringify(preview), {flag:'wx'})
+      }
       controlledPath(targetGuard.expected, join(targetGuard.expected,'pdf'), {missing:true,type:'directory'})
       const result=await call('export_composition',{id:header.id,identity:preview.identity,confirmed:true})
-      for (const output of [result.paper, result.answers]) controlledPath(targetGuard.expected, output)
-      writeJson(join(privateRoot,'export-paths.json'),result)
+      if (evidence) {
+        writeFileSync(controlledPath(evidence, join(evidence, 'returned-paths.json'), {missing:true}),
+          JSON.stringify(result), {flag:'wx'})
+      }
+      const paper = controlledCompositionPdf(targetGuard.expected, result.paper, 'paper.pdf')
+      const answers = controlledCompositionPdf(targetGuard.expected, result.answers, 'answers.pdf')
+      assert.equal(dirname(paper), dirname(answers), 'Expected one published PDF pair')
+      writeJson(join(evidence || privateRoot,'export-paths.json'),{...result,paper,answers})
       console.log(JSON.stringify({stage:'fixed_composition_export',items:ids.length}))
     }
   } else {
