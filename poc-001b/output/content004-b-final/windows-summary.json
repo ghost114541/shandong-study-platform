@@ -1,0 +1,13 @@
+{
+  "native_open_and_original_canvas": {
+    "chinese": 2,
+    "english": 2,
+    "physics": 2,
+    "chemistry": 2
+  },
+  "application_imports": 30,
+  "safe_replay": 30,
+  "replay_created_duplicate": 0,
+  "preflight_issues": 0,
+  "revised_and_reread_through_app": 3
+}

@@ -62,5 +62,39 @@
     "pre_post_audits_equal": true,
     "backup_sha256": "eb4df24a069f0d9706faee5922af7c385766374c03fbd51f1c7b2bd0147f1a96",
     "backup_bytes": 222556377
+  },
+  "b_to_b_final": {
+    "baseline_rows": {
+      "question": 420,
+      "question_revision": 425,
+      "question_occurrence": 422,
+      "paper": 51,
+      "paper_file": 102,
+      "paper_region": 516,
+      "composition": 6,
+      "composition_item": 15,
+      "question_knowledge": 420
+    },
+    "baseline_resources": 847,
+    "subject_counts": {
+      "biology": 50,
+      "chemistry": 42,
+      "chinese": 32,
+      "english": 37,
+      "geography": 37,
+      "history": 55,
+      "math": 97,
+      "physics": 53,
+      "politics": 47
+    }
+  },
+  "b_final_backup_restored": {
+    "business_tables_equal": 43,
+    "resource_files_equal": 935,
+    "members_verified": 936,
+    "post_restart_active_switch": true,
+    "pre_post_audits_equal": true,
+    "backup_sha256": "11ee197767b841bf34c6ecd975f94f47f4a28d5799c99b868eb7aec18b599daa",
+    "backup_bytes": 244582704
   }
 }

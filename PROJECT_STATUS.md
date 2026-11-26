@@ -1,8 +1,8 @@
-# CONTENT-004-B 九科资源建设检查点（2026-11-26）
+# CONTENT-004-B 九科资源建设收尾（2026-11-26）
 
-Windows 私人活动库经实际恢复和重启，累计 420 道逻辑题和 33 套合格完整卷。B 批新增 105 道，距 450 道差 30 道。全库完整解析率 82.14%，B 新题实质解析核对 44/105。双 PDF 扩展路径误拒绝修复，A 三题 PDF 的内容缺失在留存产物中未获支持。OID-004、应用内英语听力和 macOS Apple Silicon 实机验收继续开放。
+Windows 专用应用恢复和重启后，私人库为 450 道逻辑题和 33 套合格完整卷。B 净增 135 道，实质解析核对 123/135（91.11%），全库完整解析 375/450（83.33%），结构异常 0。正式人工审核为 0。四科原生抽检、代表性双 PDF 和本轮备份恢复已实测。待网页端 ChatGPT 最终独立复验。
 
-[检查点](CONTENT-004_B_CHECKPOINT.md) · [验收矩阵](CONTENT-004_TEST_RESULTS.md) · [PDF 专项](CONTENT-004_PDF_EXPORT_TEST_RESULTS.md)
+[收尾报告](CONTENT-004_B_FINAL_REPORT.md) · [收尾矩阵](CONTENT-004_B_FINAL_TEST_RESULTS.md) · [原 B 检查点](CONTENT-004_B_CHECKPOINT.md)
 
 # CONTENT-004-A 九科资源建设检查点（2026-11-26）
 

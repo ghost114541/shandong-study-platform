@@ -13,23 +13,26 @@
     },
     {
       "batch": "B",
-      "status": "PARTIAL_CHECKPOINT",
+      "status": "FINAL_CHECKPOINT_COMPLETE",
       "question_target": 450,
       "paper_target": 32,
       "candidate_file_count": 76,
       "candidate_paper_count": 38,
-      "imported_questions": 105,
-      "imported_papers": 16,
-      "questions": 420,
+      "imported_questions": 135,
+      "imported_papers": 20,
+      "questions": 450,
       "papers_in_app": 33,
       "new_qualified_papers": 10,
-      "unimported_candidates": 22,
-      "question_shortfall": 30,
+      "unimported_candidates": 20,
+      "question_shortfall": 0,
       "quality_status_counts": {
         "ANSWER_CORRESPONDENCE_PENDING": 26,
         "QUALIFIED_IMPORTED": 10,
         "MISSING_REQUIRED_MATERIAL": 2
-      }
+      },
+      "finish_new_questions": 30,
+      "finish_new_papers": 4,
+      "additional_source_pairs_outside_original_candidates": 2
     },
     {
       "batch": "C",

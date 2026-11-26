@@ -1,0 +1,109 @@
+{
+  "designated_baseline": "8fcf72979c8620483573690b126cf3a0f84232d2",
+  "tested_source_commit": "599a14365ceb6aed2ea1f4b1207cc2b8c4159610",
+  "tested_source_tree": "7a02c9f6b7ac9628978604729591f91a63f26622",
+  "files": {
+    "poc-001b/scripts/content003_batch.mjs": {
+      "executed_windows_sha256": "e49cd455e29ed931b17d48ffdcf625718f2b639487be5ddb919a81c61882d56b",
+      "git_blob_sha256": "4ed7e62e5d166fe422501e8a00e4f71a6bccbda3abc020cbd2eec3d71be31669",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/scripts/content003_collect.py": {
+      "executed_windows_sha256": "abab0393efc4826495ff8c0567864a92a0594fa728691cae2d1fd5c6d3290dbf",
+      "git_blob_sha256": "abab0393efc4826495ff8c0567864a92a0594fa728691cae2d1fd5c6d3290dbf",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/scripts/content003_evidence.py": {
+      "executed_windows_sha256": "70d1c23e9c0a4c1caabbd1ae2c3179d030992e25edd8d2e9bd7d6056fe7743ff",
+      "git_blob_sha256": "e10f994b0180ad45dc440a416664c8f82fed1ee605bf199ec81a63bb28e0a779",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/scripts/content003_extract.py": {
+      "executed_windows_sha256": "1a32d7533df26942accfb77217238e26c65fc32b3f73df570ea2c03e6c9c3cb1",
+      "git_blob_sha256": "1a32d7533df26942accfb77217238e26c65fc32b3f73df570ea2c03e6c9c3cb1",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/scripts/content003_native.mjs": {
+      "executed_windows_sha256": "9c2e6d4134dedf0b56a7b0246abbec32a4f66d3a1ad1981c459c18b03a132173",
+      "git_blob_sha256": "9a6aa8e9ad5da829bf7fa985345896782fb7155aec757943f60b92bf79d5a123",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/scripts/content003_paths.mjs": {
+      "executed_windows_sha256": "7f97689b55a212bfb9a48f637863feb80c82a20f71fb4acf336192e9145fe082",
+      "git_blob_sha256": "f1be7ab58e7d4dce1701bb67dbf68bbfe54893edc2481f06d45c2f3d0d49aa12",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/scripts/content003_target.mjs": {
+      "executed_windows_sha256": "fc66b442679a5d2504874a293f9060e34d1a2c78be7b46aedf03e0f1b951866c",
+      "git_blob_sha256": "b242456ea2247eda4ee9d29054beffca233cf6257b0d10cc350966b288c6328d",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/src-tauri/src/composition_export.rs": {
+      "executed_windows_sha256": "375a9dd63c57e6b74592717ff05d7d40872bbf423bb9d3e1fc5593b41cacfb8a",
+      "git_blob_sha256": "69f44ce4ab7dc0576c5cc15c5e8dfd09ddd2523307e0207035f50d217f31fb5b",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/src-tauri/src/db/paper_print.rs": {
+      "executed_windows_sha256": "36d02726d7484034e4211fe4a4fe90ab1d078d78e202af8c45bdd67770e40fe8",
+      "git_blob_sha256": "36d02726d7484034e4211fe4a4fe90ab1d078d78e202af8c45bdd67770e40fe8",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/src-tauri/src/pdf/windows.rs": {
+      "executed_windows_sha256": "6c23eb77bdbc746f151029b7887230b3a8c1d28749824774e282aeb0b509e9ea",
+      "git_blob_sha256": "6c23eb77bdbc746f151029b7887230b3a8c1d28749824774e282aeb0b509e9ea",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/src/composition-paper.tsx": {
+      "executed_windows_sha256": "8e370a96e2e0d4f46bf8285a7bb525c89ba8b3f9b6efe995519a2bf8baf073ed",
+      "git_blob_sha256": "057cb81d2ba25c86fa598c750277faf73dc61269e7d1f8f21cca951f77235af0",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/src/composition-print-view.tsx": {
+      "executed_windows_sha256": "be66cb091530c5c59d931cf3dec23e07419545f33a72ad4c47f7edad33a406c8",
+      "git_blob_sha256": "02f7d221a72cd5629aac7dc56a07cddd5bc5109009642b11ca1d028099e57c81",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/tests/content003-2-batch.test.mjs": {
+      "executed_windows_sha256": "fcd2830413c169802e752c831ab140550dba79b52055cf5fcd859546b627acbf",
+      "git_blob_sha256": "ca672475d8f18c6225241076d31cdd0845f42f5fb81bc814b912312019b7a470",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/tests/content003-2-dialog.test.mjs": {
+      "executed_windows_sha256": "7e1927ef0f4f26237115d0b296ad6606e1c7b99cc7bda2dcb531992f85ce5dc0",
+      "git_blob_sha256": "0441947b74ca07ea4133c2c21750f816cb1bb3109bb43b6fa0adec3afceb8dae",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/tests/content004-export-native.mjs": {
+      "executed_windows_sha256": "ef4f8a24b2523bb668e3c518998c5bce46bfd563f002a6c15d881c636d81ca32",
+      "git_blob_sha256": "ef4f8a24b2523bb668e3c518998c5bce46bfd563f002a6c15d881c636d81ca32",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/tests/content004-export-pdf.py": {
+      "executed_windows_sha256": "b7d209ef9b7fe94fef0822e455a8c04e0b521051156a176a71f6385c130a8fe4",
+      "git_blob_sha256": "b7d209ef9b7fe94fef0822e455a8c04e0b521051156a176a71f6385c130a8fe4",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/tests/macos-app-check.py": {
+      "executed_windows_sha256": "a770768457a092a089967d3d5a530957ea9c80dc9a9a4c5d20bff8af71759ab9",
+      "git_blob_sha256": "a770768457a092a089967d3d5a530957ea9c80dc9a9a4c5d20bff8af71759ab9",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/tests/windows-favorites.mjs": {
+      "executed_windows_sha256": "74ec36a65a4c5dcae86145184b8244b3a0720bed0cf8ec079652c410c7dd9c8b",
+      "git_blob_sha256": "215242f46629113a7a5b37316cfe7a68fe5cb84be2788257a99ac43ab395fadd",
+      "normalized_bytes_equal": true
+    },
+    "poc-001b/tests/windows-tables.mjs": {
+      "executed_windows_sha256": "2501b0a0bf6f730650ecc8838c41ceb8a75b93a04d10ec920a5050d82bcee9b8",
+      "git_blob_sha256": "2501b0a0bf6f730650ecc8838c41ceb8a75b93a04d10ec920a5050d82bcee9b8",
+      "normalized_bytes_equal": true
+    }
+  },
+  "app_sha256": "add0ae55056cfd677d06f7aaa184dbe164e53da5cdfc1af2e625cd349b4d913e",
+  "local_evidence_helpers": {
+    "revise-local.mjs": "fac1fff891c6c45e93c35ea4ece0a2a590380bc8cf67e156dddff623b987cf28",
+    "audit_finish.py": "ff7bcd0de2f9a6cd4eb41652ff1b75576a07c57157d253a6f37ec702a3a61ab3",
+    "verify_export.py": "9c8e9f4ebd153739e704e5330fe231cd437b0a9e65de03f60c14e5f54e4c85d0"
+  },
+  "delivery_scope": "Documentation, aggregate indexes and sanitized evidence"
+}

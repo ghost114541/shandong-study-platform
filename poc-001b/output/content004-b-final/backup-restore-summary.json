@@ -1,0 +1,9 @@
+{
+  "business_tables_equal": 43,
+  "resource_files_equal": 935,
+  "members_verified": 936,
+  "post_restart_active_switch": true,
+  "pre_post_audits_equal": true,
+  "backup_sha256": "11ee197767b841bf34c6ecd975f94f47f4a28d5799c99b868eb7aec18b599daa",
+  "backup_bytes": 244582704
+}

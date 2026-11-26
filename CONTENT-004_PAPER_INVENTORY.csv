@@ -8,13 +8,16 @@ cc6b7e8b4b9046d2de02b857ac35eea0,biology,2024,河北,河北 2024 学业水平选
 0ad3eb396feace01d385cb4cd34b1314,chemistry,2022,山东,山东省 2022 年普通高中学业水平等级考试化学,2,1,1,0,complete,awaiting_split,yes,,
 b18e2ff675c483fba55ae7021a7265d2,chemistry,2024,山东,2024 山东省学业水平等级考试化学,2,1,1,0,complete,partial,yes,,
 fb065a843e26f205dad2c70fde5c1d59,chemistry,2024,全国新课标卷（非山东）,2024 年普通高等学校招生全国统一考试新课标卷 · 理科综合化学分科整理版,2,1,1,0,missing_required_material,partial,no,,
+0a84102c5f5b577fa54b83d8d30094e7,chemistry,2024,安徽,2024-ah-chemistry,2,1,1,0,missing_required_material,partial,no,,已核验所选题目，整卷继续待核
 35c364e0a08ccb598cfeb81908405e22,chemistry,2024,湖北,湖北 2024 学业水平选择性考试化学,2,1,1,0,complete,partial,yes,,所附解析版含 19 道顶层题对应答案
 15bb6c6b144f382358c77b2abf06630a,chemistry,2024,湖南,湖南 2024 学业水平选择性考试化学,2,1,1,0,complete,partial,yes,,所附解析版含 18 道顶层题对应答案
 e6a2ec7952b2459fce70b5c986303f0d,chemistry,2025,山东,2025 山东省学业水平等级考试化学,1,1,0,0,missing_required_material,awaiting_split,no,,10 页均为题卷，完整参考答案待匹配导入
+297ebff28c6d3c2d2dcb04eebef01544,chinese,2021,全国,2021 新高考Ⅰ卷语文选录,2,1,1,0,missing_required_material,partial,no,,已核验所选题目，整卷继续待核
 2ffe4187e91f1b6f9ed54df030814d12,chinese,2022,山东,2022 新高考Ⅰ卷语文（山东适用）,2,1,1,0,complete,partial,yes,,
 a01953090bb45248fbde401758b1a50e,chinese,2024,全国,2024 全国甲卷语文,2,1,1,0,full_answer_coverage_pending_check,partial,no,,已导入试卷及选录题，整卷材料资格继续复核
 dab834a73bff4ffbea8079d980a9b340,chinese,2024,山东,2024 新课标Ⅰ卷语文（山东适用）,2,1,1,0,complete,partial,yes,,
 95886c9fa26fc82f5119e0b8358f73fa,chinese,2024,全国新高考Ⅱ卷（非山东）,2024 新高考Ⅱ卷语文,2,1,1,0,complete,partial,yes,,
+384a02d422d40d16a33b1dd731afa6b4,english,2022,全国,2022 全国乙卷英语纸面练习选录,2,1,1,0,missing_required_material,partial,no,audio_not_in_app,已核验所选题目，整卷继续待核
 280c41ec6b7ea24e38f419a75bdb5102,english,2024,全国,2024 全国甲卷英语（纸面练习）,2,1,1,0,missing_required_material,partial,no,audio_not_in_app,仅供纸面练习，适用听力材料未纳入应用
 ca8898263cbcc881906d94fc8a911ef3,english,2024,山东,2024 新课标Ⅰ卷英语（山东适用，缺听力音频）,2,1,1,0,complete,partial,no,EXTERNAL_PRACTICE_ONLY,当前应用内听力支持受阻
 da3fcb75b974e0778c9f269797034f9c,english,2024,全国新课标Ⅱ卷（非山东）,2024 新课标Ⅱ卷英语（纸面材料，听力需外部音频）,2,1,1,0,missing_required_material,partial,no,NEEDS_EXTERNAL_AUDIO,当前应用内听力支持受阻
@@ -41,6 +44,7 @@ c6e2671ff8bea6ee193c18bcfe9c6d60,math,2025,山东,2025 新高考Ⅰ卷数学（�
 cc2b83a0178df3c7fcc19e6b9cadb265,physics,2022,山东,2022 山东省普通高中学业水平等级考试物理,2,1,0,1,complete,partial,yes,,解析文件第 1–21 页按题号提供第 1–18 题参考答案或求解
 5e082e7d4c31d781aedfb65205a3a074,physics,2024,山东,2024 山东省学业水平等级考试物理,2,1,1,0,complete,partial,yes,,
 b6f8453211368ab5813dffd1d59b2fac,physics,2024,全国新课标卷（非山东）,2024 年普通高等学校招生全国统一考试新课标卷 · 理科综合物理分科整理版,2,1,1,0,missing_required_material,partial,no,,
+5cd16917d1c45a973709ad6686ed6981,physics,2024,湖北,2024-hb-physics,2,1,1,0,missing_required_material,partial,no,,已核验所选题目，整卷继续待核
 176955d2b1d857950b10d0a0df6873c5,physics,2024,广西,广西 2024 学业水平选择性考试物理,2,1,1,0,complete,partial,yes,,所附解析版含 15 道顶层题对应答案
 4d2dc0350614008353cf250fee4ad9d9,physics,2024,湖南,湖南 2024 学业水平选择性考试物理,2,1,1,0,complete,partial,yes,,所附解析版含 15 道顶层题对应答案
 9c88f6d60a6f9343d40c6e4f129f67fc,physics,2024,甘肃,甘肃 2024 学业水平选择性考试物理,2,1,1,0,complete,partial,yes,,所附解析版含 15 道顶层题对应答案

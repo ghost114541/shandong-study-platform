@@ -1,0 +1,18 @@
+{
+  "paper": {
+    "pages": 1,
+    "matched_images": 3,
+    "matched_text_blocks": 0,
+    "sha256": "23b39b7081804fd647beb8ceed66b12e33af59b70bba665b539036a6053029a0"
+  },
+  "answers": {
+    "pages": 1,
+    "matched_images": 1,
+    "matched_text_blocks": 4,
+    "sha256": "267515800e5f5f898209d2e87c48bf7e4a99d0a8c1b906a4b676519280218d36"
+  },
+  "published_path_guard": "PASS",
+  "fixed_revisions": 2,
+  "all_pages_rendered_and_visually_inspected": true,
+  "observation": "The crop of the shared language material includes a fragment of the preceding source section heading. The material and all four subquestions are readable and complete."
+}

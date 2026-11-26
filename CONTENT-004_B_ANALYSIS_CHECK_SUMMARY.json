@@ -1,0 +1,24 @@
+{
+  "prior_valid_unchanged": 44,
+  "prior_supplemental_pass": 47,
+  "revised_and_rechecked": 3,
+  "prior_pending": 11,
+  "finish_new_pass": 29,
+  "finish_new_pending": 1,
+  "b_substantive_pass": 123,
+  "b_final_count": 135,
+  "pending_b_final": 12,
+  "historical_geography_disputes": 2,
+  "historical_biology_pending": 2,
+  "reviewed_new_total": 79,
+  "b_rate": 0.9111111111111111,
+  "b_required_pass": 122,
+  "b_target_rate": 0.9,
+  "formal_human_review_pass": 0,
+  "pending_categories": {
+    "证据不足，暂不能确认": 8,
+    "已核对，发现问题，等待修订": 4
+  },
+  "audit_date": "2026-11-26",
+  "analysis_provenance": "AI-assisted, bound to the current revision; prior valid review retained"
+}
