@@ -1,0 +1,150 @@
+{
+  "real": {
+    "preserved_A": {
+      "paper": {
+        "pages": 2,
+        "images_per_item": [
+          1,
+          1,
+          1
+        ],
+        "image_pages": [
+          1,
+          1,
+          2
+        ],
+        "image_pixel_matches": 3,
+        "present_text_blocks": 3
+      },
+      "answers": {
+        "pages": 2,
+        "images_per_item": [
+          0,
+          1,
+          2
+        ],
+        "image_pages": [
+          1,
+          2,
+          2
+        ],
+        "image_pixel_matches": 3,
+        "present_text_blocks": 4
+      }
+    },
+    "repro": {
+      "paper": {
+        "pages": 2,
+        "images_per_item": [
+          1,
+          1,
+          1
+        ],
+        "image_pages": [
+          1,
+          1,
+          2
+        ],
+        "image_pixel_matches": 3,
+        "present_text_blocks": 3
+      },
+      "answers": {
+        "pages": 2,
+        "images_per_item": [
+          0,
+          1,
+          2
+        ],
+        "image_pages": [
+          1,
+          2,
+          2
+        ],
+        "image_pixel_matches": 3,
+        "present_text_blocks": 4
+      }
+    },
+    "fixed": {
+      "paper": {
+        "pages": 2,
+        "images_per_item": [
+          1,
+          1,
+          1
+        ],
+        "image_pages": [
+          1,
+          1,
+          2
+        ],
+        "image_pixel_matches": 3,
+        "present_text_blocks": 3
+      },
+      "answers": {
+        "pages": 2,
+        "images_per_item": [
+          0,
+          1,
+          2
+        ],
+        "image_pages": [
+          1,
+          2,
+          2
+        ],
+        "image_pixel_matches": 3,
+        "present_text_blocks": 4
+      }
+    },
+    "baseline_bridge_rejected_after_write": true,
+    "fixed_bridge_accepted": true
+  },
+  "synthetic": [
+    {
+      "items": 1,
+      "paper": {
+        "pages": 1,
+        "images": 1,
+        "blue_pixels": 190383
+      },
+      "answers": {
+        "pages": 2,
+        "images": 1,
+        "blue_pixels": 189453
+      }
+    },
+    {
+      "items": 3,
+      "paper": {
+        "pages": 2,
+        "images": 2,
+        "blue_pixels": 380766
+      },
+      "answers": {
+        "pages": 2,
+        "images": 2,
+        "blue_pixels": 378906
+      }
+    },
+    {
+      "items": 12,
+      "paper": {
+        "pages": 4,
+        "images": 3,
+        "blue_pixels": 571149
+      },
+      "answers": {
+        "pages": 4,
+        "images": 3,
+        "blue_pixels": 568359
+      }
+    },
+    {
+      "missing_attachment_rejected": true,
+      "answer_render_failure_rejected": true,
+      "junction_rejected_before_write": true,
+      "original_pairs_preserved": true,
+      "staging_remnants": 0
+    }
+  ]
+}

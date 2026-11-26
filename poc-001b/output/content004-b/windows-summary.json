@@ -1,0 +1,35 @@
+{
+  "real_samples": {
+    "history": 3,
+    "politics": 3,
+    "physics": 3,
+    "chemistry": 3,
+    "biology": 3,
+    "math": 3,
+    "geography": 3,
+    "english": 3,
+    "chinese": 3
+  },
+  "real_samples_total": 27,
+  "typescript_tests": 37,
+  "rust_library_tests": 71,
+  "rust_application_tests": 9,
+  "node_content_regressions": 12,
+  "synthetic_tables_ui": "PASS",
+  "native_pdf_regression": {
+    "single": 1,
+    "paper-20": 12,
+    "answers-20": 7,
+    "paper-30": 17,
+    "answers-30": 11,
+    "paper-50": 27,
+    "answers-50": 17,
+    "table-single-paper": 10,
+    "table-single-answers": 2,
+    "table-pair-paper": 19,
+    "table-pair-answers": 8
+  },
+  "native_favorite_history_reopen": "PASS",
+  "full_legacy_favorites_workflow": "BLOCKED_LEGACY_TEST_PROFILE_ALLOWLIST",
+  "legacy_attachments_runner": "BLOCKED_LEGACY_TEST_PROFILE_ALLOWLIST"
+}

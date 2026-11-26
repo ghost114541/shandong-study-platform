@@ -1,40 +1,61 @@
-# CONTENT-004 截至 A 批次的验收矩阵
+# CONTENT-004-B 验收矩阵
 
-验收环境为专用 Windows 构建及恢复后的真实私人学习库。PASS（A）指当前 A 批次证据，阶段最终状态见各项与报告。
+实测地点为 Windows 专用应用与隔离私人资源库。A 批次的矩阵和失败记录在 `83ad75133a258a79c361f3386b81827d3def81ec` 保存。
 
-| 编号 | 状态 | 依据 |
+| 编号 | 状态 | B 实际结果 |
 | --- | --- | --- |
-| SCALE-T01 | PASS | GitHub 分支和 Git 远程查询均确认授权基线。 |
-| SCALE-T02 | PARTIAL | 315/750，道题以活动库逻辑题记录为准。 |
-| SCALE-T03 | PARTIAL | 109/544，净增计算剔除两条重复逻辑题。 |
-| SCALE-T04 | PASS（A） | 9 科均存在实际可用资源且均有新增。 |
-| SCALE-T05 | PARTIAL | 各科实际数和差额见九科表。 |
-| SCALE-T06 | PARTIAL | 25/45 套应用内完整卷，活动库 35 条卷记录。 |
-| SCALE-T07 | PASS（A） | 315/315 来源记录完整，PDF 与外部音频分别验证。 |
-| SCALE-T08 | PASS（A） | 逐份复查已导入 PDF 长度、页数和 SHA-256。 |
-| SCALE-T09 | PASS（A） | 315/315 有答案字段，见质量摘要。 |
-| SCALE-T10 | PASS（A） | 109/109 新题对应到参考来源与题号或材料区域。 |
-| SCALE-T11 | PASS（A） | 109/109 有实质解析，逐题证据在私人区。 |
-| SCALE-T12 | PARTIAL | 240/315（76.19%），未达到 85%。 |
-| SCALE-T13 | PASS（A） | 来源与区域预检、题面附件哈希、跨卷文本比对和人工辅助判读。两处已知重复改为独立出现关系。提取不足的图片题仍有比较覆盖边界。 |
-| SCALE-T14 | PASS（A） | 同一材料及多小问按顶层逻辑单元计。 |
-| SCALE-T15 | PASS（A） | 两项英语第二出处进入独立出现关系，原修订来源保留。 |
-| SCALE-T16 | PASS（A） | 新增题关联缺失为 0，并按实际考点人工辅助映射。 |
-| SCALE-T17 | PASS（A） | 正式人工审核通过 0，内容核对另计。现有两项地理争议及两条生物待核留存。 |
-| SCALE-T18 | PASS（A） | 保存两次中断证据，核对写入范围后完成原生恢复和重放。 |
-| SCALE-T19 | PASS（A） | A 子批次重放复用卷与题。登记文件哈希一致。 |
-| SCALE-T20 | PASS（A） | 211 条既有修订与基线逐行相等。 |
-| SCALE-T21 | PASS（A） | 15 条既有固定引用及其修订逐行相等。 |
-| SCALE-T22 | PASS（A） | 英语纸面、应用外练习音频和应用内支持状态分别登记。 |
-| SCALE-T23 | PASS（A） | 恢复前后全库审计一致，结构异常 0。 |
-| SCALE-T24 | PASS（A） | 九科查询找到实际新增标识，每科 3 道。 |
-| SCALE-T25 | PASS（A） | 27 道实际打开，原卷反查并由题目回到 PDF.js 原卷画布。 |
-| SCALE-T26 | PARTIAL | 抽查 PDF 内公式、图像和图表，以及知识点关联。富文本独立公式节点、结构化表格节点、多知识点筛选和收藏历史未在本次原生专项复跑。组卷导出实测缺少第三题的图片和解析。 |
-| SCALE-T27 | PASS（A） | 应用内生成检查点备份，逐成员校验见恢复对比。 |
-| SCALE-T28 | PASS（A） | 应用实际恢复预检、确认、关闭、启动和活动库切换。 |
-| SCALE-T29 | PASS（A） | 43 张业务表与归档资源逐项一致。 |
-| SCALE-T30 | PASS（A） | 提交范围为源码、元数据、统计与脱敏证据。 |
-| SCALE-T31 | PASS（A） | Windows 执行文件、Git 源码及 EXE 哈希已绑定。窗口测试 Git blob 与执行字节差异来自一个 CRLF 行尾。 |
-| SCALE-T32 | PASS（A） | Node 14 项、Python 35 项和 7 项原生身份拒绝回归。 |
+| B-T01 | PASS | 开始前远程分支与指定 SHA 一致，并从 A 归档真实恢复。 |
+| B-T02 | FAIL | 420/450，道题独立逻辑身份。新增 105/135。 |
+| B-T03 | PASS | 33/32 套。历史合格基线 23 套，本批新增 10 套。 |
+| B-T04 | PASS（差额已登记） | 9 科均新增。语文、英语、物理、化学分别差 10、13、4、3 道。 |
+| B-T05 | PASS | 全库完整解析 345/420，即 82.14%。 |
+| B-T06 | FAIL（覆盖目标） | 44/105 有可追溯的逐题实质核对，实际 41.90%。正式人工审核通过 0。 |
+| B-T07 | PASS | 两套历史原卷各十页，均未含完整答案。从统计扣除。 |
+| B-T08 | PASS | 6/6 转换件的原件和 PDF 字节长度、哈希、工具、转换日期与抽查结果登记。 |
+| B-T09 | PASS（输出复验） | 三套真实样本均含全部题面和解析，A 所报内容缺失未复现。 |
+| B-T10 | PASS | Windows 本地扩展盘符路径规范化后仍执行受控检查，联接点拒绝。 |
+| B-T11 | PASS | 独立公式及表格节点经 Windows 原生编辑、导出与输出内容核对。 |
+| B-T12 | PARTIAL | 收藏回开和旧修订读取已实测。当前搜索只能指定一个知识点，多个知识点同时过滤 BLOCKED。 |
+| B-T13 | PASS | A 的固定引用、320 修订、业务记录和 565 个资源文件逐项相等。 |
+| B-T14 | PASS | 应用实际备份、确认恢复、重启及活动库切换。848 个成员回读，43 张业务表和 847 个资源完全一致。 |
+| B-T15 | PASS | 实测源码 SHA、二进制和执行字节绑定。交付追加报告及脱敏数据。 |
+| B-T16 | PASS | 公共差异只含源码、原创夹具及脱敏证据，真实资料在私人归档。 |
 
-[实测版本绑定](poc-001b/output/content004/source-binding.json) · [Windows 脱敏摘要](poc-001b/output/content004/windows-summary.json)
+## SCALE-T01 至 SCALE-T32 跟进
+
+| 编号 | B 状态 | 依据 |
+| --- | --- | --- |
+| SCALE-T01 | PASS | 本次授权分支、远程及 A 指定 SHA 核对。 |
+| SCALE-T02 | PARTIAL | 420/750 道。 |
+| SCALE-T03 | PARTIAL | 阶段净增 214/544 道。 |
+| SCALE-T04 | PASS | 九科均有新增。 |
+| SCALE-T05 | PARTIAL | 九科 B 配额实际见覆盖表。 |
+| SCALE-T06 | PARTIAL | 33/45 套阶段目标，已超过 B 批 32 套门槛。 |
+| SCALE-T07 | PASS | 来源覆盖 420/420。 |
+| SCALE-T08 | PASS | 可核索引与 PDF 页数、文件长度及 SHA-256。六份转换件保留双哈希。 |
+| SCALE-T09 | PASS | 答案字段 420/420。 |
+| SCALE-T10 | PASS | B 批 105/105 答案来源对应核对。 |
+| SCALE-T11 | PASS | B 批 105/105 完整解析字段。实质核对单列。 |
+| SCALE-T12 | PARTIAL | 82.14% 达到 B 的 80%，阶段 85% 继续开放。 |
+| SCALE-T13 | PARTIAL | 对照来源、题号、区域、文本、选项和答案。图片库历史语义核查仍有覆盖缺口。 |
+| SCALE-T14 | PASS | 共享材料组按一个逻辑题统计。合成小问分别验证。 |
+| SCALE-T15 | PASS | A 的二次出处关系保全。 |
+| SCALE-T16 | PASS | B 新题 105/105 关联到知识点节点。 |
+| SCALE-T17 | PASS | 正式人工审核 0，原有地理争议和生物待核保留。 |
+| SCALE-T18 | PASS | 实际导入因缺省分值中断，用同清单重放恢复。旧数据保全通过。 |
+| SCALE-T19 | PASS | 已提交卷及题在同清单重放中恢复映射，数组与固定修订逐项核对。 |
+| SCALE-T20 | PASS | A 的 320 条历史及当前修订逐项保全。 |
+| SCALE-T21 | PASS | A 的 15 条固定引用逐项保全。 |
+| SCALE-T22 | PARTIAL | 新英语资源为纸面练习，应用内听力 BLOCKED。 |
+| SCALE-T23 | PASS | 恢复前后全库审计一致，结构异常 0。 |
+| SCALE-T24 | PASS | Windows 九科各 3 道新增题实测。 |
+| SCALE-T25 | PASS | 27 道应用原卷双向定位、编辑器附件和 PDF.js 画布实测。 |
+| SCALE-T26 | PARTIAL | 双 PDF、单题 PDF、富文本公式/表格和收藏通过指定 Windows 用例。多知识点同时筛选 BLOCKED。 |
+| SCALE-T27 | PASS | B 应用备份 848 个成员逐一验证。 |
+| SCALE-T28 | PASS | 实际 Windows 界面预检、确认、关闭、重启及库切换。 |
+| SCALE-T29 | PASS | 43 张业务表和 847 个资源逐项相等。 |
+| SCALE-T30 | PASS | 脱敏交付。 |
+| SCALE-T31 | PASS | 源码、换行、测试字节与原生 EXE 绑定。 |
+| SCALE-T32 | PARTIAL | 71 个 Rust 库测试、9 个应用测试、37 个前端测试及 12 个 Node 内容桥回归通过。DEV-013 及 DEV-012 原生内容检查通过。部分旧脚本的硬编码测试标识仍阻断，Apple Silicon 实机未执行。 |
+
+[EXPORT-T01 至 EXPORT-T15](CONTENT-004_PDF_EXPORT_TEST_RESULTS.md) · [Windows 脱敏日志](poc-001b/output/content004-b/windows-summary.json) · [恢复证据](poc-001b/output/content004-b/backup-restore-summary.json) · [源码绑定](poc-001b/output/content004-b/source-binding.json)

@@ -1,8 +1,14 @@
+# CONTENT-004-B 九科资源建设检查点（2026-11-26）
+
+Windows 私人活动库经实际恢复和重启，累计 420 道逻辑题和 33 套合格完整卷。B 批新增 105 道，距 450 道差 30 道。全库完整解析率 82.14%，B 新题实质解析核对 44/105。双 PDF 扩展路径误拒绝修复，A 三题 PDF 的内容缺失在留存产物中未获支持。OID-004、应用内英语听力和 macOS Apple Silicon 实机验收继续开放。
+
+[检查点](CONTENT-004_B_CHECKPOINT.md) · [验收矩阵](CONTENT-004_TEST_RESULTS.md) · [PDF 专项](CONTENT-004_PDF_EXPORT_TEST_RESULTS.md)
+
 # CONTENT-004-A 九科资源建设检查点（2026-11-26）
 
 Windows 隔离库经实际恢复达到 315 道逻辑题、25 套应用内完整卷，九科均有新增。A 批达标，B 已收集候选。CONTENT-004 阶段仍差 435 道和 20 套，全库完整解析率 76.19%。已登记组卷导出缺失内容问题。OID-004 开放，应用内英语听力 BLOCKED。
 
-[报告](CONTENT-004_REPORT.md) · [验收矩阵](CONTENT-004_TEST_RESULTS.md) · [批次进度](CONTENT-004_BATCH_SUMMARY.json)
+[A 报告](https://github.com/ghost114541/shandong-study-platform/blob/83ad75133a258a79c361f3386b81827d3def81ec/CONTENT-004_REPORT.md) · [A 验收矩阵](https://github.com/ghost114541/shandong-study-platform/blob/83ad75133a258a79c361f3386b81827d3def81ec/CONTENT-004_TEST_RESULTS.md) · [A 批次进度](https://github.com/ghost114541/shandong-study-platform/blob/83ad75133a258a79c361f3386b81827d3def81ec/CONTENT-004_BATCH_SUMMARY.json)
 
 # CONTENT-003.2 独立验收后最小补丁（2026-11-25）
 
